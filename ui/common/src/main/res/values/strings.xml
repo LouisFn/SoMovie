@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">SoMovie</string>
+
+    <string name="common_loading">Loading....</string>
+    <string name="common_retry_description">An error occurred</string>
+    <string name="common_retry_button">Try again</string>
+    <string name="common_error_no_network">You\'re not connected to the network 🌎, please check your network connection and try again</string>
+    <string name="common_error_unexpected">Minor fail: an error has happened. 😵</string>
+
+    <string name="home_explore">Explore</string>
+    <string name="home_watchlist">WatchList</string>
+    <string name="home_discover">Discover</string>
+    <string name="home_account">Account</string>
+
+    <string name="explore_section_popular">Popular</string>
+    <string name="explore_section_now_playing">Now playing</string>
+    <string name="explore_section_top_rated">Top rated</string>
+    <string name="explore_section_upcoming">Upcoming</string>
+    <string name="explore_section_show_more">More</string>
+
+    <string name="movie_details_about_section">About this movie</string>
+    <string name="movie_details_about_read_more">Read more</string>
+    <string name="movie_details_about_read_less">Read less</string>
+    <string name="movie_details_genres_section">Genres</string>
+    <string name="movie_details_movie_info_section">Movie info</string>
+    <string name="movie_details_movie_info_original_title">Original title</string>
+    <string name="movie_details_movie_info_original_language">Original language</string>
+    <string name="movie_details_movie_info_runtime">Runtime</string>
+    <string name="movie_details_movie_info_budget">Budget</string>
+    <string name="movie_details_movie_info_revenue">Revenue</string>
+    <string name="movie_details_movie_info_production_countries">Production countries</string>
+    <string name="movie_details_movie_info_production_companies">Production companies</string>
+    <string name="movie_details_movie_cast_section">Cast</string>
+    <string name="movie_details_movie_crew_section">Crew</string>
+    <string name="movie_details_movie_videos_section">Videos</string>
+
+    <string name="watchlist_log_in_description">To view your watchlist, you must log in to your tmdb account.</string>
+    <string name="watchlist_remove_from_watchlist_confirm_message">Movie removed !</string>
+    <string name="watchlist_remove_from_watchlist_action">Cancel</string>
+
+    <string name="external_app_activity_not_found">None application can be found to execute this action</string>
+
+    <string name="account_logged_in_confirmation">You are logged in with the account: %1$s</string>
+    <string name="account_log_out">Log out</string>
+    <string name="account_log_in">Log in with</string>
+
+
+</resources>

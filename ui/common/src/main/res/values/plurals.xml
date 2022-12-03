@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="common_hrs_abbr">
+        <item quantity="one">hr</item>
+        <item quantity="other">hrs</item>
+    </plurals>
+
+    <plurals name="common_mins_abbr">
+        <item quantity="one">min</item>
+        <item quantity="other">mins</item>
+    </plurals>
+
+</resources>

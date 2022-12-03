@@ -1,0 +1,23 @@
+#!/bin/sh
+
+echo "Running spotless check..."
+./gradlew spotlessCheck
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+  echo "***********************************************"
+  echo "                Spotless failed                "
+  echo " Please fix the above issues before committing "
+  echo "***********************************************"
+  exit $EXIT_CODE
+fi
+
+echo "Running detekt check..."
+./gradlew detekt
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+  echo "***********************************************"
+  echo "                 Detekt failed                 "
+  echo " Please fix the above issues before committing "
+  echo "***********************************************"
+  exit $EXIT_CODE
+fi
