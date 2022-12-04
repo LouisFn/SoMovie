@@ -20,6 +20,7 @@ internal abstract class DefaultAppendRemoteMediator<Key : Any, Value : Any> cons
             InitializeAction.SKIP_INITIAL_REFRESH
         }
 
+    @Suppress("ReturnCount")
     override suspend fun load(loadType: LoadType, state: PagingState<Key, Value>): MediatorResult {
         return try {
             val remoteKey = remoteKeyLocalDataSource.getRemoteKey(remoteKeyType)

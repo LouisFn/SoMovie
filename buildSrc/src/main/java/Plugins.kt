@@ -3,15 +3,15 @@
 object Plugins {
 
     object Versions {
-        const val kotlin = "1.7.10"
-        const val ksp = "1.7.10-1.0.6"
-        const val jvm = "1.7.10"
-        const val androidGradle = "7.3.0"
-        const val detekt = "1.21.0"
-        const val detektCompose = "0.0.24"
-        const val spotless = "6.11.0"
+        const val kotlin = "1.7.20"
+        const val ksp = "1.7.20-1.0.8"
+        const val jvm = "1.7.20"
+        const val androidGradle = "7.3.1"
+        const val detekt = "1.22.0"
+        const val detektCompose = "0.0.26"
+        const val spotless = "6.12.0"
         const val ktlint = "0.46.1"
-        const val gradleVersionPlugin = "0.42.0"
+        const val gradleVersionPlugin = "0.44.0"
     }
 
     // Android

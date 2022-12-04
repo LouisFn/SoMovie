@@ -630,7 +630,7 @@ style:
   ReturnCount:
     active: true
     max: 2
-    excludeLabeled: false
+    excludeLabeled: true
     excludeReturnFromLambda: true
     excludeGuardClauses: true
   SafeCast:
