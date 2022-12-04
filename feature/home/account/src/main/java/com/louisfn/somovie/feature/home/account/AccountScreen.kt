@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -97,7 +98,10 @@ private fun AccountContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = stringResource(commonR.string.account_logged_in_confirmation, username))
+        Text(
+            text = stringResource(commonR.string.account_logged_in_confirmation, username),
+            textAlign = TextAlign.Center
+        )
         Button(onClick = onLogOutButtonClick) {
             Text(text = stringResource(id = commonR.string.account_log_out))
         }
