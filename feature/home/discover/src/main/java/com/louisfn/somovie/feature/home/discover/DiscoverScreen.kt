@@ -28,30 +28,36 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImagePainter
+import com.louisfn.somovie.feature.home.discover.DiscoverUiState.Discover.LogInSnackbarState
 import com.louisfn.somovie.feature.home.discover.DiscoverUiState.MovieItem
 import com.louisfn.somovie.ui.common.extension.collectAsStateLifecycleAware
 import com.louisfn.somovie.ui.common.extension.pxToDp
 import com.louisfn.somovie.ui.common.extension.top
 import com.louisfn.somovie.ui.common.model.ImmutableList
+import com.louisfn.somovie.ui.common.modifier.shake
 import com.louisfn.somovie.ui.component.AutosizeText
 import com.louisfn.somovie.ui.component.DefaultAsyncImage
+import com.louisfn.somovie.ui.component.DefaultSnackbar
 import com.louisfn.somovie.ui.component.IndeterminateProgressIndicator
 import com.louisfn.somovie.ui.component.Retry
 import com.louisfn.somovie.ui.component.swipe.SwipeContainer
 import com.louisfn.somovie.ui.component.swipe.SwipeDirection
+import com.louisfn.somovie.ui.common.R as commonR
 
 private const val MaxMovieItemToPreload = 5
 private const val SwipeFractionalThreshold = 0.25f
 
 @Composable
 internal fun DiscoverScreen(
-    viewModel: DiscoverViewModel = hiltViewModel()
+    viewModel: DiscoverViewModel = hiltViewModel(),
+    showAccount: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateLifecycleAware()
 
@@ -59,7 +65,8 @@ internal fun DiscoverScreen(
         uiState = uiState,
         onSwiped = viewModel::onMovieSwiped,
         onDisappeared = viewModel::onMovieDisappeared,
-        retry = { viewModel.fetchNewDiscoverMovies() }
+        retry = { viewModel.retry() },
+        onLogInSnackbarActionClicked = { showAccount() }
     )
 }
 
@@ -68,16 +75,19 @@ private fun DiscoverScreen(
     uiState: DiscoverUiState,
     onSwiped: (MovieItem, SwipeDirection) -> Unit,
     onDisappeared: (MovieItem) -> Unit,
-    retry: () -> Unit
+    retry: () -> Unit,
+    onLogInSnackbarActionClicked: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         when (uiState) {
-            is DiscoverUiState.Discover -> DiscoverSwipeContainer(
+            is DiscoverUiState.Discover -> DiscoverContent(
                 items = uiState.items,
+                logInSnackbarState = uiState.logInSnackbarState,
                 onSwiped = onSwiped,
-                onDisappeared = onDisappeared
+                onDisappeared = onDisappeared,
+                onLogInSnackbarActionClicked = onLogInSnackbarActionClicked
             )
             is DiscoverUiState.Retry -> Retry(
                 modifier = Modifier.align(Alignment.Center),
@@ -88,6 +98,31 @@ private fun DiscoverScreen(
             )
             is DiscoverUiState.None -> Unit
         }
+    }
+}
+
+@Composable
+private fun BoxScope.DiscoverContent(
+    items: ImmutableList<MovieItem>,
+    logInSnackbarState: LogInSnackbarState,
+    onSwiped: (MovieItem, SwipeDirection) -> Unit,
+    onDisappeared: (MovieItem) -> Unit,
+    onLogInSnackbarActionClicked: () -> Unit
+) {
+    DiscoverSwipeContainer(
+        items = items,
+        onSwiped = onSwiped,
+        onDisappeared = onDisappeared
+    )
+    if (logInSnackbarState != LogInSnackbarState.HIDDEN) {
+        DefaultSnackbar(
+            message = stringResource(id = commonR.string.discover_log_in_description),
+            actionLabel = stringResource(id = commonR.string.discover_log_in_action),
+            onActionClick = onLogInSnackbarActionClicked,
+            modifier = Modifier
+                .shake(logInSnackbarState == LogInSnackbarState.SHAKING)
+                .align(Alignment.BottomCenter)
+        )
     }
 }
 

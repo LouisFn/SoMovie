@@ -9,8 +9,8 @@ object DiscoverNavigation : NavigationDestination {
     override val route: String = "discover"
 }
 
-fun NavGraphBuilder.discoverGraph() {
+fun NavGraphBuilder.discoverGraph(showAccount: () -> Unit) {
     composable(route = DiscoverNavigation.route) {
-        DiscoverScreen()
+        DiscoverScreen(showAccount = showAccount)
     }
 }

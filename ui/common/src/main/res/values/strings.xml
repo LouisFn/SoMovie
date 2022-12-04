@@ -4,7 +4,7 @@
     <string name="common_loading">Loading....</string>
     <string name="common_retry_description">An error occurred</string>
     <string name="common_retry_button">Try again</string>
-    <string name="common_error_no_network">You\'re not connected to the network 🌎, please check your network connection and try again</string>
+    <string name="common_error_no_network">You\'re not connected to the network 🌎, please check your network connection and try again.</string>
     <string name="common_error_unexpected">Minor fail: an error has happened. 😵</string>
 
     <string name="home_explore">Explore</string>
@@ -38,11 +38,13 @@
     <string name="watchlist_remove_from_watchlist_confirm_message">Movie removed !</string>
     <string name="watchlist_remove_from_watchlist_action">Cancel</string>
 
-    <string name="external_app_activity_not_found">None application can be found to execute this action</string>
+    <string name="external_app_activity_not_found">None application can be found to execute this action.</string>
 
-    <string name="account_logged_in_confirmation">You are logged in with the account: %1$s</string>
+    <string name="account_logged_in_confirmation">You are logged in with the account: %1$s.</string>
     <string name="account_log_out">Log out</string>
     <string name="account_log_in">Log in with</string>
 
+    <string name="discover_log_in_description">To add movies to your watchlist, you must be logged in.</string>
+    <string name="discover_log_in_action">Log in</string>
 
 </resources>

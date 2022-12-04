@@ -11,8 +11,16 @@ internal sealed interface DiscoverUiState {
 
     object Retry : DiscoverUiState
 
-    @JvmInline
-    value class Discover(val items: ImmutableList<MovieItem>) : DiscoverUiState
+    data class Discover(
+        val items: ImmutableList<MovieItem>,
+        val logInSnackbarState: LogInSnackbarState
+    ) : DiscoverUiState {
+        enum class LogInSnackbarState {
+            VISIBLE,
+            SHAKING,
+            HIDDEN,
+        }
+    }
 
     data class MovieItem(
         val id: Long,

@@ -1,6 +1,12 @@
 package com.louisfn.somovie.feature.home.container
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -54,7 +60,9 @@ internal fun HomeScreen(
                 watchListGraph(
                     showDetails = showDetails
                 )
-                discoverGraph()
+                discoverGraph(
+                    showAccount = { navController.navigate(HomeBottomSheetItem.Account) }
+                )
                 accountGraph()
             }
         }
@@ -77,10 +85,7 @@ private fun BottomBar(
         currentDestination = currentDestination,
         onItemClick = { item ->
             if (item.destination.route != currentDestination?.route) {
-                navController.navigate(item.destination.route) {
-                    popUpTo(navController.graph.findStartDestination().id)
-                    launchSingleTop = true
-                }
+                navController.navigate(item)
             } else {
                 homeItemState.homeItemReselect()
             }
@@ -122,4 +127,11 @@ private fun RowScope.BottomNavigationItem(
         selectedContentColor = MaterialTheme.colors.secondary,
         unselectedContentColor = MaterialTheme.colors.onPrimary
     )
+}
+
+private fun NavController.navigate(item: HomeBottomSheetItem) {
+    navigate(item.destination.route) {
+        popUpTo(graph.findStartDestination().id)
+        launchSingleTop = true
+    }
 }
