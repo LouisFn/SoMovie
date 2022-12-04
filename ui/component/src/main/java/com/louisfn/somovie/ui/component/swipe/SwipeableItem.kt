@@ -17,7 +17,7 @@ internal fun Modifier.swipeableItem(
         detectDragGestures(
             onDrag = { change, dragAmount ->
                 change.consume()
-                currentSwipeController.onDrag(dragAmount)
+                currentSwipeController.onDrag(change, dragAmount)
             },
             onDragEnd = {
                 currentSwipeController.onDragEnd()

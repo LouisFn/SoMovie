@@ -21,12 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import com.louisfn.somovie.ui.common.extension.toIntOffset
 import com.louisfn.somovie.ui.common.model.ImmutableList
 
 private const val DefaultMaxRotationInDegrees = 15.0f
 private const val DefaultFractionalThreshold = 0.25f
+private val DefaultVelocityThreshold = 300.dp
 
 private val DefaultSwipeAnimationSpec = spring<Offset>(stiffness = Spring.StiffnessMedium)
 private val DefaultRewindAnimationSpec = spring<Offset>(stiffness = Spring.StiffnessMedium)
@@ -38,6 +41,7 @@ fun <T> SwipeContainer(
     modifier: Modifier = Modifier,
     maxRotationInDegrees: Float = DefaultMaxRotationInDegrees,
     thresholdConfig: ThresholdConfig = FractionalThreshold(DefaultFractionalThreshold),
+    velocityThreshold: Dp = DefaultVelocityThreshold,
     swipeAnimationSpec: AnimationSpec<Offset> = DefaultSwipeAnimationSpec,
     cancelAnimationSpec: AnimationSpec<Offset> = DefaultRewindAnimationSpec,
     onDragging: (T, SwipeDirection, ratio: Float) -> Unit = { _, _, _ -> },
@@ -55,6 +59,7 @@ fun <T> SwipeContainer(
                         item = item,
                         maxRotationInDegrees = maxRotationInDegrees,
                         thresholdConfig = thresholdConfig,
+                        velocityThreshold = velocityThreshold,
                         swipeAnimationSpec = swipeAnimationSpec,
                         cancelAnimationSpec = cancelAnimationSpec,
                         onSwiped = { direction -> onSwiped(item, direction) },
@@ -74,6 +79,7 @@ private fun <T> SwipeableItem(
     item: T,
     maxRotationInDegrees: Float,
     thresholdConfig: ThresholdConfig,
+    velocityThreshold: Dp,
     swipeAnimationSpec: AnimationSpec<Offset>,
     cancelAnimationSpec: AnimationSpec<Offset>,
     onDragging: (SwipeDirection, ratio: Float) -> Unit,
@@ -89,6 +95,7 @@ private fun <T> SwipeableItem(
         size = itemSize,
         maxRotationInDegrees = maxRotationInDegrees,
         thresholdConfig = thresholdConfig,
+        velocityThreshold = velocityThreshold,
         swipeAnimationSpec = swipeAnimationSpec,
         cancelAnimationSpec = cancelAnimationSpec,
         onDragging = onDragging,
