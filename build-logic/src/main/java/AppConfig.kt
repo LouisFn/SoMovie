@@ -14,4 +14,7 @@ object AppConfig {
 
     const val DEBUG_BUILD_TYPE = "debug"
     const val RELEASE_BUILD_TYPE = "release"
+
+    const val KEYSTORE_PROPERTIES_FILE_NAME = "keystore.properties"
+    const val LOCAL_PROPERTIES_FILE_NAME = "local.properties"
 }

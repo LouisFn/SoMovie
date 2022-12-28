@@ -1,22 +1,18 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
+    id(Plugins.SOMOVIE_ANDROID_COMPOSE)
 }
 
 android {
     namespace = "com.louisfn.somovie.test.shared.android"
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    compose()
-    paging()
+    val versionCatalog = getLibsVersionCatalog()
+    paging(versionCatalog)
 
-    implementation(Libraries.activity)
-    implementation(Libraries.Coroutines.test)
-    implementation(Libraries.AndroidTest.runner)
-    implementation(Libraries.Hilt.test)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.coroutines.test)
+    implementation(libs.androidx.test.runner)
+    implementation(libs.hilt.android.testing)
 }

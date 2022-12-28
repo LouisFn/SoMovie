@@ -1,8 +1,5 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    kotlin(Plugins.kapt)
-    id(Plugins.ksp)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
 }
 
 android {
@@ -16,6 +13,6 @@ dependencies {
     implementation(project(":data:network"))
     implementation(project(":domain:model"))
 
-    implementation(Libraries.annotation)
-    implementation(Libraries.Hilt.core)
+    implementation(libs.androidx.annotation)
+    implementation(libs.hilt.core)
 }

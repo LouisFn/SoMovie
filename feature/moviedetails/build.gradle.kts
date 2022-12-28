@@ -1,23 +1,13 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    kotlin(Plugins.kapt)
-    id(Plugins.ksp)
+    id(Plugins.SOMOVIE_ANDROID_FEATURE)
 }
 
 android {
     namespace = "com.louisfn.somovie.feature.moviedetails"
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    feature()
-    coil()
-
-    implementation(Libraries.Accompanist.flowLayout)
-    implementation(Libraries.Accompanist.pager)
-    implementation(Libraries.Accompanist.pagerIndicators)
+    implementation(libs.accompanist.flowlayout)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
 }

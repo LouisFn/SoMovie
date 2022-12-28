@@ -1,8 +1,6 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    kotlin(Plugins.kapt)
-    id(Plugins.ksp)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
+    id(Plugins.SOMOVIE_ANDROID_HILT)
 }
 
 android {
@@ -18,11 +16,15 @@ android {
 }
 
 dependencies {
-    androidTest()
-    room()
+    val versionCatalog = getLibsVersionCatalog()
+    androidTest(versionCatalog)
 
     implementation(project(":common"))
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
 
-    implementation(Libraries.Hilt.core)
-    kapt(Libraries.Hilt.compiler)
+    androidTestImplementation(libs.androidx.room.testing)
+
+    ksp(libs.androidx.room.compiler)
 }

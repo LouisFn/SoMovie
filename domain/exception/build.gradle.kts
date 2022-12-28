@@ -1,8 +1,7 @@
 plugins {
-    id(Plugins.kotlin)
-    kotlin(Plugins.kapt)
+    id(Plugins.SOMOVIE_KOTLIN_LIBRARY)
 }
 
 dependencies {
-    implementation(Libraries.annotation)
+    implementation(libs.androidx.annotation)
 }

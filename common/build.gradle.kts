@@ -1,14 +1,13 @@
 plugins {
-    id(Plugins.kotlin)
-    id(Plugins.ksp)
-    kotlin(Plugins.kapt)
+    id(Plugins.SOMOVIE_KOTLIN_LIBRARY)
 }
 
 dependencies {
-    moshi()
+    val versionCatalog = getLibsVersionCatalog()
+    moshi(versionCatalog)
 
-    implementation(Libraries.Coroutines.android)
+    implementation(libs.coroutines.android)
+    implementation(libs.hilt.core)
 
-    implementation(Libraries.Hilt.core)
-    kapt(Libraries.Hilt.compiler)
+    kapt(libs.hilt.android.compiler)
 }

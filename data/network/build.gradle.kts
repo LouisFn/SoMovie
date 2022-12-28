@@ -1,10 +1,7 @@
 import java.util.Properties
 
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    id(Plugins.ksp)
-    kotlin(Plugins.kapt)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
 }
 
 android {
@@ -21,30 +18,30 @@ android {
 }
 
 dependencies {
-    moshi()
+    val versionCatalog = getLibsVersionCatalog()
+    moshi(versionCatalog)
 
     implementation(project(":common"))
     implementation(project(":data:datastore"))
     implementation(project(":domain:model"))
     implementation(project(":domain:exception"))
+    implementation(libs.androidx.annotation)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.moshiConverter)
+    implementation(libs.hilt.core)
+    implementation(libs.flipper.network)
+    implementation(libs.coroutines.android)
+    implementation(libs.okhttp.logginInterceptor)
 
-    implementation(Libraries.annotation)
-    implementation(Libraries.Retrofit.core)
-    implementation(Libraries.Retrofit.moshiConverter)
-
-    implementation(Libraries.Hilt.core)
-    kapt(Libraries.Hilt.compiler)
-    implementation(Libraries.Flipper.network)
-    implementation(Libraries.Coroutines.android)
-    implementation(Libraries.okHttpLoggingInterceptor)
+    kapt(libs.hilt.android.compiler)
 }
 
 fun getLocalProperties(): Properties? =
     try {
         Properties().apply {
-            load(rootProject.file("local.properties").inputStream())
+            load(rootProject.file(AppConfig.LOCAL_PROPERTIES_FILE_NAME).inputStream())
         }
     } catch (e: Exception) {
-        println("Cannot load local.properties $e")
+        println("Cannot load ${AppConfig.LOCAL_PROPERTIES_FILE_NAME} $e")
         null
     }

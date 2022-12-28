@@ -1,7 +1,5 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    kotlin(Plugins.kapt)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
 }
 
 android {
@@ -9,7 +7,8 @@ android {
 }
 
 dependencies {
-    test()
+    val versionCatalog = getLibsVersionCatalog()
+    test(versionCatalog)
 
     implementation(project(":common"))
     implementation(project(":data:network"))
@@ -18,12 +17,12 @@ dependencies {
     implementation(project(":data:database"))
     implementation(project(":domain:model"))
     implementation(project(":domain:repository"))
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.hilt.core)
+    implementation(libs.coroutines.android)
 
-    implementation(Libraries.Paging.runtime)
-    implementation(Libraries.Paging.compose)
-    implementation(Libraries.Hilt.core)
-    kapt(Libraries.Hilt.compiler)
-    implementation(Libraries.Coroutines.android)
+    kapt(libs.hilt.android.compiler)
 
     testImplementation(project(":test:testfixtures:android"))
     testImplementation(project(":test:testfixtures:kotlin"))

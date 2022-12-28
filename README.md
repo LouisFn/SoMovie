@@ -52,7 +52,7 @@ The aim of this project is to test the latest trends, libraries and tools to dev
 	- [Faker](https://github.com/serpro69/kotlin-faker) - A library for generating fake data that can be used for testing.
 - [Gradle's Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html) - Gradle’s Kotlin DSL is an alternative syntax to the Groovy DSL with an enhanced editing experience.
 
-For more information about used dependencies, see [this](/buildSrc/src/main/java/Libraries.kt) file.
+For more information about used dependencies, see [this](/gradle/libs.versions.toml) file.
 
 ## Testing
 

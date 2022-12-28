@@ -1,5 +1,5 @@
 plugins {
-    id(Plugins.kotlin)
+    id(Plugins.SOMOVIE_KOTLIN_LIBRARY)
 }
 
 dependencies {
@@ -7,8 +7,8 @@ dependencies {
     implementation(project(":domain:repository"))
     implementation(project(":domain:exception"))
 
-    implementation(Libraries.jUnit)
-    implementation(Libraries.Coroutines.test)
-    implementation(Libraries.Paging.common)
-    implementation(Libraries.faker)
+    implementation(libs.junit)
+    implementation(libs.coroutines.test)
+    implementation(libs.androidx.paging.common)
+    implementation(libs.faker)
 }

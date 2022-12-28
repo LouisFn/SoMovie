@@ -1,6 +1,5 @@
 plugins {
-    id(Plugins.kotlin)
-    kotlin(Plugins.kapt)
+    id(Plugins.SOMOVIE_KOTLIN_LIBRARY)
 }
 
 dependencies {
@@ -8,7 +7,7 @@ dependencies {
     implementation(project(":domain:model"))
     implementation(project(":domain:repository"))
 
-    implementation(Libraries.Hilt.core)
-    implementation(Libraries.Paging.common)
-    implementation(Libraries.Coroutines.android)
+    implementation(libs.hilt.core)
+    implementation(libs.androidx.paging.common)
+    implementation(libs.coroutines.android)
 }

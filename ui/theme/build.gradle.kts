@@ -1,18 +1,8 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    kotlin(Plugins.kapt)
-    id(Plugins.ksp)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
+    id(Plugins.SOMOVIE_ANDROID_COMPOSE)
 }
 
 android {
     namespace = "com.louisfn.somovie.ui.theme"
-
-    buildFeatures {
-        compose = true
-    }
-}
-
-dependencies {
-    compose()
 }

@@ -1,26 +1,19 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    kotlin(Plugins.kapt)
-    id(Plugins.ksp)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
+    id(Plugins.SOMOVIE_ANDROID_COMPOSE)
 }
 
 android {
     namespace = "com.louisfn.somovie.ui.component"
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    compose()
-    coil()
+    val versionCatalog = getLibsVersionCatalog()
+    coil(versionCatalog)
 
     implementation(project(":common"))
     implementation(project(":domain:model"))
     implementation(project(":ui:common"))
     implementation(project(":ui:theme"))
-
-    implementation(Libraries.Accompanist.insetsui)
+    implementation(libs.accompanist.insets.ui)
 }

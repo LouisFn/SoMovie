@@ -1,5 +1,5 @@
 plugins {
-    id(Plugins.kotlin)
+    id(Plugins.SOMOVIE_KOTLIN_LIBRARY)
 }
 
 dependencies {
@@ -9,7 +9,7 @@ dependencies {
     implementation(project(":domain:exception"))
     implementation(project(":test:shared:kotlin"))
 
-    implementation(Libraries.Coroutines.test)
-    implementation(Libraries.Paging.common)
-    implementation(Libraries.faker)
+    implementation(libs.coroutines.test)
+    implementation(libs.androidx.paging.common)
+    implementation(libs.faker)
 }

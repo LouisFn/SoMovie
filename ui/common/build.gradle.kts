@@ -1,33 +1,26 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    kotlin(Plugins.kapt)
-    id(Plugins.ksp)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
+    id(Plugins.SOMOVIE_ANDROID_COMPOSE)
+    id(Plugins.SOMOVIE_ANDROID_HILT)
 }
 
 android {
     namespace = "com.louisfn.somovie.ui.common"
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    compose()
-    paging()
-    hilt()
-    coil()
-    moshi()
+    val versionCatalog = getLibsVersionCatalog()
+    paging(versionCatalog)
+    coil(versionCatalog)
+    moshi(versionCatalog)
 
     implementation(project(":common"))
     implementation(project(":domain:util"))
     implementation(project(":domain:model"))
     implementation(project(":domain:exception"))
-
-    implementation(Libraries.androidCoreKtx)
-    implementation(Libraries.activity)
-    implementation(Libraries.Lifecycle.runtime)
-    implementation(Libraries.Coroutines.android)
-    implementation(Libraries.timber)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.coroutines.android)
+    implementation(libs.timber)
 }

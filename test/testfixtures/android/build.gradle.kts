@@ -1,6 +1,5 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
 }
 
 android {
@@ -18,8 +17,7 @@ dependencies {
     implementation(project(":data:mapper"))
     implementation(project(":ui:common"))
     implementation(project(":feature:login"))
-
-    implementation(Libraries.Coroutines.test)
-    implementation(Libraries.Paging.common)
-    implementation(Libraries.faker)
+    implementation(libs.coroutines.test)
+    implementation(libs.androidx.paging.common)
+    implementation(libs.faker)
 }

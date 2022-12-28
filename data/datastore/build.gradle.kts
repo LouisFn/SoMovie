@@ -1,8 +1,5 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
-    id(Plugins.ksp)
-    kotlin(Plugins.kapt)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
 }
 
 android {
@@ -10,13 +7,14 @@ android {
 }
 
 dependencies {
-    moshi()
+    val versionCatalog = getLibsVersionCatalog()
+    moshi(versionCatalog)
 
     implementation(project(":common"))
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.hilt.core)
+    implementation(libs.hilt.android)
+    implementation(libs.coroutines.android)
 
-    implementation(Libraries.Datastore.typed)
-    implementation(Libraries.Hilt.core)
-    implementation(Libraries.Hilt.android)
-    kapt(Libraries.Hilt.compiler)
-    implementation(Libraries.Coroutines.android)
+    kapt(libs.hilt.android.compiler)
 }
