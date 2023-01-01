@@ -11,7 +11,7 @@ dependencies {
     val versionCatalog = getLibsVersionCatalog()
     coil(versionCatalog)
 
-    implementation(project(":common"))
+    implementation(project(":core:common"))
     implementation(project(":domain:model"))
     implementation(project(":ui:common"))
     implementation(project(":ui:theme"))

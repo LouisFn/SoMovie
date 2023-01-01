@@ -1,11 +1,15 @@
 plugins {
-    id(Plugins.SOMOVIE_KOTLIN_LIBRARY)
+    id(Plugins.SOMOVIE_ANDROID_LIBRARY)
+}
+
+android {
+    namespace = "com.louisfn.somovie.domain.usecase"
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(":core:common"))
     implementation(project(":domain:model"))
-    implementation(project(":domain:repository"))
+    implementation(project(":data:repository"))
 
     implementation(libs.hilt.core)
     implementation(libs.androidx.paging.common)

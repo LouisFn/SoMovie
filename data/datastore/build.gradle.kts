@@ -10,7 +10,7 @@ dependencies {
     val versionCatalog = getLibsVersionCatalog()
     moshi(versionCatalog)
 
-    implementation(project(":common"))
+    implementation(project(":core:common"))
     implementation(libs.androidx.datastore.core)
     implementation(libs.hilt.core)
     implementation(libs.hilt.android)

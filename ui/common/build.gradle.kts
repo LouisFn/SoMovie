@@ -14,8 +14,8 @@ dependencies {
     coil(versionCatalog)
     moshi(versionCatalog)
 
-    implementation(project(":common"))
-    implementation(project(":domain:util"))
+    implementation(project(":core:common"))
+    implementation(project(":core:imageurlprovider"))
     implementation(project(":domain:model"))
     implementation(project(":domain:exception"))
     implementation(libs.androidx.core)

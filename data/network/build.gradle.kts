@@ -21,7 +21,8 @@ dependencies {
     val versionCatalog = getLibsVersionCatalog()
     moshi(versionCatalog)
 
-    implementation(project(":common"))
+    implementation(project(":core:common"))
+    implementation(project(":core:logger"))
     implementation(project(":data:datastore"))
     implementation(project(":domain:model"))
     implementation(project(":domain:exception"))
