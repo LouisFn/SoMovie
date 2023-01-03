@@ -1,5 +1,3 @@
-
-
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
@@ -14,4 +12,5 @@ plugins {
     id("somovie.spotless")
     id("somovie.detekt")
     id("somovie.gradleversions")
+    id("somovie.jacoco.mergeallreports")
 }

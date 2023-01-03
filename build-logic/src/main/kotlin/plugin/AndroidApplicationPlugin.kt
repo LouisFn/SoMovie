@@ -21,6 +21,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 apply(Plugins.KAPT)
                 apply(Plugins.KSP)
                 apply(Plugins.KOTLIN_PARCELIZE)
+                apply(Plugins.SOMOVIE_JACOCO)
             }
 
             configureKotlinOptions()
@@ -55,10 +56,6 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 }
 
                 buildTypes {
-                    getByName(AppConfig.DEBUG_BUILD_TYPE) {
-                        enableUnitTestCoverage = true
-                        enableAndroidTestCoverage = true
-                    }
                     getByName(AppConfig.RELEASE_BUILD_TYPE) {
                         signingConfig = signingConfigs.getByName(AppConfig.RELEASE_BUILD_TYPE)
                         isMinifyEnabled = true

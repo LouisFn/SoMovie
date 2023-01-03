@@ -36,6 +36,14 @@ gradlePlugin {
             id = "somovie.kotlin.library"
             implementationClass = "plugin.KotlinLibraryPlugin"
         }
+        register("jacoco") {
+            id = "somovie.jacoco"
+            implementationClass = "plugin.JacocoPlugin"
+        }
+        register("jacocoMergeReports") {
+            id = "somovie.jacoco.mergeallreports"
+            implementationClass = "plugin.JacocoMergeAllReportsPlugin"
+        }
         register("spotless") {
             id = "somovie.spotless"
             implementationClass = "plugin.SpotlessPlugin"

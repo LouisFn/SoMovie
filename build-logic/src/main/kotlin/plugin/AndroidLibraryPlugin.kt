@@ -18,6 +18,7 @@ class AndroidLibraryPlugin : Plugin<Project> {
                 apply(Plugins.KOTLIN_ANDROID)
                 apply(Plugins.KAPT)
                 apply(Plugins.KSP)
+                apply(Plugins.SOMOVIE_JACOCO)
             }
 
             configureKotlinOptions()

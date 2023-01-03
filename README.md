@@ -4,6 +4,7 @@ SoMovie [Work in progress 🚧]
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](http://developer.android.com/index.html)
 ![API](https://img.shields.io/badge/API-26%2B-orange.svg?style=flat)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/LouisFn/SoMovie/blob/master/LICENSE)
+[![Coverage](https://louisfn.github.io/SoMovie/badges/jacoco.svg)](https://louisfn.github.io/SoMovie/)
 [![Build](https://github.com/LouisFn/SoMovie/workflows/Build/badge.svg?branch=master)](https://github.com/LouisFn/SoMovie/actions)
 
 An android app using [The Movie Database](https://www.themoviedb.org/) API to display the current trending, upcoming, popular and top rated movies.

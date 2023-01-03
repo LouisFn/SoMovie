@@ -20,5 +20,16 @@ internal fun Project.configureAndroid(
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
         }
+
+        buildTypes {
+            getByName(AppConfig.DEBUG_BUILD_TYPE) {
+                enableUnitTestCoverage = true
+                enableAndroidTestCoverage = true
+            }
+            getByName(AppConfig.RELEASE_BUILD_TYPE) {
+                enableUnitTestCoverage = true
+                enableAndroidTestCoverage = true
+            }
+        }
     }
 }

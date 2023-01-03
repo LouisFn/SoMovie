@@ -36,37 +36,6 @@ jobs:
       - name: Check detekt
         run: ./gradlew detekt
 
-  unit-test:
-    needs: linter
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup java 11
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 11
-
-      - name: Setup gradle
-        uses: ./.github/workflows/gradle-cache
-        with:
-          encoded_local_properties: ${{ secrets.LOCAL_PROPERTIES }}
-
-      - name: Run unit test
-        run: ./gradlew testDebugUnitTest
-
-      - name: Generate test results
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: Unit test results
-          path: '**/build/test-results/testDebugUnitTest/TEST-*.xml'
-          reporter: java-junit
-          fail-on-error: false
-
   assemble:
     needs: linter
     runs-on: ubuntu-latest
@@ -95,13 +64,13 @@ jobs:
           name: build-outputs
           path: app/build/outputs/apk
 
-  android-test:
+
+  run-test:
     needs: linter
     runs-on: macos-latest
     timeout-minutes: 45
-    strategy:
-      matrix:
-        api-level: [29]
+    env:
+      ApiLevel: 29
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -117,6 +86,18 @@ jobs:
         with:
           encoded_local_properties: ${{ secrets.LOCAL_PROPERTIES }}
 
+      - name: Run unit test
+        run: ./gradlew testDebugUnitTest
+
+      - name: Generate test results
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Unit test results
+          path: '**/build/test-results/testDebugUnitTest/TEST-*.xml'
+          reporter: java-junit
+          fail-on-error: false
+
       - name: Setup AVD cache
         uses: actions/cache@v3
         id: avd-cache
@@ -124,13 +105,13 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-${{ matrix.api-level }}
+          key: avd-${{ env.ApiLevel }}
 
       - name: Create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ matrix.api-level }}
+          api-level: ${{ env.ApiLevel }}
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -139,13 +120,13 @@ jobs:
       - name: Run android tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ matrix.api-level }}
+          api-level: ${{ env.ApiLevel }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: ./gradlew connectedDebugAndroidTest
 
-      - name: Generate test results
+      - name: Generate android test results
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
@@ -153,3 +134,37 @@ jobs:
           path: '**/build/outputs/androidTest-results/connected/TEST-*.xml'
           reporter: java-junit
           fail-on-error: false
+
+      - name: Generate jacoco report
+        run: ./gradlew jacocoMergeAllDebugReports
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: jacoco
+          path: build/reports/jacoco/jacocoMergeAllDebugReports
+
+  publish-coverage:
+    needs: run-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: jacoco
+
+      - name: Generate Jacoco Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: jacocoMergeAllDebugReports.csv
+          badges-directory: html/badges
+          coverage-label: Coverage
+
+      - name: Publish coverage report to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: coverage
+          folder: html

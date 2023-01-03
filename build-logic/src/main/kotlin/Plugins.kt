@@ -9,6 +9,7 @@ object Plugins {
     const val KOTLIN_PARCELIZE = "kotlin-parcelize"
     const val KSP = "com.google.devtools.ksp"
     const val HILT = "dagger.hilt.android.plugin"
+    const val JACOCO = "org.gradle.jacoco"
 
     const val SOMOVIE_ANDROID_APPLICATION = "somovie.android.application"
     const val SOMOVIE_ANDROID_LIBRARY = "somovie.android.library"
@@ -16,6 +17,8 @@ object Plugins {
     const val SOMOVIE_ANDROID_COMPOSE = "somovie.android.compose"
     const val SOMOVIE_ANDROID_HILT = "somovie.android.hilt"
     const val SOMOVIE_KOTLIN_LIBRARY = "somovie.kotlin.library"
+    const val SOMOVIE_JACOCO = "somovie.jacoco"
+    const val SOMOVIE_JACOCO_MERGE_REPORTS = "somovie.jacoco.mergeallreports"
     const val SOMOVIE_SPOTLESS = "somovie.spotless"
     const val SOMOVIE_DETEKT = "somovie.detekt"
     const val SOMOVIE_GRADLE_VERSIONS = "somovie.gradleversions"
