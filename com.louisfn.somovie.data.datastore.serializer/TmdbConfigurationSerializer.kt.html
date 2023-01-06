@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TmdbConfigurationSerializer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.datastore.serializer</a> &gt; <span class="el_source">TmdbConfigurationSerializer.kt</span></div><h1>TmdbConfigurationSerializer.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.datastore.serializer
+
+import androidx.datastore.core.CorruptionException
+import androidx.datastore.core.Serializer
+import com.louisfn.somovie.core.common.extension.fromJson
+import com.louisfn.somovie.core.common.extension.toJson
+import com.louisfn.somovie.data.datastore.model.TmdbConfigurationData
+import com.squareup.moshi.Moshi
+import java.io.InputStream
+import java.io.OutputStream
+import javax.inject.Inject
+
+<span class="nc" id="L13">internal class TmdbConfigurationSerializer @Inject constructor(</span>
+<span class="nc" id="L14">    private val moshi: Moshi</span>
+) : Serializer&lt;TmdbConfigurationData&gt; {
+
+<span class="nc" id="L17">    override val defaultValue: TmdbConfigurationData = TmdbConfigurationData()</span>
+
+    override suspend fun readFrom(input: InputStream): TmdbConfigurationData =
+<span class="nc" id="L20">        try {</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">            requireNotNull(moshi.fromJson(input))</span>
+<span class="nc" id="L22">        } catch (exception: Exception) {</span>
+<span class="nc" id="L23">            throw CorruptionException(&quot;Cannot read json.&quot;, exception)</span>
+<span class="nc" id="L24">        }</span>
+
+    override suspend fun writeTo(
+        t: TmdbConfigurationData,
+        output: OutputStream
+<span class="nc" id="L29">    ) = moshi.toJson(output, t)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

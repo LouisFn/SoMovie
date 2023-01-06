@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Image.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.component</a> &gt; <span class="el_source">Image.kt</span></div><h1>Image.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.component
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.DefaultAlpha
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImagePainter
+
+@Composable
+fun DefaultImage(
+    painter: Painter,
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">    alignment: Alignment = Alignment.Center,</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">    contentScale: ContentScale = ContentScale.Fit,</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">    alpha: Float = DefaultAlpha,</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">    colorFilter: ColorFilter? = null</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">) {</span>
+<span class="pc bpc" id="L23" title="2 of 4 branches missed.">    androidx.compose.foundation.Image(</span>
+<span class="fc" id="L24">        painter = painter,</span>
+<span class="fc" id="L25">        contentDescription = null,</span>
+<span class="fc" id="L26">        modifier = modifier,</span>
+<span class="fc" id="L27">        alignment = alignment,</span>
+<span class="fc" id="L28">        contentScale = contentScale,</span>
+<span class="fc" id="L29">        alpha = alpha,</span>
+<span class="fc" id="L30">        colorFilter = colorFilter</span>
+    )
+<span class="fc" id="L32">}</span>
+
+@Composable
+fun DefaultAsyncImage(
+    model: Any?,
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">    transform: (AsyncImagePainter.State) -&gt; AsyncImagePainter.State = AsyncImagePainter.DefaultTransform,</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">    onState: ((AsyncImagePainter.State) -&gt; Unit)? = null,</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">    alignment: Alignment = Alignment.Center,</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">    contentScale: ContentScale = ContentScale.Fit,</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">    alpha: Float = DefaultAlpha,</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">    colorFilter: ColorFilter? = null,</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">    filterQuality: FilterQuality = DrawScope.DefaultFilterQuality</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">) {</span>
+<span class="pc bpc" id="L46" title="2 of 4 branches missed.">    coil.compose.AsyncImage(</span>
+<span class="fc" id="L47">        model = model,</span>
+<span class="fc" id="L48">        contentDescription = null,</span>
+<span class="fc" id="L49">        modifier = modifier,</span>
+<span class="fc" id="L50">        transform = transform,</span>
+<span class="fc" id="L51">        onState = onState,</span>
+<span class="fc" id="L52">        alignment = alignment,</span>
+<span class="fc" id="L53">        contentScale = contentScale,</span>
+<span class="fc" id="L54">        alpha = alpha,</span>
+<span class="fc" id="L55">        colorFilter = colorFilter,</span>
+<span class="fc" id="L56">        filterQuality = filterQuality</span>
+    )
+<span class="fc" id="L58">}</span>
+
+@Composable
+fun DefaultAsyncImage(
+    model: Any?,
+<span class="nc bnc" id="L63" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    placeholder: Painter? = null,</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    error: Painter? = null,</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    fallback: Painter? = error,</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    onLoading: ((AsyncImagePainter.State.Loading) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">    onSuccess: ((AsyncImagePainter.State.Success) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    onError: ((AsyncImagePainter.State.Error) -&gt; Unit)? = null,</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    alignment: Alignment = Alignment.Center,</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    contentScale: ContentScale = ContentScale.Fit,</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    alpha: Float = DefaultAlpha,</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    colorFilter: ColorFilter? = null,</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    filterQuality: FilterQuality = DrawScope.DefaultFilterQuality</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">) {</span>
+<span class="nc bnc" id="L76" title="All 4 branches missed.">    coil.compose.AsyncImage(</span>
+<span class="nc" id="L77">        model = model,</span>
+<span class="nc" id="L78">        contentDescription = null,</span>
+<span class="nc" id="L79">        modifier = modifier,</span>
+<span class="nc" id="L80">        placeholder = placeholder,</span>
+<span class="nc" id="L81">        error = error,</span>
+<span class="nc" id="L82">        fallback = fallback,</span>
+<span class="nc" id="L83">        onLoading = onLoading,</span>
+<span class="nc" id="L84">        onSuccess = onSuccess,</span>
+<span class="nc" id="L85">        onError = onError,</span>
+<span class="nc" id="L86">        alignment = alignment,</span>
+<span class="nc" id="L87">        contentScale = contentScale,</span>
+<span class="nc" id="L88">        alpha = alpha,</span>
+<span class="nc" id="L89">        colorFilter = colorFilter,</span>
+<span class="nc" id="L90">        filterQuality = filterQuality</span>
+    )
+<span class="nc" id="L92">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

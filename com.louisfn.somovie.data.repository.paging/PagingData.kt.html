@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PagingData.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.repository.paging</a> &gt; <span class="el_source">PagingData.kt</span></div><h1>PagingData.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.repository.paging
+
+import androidx.paging.PagingData
+import androidx.paging.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+inline fun &lt;T : Any, R : Any&gt; Flow&lt;PagingData&lt;T&gt;&gt;.mapPaging(
+    crossinline transform: suspend (value: T) -&gt; R
+): Flow&lt;PagingData&lt;R&gt;&gt; =
+<span class="nc" id="L11">    map { pagingData -&gt; pagingData.map { transform(it) } }</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

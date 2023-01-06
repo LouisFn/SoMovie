@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDetailsViewModel.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.moviedetails</a> &gt; <span class="el_source">MovieDetailsViewModel.kt</span></div><h1>MovieDetailsViewModel.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.moviedetails
+
+import androidx.annotation.AnyThread
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.louisfn.somovie.core.common.Result
+import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
+import com.louisfn.somovie.core.common.asFlowResult
+import com.louisfn.somovie.core.common.extension.combine
+import com.louisfn.somovie.core.common.extension.safeCollect
+import com.louisfn.somovie.core.common.onResultError
+import com.louisfn.somovie.domain.model.BackdropPath
+import com.louisfn.somovie.domain.model.Movie
+import com.louisfn.somovie.domain.model.MovieCredits
+import com.louisfn.somovie.domain.model.YoutubeVideo
+import com.louisfn.somovie.domain.usecase.credits.ObserveMovieCreditsUseCase
+import com.louisfn.somovie.domain.usecase.image.ObserveMovieImagesUseCase
+import com.louisfn.somovie.domain.usecase.movie.ObserveMovieUseCase
+import com.louisfn.somovie.domain.usecase.movie.RefreshMovieUseCase
+import com.louisfn.somovie.domain.usecase.video.ObserveMovieYoutubeVideosUseCase
+import com.louisfn.somovie.domain.usecase.watchlist.AddToWatchlistUseCase
+import com.louisfn.somovie.domain.usecase.watchlist.RemoveFromWatchlistUseCase
+import com.louisfn.somovie.feature.moviedetails.WatchlistFabState.WatchlistState
+import com.louisfn.somovie.ui.common.error.ErrorsDispatcher
+import com.louisfn.somovie.ui.common.extension.toDollarFormat
+import com.louisfn.somovie.ui.common.extension.toReleaseFormat
+import com.louisfn.somovie.ui.common.model.ImmutableList
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+<span class="nc" id="L43">internal class MovieDetailsViewModel @Inject constructor(</span>
+    savedStateHandle: SavedStateHandle,
+<span class="nc" id="L45">    private val observeMovieUseCase: ObserveMovieUseCase,</span>
+<span class="nc" id="L46">    private val observeMovieImagesUseCase: ObserveMovieImagesUseCase,</span>
+<span class="nc" id="L47">    private val observeMovieCreditsUseCase: ObserveMovieCreditsUseCase,</span>
+<span class="nc" id="L48">    private val observeMovieYoutubeVideosUseCase: ObserveMovieYoutubeVideosUseCase,</span>
+<span class="nc" id="L49">    private val refreshMovieUseCase: RefreshMovieUseCase,</span>
+<span class="nc" id="L50">    private val addToWatchlistUseCase: AddToWatchlistUseCase,</span>
+<span class="nc" id="L51">    private val removeFromWatchlistUseCase: RemoveFromWatchlistUseCase,</span>
+<span class="nc" id="L52">    private val errorsDispatcher: ErrorsDispatcher,</span>
+<span class="nc" id="L53">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L54">) : ViewModel() {</span>
+
+    private val movieId: Long =
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        checkNotNull(savedStateHandle[MovieDetailsNavigation.ARGS_MOVIE_ID]) {</span>
+<span class="nc" id="L58">            &quot;SavedStateHandle key ${MovieDetailsNavigation.ARGS_MOVIE_ID} not found&quot;</span>
+        }
+
+<span class="nc" id="L61">    private val refreshMovieResultState = MutableStateFlow&lt;Result&lt;Unit&gt;?&gt;(null)</span>
+<span class="nc" id="L62">    private val updateWatchlistResultState = MutableStateFlow&lt;Result&lt;Unit&gt;?&gt;(null)</span>
+
+<span class="nc" id="L64">    val uiState: StateFlow&lt;MovieDetailsUiState&gt; =</span>
+<span class="nc" id="L65">        combine(</span>
+<span class="nc" id="L66">            observeMovie(),</span>
+<span class="nc" id="L67">            observeMovieBackdrops(),</span>
+<span class="nc" id="L68">            observeMovieCredits(),</span>
+<span class="nc" id="L69">            observeMovieYoutubeVideos(),</span>
+<span class="nc" id="L70">            refreshMovieResultState,</span>
+<span class="nc" id="L71">            updateWatchlistResultState</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        ) { movie, backdrops, credits, videos, refreshMovieResult, updateWatchlistResult -&gt;</span>
+<span class="nc" id="L73">            MovieDetailsUiState(</span>
+<span class="nc" id="L74">                headerUiState = createHeaderUiState(movie, backdrops),</span>
+<span class="nc" id="L75">                contentUiState = createContentUiState(movie, credits, videos, refreshMovieResult),</span>
+<span class="nc" id="L76">                watchlistFabState = createWatchlistUiState(movie, updateWatchlistResult)</span>
+            )
+        }
+<span class="nc" id="L79">            .flowOn(defaultDispatcher)</span>
+<span class="nc" id="L80">            .stateIn(</span>
+<span class="nc" id="L81">                scope = viewModelScope,</span>
+<span class="nc" id="L82">                started = SharingStarted.WhileSubscribed(),</span>
+<span class="nc" id="L83">                initialValue = MovieDetailsUiState()</span>
+            )
+
+<span class="nc" id="L86">    init {</span>
+<span class="nc" id="L87">        refreshMovieDetails()</span>
+<span class="nc" id="L88">    }</span>
+
+    @AnyThread
+    private fun createHeaderUiState(
+        movie: Movie,
+        backdrops: List&lt;BackdropPath&gt;
+<span class="nc" id="L94">    ) = HeaderUiState(</span>
+<span class="nc" id="L95">        title = movie.title,</span>
+<span class="nc" id="L96">        posterPath = movie.posterPath,</span>
+        backdropPaths = (
+<span class="nc bnc" id="L98" title="All 6 branches missed.">            backdrops.takeIf { it.isNotEmpty() }</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                ?: listOfNotNull(movie.backdropPath)</span>
+<span class="nc" id="L100">            ).let(::ImmutableList),</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        tagline = movie.details?.tagline,</span>
+<span class="nc" id="L102">        voteAverage = movie.voteAverage,</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        voteCount = movie.details?.voteCount,</span>
+<span class="nc" id="L104">        tmdbUrl = movie.tmdbUrl,</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        releaseDate = movie.releaseDate?.toReleaseFormat()</span>
+<span class="nc" id="L106">    )</span>
+
+    @AnyThread
+    private fun createContentUiState(
+        movie: Movie,
+        credits: MovieCredits,
+        videos: List&lt;YoutubeVideo&gt;,
+        refreshMovieResult: Result&lt;Unit&gt;?
+    ): ContentUiState {
+<span class="nc" id="L115">        val details = movie.details</span>
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (details != null) {</span>
+<span class="nc" id="L118">            return ContentUiState.Content(</span>
+<span class="nc" id="L119">                runtime = details.runtime,</span>
+<span class="nc" id="L120">                popularity = details.popularity,</span>
+<span class="nc" id="L121">                budget = details.budget.toDollarFormat(),</span>
+<span class="nc" id="L122">                revenue = details.revenue.toDollarFormat(),</span>
+<span class="nc" id="L123">                genres = details.genres.let(::ImmutableList),</span>
+<span class="nc bnc" id="L124" title="All 6 branches missed.">                crew = credits.crewMembers.takeIf { it.isNotEmpty() }?.let(::ImmutableList),</span>
+<span class="nc bnc" id="L125" title="All 6 branches missed.">                cast = credits.actors.takeIf { it.isNotEmpty() }?.let(::ImmutableList),</span>
+<span class="nc bnc" id="L126" title="All 6 branches missed.">                videos = videos.takeIf { it.isNotEmpty() }?.let(::ImmutableList),</span>
+<span class="nc" id="L127">                overview = movie.overview,</span>
+<span class="nc" id="L128">                originalLanguage = movie.originalLanguage,</span>
+<span class="nc" id="L129">                originalTitle = movie.originalTitle</span>
+            )
+        }
+
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        return if (refreshMovieResult is Result.Error) ContentUiState.Retry</span>
+<span class="nc" id="L134">        else ContentUiState.Loading</span>
+    }
+
+    @AnyThread
+    private fun createWatchlistUiState(
+        movie: Movie,
+        updateWatchlistResultState: Result&lt;Unit&gt;?
+    ): WatchlistFabState? =
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        movie.watchlist?.let { watchlist -&gt;</span>
+<span class="nc" id="L143">            WatchlistFabState(</span>
+<span class="nc" id="L144">                isLoading = updateWatchlistResultState is Result.Loading,</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                state = if (watchlist) WatchlistState.REMOVE_FROM_WATCHLIST else WatchlistState.ADD_TO_WATCHLIST</span>
+            )
+<span class="nc" id="L147">        }</span>
+
+    @AnyThread
+    fun switchWatchlistState() {
+<span class="nc" id="L151">        viewModelScope.launch(defaultDispatcher) {</span>
+<span class="nc bnc" id="L152" title="All 7 branches missed.">            val flow = when (uiState.value.watchlistFabState?.state) {</span>
+                WatchlistState.ADD_TO_WATCHLIST -&gt;
+<span class="nc" id="L154">                    asFlowResult { addToWatchlistUseCase(movieId) }</span>
+                WatchlistState.REMOVE_FROM_WATCHLIST -&gt;
+<span class="nc" id="L156">                    asFlowResult { removeFromWatchlistUseCase(movieId) }</span>
+<span class="nc" id="L157">                else -&gt; null</span>
+            }
+
+<span class="nc" id="L160">            flow</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">                ?.onResultError(errorsDispatcher::dispatch)</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">                ?.safeCollect(</span>
+<span class="nc" id="L163">                    onEach = updateWatchlistResultState::emit,</span>
+<span class="nc" id="L164">                    onError = errorsDispatcher::dispatch</span>
+                )
+<span class="nc" id="L166">        }</span>
+<span class="nc" id="L167">    }</span>
+
+    @AnyThread
+    fun retry() {
+<span class="nc" id="L171">        refreshMovieDetails()</span>
+<span class="nc" id="L172">    }</span>
+
+    @AnyThread
+    private fun refreshMovieDetails() {
+<span class="nc" id="L176">        viewModelScope.launch(defaultDispatcher) {</span>
+<span class="nc" id="L177">            asFlowResult { refreshMovieUseCase(movieId) }</span>
+<span class="nc" id="L178">                .onResultError(errorsDispatcher::dispatch)</span>
+<span class="nc" id="L179">                .safeCollect(</span>
+<span class="nc" id="L180">                    onEach = refreshMovieResultState::emit,</span>
+<span class="nc" id="L181">                    onError = errorsDispatcher::dispatch</span>
+                )
+<span class="nc" id="L183">        }</span>
+<span class="nc" id="L184">    }</span>
+
+    @AnyThread
+    private fun observeMovie(): Flow&lt;Movie&gt; =
+<span class="nc" id="L188">        observeMovieUseCase(movieId)</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">            .catch { handleError(it) }</span>
+
+    @AnyThread
+    private fun observeMovieBackdrops(): Flow&lt;List&lt;BackdropPath&gt;&gt; =
+<span class="nc" id="L193">        observeMovieImagesUseCase(movieId)</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">            .catch { handleError(it) }</span>
+<span class="nc" id="L195">            .map { images -&gt; images.backdrops.map { it.path } }</span>
+
+    @AnyThread
+    private fun observeMovieCredits(): Flow&lt;MovieCredits&gt; =
+<span class="nc" id="L199">        observeMovieCreditsUseCase(movieId)</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">            .catch { handleError(it) }</span>
+
+    @AnyThread
+    private fun observeMovieYoutubeVideos(): Flow&lt;List&lt;YoutubeVideo&gt;&gt; =
+<span class="nc" id="L204">        observeMovieYoutubeVideosUseCase(movieId)</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            .catch { handleError(it) }</span>
+
+    @AnyThread
+    private fun handleError(e: Throwable) {
+<span class="nc" id="L209">        errorsDispatcher.dispatch(e)</span>
+<span class="nc" id="L210">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

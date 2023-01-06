@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieCard.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.component.movie</a> &gt; <span class="el_source">MovieCard.kt</span></div><h1>MovieCard.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.component.movie
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.louisfn.somovie.domain.model.Movie
+import com.louisfn.somovie.ui.component.DefaultAsyncImage
+import com.louisfn.somovie.ui.theme.Dimens.POSTER_RATIO
+import com.louisfn.somovie.ui.theme.customColors
+
+<span class="nc" id="L27">private val MOVIE_CARD_WIDTH = 96.dp</span>
+
+@Composable
+fun MovieCard(
+    movie: Movie,
+<span class="nc bnc" id="L32" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">    showVotes: Boolean = movie.hasVotes,</span>
+    showDetail: (Movie) -&gt; Unit
+<span class="nc bnc" id="L35" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L36">    Box(</span>
+<span class="nc" id="L37">        modifier = modifier</span>
+<span class="nc" id="L38">            .clip(MaterialTheme.shapes.medium)</span>
+<span class="nc" id="L39">            .width(MOVIE_CARD_WIDTH)</span>
+<span class="nc" id="L40">            .clickable { showDetail(movie) }</span>
+    ) {
+<span class="nc bnc" id="L42" title="All 4 branches missed.">        Column(</span>
+<span class="nc" id="L43">            modifier = Modifier</span>
+<span class="nc" id="L44">                .padding(bottom = 8.dp),</span>
+<span class="nc" id="L45">            verticalArrangement = Arrangement.spacedBy(8.dp)</span>
+        ) {
+<span class="nc bnc" id="L47" title="All 4 branches missed.">            DefaultAsyncImage(</span>
+<span class="nc" id="L48">                modifier = Modifier</span>
+<span class="nc" id="L49">                    .fillMaxWidth()</span>
+<span class="nc" id="L50">                    .aspectRatio(POSTER_RATIO),</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                model = movie.posterPath</span>
+            )
+<span class="nc" id="L53">            Text(</span>
+<span class="nc" id="L54">                text = movie.title,</span>
+<span class="nc" id="L55">                maxLines = 2,</span>
+<span class="nc" id="L56">                modifier = Modifier</span>
+<span class="nc" id="L57">                    .height(32.dp)</span>
+<span class="nc" id="L58">                    .padding(horizontal = 4.dp),</span>
+<span class="nc" id="L59">                overflow = TextOverflow.Ellipsis,</span>
+<span class="nc" id="L60">                textAlign = TextAlign.Center,</span>
+<span class="nc" id="L61">                style = MaterialTheme.typography.caption</span>
+<span class="nc" id="L62">            )</span>
+<span class="nc" id="L63">        }</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (showVotes) {</span>
+<span class="nc" id="L65">            MovieVoteAverageChart(</span>
+<span class="nc" id="L66">                average = movie.voteAverage,</span>
+<span class="nc" id="L67">                modifier = Modifier</span>
+<span class="nc" id="L68">                    .padding(3.dp)</span>
+<span class="nc" id="L69">                    .align(Alignment.TopStart)</span>
+            )
+<span class="nc" id="L71">        }</span>
+<span class="nc" id="L72">    }</span>
+<span class="nc" id="L73">}</span>
+
+@Composable
+<span class="nc bnc" id="L76" title="All 14 branches missed.">fun MovieCardPlaceholder(modifier: Modifier = Modifier) {</span>
+<span class="nc" id="L77">    Column(</span>
+<span class="nc" id="L78">        modifier = modifier</span>
+<span class="nc" id="L79">            .clip(MaterialTheme.shapes.medium)</span>
+<span class="nc" id="L80">            .width(MOVIE_CARD_WIDTH)</span>
+<span class="nc" id="L81">            .padding(bottom = 8.dp),</span>
+<span class="nc" id="L82">        verticalArrangement = Arrangement.spacedBy(8.dp)</span>
+    ) {
+<span class="nc bnc" id="L84" title="All 4 branches missed.">        Box(</span>
+<span class="nc" id="L85">            modifier = Modifier</span>
+<span class="nc" id="L86">                .fillMaxWidth()</span>
+<span class="nc" id="L87">                .aspectRatio(POSTER_RATIO)</span>
+<span class="nc" id="L88">                .background(MaterialTheme.customColors.placeholder)</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">        ) {}</span>
+
+<span class="nc" id="L91">        Box(</span>
+<span class="nc" id="L92">            modifier = Modifier</span>
+<span class="nc" id="L93">                .height(16.dp)</span>
+<span class="nc" id="L94">                .fillMaxWidth()</span>
+<span class="nc" id="L95">                .padding(horizontal = 4.dp)</span>
+<span class="nc" id="L96">                .background(MaterialTheme.customColors.placeholder)</span>
+<span class="nc bnc" id="L97" title="All 4 branches missed.">        ) {}</span>
+<span class="nc" id="L98">    }</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

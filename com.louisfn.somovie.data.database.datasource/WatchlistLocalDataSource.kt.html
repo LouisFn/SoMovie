@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WatchlistLocalDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.database.datasource</a> &gt; <span class="el_source">WatchlistLocalDataSource.kt</span></div><h1>WatchlistLocalDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.database.datasource
+
+import androidx.annotation.AnyThread
+import androidx.paging.PagingSource
+import androidx.room.withTransaction
+import com.louisfn.somovie.core.common.annotation.IoDispatcher
+import com.louisfn.somovie.data.database.AppDatabase
+import com.louisfn.somovie.data.database.entity.MovieEntity
+import com.louisfn.somovie.data.database.entity.WatchlistEntity
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.invoke
+import javax.inject.Inject
+
+interface WatchlistLocalDataSource {
+
+    @AnyThread
+    fun getPagingWatchlist(): PagingSource&lt;Int, MovieEntity&gt;
+
+    @AnyThread
+    suspend fun insertOrIgnoreToWatchlist(movieEntities: List&lt;MovieEntity&gt;)
+
+    @AnyThread
+    suspend fun updateWatchlistState(movieId: Long, watchlist: Boolean)
+
+    @AnyThread
+    suspend fun deleteFromWatchlist(movieId: Long)
+
+    @AnyThread
+    suspend fun deleteWatchlist()
+}
+
+<span class="fc" id="L32">internal class DefaultWatchlistLocalDataSource @Inject constructor(</span>
+<span class="fc" id="L33">    private val database: AppDatabase,</span>
+<span class="fc" id="L34">    @IoDispatcher private val ioDispatcher: CoroutineDispatcher</span>
+) : WatchlistLocalDataSource {
+
+    override fun getPagingWatchlist(): PagingSource&lt;Int, MovieEntity&gt; =
+<span class="nc" id="L38">        database.watchListDao().getPaging()</span>
+
+    override suspend fun updateWatchlistState(movieId: Long, watchlist: Boolean) {
+<span class="fc" id="L41">        database.movieDao().updateWatchlist(movieId, watchlist)</span>
+<span class="fc" id="L42">    }</span>
+
+    override suspend fun insertOrIgnoreToWatchlist(movieEntities: List&lt;MovieEntity&gt;) {
+<span class="fc" id="L45">        ioDispatcher {</span>
+<span class="fc" id="L46">            with(database) {</span>
+<span class="fc" id="L47">                val watchList = movieEntities.map { WatchlistEntity(movieId = it.id) }</span>
+<span class="fc" id="L48">                withTransaction {</span>
+<span class="fc" id="L49">                    movieDao().insertOrIgnore(movieEntities)</span>
+<span class="fc" id="L50">                    watchListDao().insertOrIgnore(watchList)</span>
+<span class="fc" id="L51">                }</span>
+<span class="fc" id="L52">            }</span>
+<span class="fc" id="L53">        }</span>
+<span class="nc" id="L54">    }</span>
+
+    override suspend fun deleteFromWatchlist(movieId: Long) {
+<span class="fc" id="L57">        ioDispatcher {</span>
+<span class="fc" id="L58">            database.watchListDao().delete(movieId)</span>
+<span class="fc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
+
+    override suspend fun deleteWatchlist() {
+<span class="pc" id="L63">        database.watchListDao().deleteAll()</span>
+<span class="nc" id="L64">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

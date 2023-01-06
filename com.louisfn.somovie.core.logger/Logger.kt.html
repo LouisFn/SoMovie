@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Logger.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.core.logger</a> &gt; <span class="el_source">Logger.kt</span></div><h1>Logger.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.core.logger
+
+object Logger {
+
+<span class="nc" id="L5">    var adapter: LogAdapter? = null</span>
+
+<span class="nc bnc" id="L7" title="All 2 branches missed.">    fun v(message: String, vararg args: Any?) = adapter?.v(message, args)</span>
+
+<span class="nc bnc" id="L9" title="All 2 branches missed.">    fun v(t: Throwable, message: String, vararg args: Any?) = adapter?.v(t, message, args)</span>
+
+<span class="nc bnc" id="L11" title="All 2 branches missed.">    fun v(t: Throwable) = adapter?.v(t)</span>
+
+<span class="nc bnc" id="L13" title="All 2 branches missed.">    fun d(message: String, vararg args: Any?) = adapter?.d(message, args)</span>
+
+<span class="nc bnc" id="L15" title="All 2 branches missed.">    fun d(t: Throwable, message: String, vararg args: Any?) = adapter?.d(t, message, args)</span>
+
+<span class="nc bnc" id="L17" title="All 2 branches missed.">    fun d(t: Throwable) = adapter?.d(t)</span>
+
+<span class="nc bnc" id="L19" title="All 2 branches missed.">    fun i(message: String, vararg args: Any?) = adapter?.i(message, args)</span>
+
+<span class="nc bnc" id="L21" title="All 2 branches missed.">    fun i(t: Throwable, message: String, vararg args: Any?) = adapter?.i(t, message, args)</span>
+
+<span class="nc bnc" id="L23" title="All 2 branches missed.">    fun i(t: Throwable) = adapter?.i(t)</span>
+
+<span class="nc bnc" id="L25" title="All 2 branches missed.">    fun w(message: String, vararg args: Any?) = adapter?.w(message, args)</span>
+
+<span class="nc bnc" id="L27" title="All 2 branches missed.">    fun w(t: Throwable, message: String, vararg args: Any?) = adapter?.w(t, message, args)</span>
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">    fun w(t: Throwable) = adapter?.w(t)</span>
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">    fun e(message: String, vararg args: Any?) = adapter?.e(message, args)</span>
+
+<span class="nc bnc" id="L33" title="All 2 branches missed.">    fun e(t: Throwable, message: String, vararg args: Any?) = adapter?.e(t, message, args)</span>
+
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">    fun e(t: Throwable) = adapter?.e(t)</span>
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">    fun wtf(message: String, vararg args: Any?) = adapter?.wtf(message, args)</span>
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">    fun wtf(t: Throwable, message: String, vararg args: Any?) = adapter?.wtf(t, message, args)</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">    fun wtf(t: Throwable) = adapter?.wtf(t)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

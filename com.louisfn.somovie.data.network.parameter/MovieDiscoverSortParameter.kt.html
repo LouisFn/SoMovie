@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDiscoverSortParameter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.network.parameter</a> &gt; <span class="el_source">MovieDiscoverSortParameter.kt</span></div><h1>MovieDiscoverSortParameter.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.network.parameter
+
+import com.louisfn.somovie.domain.model.MovieDiscoverSortBy
+import com.louisfn.somovie.domain.model.MovieDiscoverSortByDirection
+
+<span class="nc" id="L6">internal class MovieDiscoverSortParameter(</span>
+<span class="nc" id="L7">    private val sortBy: MovieDiscoverSortBy,</span>
+<span class="nc" id="L8">    private val direction: MovieDiscoverSortByDirection</span>
+) {
+
+    override fun toString(): String =
+<span class="nc" id="L12">        &quot;${toJson(sortBy)}.${toJson(direction)}&quot;</span>
+
+<span class="nc bnc" id="L14" title="All 7 branches missed.">    private fun toJson(sortBy: MovieDiscoverSortBy) = when (sortBy) {</span>
+<span class="nc" id="L15">        MovieDiscoverSortBy.POPULARITY -&gt; POPULARITY</span>
+<span class="nc" id="L16">        MovieDiscoverSortBy.RELEASE_DATE -&gt; RELEASE_DATE</span>
+<span class="nc" id="L17">        MovieDiscoverSortBy.REVENUE -&gt; REVENUE</span>
+<span class="nc" id="L18">        MovieDiscoverSortBy.PRIMARY_RELEASE_DATE -&gt; PRIMARY_RELEASE_DATE</span>
+<span class="nc" id="L19">        MovieDiscoverSortBy.ORIGINAL_TITLE -&gt; ORIGINAL_TITLE</span>
+<span class="nc" id="L20">        MovieDiscoverSortBy.VOTE_AVERAGE -&gt; VOTE_AVERAGE</span>
+<span class="nc" id="L21">        MovieDiscoverSortBy.VOTE_COUNT -&gt; VOTE_COUNT</span>
+<span class="nc" id="L22">    }</span>
+
+    private fun toJson(direction: MovieDiscoverSortByDirection): String =
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        when (direction) {</span>
+<span class="nc" id="L26">            MovieDiscoverSortByDirection.ASC -&gt; ASC</span>
+<span class="nc" id="L27">            MovieDiscoverSortByDirection.DESC -&gt; DESC</span>
+<span class="nc" id="L28">        }</span>
+
+    companion object {
+        private const val POPULARITY = &quot;popularity&quot;
+        private const val RELEASE_DATE = &quot;release_date&quot;
+        private const val REVENUE = &quot;revenue&quot;
+        private const val PRIMARY_RELEASE_DATE = &quot;primary_release_date&quot;
+        private const val ORIGINAL_TITLE = &quot;original_title&quot;
+        private const val VOTE_AVERAGE = &quot;vote_average&quot;
+        private const val VOTE_COUNT = &quot;vote_count&quot;
+
+        private const val ASC = &quot;asc&quot;
+        private const val DESC = &quot;desc&quot;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

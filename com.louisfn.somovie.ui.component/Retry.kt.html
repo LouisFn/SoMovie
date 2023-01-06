@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Retry.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.component</a> &gt; <span class="el_source">Retry.kt</span></div><h1>Retry.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.component
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.louisfn.somovie.ui.common.R as commonR
+
+@Composable
+<span class="pc bpc" id="L22" title="11 of 20 branches missed.">fun Retry(modifier: Modifier = Modifier, onClick: () -&gt; Unit) {</span>
+<span class="fc" id="L23">    Column(</span>
+<span class="fc" id="L24">        modifier = modifier</span>
+<span class="fc" id="L25">            .semantics { testTag = ComponentTestTag.Retry },</span>
+<span class="fc" id="L26">        horizontalAlignment = Alignment.CenterHorizontally</span>
+    ) {
+<span class="pc bpc" id="L28" title="3 of 4 branches missed.">        DefaultImage(</span>
+<span class="fc" id="L29">            modifier = Modifier.width(128.dp),</span>
+<span class="fc" id="L30">            contentScale = ContentScale.FillWidth,</span>
+<span class="fc" id="L31">            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),</span>
+<span class="fc" id="L32">            painter = painterResource(commonR.drawable.ic_cloud_alert)</span>
+        )
+<span class="fc" id="L34">        Text(</span>
+<span class="fc" id="L35">            text = stringResource(id = commonR.string.common_retry_description),</span>
+<span class="fc" id="L36">            style = MaterialTheme.typography.subtitle1</span>
+        )
+<span class="fc" id="L38">        ColumnSpacer(8.dp)</span>
+<span class="pc" id="L39">        RetryButton(onClick = onClick)</span>
+<span class="fc" id="L40">    }</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">}</span>
+
+@Composable
+<span class="pc bpc" id="L44" title="14 of 20 branches missed.">fun RetryButton(modifier: Modifier = Modifier, onClick: () -&gt; Unit) {</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">    Button(</span>
+<span class="fc" id="L46">        modifier = modifier,</span>
+<span class="fc" id="L47">        onClick = onClick</span>
+<span class="fc" id="L48">    ) {</span>
+<span class="pc bpc" id="L49" title="4 of 8 branches missed.">        Text(text = stringResource(id = commonR.string.common_retry_button))</span>
+<span class="fc" id="L50">    }</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">}</span>
+
+@Composable
+<span class="pc bpc" id="L54" title="11 of 20 branches missed.">fun TextRetryButton(modifier: Modifier = Modifier, onClick: () -&gt; Unit) {</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">    DefaultTextButton(</span>
+<span class="fc" id="L56">        text = stringResource(id = commonR.string.common_retry_button),</span>
+<span class="fc" id="L57">        modifier = modifier</span>
+<span class="fc" id="L58">            .semantics { testTag = ComponentTestTag.TextRetry },</span>
+<span class="fc" id="L59">        onClick = onClick</span>
+    )
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">}</span>
+
+@Preview
+@Composable
+<span class="nc bnc" id="L65" title="All 6 branches missed.">private fun Retry() {</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    Retry(onClick = {})</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieVoteAverageChart.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.component.movie</a> &gt; <span class="el_source">MovieVoteAverageChart.kt</span></div><h1>MovieVoteAverageChart.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.component.movie
+
+import androidx.annotation.FloatRange
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.louisfn.somovie.ui.theme.AppColor
+
+@Composable
+fun MovieVoteAverageChart(
+    @FloatRange(from = 0.0, to = 10.0) average: Float,
+<span class="nc bnc" id="L27" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">    background: Color = MaterialTheme.colors.surface,</span>
+<span class="nc" id="L29">    strokeWidth: Dp = 3.dp,</span>
+<span class="nc bnc" id="L30" title="All 8 branches missed.">    textStyle: TextStyle = MaterialTheme.typography.caption</span>
+<span class="nc bnc" id="L31" title="All 40 branches missed.">) {</span>
+<span class="nc" id="L32">    Box(</span>
+<span class="nc" id="L33">        contentAlignment = Alignment.Center,</span>
+<span class="nc" id="L34">        modifier = modifier</span>
+<span class="nc" id="L35">            .size(32.dp)</span>
+<span class="nc" id="L36">            .clip(CircleShape)</span>
+<span class="nc" id="L37">            .background(background)</span>
+    ) {
+<span class="nc bnc" id="L39" title="All 4 branches missed.">        CircularProgressIndicator(</span>
+<span class="nc" id="L40">            modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L41">            progress = average / 10,</span>
+<span class="nc" id="L42">            color = MaterialTheme.colors.secondary,</span>
+<span class="nc" id="L43">            strokeWidth = strokeWidth</span>
+        )
+<span class="nc" id="L45">        Text(</span>
+<span class="nc" id="L46">            text = String.format(&quot;%.1f&quot;, average),</span>
+<span class="nc" id="L47">            style = textStyle,</span>
+<span class="nc" id="L48">            color = AppColor.Silver,</span>
+<span class="nc" id="L49">            fontWeight = FontWeight.Bold</span>
+<span class="nc" id="L50">        )</span>
+<span class="nc" id="L51">    }</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">}</span>
+
+@Composable
+@Preview
+<span class="nc bnc" id="L56" title="All 6 branches missed.">private fun MovieVoteAverageChartPreview() {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">    MovieVoteAverageChart(average = 8.4f)</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

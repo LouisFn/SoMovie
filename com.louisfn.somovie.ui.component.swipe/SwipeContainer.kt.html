@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SwipeContainer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.component.swipe</a> &gt; <span class="el_source">SwipeContainer.kt</span></div><h1>SwipeContainer.kt</h1><pre class="source lang-java linenums">@file:OptIn(ExperimentalMaterialApi::class)
+
+package com.louisfn.somovie.ui.component.swipe
+
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.ThresholdConfig
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
+import com.louisfn.somovie.ui.common.extension.toIntOffset
+import com.louisfn.somovie.ui.common.model.ImmutableList
+
+private const val DefaultMaxRotationInDegrees = 15.0f
+private const val DefaultFractionalThreshold = 0.25f
+<span class="nc" id="L32">private val DefaultVelocityThreshold = 300.dp</span>
+
+<span class="nc" id="L34">private val DefaultSwipeAnimationSpec = spring&lt;Offset&gt;(stiffness = Spring.StiffnessMedium)</span>
+<span class="nc" id="L35">private val DefaultRewindAnimationSpec = spring&lt;Offset&gt;(stiffness = Spring.StiffnessMedium)</span>
+
+@Composable
+fun &lt;T&gt; SwipeContainer(
+    items: ImmutableList&lt;T&gt;,
+    itemKey: (T) -&gt; Any,
+<span class="nc bnc" id="L41" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    maxRotationInDegrees: Float = DefaultMaxRotationInDegrees,</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    thresholdConfig: ThresholdConfig = FractionalThreshold(DefaultFractionalThreshold),</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    velocityThreshold: Dp = DefaultVelocityThreshold,</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">    swipeAnimationSpec: AnimationSpec&lt;Offset&gt; = DefaultSwipeAnimationSpec,</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">    cancelAnimationSpec: AnimationSpec&lt;Offset&gt; = DefaultRewindAnimationSpec,</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">    onDragging: (T, SwipeDirection, ratio: Float) -&gt; Unit = { _, _, _ -&gt; },</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    onSwiped: (T, SwipeDirection) -&gt; Unit = { _, _ -&gt; },</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">    onDisappeared: (T, SwipeDirection) -&gt; Unit = { _, _ -&gt; },</span>
+<span class="nc bnc" id="L50" title="All 4 branches missed.">    onCanceled: (T) -&gt; Unit = {},</span>
+    itemContent: @Composable (T) -&gt; Unit
+<span class="nc bnc" id="L52" title="All 84 branches missed.">) {</span>
+<span class="nc" id="L53">    Box(modifier = modifier) {</span>
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        items</span>
+<span class="nc" id="L55">            .asReversed()</span>
+<span class="nc" id="L56">            .forEach { item -&gt;</span>
+<span class="nc" id="L57">                key(itemKey(item)) {</span>
+<span class="nc" id="L58">                    SwipeableItem(</span>
+<span class="nc" id="L59">                        item = item,</span>
+<span class="nc" id="L60">                        maxRotationInDegrees = maxRotationInDegrees,</span>
+<span class="nc" id="L61">                        thresholdConfig = thresholdConfig,</span>
+<span class="nc" id="L62">                        velocityThreshold = velocityThreshold,</span>
+<span class="nc" id="L63">                        swipeAnimationSpec = swipeAnimationSpec,</span>
+<span class="nc" id="L64">                        cancelAnimationSpec = cancelAnimationSpec,</span>
+<span class="nc" id="L65">                        onSwiped = { direction -&gt; onSwiped(item, direction) },</span>
+<span class="nc" id="L66">                        onDragging = { direction, ratio -&gt; onDragging(item, direction, ratio) },</span>
+<span class="nc" id="L67">                        onCanceled = { onCanceled(item) },</span>
+<span class="nc" id="L68">                        onDisappeared = { direction -&gt; onDisappeared(item, direction) },</span>
+<span class="nc" id="L69">                        itemContent = itemContent</span>
+                    )
+                }
+<span class="nc" id="L72">            }</span>
+<span class="nc" id="L73">    }</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">}</span>
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun &lt;T&gt; SwipeableItem(
+    item: T,
+    maxRotationInDegrees: Float,
+    thresholdConfig: ThresholdConfig,
+    velocityThreshold: Dp,
+    swipeAnimationSpec: AnimationSpec&lt;Offset&gt;,
+    cancelAnimationSpec: AnimationSpec&lt;Offset&gt;,
+    onDragging: (SwipeDirection, ratio: Float) -&gt; Unit,
+    onSwiped: (SwipeDirection) -&gt; Unit,
+    onDisappeared: (SwipeDirection) -&gt; Unit,
+    onCanceled: () -&gt; Unit,
+    itemContent: @Composable (T) -&gt; Unit,
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    modifier: Modifier = Modifier</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L92">    var itemSize by remember { mutableStateOf(IntSize.Zero) }</span>
+
+<span class="nc" id="L94">    val swipeController = rememberSwipeController(</span>
+<span class="nc" id="L95">        size = itemSize,</span>
+<span class="nc" id="L96">        maxRotationInDegrees = maxRotationInDegrees,</span>
+<span class="nc" id="L97">        thresholdConfig = thresholdConfig,</span>
+<span class="nc" id="L98">        velocityThreshold = velocityThreshold,</span>
+<span class="nc" id="L99">        swipeAnimationSpec = swipeAnimationSpec,</span>
+<span class="nc" id="L100">        cancelAnimationSpec = cancelAnimationSpec,</span>
+<span class="nc" id="L101">        onDragging = onDragging,</span>
+<span class="nc" id="L102">        onSwiped = onSwiped,</span>
+<span class="nc" id="L103">        onDisappeared = onDisappeared,</span>
+<span class="nc" id="L104">        onCanceled = onCanceled</span>
+    )
+
+<span class="nc" id="L107">    Box(</span>
+<span class="nc" id="L108">        modifier = modifier</span>
+<span class="nc" id="L109">            .onSizeChanged { itemSize = it }</span>
+<span class="nc" id="L110">            .swipeableItem(swipeController)</span>
+    ) {
+<span class="nc bnc" id="L112" title="All 4 branches missed.">        Box(</span>
+<span class="nc" id="L113">            modifier = Modifier</span>
+<span class="nc" id="L114">                .fillMaxSize()</span>
+<span class="nc" id="L115">                .offset { swipeController.offset.toIntOffset() }</span>
+<span class="nc" id="L116">                .rotate(swipeController.rotation)</span>
+        ) {
+<span class="nc bnc" id="L118" title="All 4 branches missed.">            itemContent(item)</span>
+<span class="nc" id="L119">        }</span>
+<span class="nc" id="L120">    }</span>
+<span class="nc" id="L121">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieCreditsMapper.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.mapper</a> &gt; <span class="el_source">MovieCreditsMapper.kt</span></div><h1>MovieCreditsMapper.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.mapper
+
+import androidx.annotation.AnyThread
+import com.louisfn.somovie.data.database.entity.ActorEntity
+import com.louisfn.somovie.data.database.entity.CrewMemberEntity
+import com.louisfn.somovie.data.database.entity.PersonEntity
+import com.louisfn.somovie.data.database.relation.ActorWithPerson
+import com.louisfn.somovie.data.database.relation.CrewMemberWithPerson
+import com.louisfn.somovie.data.network.response.MovieCreditsResponse
+import com.louisfn.somovie.domain.model.Actor
+import com.louisfn.somovie.domain.model.CrewMember
+import com.louisfn.somovie.domain.model.MovieCredits
+import com.louisfn.somovie.domain.model.ProfilePath
+import javax.inject.Inject
+
+<span class="nc" id="L16">class MovieCreditsMapper @Inject constructor() {</span>
+
+    //region Map entity to domain
+
+    @AnyThread
+    fun mapToDomain(
+        actorEntities: List&lt;ActorWithPerson&gt;,
+        crewMemberEntities: List&lt;CrewMemberWithPerson&gt;
+    ) =
+<span class="nc" id="L25">        MovieCredits(</span>
+<span class="nc" id="L26">            crewMembers = crewMemberEntities.map { mapToDomain(it) },</span>
+<span class="nc" id="L27">            actors = actorEntities.map { mapToDomain(it) }</span>
+<span class="nc" id="L28">        )</span>
+
+    @AnyThread
+<span class="nc" id="L31">    private fun mapToDomain(entity: ActorWithPerson) = Actor(</span>
+<span class="nc" id="L32">        id = entity.person.id,</span>
+<span class="nc" id="L33">        name = entity.person.name,</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        profilePath = entity.person.profilePath?.let(::ProfilePath),</span>
+<span class="nc" id="L35">        popularity = entity.person.popularity,</span>
+<span class="nc" id="L36">        character = entity.actor.character,</span>
+<span class="nc" id="L37">        order = entity.actor.order</span>
+<span class="nc" id="L38">    )</span>
+
+    @AnyThread
+<span class="nc" id="L41">    private fun mapToDomain(entity: CrewMemberWithPerson) = CrewMember(</span>
+<span class="nc" id="L42">        id = entity.person.id,</span>
+<span class="nc" id="L43">        name = entity.person.name,</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        profilePath = entity.person.profilePath?.let(::ProfilePath),</span>
+<span class="nc" id="L45">        popularity = entity.person.popularity,</span>
+<span class="nc" id="L46">        job = entity.crewMember.job,</span>
+<span class="nc" id="L47">        department = entity.crewMember.department</span>
+<span class="nc" id="L48">    )</span>
+
+    //endregion
+
+    //region Map response to entities
+
+    @AnyThread
+    fun mapCastToEntity(response: MovieCreditsResponse): List&lt;ActorWithPerson&gt; =
+<span class="nc" id="L56">        response.cast.map { mapToEntity(response.movieId, it) }</span>
+
+    @AnyThread
+    fun mapCrewToEntity(response: MovieCreditsResponse): List&lt;CrewMemberWithPerson&gt; =
+<span class="nc" id="L60">        response.crew.map { mapToEntity(response.movieId, it) }</span>
+
+    @AnyThread
+    private fun mapToEntity(
+        movieId: Long,
+        response: MovieCreditsResponse.CrewMember
+<span class="nc" id="L66">    ) = CrewMemberWithPerson(</span>
+<span class="nc" id="L67">        crewMember = CrewMemberEntity(</span>
+<span class="nc" id="L68">            job = response.job,</span>
+<span class="nc" id="L69">            department = response.department,</span>
+<span class="nc" id="L70">            personId = response.id,</span>
+<span class="nc" id="L71">            movieId = movieId</span>
+        ),
+<span class="nc" id="L73">        person = PersonEntity(</span>
+<span class="nc" id="L74">            id = response.id,</span>
+<span class="nc" id="L75">            name = response.name,</span>
+<span class="nc" id="L76">            profilePath = response.profilePath,</span>
+<span class="nc" id="L77">            popularity = response.popularity</span>
+        )
+<span class="nc" id="L79">    )</span>
+
+    @AnyThread
+    private fun mapToEntity(
+        movieId: Long,
+        response: MovieCreditsResponse.Actor
+<span class="nc" id="L85">    ) = ActorWithPerson(</span>
+<span class="nc" id="L86">        actor = ActorEntity(</span>
+<span class="nc" id="L87">            character = response.character,</span>
+<span class="nc" id="L88">            order = response.order,</span>
+<span class="nc" id="L89">            personId = response.id,</span>
+<span class="nc" id="L90">            movieId = movieId</span>
+        ),
+<span class="nc" id="L92">        person = PersonEntity(</span>
+<span class="nc" id="L93">            id = response.id,</span>
+<span class="nc" id="L94">            name = response.name,</span>
+<span class="nc" id="L95">            profilePath = response.profilePath,</span>
+<span class="nc" id="L96">            popularity = response.popularity</span>
+        )
+<span class="nc" id="L98">    )</span>
+
+    //endregion
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

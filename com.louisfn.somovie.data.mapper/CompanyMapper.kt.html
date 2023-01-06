@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CompanyMapper.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.mapper</a> &gt; <span class="el_source">CompanyMapper.kt</span></div><h1>CompanyMapper.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.mapper
+
+import com.louisfn.somovie.data.database.entity.CompanyEntity
+import com.louisfn.somovie.data.network.response.MovieDetailsResponse.ProductionCompanyResponse
+import com.louisfn.somovie.domain.model.Company
+import com.louisfn.somovie.domain.model.LogoPath
+import javax.inject.Inject
+
+<span class="fc" id="L9">class CompanyMapper @Inject constructor() {</span>
+
+    //region Map entity to domain
+
+<span class="nc" id="L13">    fun mapToDomain(entities: List&lt;CompanyEntity&gt;): List&lt;Company&gt; = entities.map(::mapToDomain)</span>
+
+<span class="nc" id="L15">    fun mapToDomain(entity: CompanyEntity) = Company(</span>
+<span class="nc" id="L16">        id = entity.id,</span>
+<span class="nc" id="L17">        name = entity.name,</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        logoPath = entity.logoPath?.let(::LogoPath)</span>
+<span class="nc" id="L19">    )</span>
+
+    //endregion
+
+    //region Map response to entity
+
+<span class="nc" id="L25">    fun mapToEntity(entities: List&lt;ProductionCompanyResponse&gt;): List&lt;CompanyEntity&gt; = entities.map(::mapToEntity)</span>
+
+    fun mapToEntity(response: ProductionCompanyResponse) =
+<span class="nc" id="L28">        CompanyEntity(</span>
+<span class="nc" id="L29">            id = response.id,</span>
+<span class="nc" id="L30">            logoPath = response.logoPath,</span>
+<span class="nc" id="L31">            name = response.name</span>
+<span class="nc" id="L32">        )</span>
+
+    //endregion
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

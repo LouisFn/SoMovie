@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieCreditsLocalDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.database.datasource</a> &gt; <span class="el_source">MovieCreditsLocalDataSource.kt</span></div><h1>MovieCreditsLocalDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.database.datasource
+
+import androidx.annotation.AnyThread
+import androidx.room.withTransaction
+import com.louisfn.somovie.data.database.AppDatabase
+import com.louisfn.somovie.data.database.relation.ActorWithPerson
+import com.louisfn.somovie.data.database.relation.CrewMemberWithPerson
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+interface MovieCreditsLocalDataSource {
+
+    @AnyThread
+    fun actorsChanges(movieId: Long): Flow&lt;List&lt;ActorWithPerson&gt;&gt;
+
+    @AnyThread
+    fun crewMembersChanges(movieId: Long): Flow&lt;List&lt;CrewMemberWithPerson&gt;&gt;
+
+    @AnyThread
+    suspend fun replaceActors(movieId: Long, actorsWithPerson: List&lt;ActorWithPerson&gt;)
+
+    @AnyThread
+    suspend fun replaceCrewMembers(movieId: Long, crewMembersWithPerson: List&lt;CrewMemberWithPerson&gt;)
+}
+
+<span class="nc" id="L26">internal class DefaultMovieCreditsLocalDataSource @Inject constructor(</span>
+<span class="nc" id="L27">    private val database: AppDatabase</span>
+) : MovieCreditsLocalDataSource {
+
+    override fun actorsChanges(movieId: Long): Flow&lt;List&lt;ActorWithPerson&gt;&gt; =
+<span class="nc" id="L31">        database.actorDao().changes(movieId)</span>
+
+    override fun crewMembersChanges(movieId: Long): Flow&lt;List&lt;CrewMemberWithPerson&gt;&gt; =
+<span class="nc" id="L34">        database.crewMemberDao().changes(movieId)</span>
+
+    override suspend fun replaceActors(movieId: Long, actorsWithPerson: List&lt;ActorWithPerson&gt;) =
+<span class="nc" id="L37">        database.withTransaction {</span>
+<span class="nc" id="L38">            with(database) {</span>
+<span class="nc" id="L39">                personDao().insertOrIgnore(actorsWithPerson.map { it.person })</span>
+<span class="nc" id="L40">                with(actorDao()) {</span>
+<span class="nc" id="L41">                    delete(movieId)</span>
+<span class="nc" id="L42">                    insertOrAbort(actorsWithPerson.map { it.actor })</span>
+<span class="nc" id="L43">                }</span>
+<span class="nc" id="L44">            }</span>
+<span class="nc" id="L45">        }</span>
+
+    override suspend fun replaceCrewMembers(movieId: Long, crewMembersWithPerson: List&lt;CrewMemberWithPerson&gt;) =
+<span class="nc" id="L48">        database.withTransaction {</span>
+<span class="nc" id="L49">            with(database) {</span>
+<span class="nc" id="L50">                personDao().insertOrIgnore(crewMembersWithPerson.map { it.person })</span>
+<span class="nc" id="L51">                with(crewMemberDao()) {</span>
+<span class="nc" id="L52">                    delete(movieId)</span>
+<span class="nc" id="L53">                    insertOrAbort(crewMembersWithPerson.map { it.crewMember })</span>
+<span class="nc" id="L54">                }</span>
+<span class="nc" id="L55">            }</span>
+<span class="nc" id="L56">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

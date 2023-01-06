@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SwipeController.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.component.swipe</a> &gt; <span class="el_source">SwipeController.kt</span></div><h1>SwipeController.kt</h1><pre class="source lang-java linenums">@file:OptIn(ExperimentalMaterialApi::class)
+
+package com.louisfn.somovie.ui.component.swipe
+
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.VectorConverter
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ThresholdConfig
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.input.pointer.util.addPointerInputChange
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.center
+import com.louisfn.somovie.ui.common.extension.toPx
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
+import kotlin.math.cos
+import kotlin.math.sign
+import kotlin.math.sin
+import kotlin.math.withSign
+
+<span class="nc" id="L37">@Stable</span>
+<span class="nc" id="L38">class SwipeController(</span>
+    thresholdConfig: ThresholdConfig,
+<span class="nc" id="L40">    private val velocityThreshold: Float,</span>
+<span class="nc" id="L41">    private val size: IntSize,</span>
+<span class="nc" id="L42">    private val maxRotationInDegrees: Float,</span>
+<span class="nc" id="L43">    private val swipeAnimationSpec: AnimationSpec&lt;Offset&gt;,</span>
+<span class="nc" id="L44">    private val cancelAnimationSpec: AnimationSpec&lt;Offset&gt;,</span>
+<span class="nc" id="L45">    private val density: Density,</span>
+<span class="nc" id="L46">    private val scope: CoroutineScope,</span>
+<span class="nc" id="L47">    private val onDragging: (SwipeDirection, ratio: Float) -&gt; Unit,</span>
+<span class="nc" id="L48">    private val onSwiped: (SwipeDirection) -&gt; Unit,</span>
+<span class="nc" id="L49">    private val onDisappeared: (SwipeDirection) -&gt; Unit,</span>
+<span class="nc" id="L50">    private val onCanceled: () -&gt; Unit</span>
+) {
+
+<span class="nc" id="L53">    private val velocityTracker = VelocityTracker()</span>
+    private val threshold =
+<span class="nc" id="L55">        with(thresholdConfig) { density.computeThreshold(0f, size.width.toFloat()) }</span>
+    private val maxItemWidthWhenRotate =
+<span class="nc" id="L57">        size.height * sin(maxRotationInDegrees).absoluteValue +</span>
+<span class="nc" id="L58">            size.width * cos(maxRotationInDegrees).absoluteValue</span>
+
+<span class="nc" id="L60">    private val offsetAnimatable = Animatable(Offset.Zero, Offset.VectorConverter)</span>
+<span class="nc" id="L61">    val offset by derivedStateOf { offsetAnimatable.value }</span>
+<span class="nc" id="L62">    val rotation by derivedStateOf { offsetAnimatable.value.x / size.center.x * maxRotationInDegrees }</span>
+
+<span class="nc" id="L64">    var isGestureEnabled by mutableStateOf(true)</span>
+        private set
+
+    fun onDrag(change: PointerInputChange, dragAmount: Offset) {
+<span class="nc" id="L68">        velocityTracker.addPointerInputChange(change)</span>
+
+<span class="nc" id="L70">        scope.launch {</span>
+<span class="nc" id="L71">            offsetAnimatable.snapTo(offset.plus(dragAmount))</span>
+<span class="nc" id="L72">            onDragging(</span>
+<span class="nc" id="L73">                SwipeDirection.fromOffset(offset.x),</span>
+<span class="nc" id="L74">                offset.x.absoluteValue / size.width</span>
+            )
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">    }</span>
+
+    fun onDragEnd() {
+<span class="nc bnc" id="L80" title="All 4 branches missed.">        val isThresholdReached = isOffsetThresholdReached() || isVelocityThresholdReached()</span>
+<span class="nc" id="L81">        velocityTracker.resetTracking()</span>
+
+<span class="nc" id="L83">        scope.launch {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (isThresholdReached) {</span>
+<span class="nc" id="L85">                isGestureEnabled = false</span>
+
+<span class="nc" id="L87">                val targetOffsetX = maxItemWidthWhenRotate.withSign(offset.x)</span>
+<span class="nc" id="L88">                val direction = SwipeDirection.fromOffset(targetOffsetX)</span>
+
+<span class="nc" id="L90">                onSwiped(direction)</span>
+<span class="nc" id="L91">                offsetAnimatable.animateTo(</span>
+<span class="nc" id="L92">                    targetValue = offset.copy(x = targetOffsetX),</span>
+<span class="nc" id="L93">                    animationSpec = swipeAnimationSpec</span>
+                )
+<span class="nc" id="L95">                onDisappeared(direction)</span>
+            } else {
+<span class="nc" id="L97">                onCanceled()</span>
+<span class="nc" id="L98">                offsetAnimatable.animateTo(Offset.Zero, cancelAnimationSpec)</span>
+            }
+<span class="nc" id="L100">        }</span>
+<span class="nc" id="L101">    }</span>
+
+<span class="nc bnc" id="L103" title="All 2 branches missed.">    private fun isOffsetThresholdReached(): Boolean = offset.x.absoluteValue &gt; threshold</span>
+
+<span class="nc" id="L105">    private fun isVelocityThresholdReached(): Boolean = velocityTracker.calculateVelocity()</span>
+<span class="nc" id="L106">        .let { velocity -&gt;</span>
+<span class="nc bnc" id="L107" title="All 6 branches missed.">            velocity.x.absoluteValue &gt; velocityThreshold &amp;&amp; offset.x.sign == velocity.x.sign</span>
+<span class="nc" id="L108">        }</span>
+}
+
+@Composable
+internal fun rememberSwipeController(
+    size: IntSize,
+    maxRotationInDegrees: Float,
+    thresholdConfig: ThresholdConfig,
+    velocityThreshold: Dp,
+    swipeAnimationSpec: AnimationSpec&lt;Offset&gt;,
+    cancelAnimationSpec: AnimationSpec&lt;Offset&gt;,
+    onDragging: (SwipeDirection, ratio: Float) -&gt; Unit,
+    onSwiped: (SwipeDirection) -&gt; Unit,
+    onDisappeared: (SwipeDirection) -&gt; Unit,
+    onCanceled: () -&gt; Unit
+<span class="nc" id="L123">): SwipeController {</span>
+<span class="nc" id="L124">    val currentOnDragging by rememberUpdatedState(onDragging)</span>
+<span class="nc" id="L125">    val currentOnSwipe by rememberUpdatedState(onSwiped)</span>
+
+<span class="nc" id="L127">    val density = LocalDensity.current</span>
+<span class="nc" id="L128">    val scope = rememberCoroutineScope()</span>
+<span class="nc" id="L129">    val velocityThresholdInPx = velocityThreshold.toPx()</span>
+
+<span class="nc bnc" id="L131" title="All 2 branches missed.">    return remember(</span>
+<span class="nc" id="L132">        size,</span>
+<span class="nc" id="L133">        maxRotationInDegrees,</span>
+<span class="nc" id="L134">        thresholdConfig,</span>
+<span class="nc" id="L135">        swipeAnimationSpec,</span>
+<span class="nc" id="L136">        cancelAnimationSpec</span>
+    ) {
+<span class="nc" id="L138">        SwipeController(</span>
+<span class="nc" id="L139">            size = size,</span>
+<span class="nc" id="L140">            maxRotationInDegrees = maxRotationInDegrees,</span>
+<span class="nc" id="L141">            thresholdConfig = thresholdConfig,</span>
+<span class="nc" id="L142">            velocityThreshold = velocityThresholdInPx,</span>
+<span class="nc" id="L143">            swipeAnimationSpec = swipeAnimationSpec,</span>
+<span class="nc" id="L144">            cancelAnimationSpec = cancelAnimationSpec,</span>
+<span class="nc" id="L145">            density = density,</span>
+<span class="nc" id="L146">            scope = scope,</span>
+<span class="nc" id="L147">            onDragging = currentOnDragging,</span>
+<span class="nc" id="L148">            onSwiped = currentOnSwipe,</span>
+<span class="nc" id="L149">            onDisappeared = onDisappeared,</span>
+<span class="nc" id="L150">            onCanceled = onCanceled</span>
+        )
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

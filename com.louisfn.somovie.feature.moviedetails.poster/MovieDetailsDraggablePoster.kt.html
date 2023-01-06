@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDetailsDraggablePoster.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.moviedetails.poster</a> &gt; <span class="el_source">MovieDetailsDraggablePoster.kt</span></div><h1>MovieDetailsDraggablePoster.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.moviedetails.poster
+
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.input.pointer.pointerInput
+
+internal fun Modifier.draggablePoster(
+    stateController: PosterStateController
+<span class="nc" id="L12">) = composed {</span>
+<span class="nc" id="L13">    val currentStateController by rememberUpdatedState(stateController)</span>
+
+<span class="nc bnc" id="L15" title="All 2 branches missed.">    pointerInput(Unit) {</span>
+<span class="nc" id="L16">        detectDragGestures(</span>
+            onDrag = { change, dragAmount -&gt;
+<span class="nc" id="L18">                change.consume()</span>
+<span class="nc" id="L19">                currentStateController.onDrag(dragAmount)</span>
+<span class="nc" id="L20">            },</span>
+            onDragEnd = {
+<span class="nc" id="L22">                currentStateController.onDragEnd()</span>
+<span class="nc" id="L23">            }</span>
+        )
+<span class="nc" id="L25">    }</span>
+<span class="nc" id="L26">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

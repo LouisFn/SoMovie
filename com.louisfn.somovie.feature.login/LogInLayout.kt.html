@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogInLayout.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.login</a> &gt; <span class="el_source">LogInLayout.kt</span></div><h1>LogInLayout.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.login
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.louisfn.somovie.ui.common.extension.collectAsStateLifecycleAware
+import com.louisfn.somovie.ui.component.IndeterminateProgressIndicator
+
+@Composable
+fun LogInLayout(
+    logInManager: LogInManager,
+<span class="pc bpc" id="L19" title="2 of 4 branches missed.">    modifier: Modifier = Modifier,</span>
+    content: @Composable BoxScope.(button: @Composable (modifier: Modifier) -&gt; Unit) -&gt; Unit =
+<span class="nc bnc" id="L21" title="All 8 branches missed.">        { it(modifier = Modifier.align(Alignment.Center)) }</span>
+<span class="pc bpc" id="L22" title="16 of 24 branches missed.">) {</span>
+<span class="fc" id="L23">    val uiState by logInManager.state.collectAsStateLifecycleAware()</span>
+
+<span class="fc" id="L25">    LaunchedEffect(Unit) {</span>
+<span class="fc" id="L26">        logInManager.reset()</span>
+<span class="fc" id="L27">    }</span>
+
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">    LogInLayout(</span>
+<span class="fc" id="L30">        uiState = uiState,</span>
+<span class="fc" id="L31">        modifier = modifier</span>
+<span class="fc" id="L32">            .semantics { testTag = LogInTestTag.LogInLayout },</span>
+<span class="fc" id="L33">        onLogInButtonClick = logInManager::start,</span>
+<span class="fc" id="L34">        onLogInApproved = logInManager::onApproved,</span>
+<span class="fc" id="L35">        onLogInDenied = logInManager::onDenied,</span>
+<span class="fc" id="L36">        buttonDecorator = content</span>
+    )
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">}</span>
+
+@Composable
+private fun LogInLayout(
+    uiState: LogInState,
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">    onLogInButtonClick: () -&gt; Unit = {},</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">    onLogInApproved: () -&gt; Unit = {},</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">    onLogInDenied: () -&gt; Unit = {},</span>
+    buttonDecorator: @Composable BoxScope.(button: @Composable (modifier: Modifier) -&gt; Unit) -&gt; Unit
+<span class="pc bpc" id="L48" title="23 of 42 branches missed.">) {</span>
+<span class="fc" id="L49">    Box(modifier = modifier) {</span>
+<span class="pc bpc" id="L50" title="3 of 4 branches missed.">        when (uiState) {</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            is LogInState.Loading -&gt;</span>
+<span class="nc" id="L52">                IndeterminateProgressIndicator(</span>
+<span class="nc" id="L53">                    modifier = Modifier.align(Alignment.Center)</span>
+                )
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            is LogInState.Idle -&gt;</span>
+<span class="fc" id="L56">                buttonDecorator { internalModifier -&gt;</span>
+<span class="pc bpc" id="L57" title="5 of 8 branches missed.">                    LogInButton(</span>
+<span class="fc" id="L58">                        modifier = internalModifier,</span>
+<span class="fc" id="L59">                        onClick = onLogInButtonClick</span>
+<span class="nc" id="L60">                    )</span>
+<span class="fc" id="L61">                }</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            is LogInState.WebView -&gt;</span>
+<span class="nc" id="L63">                LogInWebView(</span>
+<span class="nc" id="L64">                    uri = uiState.uri,</span>
+<span class="nc" id="L65">                    modifier = Modifier.fillMaxSize(),</span>
+<span class="nc" id="L66">                    onApproved = onLogInApproved,</span>
+<span class="nc" id="L67">                    onDenied = onLogInDenied</span>
+                )
+<span class="nc" id="L69">            else -&gt; Unit</span>
+<span class="pc" id="L70">        }</span>
+<span class="fc" id="L71">    }</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

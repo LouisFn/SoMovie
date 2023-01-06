@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConfigurationResponse.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.network.response</a> &gt; <span class="el_source">ConfigurationResponse.kt</span></div><h1>ConfigurationResponse.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.network.response
+
+import com.louisfn.somovie.data.datastore.model.DataStoreData
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+<span class="nc" id="L7">@JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L8">data class ConfigurationResponse(</span>
+<span class="nc" id="L9">    @Json(name = &quot;images&quot;)</span>
+<span class="nc" id="L10">    val images: Images,</span>
+<span class="nc" id="L11">    @Json(name = &quot;change_keys&quot;)</span>
+<span class="nc" id="L12">    val changesKeys: List&lt;String&gt;</span>
+) : DataStoreData {
+
+<span class="nc" id="L15">    @JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L16">    data class Images(</span>
+<span class="nc" id="L17">        @Json(name = &quot;base_url&quot;)</span>
+<span class="nc" id="L18">        val baseUrl: String,</span>
+<span class="nc" id="L19">        @Json(name = &quot;secure_base_url&quot;)</span>
+<span class="nc" id="L20">        val secureBaseUrl: String,</span>
+<span class="nc" id="L21">        @Json(name = &quot;backdrop_sizes&quot;)</span>
+<span class="nc" id="L22">        val backdropSizes: List&lt;String&gt;,</span>
+<span class="nc" id="L23">        @Json(name = &quot;logo_sizes&quot;)</span>
+<span class="nc" id="L24">        val logoSizes: List&lt;String&gt;,</span>
+<span class="nc" id="L25">        @Json(name = &quot;poster_sizes&quot;)</span>
+<span class="nc" id="L26">        val posterSizes: List&lt;String&gt;,</span>
+<span class="nc" id="L27">        @Json(name = &quot;profile_sizes&quot;)</span>
+<span class="nc" id="L28">        val profileSizes: List&lt;String&gt;,</span>
+<span class="nc" id="L29">        @Json(name = &quot;still_sizes&quot;)</span>
+<span class="nc" id="L30">        val stillSizes: List&lt;String&gt;</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

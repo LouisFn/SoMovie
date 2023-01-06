@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AutoSizeText.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.component</a> &gt; <span class="el_source">AutoSizeText.kt</span></div><h1>AutoSizeText.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.component
+
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
+
+@Composable
+fun AutosizeText(
+    text: String,
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">    modifier: Modifier = Modifier,</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">    step: TextUnit = 1.sp,</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">    color: Color = Color.Unspecified,</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">    fontStyle: FontStyle? = null,</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">    fontWeight: FontWeight? = null,</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">    fontFamily: FontFamily? = null,</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">    letterSpacing: TextUnit = TextUnit.Unspecified,</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">    textDecoration: TextDecoration? = null,</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">    textAlign: TextAlign? = null,</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">    lineHeight: TextUnit = TextUnit.Unspecified,</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">    overflow: TextOverflow = TextOverflow.Clip,</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">    softWrap: Boolean = true,</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">    maxLines: Int = Int.MAX_VALUE,</span>
+<span class="nc" id="L35">    style: TextStyle = LocalTextStyle.current</span>
+<span class="pc bpc" id="L36" title="76 of 102 branches missed.">) {</span>
+<span class="pc" id="L37">    var fontSizeValue by remember { mutableStateOf(style.fontSize.value) }</span>
+<span class="fc" id="L38">    var readyToDraw by remember { mutableStateOf(false) }</span>
+
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">    Text(</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        modifier = modifier.drawWithContent { if (readyToDraw) drawContent() },</span>
+<span class="fc" id="L42">        text = text,</span>
+<span class="fc" id="L43">        color = color,</span>
+<span class="fc" id="L44">        maxLines = maxLines,</span>
+<span class="fc" id="L45">        fontStyle = fontStyle,</span>
+<span class="fc" id="L46">        fontWeight = fontWeight,</span>
+<span class="fc" id="L47">        fontFamily = fontFamily,</span>
+<span class="fc" id="L48">        letterSpacing = letterSpacing,</span>
+<span class="fc" id="L49">        textDecoration = textDecoration,</span>
+<span class="fc" id="L50">        textAlign = textAlign,</span>
+<span class="fc" id="L51">        lineHeight = lineHeight,</span>
+<span class="fc" id="L52">        overflow = overflow,</span>
+<span class="fc" id="L53">        softWrap = softWrap,</span>
+<span class="fc" id="L54">        style = style,</span>
+<span class="fc" id="L55">        fontSize = fontSizeValue.sp,</span>
+<span class="fc" id="L56">        onTextLayout = {</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            if (it.didOverflowHeight) {</span>
+<span class="nc" id="L58">                readyToDraw = false</span>
+<span class="nc" id="L59">                fontSizeValue -= step.value</span>
+            } else {
+<span class="fc" id="L61">                readyToDraw = true</span>
+            }
+<span class="fc" id="L63">        }</span>
+    )
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

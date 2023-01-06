@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DiscoverUiState.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.home.discover</a> &gt; <span class="el_source">DiscoverUiState.kt</span></div><h1>DiscoverUiState.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.home.discover
+
+import com.louisfn.somovie.domain.model.PosterPath
+import com.louisfn.somovie.ui.common.model.ImmutableList
+
+internal sealed interface DiscoverUiState {
+
+    object None : DiscoverUiState
+
+    object Loading : DiscoverUiState
+
+    object Retry : DiscoverUiState
+
+<span class="nc" id="L14">    data class Discover(</span>
+<span class="nc" id="L15">        val items: ImmutableList&lt;MovieItem&gt;,</span>
+<span class="nc" id="L16">        val logInSnackbarState: LogInSnackbarState</span>
+    ) : DiscoverUiState {
+        enum class LogInSnackbarState {
+<span class="nc" id="L19">            VISIBLE,</span>
+<span class="nc" id="L20">            SHAKING,</span>
+<span class="nc" id="L21">            HIDDEN,</span>
+        }
+    }
+
+<span class="nc" id="L25">    data class MovieItem(</span>
+<span class="nc" id="L26">        val id: Long,</span>
+<span class="nc" id="L27">        val title: String,</span>
+<span class="nc" id="L28">        val posterPath: PosterPath</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

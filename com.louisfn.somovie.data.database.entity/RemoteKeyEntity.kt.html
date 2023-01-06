@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RemoteKeyEntity.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.database.entity</a> &gt; <span class="el_source">RemoteKeyEntity.kt</span></div><h1>RemoteKeyEntity.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.database.entity
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.louisfn.somovie.data.database.COLUMN_FIRST_FETCH_AT
+import com.louisfn.somovie.data.database.COLUMN_NEXT_KEY
+import com.louisfn.somovie.data.database.COLUMN_TYPE
+import com.louisfn.somovie.data.database.TABLE_REMOTE_KEY
+import java.time.Instant
+
+<span class="fc" id="L12">@Entity(tableName = TABLE_REMOTE_KEY)</span>
+<span class="fc" id="L13">data class RemoteKeyEntity(</span>
+<span class="fc" id="L14">    @PrimaryKey</span>
+    @ColumnInfo(name = COLUMN_TYPE)
+<span class="fc" id="L16">    val type: Type,</span>
+<span class="fc" id="L17">    @ColumnInfo(name = COLUMN_NEXT_KEY)</span>
+<span class="fc" id="L18">    val nextKey: String?,</span>
+<span class="fc" id="L19">    @ColumnInfo(name = COLUMN_FIRST_FETCH_AT)</span>
+<span class="nc" id="L20">    val firstFetchAt: Instant</span>
+) {
+
+<span class="pc" id="L23">    enum class Type(val value: Int) {</span>
+<span class="fc" id="L24">        EXPLORE_POPULAR(0),</span>
+<span class="fc" id="L25">        EXPLORE_NOW_PLAYING(1),</span>
+<span class="fc" id="L26">        EXPLORE_TOP_RATED(2),</span>
+<span class="fc" id="L27">        EXPLORE_UPCOMING(3),</span>
+<span class="fc" id="L28">        WATCH_LIST(4)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

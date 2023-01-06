@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieCreditsResponse.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.network.response</a> &gt; <span class="el_source">MovieCreditsResponse.kt</span></div><h1>MovieCreditsResponse.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.network.response
+
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+<span class="nc" id="L6">@JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L7">data class MovieCreditsResponse(</span>
+<span class="nc" id="L8">    @Json(name = &quot;id&quot;)</span>
+<span class="nc" id="L9">    val movieId: Long,</span>
+<span class="nc" id="L10">    @Json(name = &quot;cast&quot;)</span>
+<span class="nc" id="L11">    val cast: List&lt;Actor&gt;,</span>
+<span class="nc" id="L12">    @Json(name = &quot;crew&quot;)</span>
+<span class="nc" id="L13">    val crew: List&lt;CrewMember&gt;</span>
+) {
+
+<span class="nc" id="L16">    @JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L17">    data class Actor(</span>
+<span class="nc" id="L18">        @Json(name = &quot;id&quot;)</span>
+<span class="nc" id="L19">        val id: Long,</span>
+<span class="nc" id="L20">        @Json(name = &quot;name&quot;)</span>
+<span class="nc" id="L21">        val name: String,</span>
+<span class="nc" id="L22">        @Json(name = &quot;character&quot;)</span>
+<span class="nc" id="L23">        val character: String,</span>
+<span class="nc" id="L24">        @Json(name = &quot;profile_path&quot;)</span>
+<span class="nc" id="L25">        val profilePath: String?,</span>
+<span class="nc" id="L26">        @Json(name = &quot;order&quot;)</span>
+<span class="nc" id="L27">        val order: Int,</span>
+<span class="nc" id="L28">        @Json(name = &quot;popularity&quot;)</span>
+<span class="nc" id="L29">        val popularity: Float</span>
+    )
+
+<span class="nc" id="L32">    @JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L33">    data class CrewMember(</span>
+<span class="nc" id="L34">        @Json(name = &quot;id&quot;)</span>
+<span class="nc" id="L35">        val id: Long,</span>
+<span class="nc" id="L36">        @Json(name = &quot;name&quot;)</span>
+<span class="nc" id="L37">        val name: String,</span>
+<span class="nc" id="L38">        @Json(name = &quot;job&quot;)</span>
+<span class="nc" id="L39">        val job: String,</span>
+<span class="nc" id="L40">        @Json(name = &quot;department&quot;)</span>
+<span class="nc" id="L41">        val department: String,</span>
+<span class="nc" id="L42">        @Json(name = &quot;profile_path&quot;)</span>
+<span class="nc" id="L43">        val profilePath: String?,</span>
+<span class="nc" id="L44">        @Json(name = &quot;popularity&quot;)</span>
+<span class="nc" id="L45">        val popularity: Float</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

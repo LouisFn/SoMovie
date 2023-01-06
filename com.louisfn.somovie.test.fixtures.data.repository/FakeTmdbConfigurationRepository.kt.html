@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FakeTmdbConfigurationRepository.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.test.fixtures.data.repository</a> &gt; <span class="el_source">FakeTmdbConfigurationRepository.kt</span></div><h1>FakeTmdbConfigurationRepository.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.test.fixtures.data.repository
+
+import com.louisfn.somovie.data.repository.TmdbConfigurationRepository
+import com.louisfn.somovie.domain.model.TmdbConfiguration
+import com.louisfn.somovie.test.fixtures.domain.FakeTmdbConfigurationFactory
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+
+<span class="fc" id="L10">class FakeTmdbConfigurationRepository : TmdbConfigurationRepository {</span>
+
+<span class="fc" id="L12">    private val tmdbConfigurationState = MutableStateFlow(FakeTmdbConfigurationFactory.default)</span>
+
+<span class="fc" id="L14">    override fun tmdbConfigurationChanges(): Flow&lt;TmdbConfiguration&gt; = tmdbConfigurationState</span>
+
+<span class="nc" id="L16">    override suspend fun getTmdbConfiguration(): TmdbConfiguration = tmdbConfigurationState.value</span>
+
+    override suspend fun updateTmdbConfiguration(transform: suspend (t: TmdbConfiguration) -&gt; TmdbConfiguration) {
+<span class="nc" id="L19">        tmdbConfigurationState.update { transform(it) }</span>
+<span class="nc" id="L20">    }</span>
+
+    override suspend fun refreshIfCacheExpired(cacheTimeout: Long) {
+        //
+<span class="nc" id="L24">    }</span>
+
+    fun setTmdbConfiguration(tmdbConfiguration: TmdbConfiguration) {
+<span class="nc" id="L27">        tmdbConfigurationState.value = tmdbConfiguration</span>
+<span class="nc" id="L28">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

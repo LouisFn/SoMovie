@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieImagesResponse.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.network.response</a> &gt; <span class="el_source">MovieImagesResponse.kt</span></div><h1>MovieImagesResponse.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.network.response
+
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+<span class="nc" id="L6">@JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L7">data class MovieImagesResponse(</span>
+<span class="nc" id="L8">    @Json(name = &quot;id&quot;)</span>
+<span class="nc" id="L9">    val movieId: Long,</span>
+<span class="nc" id="L10">    @Json(name = &quot;backdrops&quot;)</span>
+<span class="nc" id="L11">    val backdrops: List&lt;Image&gt;,</span>
+<span class="nc" id="L12">    @Json(name = &quot;posters&quot;)</span>
+<span class="nc" id="L13">    val posters: List&lt;Image&gt;</span>
+) {
+
+<span class="nc" id="L16">    @JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L17">    data class Image(</span>
+<span class="nc" id="L18">        @Json(name = &quot;file_path&quot;)</span>
+<span class="nc" id="L19">        val filePath: String,</span>
+<span class="nc" id="L20">        @Json(name = &quot;width&quot;)</span>
+<span class="nc" id="L21">        val width: Int</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

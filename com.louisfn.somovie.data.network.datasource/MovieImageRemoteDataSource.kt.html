@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieImageRemoteDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.network.datasource</a> &gt; <span class="el_source">MovieImageRemoteDataSource.kt</span></div><h1>MovieImageRemoteDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.network.datasource
+
+import androidx.annotation.AnyThread
+import com.louisfn.somovie.data.network.ApiServiceExecutor
+import com.louisfn.somovie.data.network.HttpException
+import com.louisfn.somovie.data.network.StatusCode.RESOURCE_REQUESTED_NOT_FOUND
+import com.louisfn.somovie.data.network.response.MovieImagesResponse
+import com.louisfn.somovie.domain.exception.MovieNotFoundException
+import javax.inject.Inject
+
+interface MovieImageRemoteDataSource {
+
+    @AnyThread
+    suspend fun getMovieImages(movieId: Long): MovieImagesResponse
+}
+
+<span class="nc" id="L17">internal class DefaultMovieImageRemoteDataSource @Inject constructor(</span>
+<span class="nc" id="L18">    private val executor: ApiServiceExecutor</span>
+) : MovieImageRemoteDataSource {
+
+    override suspend fun getMovieImages(movieId: Long): MovieImagesResponse =
+<span class="nc" id="L22">        executor.execute(mapHttpException = ::mapHttpException) {</span>
+<span class="nc" id="L23">            it.getMovieImages(movieId)</span>
+<span class="nc" id="L24">        }</span>
+
+    @AnyThread
+    private fun mapHttpException(e: HttpException) =
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        when (e.statusCode) {</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            RESOURCE_REQUESTED_NOT_FOUND -&gt; MovieNotFoundException()</span>
+<span class="nc" id="L30">            else -&gt; null</span>
+<span class="nc" id="L31">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

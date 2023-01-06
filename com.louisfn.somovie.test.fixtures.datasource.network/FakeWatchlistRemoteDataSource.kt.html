@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FakeWatchlistRemoteDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.test.fixtures.datasource.network</a> &gt; <span class="el_source">FakeWatchlistRemoteDataSource.kt</span></div><h1>FakeWatchlistRemoteDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.test.fixtures.datasource.network
+
+import com.louisfn.somovie.data.network.body.AddToWatchlistBody
+import com.louisfn.somovie.data.network.datasource.WatchlistRemoteDataSource
+import com.louisfn.somovie.data.network.response.MovieResponse
+import com.louisfn.somovie.data.network.response.PaginatedResultsResponse
+import com.louisfn.somovie.test.shared.FakeWebServer
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+
+<span class="fc" id="L11">@Suppress(&quot;MemberVisibilityCanBePrivate&quot;)</span>
+<span class="fc" id="L12">class FakeWatchlistRemoteDataSource(</span>
+<span class="pc" id="L13">    var movies: List&lt;MovieResponse&gt;,</span>
+<span class="pc" id="L14">    var accountId: Long,</span>
+<span class="fc" id="L15">    private val fakeWebServer: FakeWebServer,</span>
+<span class="fc" id="L16">    private val nbrOfResultsByPage: Int = DEFAULT_NBR_OF_RESULTS_BY_PAGE</span>
+) : WatchlistRemoteDataSource {
+
+<span class="fc" id="L19">    private val paginatedWatchlist = mutableListOf&lt;MutableList&lt;MovieResponse&gt;&gt;()</span>
+<span class="fc" id="L20">    private val mutex = Mutex()</span>
+
+    override suspend fun getWatchList(
+        accountId: Long,
+        page: Int
+    ): PaginatedResultsResponse&lt;MovieResponse&gt; =
+<span class="fc" id="L26">        mutex.withLock {</span>
+<span class="fc" id="L27">            fakeWebServer.execute()</span>
+
+<span class="pc bpc" id="L29" title="2 of 4 branches missed.">            require(this.accountId == accountId)</span>
+
+<span class="fc" id="L31">            PaginatedResultsResponse(</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">                totalResults = paginatedWatchlist.sumOf { it.size },</span>
+<span class="fc" id="L33">                totalPages = paginatedWatchlist.size,</span>
+<span class="fc" id="L34">                page = page,</span>
+<span class="fc" id="L35">                results = paginatedWatchlist[page - 1]</span>
+            )
+<span class="fc" id="L37">        }</span>
+
+    override suspend fun addToWatchlist(accountId: Long, addToWatchlistBody: AddToWatchlistBody) {
+<span class="fc" id="L40">        mutex.withLock {</span>
+<span class="fc" id="L41">            fakeWebServer.execute()</span>
+
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">            require(this.accountId == accountId)</span>
+
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">            val movie = movies.first { it.id == addToWatchlistBody.movieId }</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (addToWatchlistBody.watchlist) {</span>
+<span class="fc" id="L47">                addToWatchlist(movie)</span>
+            } else {
+<span class="fc" id="L49">                removeFromWatchlist(movie)</span>
+            }
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">    }</span>
+
+    fun addToWatchlist(movies: List&lt;MovieResponse&gt;) {
+<span class="fc" id="L55">        movies.forEach(::addToWatchlist)</span>
+<span class="fc" id="L56">    }</span>
+
+    fun addToWatchlist(movie: MovieResponse) {
+<span class="fc" id="L59">        when {</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            paginatedWatchlist.size == 0 -&gt;</span>
+<span class="fc" id="L61">                paginatedWatchlist.add(mutableListOf(movie))</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            paginatedWatchlist.last().size &gt;= nbrOfResultsByPage -&gt;</span>
+<span class="fc" id="L63">                paginatedWatchlist.add(mutableListOf(movie))</span>
+            else -&gt;
+<span class="fc" id="L65">                paginatedWatchlist.last().add(movie)</span>
+        }
+<span class="fc" id="L67">    }</span>
+
+    fun removeFromWatchlist(movie: MovieResponse) {
+<span class="fc" id="L70">        paginatedWatchlist.forEach { it.remove(movie) }</span>
+<span class="fc" id="L71">    }</span>
+
+<span class="fc" id="L73">    fun getFullWatchlist() = paginatedWatchlist.flatten()</span>
+
+    companion object {
+        private const val DEFAULT_NBR_OF_RESULTS_BY_PAGE = 5
+    }
+<span class="fc" id="L78">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

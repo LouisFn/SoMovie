@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FakeWatchlistLocalDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.test.fixtures.datasource.database</a> &gt; <span class="el_source">FakeWatchlistLocalDataSource.kt</span></div><h1>FakeWatchlistLocalDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.test.fixtures.datasource.database
+
+import androidx.paging.PagingSource
+import com.louisfn.somovie.data.database.datasource.WatchlistLocalDataSource
+import com.louisfn.somovie.data.database.entity.MovieEntity
+import com.louisfn.somovie.test.shared.paging.FakePagingSource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.test.TestScope
+
+<span class="fc" id="L12">class FakeWatchlistLocalDataSource(</span>
+<span class="fc" id="L13">    private val scope: TestScope</span>
+) : WatchlistLocalDataSource {
+
+<span class="fc" id="L16">    private val _watchlist = MutableStateFlow&lt;List&lt;MovieEntity&gt;&gt;(emptyList())</span>
+<span class="fc" id="L17">    val watchlist: StateFlow&lt;List&lt;MovieEntity&gt;&gt; = _watchlist</span>
+
+<span class="fc" id="L19">    private val _moviesWatchListState = MutableStateFlow&lt;List&lt;MovieWatchlistState&gt;&gt;(emptyList())</span>
+<span class="fc" id="L20">    val moviesWatchListState: StateFlow&lt;List&lt;MovieWatchlistState&gt;&gt; = _moviesWatchListState</span>
+
+    override fun getPagingWatchlist(): PagingSource&lt;Int, MovieEntity&gt; =
+<span class="fc" id="L23">        FakePagingSource(watchlist, scope)</span>
+
+    override suspend fun insertOrIgnoreToWatchlist(movieEntities: List&lt;MovieEntity&gt;) {
+<span class="fc" id="L26">        _watchlist.update { it + movieEntities }</span>
+<span class="fc" id="L27">    }</span>
+
+    override suspend fun updateWatchlistState(movieId: Long, watchlist: Boolean) {
+<span class="fc" id="L30">        _moviesWatchListState.update { states -&gt;</span>
+<span class="pc bnc" id="L31" title="All 2 branches missed.">            val index = states.indexOfFirst { it.movieId == movieId }</span>
+<span class="fc" id="L32">            val item = states.getOrNull(index)</span>
+
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">            if (item == null) {</span>
+<span class="fc" id="L35">                states + MovieWatchlistState(movieId, watchlist)</span>
+            } else {
+<span class="nc" id="L37">                states.toMutableList().apply { set(index, MovieWatchlistState(movieId, watchlist)) }</span>
+            }
+        }
+<span class="fc" id="L40">    }</span>
+
+    override suspend fun deleteFromWatchlist(movieId: Long) {
+<span class="pc bnc" id="L43" title="All 2 branches missed.">        _watchlist.update { watchlist -&gt; watchlist.filter { it.id != movieId } }</span>
+<span class="fc" id="L44">    }</span>
+
+    override suspend fun deleteWatchlist() {
+<span class="fc" id="L47">        _watchlist.update { emptyList() }</span>
+<span class="fc" id="L48">    }</span>
+
+<span class="fc" id="L50">    data class MovieWatchlistState(</span>
+<span class="pc" id="L51">        val movieId: Long,</span>
+<span class="pc" id="L52">        val watchlist: Boolean</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

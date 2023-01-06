@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDetailsHeader.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.moviedetails</a> &gt; <span class="el_source">MovieDetailsHeader.kt</span></div><h1>MovieDetailsHeader.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.moviedetails
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
+import com.louisfn.somovie.domain.model.BackdropPath
+import com.louisfn.somovie.ui.common.LocalAppRouter
+import com.louisfn.somovie.ui.common.model.ImmutableList
+import com.louisfn.somovie.ui.component.AutosizeText
+import com.louisfn.somovie.ui.component.DefaultTopAppBar
+import com.louisfn.somovie.ui.component.movie.MovieVoteAverageChart
+import com.louisfn.somovie.ui.theme.Dimens
+
+private const val BackdropRatio = 1.778f
+
+@Composable
+internal fun MovieDetailsHeader(
+    headerUiState: HeaderUiState,
+    onPosterPositioned: (LayoutCoordinates) -&gt; Unit,
+    navigateUp: () -&gt; Unit,
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    modifier: Modifier = Modifier</span>
+<span class="nc bnc" id="L45" title="All 30 branches missed.">) {</span>
+<span class="nc" id="L46">    Box(</span>
+<span class="nc" id="L47">        modifier = modifier</span>
+<span class="nc" id="L48">            .background(MaterialTheme.colors.background)</span>
+    ) {
+<span class="nc bnc" id="L50" title="All 4 branches missed.">        MovieDetailsHeaderContent(</span>
+<span class="nc" id="L51">            headerUiState = headerUiState,</span>
+<span class="nc" id="L52">            onPosterPositioned = onPosterPositioned</span>
+        )
+<span class="nc" id="L54">        MovieDetailsTopBar(</span>
+<span class="nc" id="L55">            shareUrl = headerUiState.tmdbUrl,</span>
+<span class="nc" id="L56">            navigateUp = navigateUp</span>
+<span class="nc" id="L57">        )</span>
+<span class="nc" id="L58">    }</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc bnc" id="L62" title="All 14 branches missed.">private fun MovieDetailsTopBar(shareUrl: String, navigateUp: () -&gt; Unit) {</span>
+<span class="nc" id="L63">    val router = LocalAppRouter.current</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    MovieDetailsTopBar(</span>
+<span class="nc" id="L65">        share = { router.shareText(shareUrl) },</span>
+<span class="nc" id="L66">        navigateUp = navigateUp</span>
+    )
+<span class="nc bnc" id="L68" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc bnc" id="L71" title="All 14 branches missed.">private fun MovieDetailsTopBar(share: () -&gt; Unit, navigateUp: () -&gt; Unit) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    DefaultTopAppBar(</span>
+<span class="nc" id="L73">        modifier = Modifier.statusBarsPadding(),</span>
+<span class="nc" id="L74">        backgroundColor = Color.Transparent,</span>
+<span class="nc" id="L75">        actions = {</span>
+<span class="nc bnc" id="L76" title="All 8 branches missed.">            MovieDetailsIconButton(onClick = share) {</span>
+<span class="nc bnc" id="L77" title="All 8 branches missed.">                Icon(</span>
+<span class="nc" id="L78">                    imageVector = Icons.Default.Share,</span>
+<span class="nc" id="L79">                    tint = MaterialTheme.colors.onPrimary,</span>
+<span class="nc" id="L80">                    contentDescription = &quot;&quot;</span>
+<span class="nc" id="L81">                )</span>
+<span class="nc" id="L82">            }</span>
+<span class="nc" id="L83">        },</span>
+<span class="nc" id="L84">        navigationIcon = {</span>
+<span class="nc bnc" id="L85" title="All 8 branches missed.">            MovieDetailsIconButton(onClick = navigateUp) {</span>
+<span class="nc bnc" id="L86" title="All 8 branches missed.">                Icon(</span>
+<span class="nc" id="L87">                    imageVector = Icons.Filled.ArrowBack,</span>
+<span class="nc" id="L88">                    tint = MaterialTheme.colors.onPrimary,</span>
+<span class="nc" id="L89">                    contentDescription = &quot;&quot;</span>
+<span class="nc" id="L90">                )</span>
+<span class="nc" id="L91">            }</span>
+<span class="nc" id="L92">        }</span>
+    )
+<span class="nc bnc" id="L94" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc bnc" id="L97" title="All 14 branches missed.">private fun MovieDetailsIconButton(onClick: () -&gt; Unit, content: @Composable () -&gt; Unit) {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    IconButton(</span>
+<span class="nc" id="L99">        modifier = Modifier</span>
+<span class="nc" id="L100">            .clip(CircleShape)</span>
+<span class="nc" id="L101">            .background(MaterialTheme.colors.primary.copy(alpha = 0.8f)),</span>
+<span class="nc" id="L102">        onClick = onClick,</span>
+<span class="nc" id="L103">        content = content</span>
+    )
+<span class="nc bnc" id="L105" title="All 2 branches missed.">}</span>
+
+@Composable
+private fun MovieDetailsHeaderContent(
+    headerUiState: HeaderUiState,
+    onPosterPositioned: (LayoutCoordinates) -&gt; Unit
+<span class="nc bnc" id="L111" title="All 14 branches missed.">) {</span>
+<span class="nc" id="L112">    ConstraintLayout(</span>
+<span class="nc" id="L113">        modifier = Modifier</span>
+<span class="nc" id="L114">            .wrapContentHeight()</span>
+<span class="nc" id="L115">            .shadow(8.dp)</span>
+<span class="nc" id="L116">            .background(MaterialTheme.colors.primary)</span>
+    ) {
+        val (poster, backdropsPager, title, releaseDate, divider, tagline, voteAverage) = createRefs()
+
+        BackdropsPager(
+            modifier = Modifier
+                .constrainAs(backdropsPager) {
+<span class="nc" id="L123">                    top.linkTo(parent.top)</span>
+<span class="nc" id="L124">                    start.linkTo(parent.start)</span>
+<span class="nc" id="L125">                    end.linkTo(parent.end)</span>
+<span class="nc" id="L126">                },</span>
+            backdropPaths = headerUiState.backdropPaths
+        )
+
+        Box(
+            modifier = Modifier
+                .width(108.dp)
+                .aspectRatio(Dimens.POSTER_RATIO)
+                .constrainAs(poster) {
+<span class="nc" id="L135">                    top.linkTo(backdropsPager.bottom)</span>
+<span class="nc" id="L136">                    bottom.linkTo(backdropsPager.bottom)</span>
+<span class="nc" id="L137">                    start.linkTo(parent.start, 24.dp)</span>
+<span class="nc" id="L138">                }</span>
+<span class="nc" id="L139">                .onGloballyPositioned { onPosterPositioned(it) }</span>
+        )
+
+        AutosizeText(
+            modifier = Modifier
+                .constrainAs(title) {
+<span class="nc" id="L145">                    top.linkTo(backdropsPager.bottom, 8.dp)</span>
+<span class="nc" id="L146">                    linkTo(</span>
+<span class="nc" id="L147">                        start = poster.end,</span>
+<span class="nc" id="L148">                        end = voteAverage.start,</span>
+<span class="nc" id="L149">                        startMargin = 16.dp,</span>
+<span class="nc" id="L150">                        endMargin = 8.dp,</span>
+<span class="nc" id="L151">                        bias = 0f</span>
+                    )
+<span class="nc" id="L153">                    width = Dimension.fillToConstraints</span>
+<span class="nc" id="L154">                },</span>
+            text = headerUiState.title,
+            style = MaterialTheme.typography.h6,
+            maxLines = 2
+        )
+
+        headerUiState.releaseDate?.let { date -&gt;
+            Text(
+                modifier = Modifier
+                    .constrainAs(releaseDate) {
+<span class="nc" id="L164">                        top.linkTo(title.bottom)</span>
+<span class="nc" id="L165">                        start.linkTo(title.start)</span>
+<span class="nc" id="L166">                        linkTo(</span>
+<span class="nc" id="L167">                            start = title.start,</span>
+<span class="nc" id="L168">                            end = voteAverage.start,</span>
+<span class="nc" id="L169">                            endMargin = 8.dp,</span>
+<span class="nc" id="L170">                            bias = 0f</span>
+                        )
+<span class="nc" id="L172">                    },</span>
+                text = date,
+                style = MaterialTheme.typography.body2
+            )
+        }
+
+        if (headerUiState.hasVotes) {
+            VoteAverage(
+                voteAverage = headerUiState.voteAverage,
+                voteCount = headerUiState.voteCount,
+                modifier = Modifier
+                    .constrainAs(voteAverage) {
+<span class="nc" id="L184">                        end.linkTo(parent.end, 8.dp)</span>
+<span class="nc" id="L185">                        top.linkTo(title.top)</span>
+<span class="nc" id="L186">                    }</span>
+            )
+        }
+
+        headerUiState.tagline?.let {
+            Divider(
+                modifier = Modifier
+                    .constrainAs(divider) {
+<span class="nc" id="L194">                        top.linkTo(poster.bottom, 16.dp)</span>
+<span class="nc" id="L195">                        start.linkTo(parent.start, 24.dp)</span>
+<span class="nc" id="L196">                        end.linkTo(parent.end, 24.dp)</span>
+<span class="nc" id="L197">                        width = Dimension.fillToConstraints</span>
+<span class="nc" id="L198">                    }</span>
+            )
+
+            Text(
+                modifier = Modifier
+                    .constrainAs(tagline) {
+<span class="nc" id="L204">                        top.linkTo(divider.bottom, 12.dp)</span>
+<span class="nc" id="L205">                        bottom.linkTo(parent.bottom, 12.dp)</span>
+<span class="nc" id="L206">                        start.linkTo(parent.start, 64.dp)</span>
+<span class="nc" id="L207">                        end.linkTo(parent.end, 64.dp)</span>
+<span class="nc" id="L208">                        width = Dimension.fillToConstraints</span>
+<span class="nc" id="L209">                    },</span>
+                text = headerUiState.tagline.orEmpty(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.caption
+            )
+        }
+    }
+<span class="nc bnc" id="L216" title="All 2 branches missed.">}</span>
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+private fun BackdropsPager(
+    backdropPaths: ImmutableList&lt;BackdropPath&gt;,
+<span class="nc bnc" id="L222" title="All 2 branches missed.">    modifier: Modifier = Modifier</span>
+<span class="nc bnc" id="L223" title="All 18 branches missed.">) {</span>
+<span class="nc" id="L224">    Box(</span>
+        modifier = modifier
+    ) {
+<span class="nc bnc" id="L227" title="All 4 branches missed.">        val pagerState = rememberPagerState()</span>
+
+<span class="nc" id="L229">        HorizontalPager(</span>
+<span class="nc" id="L230">            count = backdropPaths.size,</span>
+<span class="nc" id="L231">            state = pagerState,</span>
+<span class="nc" id="L232">            modifier = Modifier</span>
+<span class="nc" id="L233">                .fillMaxWidth()</span>
+<span class="nc" id="L234">                .aspectRatio(BackdropRatio)</span>
+<span class="nc" id="L235">        ) { page -&gt;</span>
+<span class="nc bnc" id="L236" title="All 8 branches missed.">            Image(</span>
+<span class="nc" id="L237">                modifier = Modifier</span>
+<span class="nc" id="L238">                    .fillMaxSize(),</span>
+<span class="nc" id="L239">                painter = rememberAsyncImagePainter(backdropPaths[page]),</span>
+<span class="nc" id="L240">                contentDescription = &quot;&quot;</span>
+<span class="nc" id="L241">            )</span>
+<span class="nc" id="L242">        }</span>
+
+<span class="nc" id="L244">        HorizontalPagerIndicator(</span>
+<span class="nc" id="L245">            pagerState = pagerState,</span>
+<span class="nc" id="L246">            activeColor = MaterialTheme.colors.onSurface,</span>
+<span class="nc" id="L247">            modifier = Modifier</span>
+<span class="nc" id="L248">                .align(Alignment.BottomCenter)</span>
+<span class="nc" id="L249">                .padding(16.dp)</span>
+<span class="nc" id="L250">        )</span>
+<span class="nc" id="L251">    }</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc bnc" id="L255" title="All 26 branches missed.">private fun VoteAverage(voteAverage: Float, voteCount: Int?, modifier: Modifier = Modifier) {</span>
+<span class="nc" id="L256">    Column(</span>
+        modifier = modifier,
+<span class="nc" id="L258">        horizontalAlignment = Alignment.CenterHorizontally</span>
+    ) {
+<span class="nc bnc" id="L260" title="All 4 branches missed.">        MovieVoteAverageChart(</span>
+<span class="nc" id="L261">            modifier = Modifier</span>
+<span class="nc" id="L262">                .padding(4.dp)</span>
+<span class="nc" id="L263">                .size(48.dp),</span>
+<span class="nc" id="L264">            average = voteAverage,</span>
+<span class="nc" id="L265">            strokeWidth = 5.dp,</span>
+<span class="nc" id="L266">            textStyle = MaterialTheme.typography.subtitle1</span>
+        )
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (voteCount != null) {</span>
+<span class="nc" id="L269">            Row(verticalAlignment = Alignment.CenterVertically) {</span>
+<span class="nc bnc" id="L270" title="All 4 branches missed.">                Icon(</span>
+<span class="nc" id="L271">                    modifier = Modifier</span>
+<span class="nc" id="L272">                        .padding(end = 4.dp)</span>
+<span class="nc" id="L273">                        .size(12.dp),</span>
+<span class="nc" id="L274">                    imageVector = Icons.Filled.People,</span>
+<span class="nc" id="L275">                    tint = MaterialTheme.typography.overline.color,</span>
+<span class="nc" id="L276">                    contentDescription = &quot;&quot;</span>
+                )
+<span class="nc" id="L278">                Text(</span>
+<span class="nc" id="L279">                    text = voteCount.toString(),</span>
+<span class="nc" id="L280">                    style = MaterialTheme.typography.overline</span>
+<span class="nc" id="L281">                )</span>
+<span class="nc" id="L282">            }</span>
+<span class="nc" id="L283">        }</span>
+<span class="nc" id="L284">    }</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

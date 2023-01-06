@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogInViewModel.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.login</a> &gt; <span class="el_source">LogInViewModel.kt</span></div><h1>LogInViewModel.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.login
+
+import androidx.annotation.AnyThread
+import androidx.lifecycle.viewModelScope
+import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
+import com.louisfn.somovie.ui.common.base.BaseViewModel
+import com.louisfn.somovie.ui.common.base.NoneAction
+import com.louisfn.somovie.ui.common.error.ErrorsDispatcher
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+
+@HiltViewModel
+<span class="nc" id="L18">class LogInViewModel @Inject constructor(</span>
+<span class="nc" id="L19">    private val errorsDispatcher: ErrorsDispatcher,</span>
+    @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
+    logInManager: LogInManager
+<span class="nc" id="L22">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher), LogInManager by logInManager {</span>
+
+<span class="nc" id="L24">    override val state: StateFlow&lt;LogInState&gt; =</span>
+<span class="nc" id="L25">        logInManager.state</span>
+<span class="nc" id="L26">            .onEach(::onState)</span>
+<span class="nc" id="L27">            .stateIn(</span>
+<span class="nc" id="L28">                viewModelScope,</span>
+<span class="nc" id="L29">                SharingStarted.WhileSubscribed(),</span>
+<span class="nc" id="L30">                LogInState.Idle</span>
+            )
+
+<span class="nc" id="L33">    init {</span>
+<span class="nc" id="L34">        init(viewModelScope)</span>
+<span class="nc" id="L35">    }</span>
+
+    @AnyThread
+    private fun onState(state: LogInState) {
+<span class="nc" id="L39">        when (state) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            is LogInState.Failed -&gt; whenFailed(state.exception)</span>
+<span class="nc" id="L41">            else -&gt; Unit</span>
+        }
+<span class="nc" id="L43">    }</span>
+
+    @AnyThread
+    private fun whenFailed(e: Exception) {
+<span class="nc" id="L47">        errorsDispatcher.dispatch(e)</span>
+<span class="nc" id="L48">        reset()</span>
+<span class="nc" id="L49">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

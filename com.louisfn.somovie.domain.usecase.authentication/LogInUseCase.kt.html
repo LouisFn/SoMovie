@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogInUseCase.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.domain.usecase.authentication</a> &gt; <span class="el_source">LogInUseCase.kt</span></div><h1>LogInUseCase.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.domain.usecase.authentication
+
+import com.louisfn.somovie.data.repository.AccountRepository
+import com.louisfn.somovie.data.repository.AuthenticationRepository
+import com.louisfn.somovie.data.repository.SessionRepository
+import com.louisfn.somovie.domain.usecase.SuspendUseCase
+import javax.inject.Inject
+
+<span class="nc" id="L9">class LogInUseCase @Inject constructor(</span>
+<span class="nc" id="L10">    private val authenticationRepository: AuthenticationRepository,</span>
+<span class="nc" id="L11">    private val accountRepository: AccountRepository,</span>
+<span class="nc" id="L12">    private val sessionRepository: SessionRepository</span>
+<span class="nc" id="L13">) : SuspendUseCase&lt;String, Unit&gt;() {</span>
+
+    @Suppress(&quot;PARAMETER_NAME_CHANGED_ON_OVERRIDE&quot;)
+<span class="nc" id="L16">    override suspend fun execute(requestToken: String) {</span>
+<span class="nc" id="L17">        val sessionId = authenticationRepository.createNewSession(requestToken)</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        sessionRepository.updateSession { it.copy(sessionId = sessionId) }</span>
+
+<span class="nc" id="L20">        val account = accountRepository.getAccount()</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        sessionRepository.updateSession { it.copy(account = account) }</span>
+<span class="nc" id="L22">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

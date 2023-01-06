@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDetailsScreen.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.moviedetails</a> &gt; <span class="el_source">MovieDetailsScreen.kt</span></div><h1>MovieDetailsScreen.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.moviedetails
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlaylistAdd
+import androidx.compose.material.icons.filled.PlaylistRemove
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.louisfn.somovie.core.common.extension.safeLet
+import com.louisfn.somovie.domain.model.BackdropPath
+import com.louisfn.somovie.domain.model.MovieGenre
+import com.louisfn.somovie.domain.model.PosterPath
+import com.louisfn.somovie.feature.moviedetails.WatchlistFabState.WatchlistState
+import com.louisfn.somovie.feature.moviedetails.poster.MovieDetailsPosterFullScreen
+import com.louisfn.somovie.ui.common.extension.collectAsStateLifecycleAware
+import com.louisfn.somovie.ui.common.model.ImmutableList
+import com.louisfn.somovie.ui.component.IndeterminateProgressIndicator
+import com.louisfn.somovie.ui.component.Retry
+import com.louisfn.somovie.ui.theme.AppTheme
+import java.time.Duration
+
+<span class="nc" id="L34">internal val MORE_INFO_SECTION_SPACE = 16.dp</span>
+<span class="nc" id="L35">internal val MORE_INFO_SECTION_BODY_SPACE = 8.dp</span>
+
+@Composable
+internal fun MovieDetailsScreen(
+<span class="nc" id="L39">    viewModel: MovieDetailsViewModel = hiltViewModel(),</span>
+    navigateUp: () -&gt; Unit
+<span class="nc bnc" id="L41" title="All 20 branches missed.">) {</span>
+<span class="nc" id="L42">    val state by viewModel.uiState.collectAsStateLifecycleAware()</span>
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    MovieDetailsScreen(</span>
+<span class="nc" id="L45">        state = state,</span>
+<span class="nc" id="L46">        onRetryClick = viewModel::retry,</span>
+<span class="nc" id="L47">        onWatchlistFabClick = viewModel::switchWatchlistState,</span>
+<span class="nc" id="L48">        navigateUp = navigateUp</span>
+    )
+<span class="nc bnc" id="L50" title="All 2 branches missed.">}</span>
+
+@Composable
+private fun MovieDetailsScreen(
+    state: MovieDetailsUiState,
+    onRetryClick: () -&gt; Unit,
+    onWatchlistFabClick: () -&gt; Unit,
+    navigateUp: () -&gt; Unit
+<span class="nc bnc" id="L58" title="All 22 branches missed.">) {</span>
+<span class="nc" id="L59">    var posterReducedCoordinates by remember { mutableStateOf&lt;LayoutCoordinates?&gt;(null) }</span>
+
+<span class="nc bnc" id="L61" title="All 10 branches missed.">    val headerUiState = state.headerUiState ?: return Box {}</span>
+
+<span class="nc" id="L63">    Box {</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">        ConstraintLayout(</span>
+<span class="nc" id="L65">            modifier = Modifier.fillMaxSize()</span>
+        ) {
+            val (header, content, watchlistFab) = createRefs()
+
+            MovieDetailsHeader(
+                headerUiState = headerUiState,
+                modifier = Modifier.constrainAs(header) {
+<span class="nc" id="L72">                    top.linkTo(parent.top)</span>
+<span class="nc" id="L73">                    start.linkTo(parent.start)</span>
+<span class="nc" id="L74">                    end.linkTo(parent.end)</span>
+<span class="nc" id="L75">                },</span>
+                navigateUp = navigateUp,
+<span class="nc" id="L77">                onPosterPositioned = { posterReducedCoordinates = it }</span>
+            )
+
+            Box(
+                modifier = Modifier
+                    .constrainAs(content) {
+<span class="nc" id="L83">                        top.linkTo(header.bottom)</span>
+<span class="nc" id="L84">                        start.linkTo(parent.start)</span>
+<span class="nc" id="L85">                        end.linkTo(parent.end)</span>
+<span class="nc" id="L86">                        bottom.linkTo(parent.bottom)</span>
+<span class="nc" id="L87">                        height = Dimension.fillToConstraints</span>
+<span class="nc" id="L88">                    }</span>
+            ) {
+                state.contentUiState?.let {
+                    MovieDetailsScreen(contentUiState = it, onRetryClick = onRetryClick)
+                }
+            }
+
+            state.watchlistFabState?.let {
+                AddToWatchlistSmallFab(
+                    watchlistFabState = it,
+                    modifier = Modifier
+                        .constrainAs(watchlistFab) {
+<span class="nc" id="L100">                            top.linkTo(header.bottom)</span>
+<span class="nc" id="L101">                            bottom.linkTo(header.bottom)</span>
+<span class="nc" id="L102">                            end.linkTo(parent.end, 12.dp)</span>
+<span class="nc" id="L103">                        },</span>
+                    onClick = onWatchlistFabClick
+                )
+            }
+        }
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        safeLet(posterReducedCoordinates, state.headerUiState.posterPath) { coordinates, path -&gt;</span>
+<span class="nc" id="L110">            MovieDetailsPosterFullScreen(</span>
+<span class="nc" id="L111">                posterPath = path,</span>
+<span class="nc" id="L112">                posterReducedCoordinates = coordinates</span>
+            )
+<span class="nc" id="L114">        }</span>
+<span class="nc" id="L115">    }</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">}</span>
+
+@Composable
+private fun AddToWatchlistSmallFab(
+    watchlistFabState: WatchlistFabState,
+<span class="nc bnc" id="L121" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+    onClick: () -&gt; Unit
+<span class="nc bnc" id="L123" title="All 24 branches missed.">) {</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">    Button(</span>
+<span class="nc" id="L125">        onClick = onClick,</span>
+<span class="nc" id="L126">        modifier = modifier</span>
+<span class="nc" id="L127">            .size(48.dp),</span>
+<span class="nc" id="L128">        contentPadding = PaddingValues(0.dp),</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        enabled = !watchlistFabState.isLoading,</span>
+<span class="nc" id="L130">        shape = CircleShape,</span>
+<span class="nc" id="L131">        colors = ButtonDefaults</span>
+<span class="nc" id="L132">            .buttonColors(</span>
+<span class="nc bnc" id="L133" title="All 3 branches missed.">                backgroundColor = when (watchlistFabState.state) {</span>
+<span class="nc" id="L134">                    WatchlistState.ADD_TO_WATCHLIST -&gt; MaterialTheme.colors.secondary</span>
+<span class="nc" id="L135">                    WatchlistState.REMOVE_FROM_WATCHLIST -&gt; MaterialTheme.colors.error</span>
+                }
+            )
+<span class="nc" id="L138">    ) {</span>
+<span class="nc bnc" id="L139" title="All 8 branches missed.">        Icon(</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">            imageVector = when (watchlistFabState.state) {</span>
+<span class="nc" id="L141">                WatchlistState.ADD_TO_WATCHLIST -&gt; Icons.Filled.PlaylistAdd</span>
+<span class="nc" id="L142">                WatchlistState.REMOVE_FROM_WATCHLIST -&gt; Icons.Filled.PlaylistRemove</span>
+            },
+<span class="nc" id="L144">            tint = MaterialTheme.colors.onPrimary,</span>
+<span class="nc" id="L145">            contentDescription = &quot;&quot;</span>
+<span class="nc" id="L146">        )</span>
+<span class="nc" id="L147">    }</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc bnc" id="L151" title="All 18 branches missed.">private fun BoxScope.MovieDetailsScreen(contentUiState: ContentUiState, onRetryClick: () -&gt; Unit) {</span>
+<span class="nc" id="L152">    when (contentUiState) {</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        is ContentUiState.Content -&gt; MovieDetailsScreen(state = contentUiState)</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        is ContentUiState.Loading -&gt; MovieDetailsLoader(</span>
+<span class="nc" id="L155">            modifier = Modifier.align(Alignment.Center)</span>
+        )
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        is ContentUiState.Retry -&gt; MovieDetailsRetry(</span>
+<span class="nc" id="L158">            modifier = Modifier.align(Alignment.Center),</span>
+<span class="nc" id="L159">            onClick = onRetryClick</span>
+        )
+<span class="nc bnc" id="L161" title="All 2 branches missed.">    }</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc bnc" id="L165" title="All 14 branches missed.">private fun MovieDetailsLoader(modifier: Modifier = Modifier) {</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">    IndeterminateProgressIndicator(</span>
+<span class="nc" id="L167">        modifier = modifier</span>
+    )
+<span class="nc bnc" id="L169" title="All 2 branches missed.">}</span>
+
+@Composable
+<span class="nc bnc" id="L172" title="All 20 branches missed.">private fun MovieDetailsRetry(modifier: Modifier = Modifier, onClick: () -&gt; Unit) {</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">    Retry(</span>
+<span class="nc" id="L174">        modifier = modifier,</span>
+<span class="nc" id="L175">        onClick = onClick</span>
+    )
+<span class="nc bnc" id="L177" title="All 2 branches missed.">}</span>
+
+@Preview
+@Composable
+<span class="nc bnc" id="L181" title="All 6 branches missed.">private fun MovieDetailScreenPreview() {</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">    AppTheme {</span>
+<span class="nc bnc" id="L183" title="All 8 branches missed.">        MovieDetailsScreen(</span>
+<span class="nc" id="L184">            state = MovieDetailsUiState(</span>
+<span class="nc" id="L185">                headerUiState = HeaderUiState(</span>
+<span class="nc" id="L186">                    title = &quot;Spider-Man: No Way Home&quot;,</span>
+<span class="nc" id="L187">                    posterPath = PosterPath(&quot;/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg&quot;),</span>
+<span class="nc" id="L188">                    backdropPaths = ImmutableList(</span>
+<span class="nc" id="L189">                        listOf(</span>
+<span class="nc" id="L190">                            BackdropPath(&quot;/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg&quot;),</span>
+<span class="nc" id="L191">                            BackdropPath(&quot;/iQFcwSGbZXMkeyKrxbPnwnRo5fp.jpg&quot;),</span>
+<span class="nc" id="L192">                            BackdropPath(&quot;/iQFcwSGbZXMkeyKrxbPnwnRo5fs.jpg&quot;)</span>
+                        )
+                    ),
+<span class="nc" id="L195">                    tagline = &quot;The Multiverse unleashed.&quot;,</span>
+<span class="nc" id="L196">                    voteAverage = 8.4f,</span>
+<span class="nc" id="L197">                    voteCount = 7997,</span>
+<span class="nc" id="L198">                    tmdbUrl = &quot;&quot;,</span>
+<span class="nc" id="L199">                    releaseDate = &quot;2021/12/15&quot;</span>
+                ),
+<span class="nc" id="L201">                contentUiState = ContentUiState.Content(</span>
+<span class="nc" id="L202">                    originalTitle = &quot;Spider-Man: No Way Home&quot;,</span>
+<span class="nc" id="L203">                    originalLanguage = &quot;en&quot;,</span>
+<span class="nc" id="L204">                    overview = &quot;Peter Parker is unmasked and no longer able to separate his normal life from the &quot; +</span>
+<span class="nc" id="L205">                        &quot;high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes &quot; +</span>
+<span class="nc" id="L206">                        &quot;become even more dangerous, forcing him to discover what it truly means to be Spider-Man.&quot;,</span>
+<span class="nc" id="L207">                    runtime = Duration.ofMillis(148),</span>
+<span class="nc" id="L208">                    popularity = 7683.216f,</span>
+<span class="nc" id="L209">                    budget = &quot;200000000&quot;,</span>
+<span class="nc" id="L210">                    revenue = &quot;1804372547&quot;,</span>
+<span class="nc" id="L211">                    crew = ImmutableList(emptyList()),</span>
+<span class="nc" id="L212">                    cast = ImmutableList(emptyList()),</span>
+<span class="nc" id="L213">                    genres = ImmutableList(</span>
+<span class="nc" id="L214">                        listOf(</span>
+<span class="nc" id="L215">                            MovieGenre(</span>
+<span class="nc" id="L216">                                id = 1,</span>
+<span class="nc" id="L217">                                name = &quot;Action&quot;</span>
+                            ),
+<span class="nc" id="L219">                            MovieGenre(</span>
+<span class="nc" id="L220">                                id = 2,</span>
+<span class="nc" id="L221">                                name = &quot;Adventure&quot;</span>
+                            ),
+<span class="nc" id="L223">                            MovieGenre(</span>
+<span class="nc" id="L224">                                id = 3,</span>
+<span class="nc" id="L225">                                name = &quot;Science Fiction&quot;</span>
+                            )
+                        )
+                    ),
+<span class="nc" id="L229">                    videos = ImmutableList()</span>
+                ),
+<span class="nc" id="L231">                watchlistFabState = WatchlistFabState(</span>
+<span class="nc" id="L232">                    isLoading = true,</span>
+<span class="nc" id="L233">                    state = WatchlistState.REMOVE_FROM_WATCHLIST</span>
+                )
+            ),
+<span class="nc" id="L236">            onRetryClick = {},</span>
+<span class="nc" id="L237">            onWatchlistFabClick = {},</span>
+<span class="nc" id="L238">            navigateUp = {}</span>
+<span class="nc" id="L239">        )</span>
+<span class="nc" id="L240">    }</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

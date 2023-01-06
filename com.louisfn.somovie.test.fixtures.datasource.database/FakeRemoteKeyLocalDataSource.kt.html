@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FakeRemoteKeyLocalDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.test.fixtures.datasource.database</a> &gt; <span class="el_source">FakeRemoteKeyLocalDataSource.kt</span></div><h1>FakeRemoteKeyLocalDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.test.fixtures.datasource.database
+
+import com.louisfn.somovie.core.common.extension.isExpired
+import com.louisfn.somovie.data.database.datasource.RemoteKeyLocalDataSource
+import com.louisfn.somovie.data.database.entity.RemoteKeyEntity
+import com.louisfn.somovie.test.fixtures.utils.FakeDateTimeProvider
+import java.util.concurrent.CopyOnWriteArrayList
+
+<span class="pc" id="L9">class FakeRemoteKeyLocalDataSource(val dateTimeProvider: FakeDateTimeProvider = FakeDateTimeProvider()) :</span>
+    RemoteKeyLocalDataSource {
+
+<span class="fc" id="L12">    private val remoteKeys = CopyOnWriteArrayList&lt;RemoteKeyEntity&gt;()</span>
+
+    override suspend fun getRemoteKey(type: RemoteKeyEntity.Type): RemoteKeyEntity? =
+<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        remoteKeys.firstOrNull { it.type == type }</span>
+
+    override suspend fun isExpired(type: RemoteKeyEntity.Type, cacheTimeout: Long): Boolean =
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        getRemoteKey(type)?.firstFetchAt.isExpired(dateTimeProvider.now(), cacheTimeout)</span>
+
+    override suspend fun updateNextKey(
+        type: RemoteKeyEntity.Type,
+        nextKey: String,
+        reset: Boolean
+    ) {
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (!reset) {</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">            val remoteKey = remoteKeys.first { it.type == type }</span>
+<span class="fc" id="L27">            val index = remoteKeys.indexOf(remoteKey)</span>
+<span class="fc" id="L28">            remoteKeys[index] = remoteKey.copy(nextKey = nextKey)</span>
+        } else {
+<span class="fc" id="L30">            remoteKeys.add(RemoteKeyEntity(type, nextKey, dateTimeProvider.now()))</span>
+        }
+<span class="fc" id="L32">    }</span>
+<span class="fc" id="L33">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

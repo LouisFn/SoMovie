@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogInManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.login</a> &gt; <span class="el_source">LogInManager.kt</span></div><h1>LogInManager.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.login
+
+import android.net.Uri
+import androidx.annotation.AnyThread
+import com.louisfn.somovie.domain.usecase.authentication.GetRequestTokenUseCase
+import com.louisfn.somovie.domain.usecase.authentication.LogInUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+interface LogInManager {
+    val state: StateFlow&lt;LogInState&gt;
+
+    @AnyThread
+    fun init(scope: CoroutineScope)
+
+    @AnyThread
+    fun reset()
+
+    @AnyThread
+    fun start()
+
+    @AnyThread
+    fun onApproved()
+
+    @AnyThread
+    fun onDenied()
+}
+
+<span class="nc" id="L32">class DefaultLogInManager @Inject constructor(</span>
+<span class="nc" id="L33">    private val getRequestTokenUseCase: GetRequestTokenUseCase,</span>
+<span class="nc" id="L34">    private val logInUseCase: LogInUseCase</span>
+) : LogInManager {
+
+    private lateinit var scope: CoroutineScope
+    private var currentRequestToken: String? = null
+
+<span class="nc" id="L40">    private val _state = MutableStateFlow&lt;LogInState&gt;(LogInState.Idle)</span>
+<span class="nc" id="L41">    override val state: StateFlow&lt;LogInState&gt; = _state</span>
+
+    override fun init(scope: CoroutineScope) {
+<span class="nc" id="L44">        this.scope = scope</span>
+<span class="nc" id="L45">    }</span>
+
+    override fun reset() {
+<span class="nc" id="L48">        currentRequestToken = null</span>
+<span class="nc" id="L49">        _state.value = LogInState.Idle</span>
+<span class="nc" id="L50">    }</span>
+
+    override fun start() {
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        check(state.value == LogInState.Idle) {</span>
+<span class="nc" id="L54">            &quot;A log in flow is already started. You should call reset() before starting a new one&quot;</span>
+        }
+<span class="nc" id="L56">        _state.value = LogInState.Loading</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        scope.launch {</span>
+<span class="nc" id="L58">            try {</span>
+<span class="nc" id="L59">                _state.value = LogInState.WebView(generateUri())</span>
+<span class="nc" id="L60">            } catch (e: Exception) {</span>
+<span class="nc" id="L61">                _state.value = LogInState.Failed(e)</span>
+            }
+<span class="nc" id="L63">        }</span>
+<span class="nc" id="L64">    }</span>
+
+    override fun onApproved() {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        scope.launch {</span>
+<span class="nc" id="L68">            logIn()</span>
+<span class="nc" id="L69">        }</span>
+<span class="nc" id="L70">    }</span>
+
+    override fun onDenied() {
+<span class="nc bnc" id="L73" title="All 4 branches missed.">        scope.launch {</span>
+<span class="nc" id="L74">            _state.value = LogInState.Idle</span>
+<span class="nc" id="L75">        }</span>
+<span class="nc" id="L76">    }</span>
+
+    private suspend fun logIn() {
+<span class="nc" id="L79">        try {</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            val token = checkNotNull(currentRequestToken) {</span>
+<span class="nc" id="L81">                &quot;currentRequestToken should not be null&quot;</span>
+            }
+<span class="nc" id="L83">            logInUseCase(token)</span>
+<span class="nc" id="L84">            _state.value = LogInState.Succeed</span>
+<span class="nc" id="L85">        } catch (e: Exception) {</span>
+<span class="nc" id="L86">            _state.value = LogInState.Failed(e)</span>
+        }
+<span class="nc" id="L88">    }</span>
+
+<span class="nc" id="L90">    private suspend fun generateUri(): Uri {</span>
+<span class="nc" id="L91">        currentRequestToken = getRequestTokenUseCase(Unit)</span>
+<span class="nc" id="L92">        return Uri.parse(LogInConfig.URL)</span>
+<span class="nc" id="L93">            .buildUpon()</span>
+<span class="nc" id="L94">            .appendPath(currentRequestToken)</span>
+<span class="nc" id="L95">            .build()</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

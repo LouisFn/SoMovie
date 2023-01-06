@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainViewModel.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.app.ui.main</a> &gt; <span class="el_source">MainViewModel.kt</span></div><h1>MainViewModel.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.app.ui.main
+
+import androidx.annotation.AnyThread
+import androidx.lifecycle.viewModelScope
+import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
+import com.louisfn.somovie.core.logger.Logger
+import com.louisfn.somovie.domain.usecase.startup.RefreshConfigurationUseCase
+import com.louisfn.somovie.ui.common.LoadingManager
+import com.louisfn.somovie.ui.common.base.BaseViewModel
+import com.louisfn.somovie.ui.common.base.NoneAction
+import com.louisfn.somovie.ui.common.error.ErrorsDispatcher
+import com.louisfn.somovie.ui.common.model.ImmutableList
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+<span class="nc" id="L24">internal class MainViewModel @Inject constructor(</span>
+    @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
+<span class="nc" id="L26">    private val errorsDispatcher: ErrorsDispatcher,</span>
+<span class="nc" id="L27">    private val refreshConfigurationUseCase: RefreshConfigurationUseCase</span>
+<span class="nc" id="L28">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
+
+<span class="nc" id="L30">    private val loadingManager = LoadingManager()</span>
+
+<span class="nc" id="L32">    val uiState: StateFlow&lt;MainUiState&gt; =</span>
+<span class="nc" id="L33">        loadingManager</span>
+<span class="nc" id="L34">            .isLoadingChanges()</span>
+<span class="nc" id="L35">            .map(::createMainUiState)</span>
+<span class="nc" id="L36">            .flowOn(defaultDispatcher)</span>
+<span class="nc" id="L37">            .stateIn(</span>
+<span class="nc" id="L38">                scope = viewModelScope,</span>
+<span class="nc" id="L39">                started = SharingStarted.WhileSubscribed(),</span>
+<span class="nc" id="L40">                initialValue = MainUiState.Loading</span>
+            )
+
+<span class="nc" id="L43">    val errors = errorsDispatcher</span>
+<span class="nc" id="L44">        .errorChanges()</span>
+<span class="nc" id="L45">        .stateIn(</span>
+<span class="nc" id="L46">            viewModelScope,</span>
+<span class="nc" id="L47">            SharingStarted.WhileSubscribed(),</span>
+<span class="nc" id="L48">            ImmutableList()</span>
+        )
+
+<span class="nc" id="L51">    init {</span>
+<span class="nc" id="L52">        viewModelScope.launch {</span>
+<span class="nc" id="L53">            refreshAppData()</span>
+<span class="nc" id="L54">        }</span>
+<span class="nc" id="L55">    }</span>
+
+    override fun onCleared() {
+<span class="nc" id="L58">        errorsDispatcher.cancel()</span>
+<span class="nc" id="L59">        super.onCleared()</span>
+<span class="nc" id="L60">    }</span>
+
+    @AnyThread
+    private fun createMainUiState(isRefreshing: Boolean) =
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (isRefreshing) MainUiState.Loading</span>
+<span class="nc" id="L65">        else MainUiState.Content</span>
+
+    @AnyThread
+    private suspend fun refreshAppData() {
+<span class="nc" id="L69">        loadingManager.start()</span>
+<span class="nc" id="L70">        refreshConfiguration()</span>
+<span class="nc" id="L71">        loadingManager.stop()</span>
+<span class="nc" id="L72">    }</span>
+
+    @AnyThread
+    private suspend fun refreshConfiguration() {
+<span class="nc" id="L76">        try {</span>
+<span class="nc" id="L77">            refreshConfigurationUseCase(Unit)</span>
+<span class="nc" id="L78">        } catch (e: Exception) {</span>
+<span class="nc" id="L79">            Logger.e(e)</span>
+        }
+<span class="nc" id="L81">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

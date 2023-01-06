@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDetailsPosterFullScreen.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.moviedetails.poster</a> &gt; <span class="el_source">MovieDetailsPosterFullScreen.kt</span></div><h1>MovieDetailsPosterFullScreen.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.moviedetails.poster
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import coil.request.ImageRequest
+import com.louisfn.somovie.domain.model.PosterPath
+import com.louisfn.somovie.feature.moviedetails.poster.MovieDetailsPosterState.EXPANDED
+import com.louisfn.somovie.feature.moviedetails.poster.MovieDetailsPosterState.REDUCED
+import com.louisfn.somovie.ui.common.extension.clickable
+import com.louisfn.somovie.ui.common.extension.screenHeight
+import com.louisfn.somovie.ui.common.extension.screenWidth
+import com.louisfn.somovie.ui.common.extension.toDpSize
+import com.louisfn.somovie.ui.common.extension.toIntOffset
+import com.louisfn.somovie.ui.component.DefaultAsyncImage
+import com.louisfn.somovie.ui.component.DefaultTopAppBar
+
+@Composable
+fun MovieDetailsPosterFullScreen(
+    posterPath: PosterPath,
+    posterReducedCoordinates: LayoutCoordinates,
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    modifier: Modifier = Modifier</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L46">    var posterState by remember { mutableStateOf(REDUCED) }</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    BackHandler(enabled = posterState == EXPANDED) { posterState = REDUCED }</span>
+
+<span class="nc" id="L50">    Box(modifier = modifier) {</span>
+<span class="nc bnc" id="L51" title="All 4 branches missed.">        BackgroundWithTopBar(</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            isVisible = posterState == EXPANDED,</span>
+<span class="nc" id="L53">            navigateUp = { posterState = REDUCED }</span>
+        )
+
+<span class="nc" id="L56">        Poster(</span>
+<span class="nc" id="L57">            posterPath = posterPath,</span>
+<span class="nc" id="L58">            posterState = posterState,</span>
+<span class="nc" id="L59">            posterReducedCoordinates = posterReducedCoordinates,</span>
+<span class="nc" id="L60">            onPosterStateChanged = { posterState = it }</span>
+<span class="nc" id="L61">        )</span>
+<span class="nc" id="L62">    }</span>
+<span class="nc" id="L63">}</span>
+
+@Composable
+private fun Poster(
+    posterPath: PosterPath,
+    posterState: MovieDetailsPosterState,
+    posterReducedCoordinates: LayoutCoordinates,
+    onPosterStateChanged: (MovieDetailsPosterState) -&gt; Unit
+<span class="nc bnc" id="L71" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L72">    val posterStateController = rememberPosterStateController(</span>
+<span class="nc" id="L73">        reducedCoordinates = posterReducedCoordinates,</span>
+<span class="nc" id="L74">        onStateChanged = onPosterStateChanged</span>
+    )
+<span class="nc" id="L76">    var onLoadImageSuccess by remember { mutableStateOf(false) }</span>
+
+<span class="nc" id="L78">    LaunchedEffect(posterState) { posterStateController.animateToState(posterState) }</span>
+
+<span class="nc bnc" id="L80" title="All 4 branches missed.">    Poster(</span>
+<span class="nc" id="L81">        posterPath = posterPath,</span>
+<span class="nc" id="L82">        modifier = Modifier</span>
+<span class="nc" id="L83">            .size(posterStateController.size.toDpSize())</span>
+<span class="nc" id="L84">            .offset { posterStateController.offset.toIntOffset() }</span>
+<span class="nc" id="L85">            .clickable(withRipple = false) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (onLoadImageSuccess) {</span>
+<span class="nc" id="L87">                    onPosterStateChanged(posterState.toggle())</span>
+                }
+<span class="nc" id="L89">            }</span>
+<span class="nc" id="L90">            .draggablePoster(posterStateController),</span>
+<span class="nc" id="L91">        onLoadImageSuccess = { onLoadImageSuccess = true }</span>
+    )
+<span class="nc" id="L93">}</span>
+
+@Composable
+private fun Poster(
+    posterPath: PosterPath,
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
+    onLoadImageSuccess: () -&gt; Unit
+<span class="nc bnc" id="L100" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L101">    val configuration = LocalConfiguration.current</span>
+<span class="nc bnc" id="L102" title="All 4 branches missed.">    DefaultAsyncImage(</span>
+<span class="nc" id="L103">        modifier = modifier</span>
+<span class="nc" id="L104">            .clip(RoundedCornerShape(8.dp)),</span>
+<span class="nc" id="L105">        onSuccess = { onLoadImageSuccess() },</span>
+        model = ImageRequest
+<span class="nc" id="L107">            .Builder(LocalContext.current)</span>
+<span class="nc" id="L108">            .size(</span>
+<span class="nc" id="L109">                width = configuration.screenWidth.toInt(),</span>
+<span class="nc" id="L110">                height = configuration.screenHeight.toInt()</span>
+            )
+<span class="nc" id="L112">            .data(posterPath)</span>
+<span class="nc" id="L113">            .build()</span>
+    )
+<span class="nc" id="L115">}</span>
+
+@Composable
+<span class="nc bnc" id="L118" title="All 14 branches missed.">private fun BackgroundWithTopBar(isVisible: Boolean, navigateUp: () -&gt; Unit) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">    AnimatedVisibility(</span>
+<span class="nc" id="L120">        modifier = Modifier</span>
+<span class="nc" id="L121">            .fillMaxSize()</span>
+<span class="nc" id="L122">            .pointerInput(Unit) {},</span>
+<span class="nc" id="L123">        visible = isVisible,</span>
+<span class="nc" id="L124">        enter = fadeIn(),</span>
+<span class="nc" id="L125">        exit = fadeOut()</span>
+<span class="nc" id="L126">    ) {</span>
+<span class="nc" id="L127">        Box(</span>
+<span class="nc" id="L128">            modifier = Modifier</span>
+<span class="nc" id="L129">                .fillMaxSize()</span>
+<span class="nc" id="L130">                .background(MaterialTheme.colors.background)</span>
+        ) {
+<span class="nc bnc" id="L132" title="All 4 branches missed.">            DefaultTopAppBar(</span>
+<span class="nc" id="L133">                modifier = Modifier.statusBarsPadding(),</span>
+<span class="nc" id="L134">                backgroundColor = MaterialTheme.colors.background,</span>
+<span class="nc" id="L135">                navigateUp = navigateUp</span>
+<span class="nc" id="L136">            )</span>
+<span class="nc" id="L137">        }</span>
+<span class="nc" id="L138">    }</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

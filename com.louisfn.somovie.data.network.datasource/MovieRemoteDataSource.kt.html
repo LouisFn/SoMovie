@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieRemoteDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.network.datasource</a> &gt; <span class="el_source">MovieRemoteDataSource.kt</span></div><h1>MovieRemoteDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.network.datasource
+
+import androidx.annotation.AnyThread
+import com.louisfn.somovie.data.network.ApiServiceExecutor
+import com.louisfn.somovie.data.network.HttpException
+import com.louisfn.somovie.data.network.StatusCode.RESOURCE_REQUESTED_NOT_FOUND
+import com.louisfn.somovie.data.network.response.MovieAccountStateResponse
+import com.louisfn.somovie.data.network.response.MovieDetailsResponse
+import com.louisfn.somovie.data.network.response.MovieResponse
+import com.louisfn.somovie.data.network.response.PaginatedResultsResponse
+import com.louisfn.somovie.domain.exception.MovieNotFoundException
+import com.louisfn.somovie.domain.model.ExploreCategory
+import javax.inject.Inject
+
+interface MovieRemoteDataSource {
+
+    @AnyThread
+    suspend fun getMovies(
+        category: ExploreCategory,
+        page: Int
+    ): PaginatedResultsResponse&lt;MovieResponse&gt;
+
+    @AnyThread
+    suspend fun getPopular(page: Int): PaginatedResultsResponse&lt;MovieResponse&gt;
+
+    @AnyThread
+    suspend fun getNowPlaying(page: Int): PaginatedResultsResponse&lt;MovieResponse&gt;
+
+    @AnyThread
+    suspend fun getTopRated(page: Int): PaginatedResultsResponse&lt;MovieResponse&gt;
+
+    @AnyThread
+    suspend fun getUpcoming(page: Int): PaginatedResultsResponse&lt;MovieResponse&gt;
+
+    @AnyThread
+    suspend fun getMovieDetails(movieId: Long): MovieDetailsResponse
+
+    @AnyThread
+    suspend fun getMovieAccountStates(movieId: Long): MovieAccountStateResponse
+}
+
+<span class="nc" id="L42">internal class DefaultMovieRemoteDataSource @Inject constructor(</span>
+<span class="nc" id="L43">    private val executor: ApiServiceExecutor</span>
+) : MovieRemoteDataSource {
+
+    override suspend fun getMovies(
+        category: ExploreCategory,
+        page: Int
+    ): PaginatedResultsResponse&lt;MovieResponse&gt; =
+<span class="nc bnc" id="L50" title="All 4 branches missed.">        when (category) {</span>
+<span class="nc" id="L51">            ExploreCategory.UPCOMING -&gt; getUpcoming(page)</span>
+<span class="nc" id="L52">            ExploreCategory.NOW_PLAYING -&gt; getNowPlaying(page)</span>
+<span class="nc" id="L53">            ExploreCategory.TOP_RATED -&gt; getTopRated(page)</span>
+<span class="nc" id="L54">            ExploreCategory.POPULAR -&gt; getPopular(page)</span>
+<span class="nc" id="L55">        }</span>
+
+    override suspend fun getPopular(page: Int): PaginatedResultsResponse&lt;MovieResponse&gt; =
+<span class="nc" id="L58">        executor.execute {</span>
+<span class="nc" id="L59">            it.getPopularMovies(page)</span>
+<span class="nc" id="L60">        }</span>
+
+    override suspend fun getNowPlaying(page: Int): PaginatedResultsResponse&lt;MovieResponse&gt; =
+<span class="nc" id="L63">        executor.execute {</span>
+<span class="nc" id="L64">            it.getNowPlayingMovies(page)</span>
+<span class="nc" id="L65">        }</span>
+
+    override suspend fun getTopRated(page: Int): PaginatedResultsResponse&lt;MovieResponse&gt; =
+<span class="nc" id="L68">        executor.execute {</span>
+<span class="nc" id="L69">            it.getTopRatedMovies(page)</span>
+<span class="nc" id="L70">        }</span>
+
+    override suspend fun getUpcoming(page: Int): PaginatedResultsResponse&lt;MovieResponse&gt; =
+<span class="nc" id="L73">        executor.execute {</span>
+<span class="nc" id="L74">            it.getUpcomingMovies(page)</span>
+<span class="nc" id="L75">        }</span>
+
+    override suspend fun getMovieDetails(movieId: Long): MovieDetailsResponse =
+<span class="nc" id="L78">        executor.execute(mapHttpException = ::mapHttpException) {</span>
+<span class="nc" id="L79">            it.getMovieDetails(movieId)</span>
+<span class="nc" id="L80">        }</span>
+
+    override suspend fun getMovieAccountStates(movieId: Long): MovieAccountStateResponse =
+<span class="nc" id="L83">        executor.execute(mapHttpException = ::mapHttpException) {</span>
+<span class="nc" id="L84">            it.getMovieAccountStates(movieId)</span>
+<span class="nc" id="L85">        }</span>
+
+    @AnyThread
+    private fun mapHttpException(e: HttpException) =
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        when (e.statusCode) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            RESOURCE_REQUESTED_NOT_FOUND -&gt; MovieNotFoundException()</span>
+<span class="nc" id="L91">            else -&gt; null</span>
+<span class="nc" id="L92">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

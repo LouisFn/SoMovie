@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ImmutableList.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.common.model</a> &gt; <span class="el_source">ImmutableList.kt</span></div><h1>ImmutableList.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.common.model
+
+import androidx.compose.runtime.Immutable
+
+<span class="fc" id="L5">@Immutable</span>
+<span class="fc" id="L6">data class ImmutableList&lt;out E&gt;(</span>
+<span class="fc" id="L7">    private val internalList: List&lt;E&gt; = emptyList()</span>
+) : List&lt;E&gt; by internalList {
+
+    operator fun plus(list: ImmutableList&lt;@UnsafeVariance E&gt;): ImmutableList&lt;E&gt; =
+<span class="nc" id="L11">        ImmutableList(internalList + list)</span>
+
+    operator fun plus(item: @UnsafeVariance E): ImmutableList&lt;E&gt; =
+<span class="fc" id="L14">        ImmutableList(internalList + item)</span>
+<span class="fc" id="L15">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

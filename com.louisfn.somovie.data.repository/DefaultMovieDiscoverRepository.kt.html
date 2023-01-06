@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultMovieDiscoverRepository.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.repository</a> &gt; <span class="el_source">DefaultMovieDiscoverRepository.kt</span></div><h1>DefaultMovieDiscoverRepository.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.repository
+
+import androidx.annotation.AnyThread
+import androidx.annotation.FloatRange
+import com.louisfn.somovie.data.mapper.MovieMapper
+import com.louisfn.somovie.data.network.datasource.MovieDiscoverRemoteDataSource
+import com.louisfn.somovie.domain.model.Movie
+import com.louisfn.somovie.domain.model.MovieDiscoverSortBy
+import com.louisfn.somovie.domain.model.MovieDiscoverSortByDirection
+import javax.inject.Inject
+
+interface MovieDiscoverRepository {
+
+    @AnyThread
+    suspend fun getDiscoverMovies(
+        sortBy: MovieDiscoverSortBy,
+        sortByDirection: MovieDiscoverSortByDirection,
+        minVoteCount: Int,
+        @FloatRange(from = 0.0, to = 10.0) minVoteAverage: Float,
+        page: Int
+    ): List&lt;Movie&gt;
+}
+
+<span class="nc" id="L24">internal class DefaultMovieDiscoverRepository @Inject constructor(</span>
+<span class="nc" id="L25">    private val remoteDataSource: MovieDiscoverRemoteDataSource,</span>
+<span class="nc" id="L26">    private val movieMapper: MovieMapper</span>
+) : MovieDiscoverRepository {
+
+<span class="nc" id="L29">    override suspend fun getDiscoverMovies(</span>
+        sortBy: MovieDiscoverSortBy,
+        sortByDirection: MovieDiscoverSortByDirection,
+        minVoteCount: Int,
+        @FloatRange(from = 0.0, to = 10.0) minVoteAverage: Float,
+        page: Int
+    ): List&lt;Movie&gt; =
+<span class="nc" id="L36">        remoteDataSource.getMovieDiscover(</span>
+<span class="nc" id="L37">            sortBy = sortBy,</span>
+<span class="nc" id="L38">            sortByDirection = sortByDirection,</span>
+<span class="nc" id="L39">            minVoteCount = minVoteCount,</span>
+<span class="nc" id="L40">            minVoteAverage = minVoteAverage,</span>
+<span class="nc" id="L41">            page = page</span>
+        )
+<span class="nc" id="L43">            .results</span>
+<span class="nc" id="L44">            .let { movieMapper.mapToDomain(it) }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

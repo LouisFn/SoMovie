@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PagingItemsCollector.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.test.shared.paging</a> &gt; <span class="el_source">PagingItemsCollector.kt</span></div><h1>PagingItemsCollector.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.test.shared.paging
+
+import androidx.paging.DifferCallback
+import androidx.paging.NullPaddedList
+import androidx.paging.PagingData
+import androidx.paging.PagingDataDiffer
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+
+<span class="pc" id="L12">class PagingItemsCollector&lt;T : Any&gt;(val dispatcher: TestDispatcher = UnconfinedTestDispatcher()) {</span>
+
+<span class="fc" id="L14">    private val _items = MutableStateFlow&lt;List&lt;T&gt;?&gt;(null)</span>
+<span class="fc" id="L15">    val items: StateFlow&lt;List&lt;T&gt;?&gt; = _items</span>
+
+<span class="fc" id="L17">    private val pagingDataDiffer = object : PagingDataDiffer&lt;T&gt;(NoopListCallback(), dispatcher) {</span>
+        override suspend fun presentNewList(
+            previousList: NullPaddedList&lt;T&gt;,
+            newList: NullPaddedList&lt;T&gt;,
+            lastAccessedIndex: Int,
+            onListPresentable: () -&gt; Unit
+        ): Int? {
+<span class="fc" id="L24">            onListPresentable()</span>
+<span class="fc" id="L25">            _items.value = snapshot().items</span>
+<span class="fc" id="L26">            return null</span>
+        }
+    }
+
+    suspend fun collectFrom(pagingData: PagingData&lt;T&gt;) {
+<span class="fc" id="L31">        pagingDataDiffer.collectFrom(pagingData)</span>
+<span class="fc" id="L32">    }</span>
+
+<span class="fc" id="L34">    class NoopListCallback : DifferCallback {</span>
+<span class="fc" id="L35">        override fun onChanged(position: Int, count: Int) {}</span>
+<span class="fc" id="L36">        override fun onInserted(position: Int, count: Int) {}</span>
+<span class="nc" id="L37">        override fun onRemoved(position: Int, count: Int) {}</span>
+    }
+<span class="fc" id="L39">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

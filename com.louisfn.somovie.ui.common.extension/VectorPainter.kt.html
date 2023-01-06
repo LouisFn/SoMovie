@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VectorPainter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.common.extension</a> &gt; <span class="el_source">VectorPainter.kt</span></div><h1>VectorPainter.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.common.extension
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.RenderVectorGroup
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
+@Composable
+fun rememberVectorPainter(image: ImageVector, tintColor: Color) =
+<span class="nc bnc" id="L11" title="All 2 branches missed.">    rememberVectorPainter(</span>
+<span class="nc" id="L12">        defaultWidth = image.defaultWidth,</span>
+<span class="nc" id="L13">        defaultHeight = image.defaultHeight,</span>
+<span class="nc" id="L14">        viewportWidth = image.viewportWidth,</span>
+<span class="nc" id="L15">        viewportHeight = image.viewportHeight,</span>
+<span class="nc" id="L16">        name = image.name,</span>
+<span class="nc" id="L17">        tintColor = tintColor,</span>
+<span class="nc" id="L18">        tintBlendMode = image.tintBlendMode,</span>
+<span class="nc" id="L19">        autoMirror = false,</span>
+<span class="nc bnc" id="L20" title="All 8 branches missed.">        content = { _, _ -&gt; RenderVectorGroup(group = image.root) }</span>
+    )
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

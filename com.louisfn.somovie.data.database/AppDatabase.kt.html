@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AppDatabase.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.database</a> &gt; <span class="el_source">AppDatabase.kt</span></div><h1>AppDatabase.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.database
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.louisfn.somovie.data.database.converter.*
+import com.louisfn.somovie.data.database.dao.*
+import com.louisfn.somovie.data.database.entity.*
+
+@Database(
+    entities = [
+        RemoteKeyEntity::class,
+        MovieEntity::class,
+        MovieImageEntity::class,
+        MovieGenreCrossRefEntity::class,
+        MovieProductionCompanyCrossRefEntity::class,
+        MovieProductionCountryEntity::class,
+        GenreEntity::class,
+        ActorEntity::class,
+        CrewMemberEntity::class,
+        CompanyEntity::class,
+        PersonEntity::class,
+        ExploreEntity::class,
+        YoutubeVideoEntity::class,
+        WatchlistEntity::class
+    ],
+    version = 1
+)
+@TypeConverters(
+    ExploreCategoryConverter::class,
+    LocalDateConverter::class,
+    InstantConverter::class,
+    DurationConverter::class,
+    RemoteKeyTypeConverter::class,
+    OffsetDateTimeConverter::class
+)
+<span class="fc" id="L37">internal abstract class AppDatabase : RoomDatabase() {</span>
+    abstract fun remoteKeyDao(): RemoteKeyDao
+    abstract fun movieDao(): MovieDao
+    abstract fun movieImageDao(): MovieImageDao
+    abstract fun movieGenreCrossRefDao(): MovieGenreCrossRefDao
+    abstract fun movieProductionCompanyCrossRefDao(): MovieProductionCompanyCrossRefDao
+    abstract fun genreDao(): GenreDao
+    abstract fun actorDao(): ActorDao
+    abstract fun crewMemberDao(): CrewMemberDao
+    abstract fun companyDao(): CompanyDao
+    abstract fun productionCountryDao(): ProductionCountryDao
+    abstract fun personDao(): PersonDao
+    abstract fun exploreDao(): ExploreDao
+    abstract fun youtubeVideoDao(): YoutubeVideoDao
+    abstract fun watchListDao(): WatchlistDao
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

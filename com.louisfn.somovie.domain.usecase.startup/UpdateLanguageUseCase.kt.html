@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpdateLanguageUseCase.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.domain.usecase.startup</a> &gt; <span class="el_source">UpdateLanguageUseCase.kt</span></div><h1>UpdateLanguageUseCase.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.domain.usecase.startup
+
+import com.louisfn.somovie.data.repository.AppRepository
+import com.louisfn.somovie.data.repository.SessionRepository
+import com.louisfn.somovie.domain.usecase.SuspendUseCase
+import java.util.*
+import javax.inject.Inject
+
+<span class="nc" id="L9">class UpdateLanguageUseCase @Inject constructor(</span>
+<span class="nc" id="L10">    private val appRepository: AppRepository,</span>
+<span class="nc" id="L11">    private val sessionRepository: SessionRepository</span>
+<span class="nc" id="L12">) : SuspendUseCase&lt;Unit, Boolean&gt;() {</span>
+
+    override suspend fun execute(parameter: Unit): Boolean {
+<span class="nc" id="L15">        val localeLanguage = Locale.getDefault().language</span>
+<span class="nc bnc" id="L16" title="All 2 branches missed.">        if (localeLanguage != sessionRepository.getSession().languageIso639) {</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">            sessionRepository.updateSession { it.copy(languageIso639 = localeLanguage) }</span>
+<span class="nc" id="L18">            appRepository.clearDatabase()</span>
+<span class="nc" id="L19">            return true</span>
+        }
+<span class="nc" id="L21">        return false</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

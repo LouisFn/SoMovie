@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultAppendRemoteMediator.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.repository.paging</a> &gt; <span class="el_source">DefaultAppendRemoteMediator.kt</span></div><h1>DefaultAppendRemoteMediator.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.repository.paging
+
+import androidx.paging.LoadType
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
+import com.louisfn.somovie.core.logger.Logger
+import com.louisfn.somovie.data.database.datasource.RemoteKeyLocalDataSource
+import com.louisfn.somovie.data.database.entity.RemoteKeyEntity
+
+<span class="fc" id="L10">internal abstract class DefaultAppendRemoteMediator&lt;Key : Any, Value : Any&gt; constructor(</span>
+<span class="fc" id="L11">    private val remoteKeyLocalDataSource: RemoteKeyLocalDataSource,</span>
+<span class="fc" id="L12">    private val remoteKeyType: RemoteKeyEntity.Type,</span>
+<span class="fc" id="L13">    private val cacheTimeout: Long</span>
+<span class="fc" id="L14">) : RemoteMediator&lt;Key, Value&gt;() {</span>
+
+    override suspend fun initialize() =
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        if (remoteKeyLocalDataSource.isExpired(remoteKeyType, cacheTimeout)) {</span>
+<span class="fc" id="L18">            InitializeAction.LAUNCH_INITIAL_REFRESH</span>
+        } else {
+<span class="nc" id="L20">            InitializeAction.SKIP_INITIAL_REFRESH</span>
+<span class="fc" id="L21">        }</span>
+
+    @Suppress(&quot;ReturnCount&quot;)
+<span class="fc" id="L24">    override suspend fun load(loadType: LoadType, state: PagingState&lt;Key, Value&gt;): MediatorResult {</span>
+<span class="fc" id="L25">        return try {</span>
+<span class="fc" id="L26">            val remoteKey = remoteKeyLocalDataSource.getRemoteKey(remoteKeyType)</span>
+
+<span class="fc bfc" id="L28" title="All 3 branches covered.">            val key = when (loadType) {</span>
+<span class="fc" id="L29">                LoadType.REFRESH -&gt; null</span>
+<span class="fc" id="L30">                LoadType.PREPEND -&gt; return MediatorResult.Success(true)</span>
+<span class="pc bpc" id="L31" title="2 of 4 branches missed.">                LoadType.APPEND -&gt; checkNotNull(remoteKey).nextKey</span>
+<span class="nc" id="L32">                    ?: return MediatorResult.Success(true)</span>
+            }
+
+<span class="fc" id="L35">            val result = fetchNewData(key)</span>
+
+<span class="fc" id="L37">            remoteKeyLocalDataSource.updateNextKey(</span>
+<span class="fc" id="L38">                type = remoteKeyType,</span>
+<span class="fc" id="L39">                nextKey = result.nextKey,</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                reset = loadType == LoadType.REFRESH</span>
+            )
+
+<span class="fc" id="L43">            MediatorResult.Success(endOfPaginationReached = result.endOfPaginationReached)</span>
+<span class="fc" id="L44">        } catch (e: Exception) {</span>
+<span class="fc" id="L45">            Logger.e(e)</span>
+<span class="fc" id="L46">            MediatorResult.Error(e)</span>
+        }
+    }
+
+    abstract suspend fun fetchNewData(key: String?): Result
+
+<span class="fc" id="L52">    data class Result(</span>
+<span class="fc" id="L53">        val nextKey: String,</span>
+<span class="fc" id="L54">        val endOfPaginationReached: Boolean</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

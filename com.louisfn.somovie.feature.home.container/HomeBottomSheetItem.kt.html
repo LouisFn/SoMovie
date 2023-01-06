@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HomeBottomSheetItem.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.home.container</a> &gt; <span class="el_source">HomeBottomSheetItem.kt</span></div><h1>HomeBottomSheetItem.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.home.container
+
+import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Swipe
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.louisfn.somovie.feature.home.account.AccountNavigation
+import com.louisfn.somovie.feature.home.container.HomeBottomSheetItem.*
+import com.louisfn.somovie.feature.home.discover.DiscoverNavigation
+import com.louisfn.somovie.feature.home.explore.ExploreNavigation
+import com.louisfn.somovie.feature.home.watchlist.WatchlistDestination
+import com.louisfn.somovie.ui.common.R
+import com.louisfn.somovie.ui.common.navigation.NavigationDestination
+
+<span class="nc" id="L18">sealed class HomeBottomSheetItem(</span>
+<span class="nc" id="L19">    val destination: NavigationDestination,</span>
+<span class="nc" id="L20">    @StringRes val titleId: Int,</span>
+<span class="nc" id="L21">    val icon: ImageVector</span>
+) {
+<span class="nc" id="L23">    object Explore : HomeBottomSheetItem(ExploreNavigation, R.string.home_explore, Icons.Default.Movie)</span>
+<span class="nc" id="L24">    object WatchList : HomeBottomSheetItem(WatchlistDestination, R.string.home_watchlist, Icons.Default.List)</span>
+<span class="nc" id="L25">    object Discover : HomeBottomSheetItem(DiscoverNavigation, R.string.home_discover, Icons.Default.Swipe)</span>
+<span class="nc" id="L26">    object Account : HomeBottomSheetItem(AccountNavigation, R.string.home_account, Icons.Default.Settings)</span>
+}
+
+<span class="nc" id="L29">val HomeBottomSheetItems = listOf(Explore, WatchList, Discover, Account)</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

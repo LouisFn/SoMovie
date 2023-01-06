@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RemoteKeyLocalDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.database.datasource</a> &gt; <span class="el_source">RemoteKeyLocalDataSource.kt</span></div><h1>RemoteKeyLocalDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.database.datasource
+
+import androidx.annotation.AnyThread
+import com.louisfn.somovie.core.common.extension.isExpired
+import com.louisfn.somovie.core.common.provider.DateTimeProvider
+import com.louisfn.somovie.data.database.AppDatabase
+import com.louisfn.somovie.data.database.entity.RemoteKeyEntity
+import javax.inject.Inject
+
+interface RemoteKeyLocalDataSource {
+
+    @AnyThread
+    suspend fun getRemoteKey(type: RemoteKeyEntity.Type): RemoteKeyEntity?
+
+    @AnyThread
+    suspend fun isExpired(type: RemoteKeyEntity.Type, cacheTimeout: Long): Boolean
+
+    @AnyThread
+    suspend fun updateNextKey(type: RemoteKeyEntity.Type, nextKey: String, reset: Boolean)
+}
+
+<span class="nc" id="L22">internal class DefaultRemoteKeyLocalDataSource @Inject constructor(</span>
+<span class="nc" id="L23">    private val database: AppDatabase,</span>
+<span class="nc" id="L24">    private val dateTimeProvider: DateTimeProvider</span>
+) : RemoteKeyLocalDataSource {
+
+    override suspend fun getRemoteKey(type: RemoteKeyEntity.Type): RemoteKeyEntity? =
+<span class="nc" id="L28">        database.remoteKeyDao().get(type)</span>
+
+    override suspend fun isExpired(type: RemoteKeyEntity.Type, cacheTimeout: Long): Boolean =
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        getRemoteKey(type)?.firstFetchAt.isExpired(dateTimeProvider.now(), cacheTimeout)</span>
+
+    override suspend fun updateNextKey(type: RemoteKeyEntity.Type, nextKey: String, reset: Boolean) {
+<span class="nc" id="L34">        with(database.remoteKeyDao()) {</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            if (reset) {</span>
+<span class="nc" id="L36">                insertOrReplace(</span>
+<span class="nc" id="L37">                    RemoteKeyEntity(</span>
+<span class="nc" id="L38">                        type = type,</span>
+<span class="nc" id="L39">                        nextKey = nextKey,</span>
+<span class="nc" id="L40">                        firstFetchAt = dateTimeProvider.now()</span>
+                    )
+                )
+            } else {
+<span class="nc" id="L44">                updateNextKey(type, nextKey)</span>
+            }
+        }
+<span class="nc" id="L47">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

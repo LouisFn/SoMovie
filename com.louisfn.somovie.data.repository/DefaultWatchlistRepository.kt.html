@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultWatchlistRepository.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.repository</a> &gt; <span class="el_source">DefaultWatchlistRepository.kt</span></div><h1>DefaultWatchlistRepository.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.repository
+
+import androidx.annotation.AnyThread
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
+import com.louisfn.somovie.data.database.DatabaseHelper
+import com.louisfn.somovie.data.database.datasource.RemoteKeyLocalDataSource
+import com.louisfn.somovie.data.database.datasource.WatchlistLocalDataSource
+import com.louisfn.somovie.data.datastore.datasource.DataStoreLocalDataSource
+import com.louisfn.somovie.data.datastore.model.SessionData
+import com.louisfn.somovie.data.mapper.MovieMapper
+import com.louisfn.somovie.data.network.body.AddToWatchlistBody
+import com.louisfn.somovie.data.network.datasource.WatchlistRemoteDataSource
+import com.louisfn.somovie.data.repository.paging.WatchlistRemoteMediator
+import com.louisfn.somovie.data.repository.paging.mapPaging
+import com.louisfn.somovie.domain.model.Movie
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.invoke
+import javax.inject.Inject
+
+interface WatchlistRepository {
+
+    @AnyThread
+    suspend fun addToWatchlist(movieId: Long)
+
+    @AnyThread
+    suspend fun removeFromWatchlist(movieId: Long)
+
+    @AnyThread
+<span class="fc" id="L36">    fun watchlistPagingChanges(</span>
+        pagingConfig: PagingConfig,
+<span class="fc" id="L38">        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT</span>
+    ): Flow&lt;PagingData&lt;Movie&gt;&gt;
+
+    companion object {
+        private const val DEFAULT_CACHE_TIMEOUT = 0L
+    }
+}
+
+<span class="fc" id="L46">internal class DefaultWatchlistRepository @Inject constructor(</span>
+<span class="fc" id="L47">    private val remoteDataSource: WatchlistRemoteDataSource,</span>
+<span class="fc" id="L48">    private val localDataSource: WatchlistLocalDataSource,</span>
+<span class="fc" id="L49">    private val sessionLocalDataSource: DataStoreLocalDataSource&lt;SessionData&gt;,</span>
+<span class="fc" id="L50">    private val remoteKeyLocalDataSource: RemoteKeyLocalDataSource,</span>
+<span class="fc" id="L51">    private val movieMapper: MovieMapper,</span>
+<span class="fc" id="L52">    private val databaseHelper: DatabaseHelper,</span>
+<span class="fc" id="L53">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+) : WatchlistRepository {
+
+    override fun watchlistPagingChanges(
+        pagingConfig: PagingConfig,
+        cacheTimeout: Long
+    ): Flow&lt;PagingData&lt;Movie&gt;&gt; =
+<span class="fc" id="L60">        flow {</span>
+<span class="fc" id="L61">            val pagerFlow =</span>
+<span class="fc" id="L62">                Pager(</span>
+<span class="fc" id="L63">                    config = pagingConfig,</span>
+<span class="fc" id="L64">                    remoteMediator = createWatchlistRemoteMediator(cacheTimeout),</span>
+<span class="fc" id="L65">                    pagingSourceFactory = { localDataSource.getPagingWatchlist() }</span>
+<span class="fc" id="L66">                ).flow</span>
+<span class="fc" id="L67">            emitAll(pagerFlow)</span>
+<span class="nc" id="L68">        }</span>
+<span class="fc" id="L69">            .mapPaging(movieMapper::mapToDomain)</span>
+<span class="fc" id="L70">            .flowOn(defaultDispatcher)</span>
+
+    @AnyThread
+    private suspend fun createWatchlistRemoteMediator(
+        cacheTimeout: Long
+<span class="fc" id="L75">    ) = WatchlistRemoteMediator(</span>
+<span class="fc" id="L76">        cacheTimeout = cacheTimeout,</span>
+<span class="fc" id="L77">        remoteKeyLocalDataSource = remoteKeyLocalDataSource,</span>
+<span class="fc" id="L78">        localDataSource = localDataSource,</span>
+<span class="fc" id="L79">        remoteDataSource = remoteDataSource,</span>
+<span class="fc" id="L80">        movieMapper = movieMapper,</span>
+<span class="fc" id="L81">        databaseHelper = databaseHelper,</span>
+<span class="fc" id="L82">        accountId = getAccountId()</span>
+<span class="fc" id="L83">    )</span>
+
+<span class="fc" id="L85">    override suspend fun addToWatchlist(movieId: Long) = defaultDispatcher {</span>
+<span class="fc" id="L86">        remoteDataSource.addToWatchlist(</span>
+<span class="fc" id="L87">            accountId = getAccountId(),</span>
+<span class="fc" id="L88">            addToWatchlistBody = AddToWatchlistBody(</span>
+<span class="fc" id="L89">                movieId = movieId,</span>
+<span class="fc" id="L90">                watchlist = true</span>
+            )
+        )
+<span class="fc" id="L93">        localDataSource.updateWatchlistState(movieId, true)</span>
+<span class="fc" id="L94">    }</span>
+
+<span class="fc" id="L96">    override suspend fun removeFromWatchlist(movieId: Long) = defaultDispatcher {</span>
+<span class="fc" id="L97">        remoteDataSource.addToWatchlist(</span>
+<span class="fc" id="L98">            accountId = getAccountId(),</span>
+<span class="fc" id="L99">            addToWatchlistBody = AddToWatchlistBody(</span>
+<span class="fc" id="L100">                movieId = movieId,</span>
+<span class="fc" id="L101">                watchlist = false</span>
+            )
+        )
+<span class="fc" id="L104">        databaseHelper.withTransaction {</span>
+<span class="fc" id="L105">            localDataSource.updateWatchlistState(movieId, false)</span>
+<span class="fc" id="L106">            localDataSource.deleteFromWatchlist(movieId)</span>
+<span class="fc" id="L107">        }</span>
+<span class="fc" id="L108">    }</span>
+
+    @AnyThread
+    private suspend fun getAccountId(): Long =
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        checkNotNull(sessionLocalDataSource.getData().account) { &quot;Account should not be null&quot; }</span>
+<span class="fc" id="L113">            .id</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

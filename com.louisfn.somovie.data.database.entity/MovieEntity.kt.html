@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieEntity.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.database.entity</a> &gt; <span class="el_source">MovieEntity.kt</span></div><h1>MovieEntity.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.database.entity
+
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.louisfn.somovie.data.database.*
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
+
+<span class="fc" id="L12">@Entity(tableName = TABLE_MOVIE)</span>
+<span class="fc" id="L13">data class MovieEntity(</span>
+<span class="fc" id="L14">    @PrimaryKey</span>
+    @ColumnInfo(name = COLUMN_ID)
+<span class="fc" id="L16">    val id: Long,</span>
+<span class="fc" id="L17">    @ColumnInfo(name = COLUMN_TITLE)</span>
+<span class="fc" id="L18">    val title: String,</span>
+<span class="fc" id="L19">    @ColumnInfo(name = COLUMN_ORIGINAL_TITLE)</span>
+<span class="fc" id="L20">    val originalTitle: String,</span>
+<span class="fc" id="L21">    @ColumnInfo(name = COLUMN_ORIGINAL_LANGUAGE)</span>
+<span class="fc" id="L22">    val originalLanguage: String,</span>
+<span class="fc" id="L23">    @ColumnInfo(name = COLUMN_OVERVIEW)</span>
+<span class="fc" id="L24">    val overview: String,</span>
+<span class="fc" id="L25">    @ColumnInfo(name = COLUMN_RELEASE_DATE)</span>
+<span class="fc" id="L26">    val releaseDate: LocalDate?,</span>
+<span class="fc" id="L27">    @ColumnInfo(name = COLUMN_VOTE_AVERAGE)</span>
+<span class="fc" id="L28">    val voteAverage: Float,</span>
+<span class="fc" id="L29">    @ColumnInfo(name = COLUMN_POSTER_PATH)</span>
+<span class="fc" id="L30">    val posterPath: String?,</span>
+<span class="fc" id="L31">    @ColumnInfo(name = COLUMN_BACKDROP_PATH)</span>
+<span class="fc" id="L32">    val backdropPath: String?,</span>
+<span class="fc" id="L33">    @ColumnInfo(name = COLUMN_WATCHLIST)</span>
+<span class="fc" id="L34">    val watchlist: Boolean?,</span>
+<span class="fc" id="L35">    @ColumnInfo(name = COLUMN_UPDATED_AT)</span>
+<span class="fc" id="L36">    val updatedAt: Instant?,</span>
+<span class="fc" id="L37">    @ColumnInfo(name = COLUMN_DETAILS_UPDATED_AT)</span>
+<span class="fc" id="L38">    val detailsUpdatedAt: Instant?,</span>
+<span class="fc" id="L39">    @Embedded</span>
+<span class="fc" id="L40">    val details: Details?</span>
+) {
+<span class="fc" id="L42">    data class Details(</span>
+<span class="fc" id="L43">        @ColumnInfo(name = COLUMN_TAGLINE)</span>
+<span class="fc" id="L44">        val tagline: String?,</span>
+<span class="fc" id="L45">        @ColumnInfo(name = COLUMN_RUNTIME)</span>
+<span class="fc" id="L46">        val runtime: Duration?,</span>
+<span class="fc" id="L47">        @ColumnInfo(name = COLUMN_POPULARITY)</span>
+<span class="fc" id="L48">        val popularity: Float,</span>
+<span class="fc" id="L49">        @ColumnInfo(name = COLUMN_BUDGET)</span>
+<span class="fc" id="L50">        val budget: Int,</span>
+<span class="fc" id="L51">        @ColumnInfo(name = COLUMN_REVENUE)</span>
+<span class="fc" id="L52">        val revenue: Int,</span>
+<span class="fc" id="L53">        @ColumnInfo(name = COLUMN_VOTE_COUNT)</span>
+<span class="fc" id="L54">        val voteCount: Int</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

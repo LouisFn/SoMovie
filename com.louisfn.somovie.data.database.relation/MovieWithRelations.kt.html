@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieWithRelations.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.database.relation</a> &gt; <span class="el_source">MovieWithRelations.kt</span></div><h1>MovieWithRelations.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.database.relation
+
+import androidx.room.Embedded
+import androidx.room.Junction
+import androidx.room.Relation
+import com.louisfn.somovie.data.database.COLUMN_FK_COMPANY_ID
+import com.louisfn.somovie.data.database.COLUMN_FK_GENRE_ID
+import com.louisfn.somovie.data.database.COLUMN_FK_MOVIE_ID
+import com.louisfn.somovie.data.database.COLUMN_ID
+import com.louisfn.somovie.data.database.entity.*
+
+<span class="nc" id="L12">data class MovieWithRelations(</span>
+<span class="nc" id="L13">    @Embedded</span>
+<span class="nc" id="L14">    val movie: MovieEntity,</span>
+
+<span class="nc" id="L16">    @Relation(</span>
+        parentColumn = COLUMN_ID,
+        entityColumn = COLUMN_ID,
+        associateBy = Junction(
+            value = MovieGenreCrossRefEntity::class,
+            parentColumn = COLUMN_FK_MOVIE_ID,
+            entityColumn = COLUMN_FK_GENRE_ID
+        )
+    )
+<span class="nc" id="L25">    val genres: List&lt;GenreEntity&gt;,</span>
+
+<span class="nc" id="L27">    @Relation(</span>
+        parentColumn = COLUMN_ID,
+        entityColumn = COLUMN_ID,
+        associateBy = Junction(
+            value = MovieProductionCompanyCrossRefEntity::class,
+            parentColumn = COLUMN_FK_MOVIE_ID,
+            entityColumn = COLUMN_FK_COMPANY_ID
+        )
+    )
+<span class="nc" id="L36">    val productionCompanies: List&lt;CompanyEntity&gt;,</span>
+
+<span class="nc" id="L38">    @Relation(</span>
+        parentColumn = COLUMN_ID,
+        entityColumn = COLUMN_FK_MOVIE_ID
+    )
+<span class="nc" id="L42">    val productionCountries: List&lt;MovieProductionCountryEntity&gt;</span>
+)
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

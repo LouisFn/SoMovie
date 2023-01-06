@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorsDispatcher.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.common.error</a> &gt; <span class="el_source">ErrorsDispatcher.kt</span></div><h1>ErrorsDispatcher.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.common.error
+
+import androidx.annotation.AnyThread
+import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
+import com.louisfn.somovie.core.common.extension.cancelChildren
+import com.louisfn.somovie.ui.common.model.ImmutableList
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
+
+interface ErrorsDispatcher {
+
+    @AnyThread
+    fun dispatch(throwable: Throwable)
+
+    @AnyThread
+    fun dispatch(message: String)
+
+    @AnyThread
+    fun cancel()
+
+    @AnyThread
+    fun errorChanges(): Flow&lt;ImmutableList&lt;Error&gt;&gt;
+}
+
+<span class="nc" id="L32">@Singleton</span>
+<span class="nc" id="L33">class DefaultErrorsDispatcher @Inject constructor(</span>
+<span class="nc" id="L34">    private val commonErrorMapper: CommonErrorMapper,</span>
+<span class="nc" id="L35">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+) : ErrorsDispatcher {
+<span class="nc" id="L37">    private val scope = CoroutineScope(defaultDispatcher)</span>
+
+<span class="nc" id="L39">    private val _errors = MutableStateFlow&lt;ImmutableList&lt;Error&gt;&gt;(ImmutableList())</span>
+
+<span class="nc" id="L41">    override fun errorChanges(): Flow&lt;ImmutableList&lt;Error&gt;&gt; = _errors</span>
+
+    override fun dispatch(throwable: Throwable) {
+<span class="nc" id="L44">        dispatch(commonErrorMapper.map(throwable))</span>
+<span class="nc" id="L45">    }</span>
+
+    override fun dispatch(message: String) {
+<span class="nc" id="L48">        dispatch(SimpleMessageError(message))</span>
+<span class="nc" id="L49">    }</span>
+
+    override fun cancel() {
+<span class="nc" id="L52">        _errors.value = ImmutableList()</span>
+<span class="nc" id="L53">        scope.cancelChildren()</span>
+<span class="nc" id="L54">    }</span>
+
+    @AnyThread
+    private fun dispatch(error: Error) =
+<span class="nc" id="L58">        scope.launch {</span>
+<span class="nc" id="L59">            _errors.update {</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                if (!it.contains(error)) ImmutableList(it + error)</span>
+<span class="nc" id="L61">                else it</span>
+            }
+
+<span class="nc" id="L64">            delay(error.duration)</span>
+
+<span class="nc" id="L66">            _errors.update { ImmutableList(it - error) }</span>
+<span class="nc" id="L67">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

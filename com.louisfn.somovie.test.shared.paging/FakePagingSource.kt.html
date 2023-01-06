@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FakePagingSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.test.shared.paging</a> &gt; <span class="el_source">FakePagingSource.kt</span></div><h1>FakePagingSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.test.shared.paging
+
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
+import java.util.concurrent.atomic.AtomicBoolean
+
+<span class="fc" id="L12">class FakePagingSource&lt;T : Any&gt;(</span>
+<span class="fc" id="L13">    private val items: StateFlow&lt;List&lt;T&gt;&gt;,</span>
+<span class="fc" id="L14">    private val scope: TestScope</span>
+<span class="fc" id="L15">) : PagingSource&lt;Int, T&gt;() {</span>
+<span class="fc" id="L16">    private val registeredObserver: AtomicBoolean = AtomicBoolean(false)</span>
+
+<span class="fc" id="L18">    override fun getRefreshKey(state: PagingState&lt;Int, T&gt;): Int? = null</span>
+
+    override suspend fun load(params: LoadParams&lt;Int&gt;): LoadResult&lt;Int, T&gt; {
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (registeredObserver.compareAndSet(false, true)) {</span>
+<span class="fc" id="L22">            scope.launch(start = CoroutineStart.UNDISPATCHED) {</span>
+<span class="fc" id="L23">                items</span>
+<span class="fc" id="L24">                    .drop(1)</span>
+<span class="fc" id="L25">                    .collect { invalidate() }</span>
+<span class="nc" id="L26">            }</span>
+        }
+
+<span class="fc" id="L29">        val offset = when (params) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">            is LoadParams.Refresh -&gt; 0</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">            is LoadParams.Append -&gt; params.key</span>
+<span class="nc" id="L32">            else -&gt; throw NotImplementedError(&quot;$params is not implemented&quot;)</span>
+        }
+
+<span class="fc" id="L35">        val limit = when (params) {</span>
+<span class="pc bpc" id="L36" title="1 of 4 branches missed.">            is LoadParams.Refresh -&gt; params.key ?: params.loadSize</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">            is LoadParams.Append -&gt; params.loadSize</span>
+<span class="nc" id="L38">            else -&gt; throw NotImplementedError(&quot;$params is not implemented&quot;)</span>
+        }
+
+<span class="fc" id="L41">        val data = items.value.drop(offset).take(limit)</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">        val nextKey = if (data.isNotEmpty()) offset + limit else null</span>
+<span class="fc" id="L43">        return LoadResult.Page(</span>
+<span class="fc" id="L44">            data = data,</span>
+<span class="fc" id="L45">            prevKey = null,</span>
+<span class="fc" id="L46">            nextKey = nextKey</span>
+        )
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

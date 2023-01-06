@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Shake.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.common.modifier</a> &gt; <span class="el_source">Shake.kt</span></div><h1>Shake.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.common.modifier
+
+import androidx.compose.animation.core.DurationBasedAnimationSpec
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.graphicsLayer
+
+private const val DefaultInitialScale = 1f
+private const val DefaultTargetScale = .9f
+private const val DefaultAnimationDuration = 50
+
+<span class="nc" id="L19">fun Modifier.shake(</span>
+    enabled: Boolean,
+<span class="nc" id="L21">    initialScale: Float = DefaultInitialScale,</span>
+<span class="nc" id="L22">    targetScale: Float = DefaultTargetScale,</span>
+<span class="nc" id="L23">    animation: DurationBasedAnimationSpec&lt;Float&gt; = tween(</span>
+<span class="nc" id="L24">        durationMillis = DefaultAnimationDuration,</span>
+<span class="nc" id="L25">        easing = LinearEasing</span>
+    )
+<span class="nc" id="L27">) = composed {</span>
+<span class="nc bnc" id="L28" title="All 4 branches missed.">    if (enabled) {</span>
+<span class="nc" id="L29">        val infiniteTransition = rememberInfiniteTransition()</span>
+<span class="nc" id="L30">        val scale by infiniteTransition.animateFloat(</span>
+<span class="nc" id="L31">            initialValue = initialScale,</span>
+<span class="nc" id="L32">            targetValue = targetScale,</span>
+<span class="nc" id="L33">            animationSpec = infiniteRepeatable(</span>
+<span class="nc" id="L34">                animation = animation,</span>
+<span class="nc" id="L35">                repeatMode = RepeatMode.Reverse</span>
+            )
+        )
+<span class="nc" id="L38">        Modifier.graphicsLayer {</span>
+<span class="nc" id="L39">            scaleX = scale</span>
+<span class="nc" id="L40">            scaleY = scale</span>
+<span class="nc" id="L41">        }</span>
+    } else {
+<span class="nc" id="L43">        this</span>
+    }
+<span class="nc" id="L45">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

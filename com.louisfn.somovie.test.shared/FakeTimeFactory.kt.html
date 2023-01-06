@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FakeTimeFactory.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.test.shared</a> &gt; <span class="el_source">FakeTimeFactory.kt</span></div><h1>FakeTimeFactory.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.test.shared
+
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
+import kotlin.random.Random
+
+object FakeInstantFactory {
+
+<span class="fc" id="L10">    fun create(</span>
+<span class="fc" id="L11">        from: Instant = Instant.ofEpochMilli(0),</span>
+<span class="fc" id="L12">        to: Instant = Instant.now()</span>
+<span class="fc" id="L13">    ): Instant = Instant.ofEpochMilli(Random.nextLong(from.toEpochMilli(), to.toEpochMilli()))</span>
+}
+
+object FakeDurationFactory {
+
+<span class="fc" id="L18">    fun create(</span>
+<span class="fc" id="L19">        from: Duration = Duration.ofHours(0),</span>
+<span class="fc" id="L20">        to: Duration = Duration.ofHours(24)</span>
+<span class="fc" id="L21">    ): Duration = Duration.ofMillis(Random.nextLong(from.toMillis(), to.toMillis()))</span>
+}
+
+object FakeLocalDateFactory {
+
+<span class="fc" id="L26">    fun create(</span>
+<span class="fc" id="L27">        from: LocalDate = LocalDate.ofEpochDay(0),</span>
+<span class="fc" id="L28">        to: LocalDate = LocalDate.now()</span>
+<span class="fc" id="L29">    ): LocalDate = LocalDate.ofEpochDay(Random.nextLong(from.toEpochDay(), to.toEpochDay()))</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

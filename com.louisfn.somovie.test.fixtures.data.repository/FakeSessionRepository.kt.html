@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FakeSessionRepository.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.test.fixtures.data.repository</a> &gt; <span class="el_source">FakeSessionRepository.kt</span></div><h1>FakeSessionRepository.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.test.fixtures.data.repository
+
+import com.louisfn.somovie.data.repository.SessionRepository
+import com.louisfn.somovie.domain.model.Session
+import com.louisfn.somovie.test.fixtures.domain.FakeSessionFactory
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+
+<span class="fc" id="L10">class FakeSessionRepository : SessionRepository {</span>
+
+<span class="fc" id="L12">    private val sessionState = MutableStateFlow(FakeSessionFactory.empty)</span>
+
+    override fun sessionChanges(): Flow&lt;Session&gt; =
+<span class="fc" id="L15">        sessionState</span>
+
+    override suspend fun getSession(): Session =
+<span class="nc" id="L18">        sessionState.value</span>
+
+    override suspend fun updateSession(transform: suspend (t: Session) -&gt; Session) {
+<span class="nc" id="L21">        sessionState.update { transform(it) }</span>
+<span class="nc" id="L22">    }</span>
+
+    fun setSession(session: Session) {
+<span class="fc" id="L25">        sessionState.value = session</span>
+<span class="fc" id="L26">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

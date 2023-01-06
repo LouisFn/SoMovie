@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SessionData.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.datastore.model</a> &gt; <span class="el_source">SessionData.kt</span></div><h1>SessionData.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.datastore.model
+
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+<span class="fc" id="L6">@JsonClass(generateAdapter = true)</span>
+<span class="fc" id="L7">data class SessionData(</span>
+<span class="fc" id="L8">    @Json(name = &quot;session_id&quot;)</span>
+<span class="pc" id="L9">    val sessionId: String? = null,</span>
+<span class="fc" id="L10">    @Json(name = &quot;language&quot;)</span>
+<span class="pc" id="L11">    val languageIso639: String? = null,</span>
+<span class="fc" id="L12">    @Json(name = &quot;account&quot;)</span>
+<span class="fc" id="L13">    val account: Account? = null</span>
+) : DataStoreData {
+
+<span class="fc" id="L16">    @JsonClass(generateAdapter = true)</span>
+<span class="fc" id="L17">    data class Account(</span>
+<span class="fc" id="L18">        @Json(name = &quot;id&quot;)</span>
+<span class="fc" id="L19">        val id: Long,</span>
+<span class="fc" id="L20">        @Json(name = &quot;name&quot;)</span>
+<span class="nc" id="L21">        val name: String,</span>
+<span class="fc" id="L22">        @Json(name = &quot;username&quot;)</span>
+<span class="nc" id="L23">        val username: String</span>
+    )
+<span class="fc" id="L25">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDetailsNavigation.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.moviedetails</a> &gt; <span class="el_source">MovieDetailsNavigation.kt</span></div><h1>MovieDetailsNavigation.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.moviedetails
+
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.google.accompanist.navigation.animation.composable
+import com.louisfn.somovie.ui.common.navigation.NavigationDestination
+
+object MovieDetailsNavigation : NavigationDestination {
+    const val ARGS_MOVIE_ID = &quot;movie_id&quot;
+
+<span class="nc" id="L13">    override val route: String = &quot;movie/{$ARGS_MOVIE_ID}&quot;</span>
+
+<span class="nc" id="L15">    fun createRoute(movieId: Long) = &quot;movie/$movieId&quot;</span>
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+fun NavGraphBuilder.movieDetailsGraph(navigateUp: () -&gt; Unit) {
+<span class="nc" id="L20">    composable(</span>
+<span class="nc" id="L21">        route = MovieDetailsNavigation.route,</span>
+<span class="nc" id="L22">        arguments = listOf(</span>
+<span class="nc" id="L23">            navArgument(MovieDetailsNavigation.ARGS_MOVIE_ID) { type = NavType.LongType }</span>
+        )
+<span class="nc" id="L25">    ) {</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        MovieDetailsScreen(navigateUp = navigateUp)</span>
+<span class="nc" id="L27">    }</span>
+<span class="nc" id="L28">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

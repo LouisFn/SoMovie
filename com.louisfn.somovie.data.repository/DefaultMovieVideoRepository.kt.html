@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultMovieVideoRepository.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.repository</a> &gt; <span class="el_source">DefaultMovieVideoRepository.kt</span></div><h1>DefaultMovieVideoRepository.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.repository
+
+import androidx.annotation.AnyThread
+import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
+import com.louisfn.somovie.data.database.datasource.MovieVideoLocalDataSource
+import com.louisfn.somovie.data.mapper.YoutubeVideoMapper
+import com.louisfn.somovie.data.network.datasource.MovieVideoRemoteDataSource
+import com.louisfn.somovie.domain.model.YoutubeVideo
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.invoke
+import javax.inject.Inject
+
+interface MovieVideoRepository {
+
+    @AnyThread
+    fun youtubeVideosChanges(movieId: Long): Flow&lt;List&lt;YoutubeVideo&gt;&gt;
+
+    @AnyThread
+    suspend fun refreshYoutubeVideos(movieId: Long)
+}
+
+<span class="nc" id="L25">internal class DefaultMovieVideoRepository @Inject constructor(</span>
+<span class="nc" id="L26">    private val localDataSource: MovieVideoLocalDataSource,</span>
+<span class="nc" id="L27">    private val remoteDataSource: MovieVideoRemoteDataSource,</span>
+<span class="nc" id="L28">    private val youtubeVideoMapper: YoutubeVideoMapper,</span>
+<span class="nc" id="L29">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+) : MovieVideoRepository {
+
+    override fun youtubeVideosChanges(movieId: Long): Flow&lt;List&lt;YoutubeVideo&gt;&gt; =
+<span class="nc" id="L33">        localDataSource.youtubeVideosChanges(movieId)</span>
+<span class="nc" id="L34">            .map(youtubeVideoMapper::mapToDomain)</span>
+<span class="nc" id="L35">            .flowOn(defaultDispatcher)</span>
+
+    override suspend fun refreshYoutubeVideos(movieId: Long) {
+<span class="nc" id="L38">        defaultDispatcher {</span>
+<span class="nc" id="L39">            remoteDataSource.getMovieVideos(movieId)</span>
+<span class="nc" id="L40">                .let { youtubeVideoMapper.mapToEntity(movieId, it) }</span>
+<span class="nc" id="L41">                .also { localDataSource.replaceYoutubeVideos(movieId, it) }</span>
+        }
+<span class="nc" id="L43">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

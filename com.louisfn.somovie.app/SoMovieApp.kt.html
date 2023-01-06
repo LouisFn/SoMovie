@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SoMovieApp.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.app</a> &gt; <span class="el_source">SoMovieApp.kt</span></div><h1>SoMovieApp.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.app
+
+import android.app.Application
+import androidx.annotation.UiThread
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
+import com.louisfn.somovie.app.initializer.AppInitializers
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
+
+@HiltAndroidApp
+<span class="nc" id="L14">internal class SoMovieApp : Application(), LifecycleObserver {</span>
+
+    @Inject
+<span class="nc bnc" id="L17" title="All 2 branches missed.">    internal lateinit var initializers: AppInitializers</span>
+
+    override fun onCreate() {
+<span class="nc" id="L20">        super.onCreate()</span>
+
+<span class="nc" id="L22">        initializers.onCreate(this)</span>
+
+<span class="nc" id="L24">        ProcessLifecycleOwner.get().lifecycle.addObserver(</span>
+<span class="nc" id="L25">            object : DefaultLifecycleObserver {</span>
+                override fun onStart(owner: LifecycleOwner) {
+<span class="nc" id="L27">                    onForeground()</span>
+<span class="nc" id="L28">                }</span>
+
+                override fun onStop(owner: LifecycleOwner) {
+<span class="nc" id="L31">                    onBackground()</span>
+<span class="nc" id="L32">                }</span>
+            }
+        )
+<span class="nc" id="L35">    }</span>
+
+    @UiThread
+    private fun onForeground() {
+<span class="nc" id="L39">        initializers.onForeground()</span>
+<span class="nc" id="L40">    }</span>
+
+    @UiThread
+    private fun onBackground() {
+<span class="nc" id="L44">        initializers.onBackground()</span>
+<span class="nc" id="L45">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

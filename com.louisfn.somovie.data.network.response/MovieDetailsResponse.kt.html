@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieDetailsResponse.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.network.response</a> &gt; <span class="el_source">MovieDetailsResponse.kt</span></div><h1>MovieDetailsResponse.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.network.response
+
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+import java.time.Duration
+import java.time.LocalDate
+
+<span class="nc" id="L8">@JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L9">data class MovieDetailsResponse(</span>
+<span class="nc" id="L10">    @Json(name = &quot;id&quot;)</span>
+<span class="nc" id="L11">    val id: Long,</span>
+<span class="nc" id="L12">    @Json(name = &quot;title&quot;)</span>
+<span class="nc" id="L13">    val title: String,</span>
+<span class="nc" id="L14">    @Json(name = &quot;original_title&quot;)</span>
+<span class="nc" id="L15">    val originalTitle: String,</span>
+<span class="nc" id="L16">    @Json(name = &quot;original_language&quot;)</span>
+<span class="nc" id="L17">    val originalLanguage: String,</span>
+<span class="nc" id="L18">    @Json(name = &quot;tagline&quot;)</span>
+<span class="nc" id="L19">    val tagline: String?,</span>
+<span class="nc" id="L20">    @Json(name = &quot;overview&quot;)</span>
+<span class="nc" id="L21">    val overview: String,</span>
+<span class="nc" id="L22">    @Json(name = &quot;release_date&quot;)</span>
+<span class="nc" id="L23">    val releaseDate: LocalDate,</span>
+<span class="nc" id="L24">    @Json(name = &quot;genres&quot;)</span>
+<span class="nc" id="L25">    val genres: List&lt;MovieGenreResponse&gt;,</span>
+<span class="nc" id="L26">    @Json(name = &quot;runtime&quot;)</span>
+<span class="nc" id="L27">    val runtime: Duration?,</span>
+<span class="nc" id="L28">    @Json(name = &quot;vote_average&quot;)</span>
+<span class="nc" id="L29">    val voteAverage: Float,</span>
+<span class="nc" id="L30">    @Json(name = &quot;vote_count&quot;)</span>
+<span class="nc" id="L31">    val voteCount: Int,</span>
+<span class="nc" id="L32">    @Json(name = &quot;popularity&quot;)</span>
+<span class="nc" id="L33">    val popularity: Float,</span>
+<span class="nc" id="L34">    @Json(name = &quot;poster_path&quot;)</span>
+<span class="nc" id="L35">    val posterPath: String,</span>
+<span class="nc" id="L36">    @Json(name = &quot;backdrop_path&quot;)</span>
+<span class="nc" id="L37">    val backdropPath: String?,</span>
+<span class="nc" id="L38">    @Json(name = &quot;budget&quot;)</span>
+<span class="nc" id="L39">    val budget: Int,</span>
+<span class="nc" id="L40">    @Json(name = &quot;revenue&quot;)</span>
+<span class="nc" id="L41">    val revenue: Int,</span>
+<span class="nc" id="L42">    @Json(name = &quot;production_countries&quot;)</span>
+<span class="nc" id="L43">    val productionCountries: List&lt;ProductionCountryResponse&gt;,</span>
+<span class="nc" id="L44">    @Json(name = &quot;production_companies&quot;)</span>
+<span class="nc" id="L45">    val productionCompanies: List&lt;ProductionCompanyResponse&gt;</span>
+) {
+
+<span class="nc" id="L48">    @JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L49">    data class ProductionCountryResponse(</span>
+<span class="nc" id="L50">        @Json(name = &quot;iso_3166_1&quot;)</span>
+<span class="nc" id="L51">        val iso31661: String,</span>
+<span class="nc" id="L52">        @Json(name = &quot;name&quot;)</span>
+<span class="nc" id="L53">        val name: String</span>
+    )
+
+<span class="nc" id="L56">    @JsonClass(generateAdapter = true)</span>
+<span class="nc" id="L57">    data class ProductionCompanyResponse(</span>
+<span class="nc" id="L58">        @Json(name = &quot;id&quot;)</span>
+<span class="nc" id="L59">        val id: Long,</span>
+<span class="nc" id="L60">        @Json(name = &quot;logo_path&quot;)</span>
+<span class="nc" id="L61">        val logoPath: String?,</span>
+<span class="nc" id="L62">        @Json(name = &quot;name&quot;)</span>
+<span class="nc" id="L63">        val name: String</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

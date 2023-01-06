@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StateFlow.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.common.extension</a> &gt; <span class="el_source">StateFlow.kt</span></div><h1>StateFlow.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.common.extension
+
+import android.annotation.SuppressLint
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
+
+@SuppressLint(&quot;StateFlowValueCalledInComposition&quot;)
+@Composable
+fun &lt;T : R, R&gt; StateFlow&lt;T&gt;.collectAsStateLifecycleAware(
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">    context: CoroutineContext = EmptyCoroutineContext,</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">    minActiveState: Lifecycle.State = Lifecycle.State.STARTED</span>
+): State&lt;R&gt; =
+<span class="pc" id="L22">    rememberFlowWithLifecycle(flow = this, minActiveState = minActiveState)</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        .collectAsState(context = context, initial = value)</span>
+
+@Composable
+private fun &lt;T&gt; rememberFlowWithLifecycle(
+    flow: Flow&lt;T&gt;,
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">    minActiveState: Lifecycle.State = Lifecycle.State.STARTED</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">): Flow&lt;T&gt; = remember(flow, lifecycle) {</span>
+<span class="fc" id="L31">    flow.flowWithLifecycle(</span>
+<span class="fc" id="L32">        lifecycle = lifecycle,</span>
+<span class="fc" id="L33">        minActiveState = minActiveState</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

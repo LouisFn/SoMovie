@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MapperInterceptor.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.ui.common.coil</a> &gt; <span class="el_source">MapperInterceptor.kt</span></div><h1>MapperInterceptor.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.ui.common.coil
+
+import coil.intercept.Interceptor
+import coil.request.ImageResult
+import coil.size.Size
+import kotlin.reflect.KClass
+import kotlin.reflect.full.isSuperclassOf
+
+/**
+ * We should use a custom interceptor to map com.louisfn.somovie.core.common.getData in a background thread.
+ * We can't use [coil.map.Mapper.map] because it's call on main thread
+ */
+<span class="nc" id="L13">class MapperInterceptor(private val mappers: List&lt;Pair&lt;Mapper&lt;out Any, out Any&gt;, KClass&lt;out Any&gt;&gt;&gt;) : Interceptor {</span>
+
+<span class="nc" id="L15">    override suspend fun intercept(chain: Interceptor.Chain): ImageResult {</span>
+<span class="nc" id="L16">        val newRequest =</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">            mapData(chain.request.data, chain.size)</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">                ?.let { chain.request.newBuilder().data(it).build() }</span>
+<span class="nc" id="L19">                ?: chain.request</span>
+
+<span class="nc" id="L21">        return chain.proceed(newRequest)</span>
+    }
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;)
+    private suspend fun mapData(data: Any, size: Size): Any? {
+<span class="nc" id="L26">        mappers.forEach { (mapper, type) -&gt;</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            if (type.isSuperclassOf(data::class)) {</span>
+<span class="nc" id="L28">                return (mapper as Mapper&lt;Any, *&gt;).map(data, size)</span>
+            }
+<span class="nc" id="L30">        }</span>
+<span class="nc" id="L31">        return null</span>
+    }
+}
+
+fun interface Mapper&lt;T : Any, V : Any&gt; {
+
+    suspend fun map(data: T, size: Size): V?
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

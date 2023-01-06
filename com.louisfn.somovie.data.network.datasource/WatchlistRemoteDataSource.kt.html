@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WatchlistRemoteDataSource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.data.network.datasource</a> &gt; <span class="el_source">WatchlistRemoteDataSource.kt</span></div><h1>WatchlistRemoteDataSource.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.data.network.datasource
+
+import androidx.annotation.AnyThread
+import com.louisfn.somovie.data.network.ApiServiceExecutor
+import com.louisfn.somovie.data.network.body.AddToWatchlistBody
+import com.louisfn.somovie.data.network.response.MovieResponse
+import com.louisfn.somovie.data.network.response.PaginatedResultsResponse
+import javax.inject.Inject
+
+interface WatchlistRemoteDataSource {
+
+    @AnyThread
+    suspend fun addToWatchlist(accountId: Long, addToWatchlistBody: AddToWatchlistBody)
+
+    @AnyThread
+    suspend fun getWatchList(accountId: Long, page: Int): PaginatedResultsResponse&lt;MovieResponse&gt;
+}
+
+<span class="nc" id="L19">internal class DefaultWatchlistRemoteDataSource @Inject constructor(</span>
+<span class="nc" id="L20">    private val apiServiceExecutor: ApiServiceExecutor</span>
+) : WatchlistRemoteDataSource {
+
+    override suspend fun addToWatchlist(accountId: Long, addToWatchlistBody: AddToWatchlistBody) {
+<span class="nc" id="L24">        apiServiceExecutor.execute {</span>
+<span class="nc" id="L25">            it.addToWatchlist(accountId, addToWatchlistBody)</span>
+<span class="nc" id="L26">        }</span>
+<span class="nc" id="L27">    }</span>
+
+    override suspend fun getWatchList(accountId: Long, page: Int): PaginatedResultsResponse&lt;MovieResponse&gt; =
+<span class="nc" id="L30">        apiServiceExecutor.execute {</span>
+<span class="nc" id="L31">            it.getMovieWatchlist(accountId, page)</span>
+<span class="nc" id="L32">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

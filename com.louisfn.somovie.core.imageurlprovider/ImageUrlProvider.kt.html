@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ImageUrlProvider.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.core.imageurlprovider</a> &gt; <span class="el_source">ImageUrlProvider.kt</span></div><h1>ImageUrlProvider.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.core.imageurlprovider
+
+import androidx.annotation.AnyThread
+import androidx.annotation.WorkerThread
+import com.louisfn.somovie.core.common.annotation.ApplicationScope
+import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
+import com.louisfn.somovie.data.repository.TmdbConfigurationRepository
+import com.louisfn.somovie.domain.model.BackdropPath
+import com.louisfn.somovie.domain.model.ImagePath
+import com.louisfn.somovie.domain.model.LogoPath
+import com.louisfn.somovie.domain.model.PosterPath
+import com.louisfn.somovie.domain.model.ProfilePath
+import com.louisfn.somovie.domain.model.TmdbConfiguration
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.invoke
+import javax.inject.Inject
+import javax.inject.Singleton
+
+<span class="fc" id="L23">@Singleton</span>
+<span class="fc" id="L24">class ImageUrlProvider @Inject constructor(</span>
+    configurationRepository: TmdbConfigurationRepository,
+<span class="fc" id="L26">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
+<span class="fc" id="L27">    @ApplicationScope private val applicationScope: CoroutineScope</span>
+) {
+
+    private var currentConfig =
+<span class="fc" id="L31">        configurationRepository</span>
+<span class="fc" id="L32">            .tmdbConfigurationChanges()</span>
+<span class="fc" id="L33">            .shareIn(</span>
+<span class="fc" id="L34">                scope = applicationScope,</span>
+<span class="fc" id="L35">                started = SharingStarted.Eagerly,</span>
+<span class="fc" id="L36">                replay = 1</span>
+            )
+
+    @AnyThread
+<span class="fc" id="L40">    suspend fun get(path: ImagePath, requestedWidth: Int?): String? = defaultDispatcher {</span>
+<span class="pc bpc" id="L41" title="2 of 4 branches missed.">        val configImages = currentConfig.firstOrNull()?.images ?: return@defaultDispatcher null</span>
+
+<span class="fc" id="L43">        &quot;${configImages.secureBaseUrl}${</span>
+<span class="fc" id="L44">        getSizeSegment(</span>
+<span class="fc" id="L45">            path,</span>
+<span class="fc" id="L46">            requestedWidth,</span>
+<span class="fc" id="L47">            configImages</span>
+        )
+<span class="fc" id="L49">        }${path.value}&quot;</span>
+<span class="fc" id="L50">    }</span>
+
+    @WorkerThread
+    private fun getSizeSegment(
+        path: ImagePath,
+        requestedWidth: Int?,
+        configImages: TmdbConfiguration.Images
+    ): String {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        requestedWidth ?: return ORIGINAL_SIZE</span>
+
+<span class="fc" id="L60">        val sizesAvailable = when (path) {</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            is LogoPath -&gt; configImages.logoSizes</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            is BackdropPath -&gt; configImages.backdropSizes</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">            is ProfilePath -&gt; configImages.profileSizes</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">            is PosterPath -&gt; configImages.posterSizes</span>
+<span class="nc" id="L65">            else -&gt; throw IllegalArgumentException(&quot;${path::class} is not managed&quot;)</span>
+        }
+
+<span class="fc" id="L68">        sizesAvailable</span>
+<span class="fc" id="L69">            .mapNotNull { widthAsString -&gt;</span>
+<span class="pc bpc" id="L70" title="2 of 6 branches missed.">                SIZE_REGEX.matchEntire(widthAsString)?.groupValues?.get(1)?.toInt()</span>
+<span class="fc" id="L71">                    ?.let { widthAsInt -&gt;</span>
+<span class="fc" id="L72">                        widthAsString to widthAsInt</span>
+                    }
+            }
+<span class="fc" id="L75">            .sortedBy { it.second }</span>
+<span class="fc" id="L76">            .forEach { (widthAsString, widthAsInt) -&gt;</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">                if (widthAsInt &gt;= requestedWidth) {</span>
+<span class="fc" id="L78">                    return widthAsString</span>
+                }
+<span class="fc" id="L80">            }</span>
+
+<span class="fc" id="L82">        return ORIGINAL_SIZE</span>
+    }
+
+    companion object {
+<span class="fc" id="L86">        private val SIZE_REGEX = Regex(&quot;&quot;&quot;w(\d+)&quot;&quot;&quot;)</span>
+        private const val ORIGINAL_SIZE = &quot;original&quot;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
