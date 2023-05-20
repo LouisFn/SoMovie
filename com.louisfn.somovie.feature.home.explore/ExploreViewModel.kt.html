@@ -11,8 +11,7 @@ import com.louisfn.somovie.core.common.isLoading
 import com.louisfn.somovie.core.common.onResultError
 import com.louisfn.somovie.domain.model.ExploreCategory
 import com.louisfn.somovie.domain.model.Movie
-import com.louisfn.somovie.domain.usecase.movie.ObserveExploreMoviesUseCase
-import com.louisfn.somovie.domain.usecase.movie.RefreshExploreMoviesUseCase
+import com.louisfn.somovie.domain.usecase.movie.MovieInteractor
 import com.louisfn.somovie.ui.common.base.BaseViewModel
 import com.louisfn.somovie.ui.common.base.NoneAction
 import com.louisfn.somovie.ui.common.error.ErrorsDispatcher
@@ -29,58 +28,57 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-<span class="nc" id="L32">internal class ExploreViewModel @Inject constructor(</span>
+<span class="nc" id="L31">internal class ExploreViewModel @Inject constructor(</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    observeExploreMoviesUseCase: ObserveExploreMoviesUseCase,
-<span class="nc" id="L35">    private val refreshExploreMoviesUseCase: RefreshExploreMoviesUseCase,</span>
-<span class="nc" id="L36">    private val errorsDispatcher: ErrorsDispatcher</span>
-<span class="nc" id="L37">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
+<span class="nc" id="L33">    private val movieInteractor: MovieInteractor,</span>
+<span class="nc" id="L34">    private val errorsDispatcher: ErrorsDispatcher</span>
+<span class="nc" id="L35">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
-<span class="nc" id="L39">    private val refreshResultState = MutableStateFlow&lt;Result&lt;Unit&gt;?&gt;(null)</span>
+<span class="nc" id="L37">    private val refreshResultState = MutableStateFlow&lt;Result&lt;Unit&gt;?&gt;(null)</span>
 
-<span class="nc" id="L41">    val uiState: StateFlow&lt;ExploreUiState&gt; =</span>
-<span class="nc" id="L42">        combine(</span>
-<span class="nc" id="L43">            observeExploreMoviesUseCase(Unit)</span>
-<span class="nc" id="L44">                .map { ImmutableList(it.map { pair -&gt; pair.first to ImmutableList(pair.second) }) },</span>
-<span class="nc" id="L45">            refreshResultState</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">        ) { movies, refreshResult -&gt;</span>
-<span class="nc" id="L47">            createUiState(movies, refreshResult)</span>
+<span class="nc" id="L39">    val uiState: StateFlow&lt;ExploreUiState&gt; =</span>
+<span class="nc" id="L40">        combine(</span>
+<span class="nc" id="L41">            movieInteractor.exploreMoviesChanges()</span>
+<span class="nc" id="L42">                .map { ImmutableList(it.map { pair -&gt; pair.first to ImmutableList(pair.second) }) },</span>
+<span class="nc" id="L43">            refreshResultState</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        ) { movies, refreshResult -&gt;</span>
+<span class="nc" id="L45">            createUiState(movies, refreshResult)</span>
         }
-<span class="nc" id="L49">            .stateIn(</span>
-<span class="nc" id="L50">                scope = viewModelScope,</span>
-<span class="nc" id="L51">                started = SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L52">                initialValue = ExploreUiState.None</span>
+<span class="nc" id="L47">            .stateIn(</span>
+<span class="nc" id="L48">                scope = viewModelScope,</span>
+<span class="nc" id="L49">                started = SharingStarted.WhileSubscribed(),</span>
+<span class="nc" id="L50">                initialValue = ExploreUiState.None</span>
             )
 
-<span class="nc" id="L55">    init {</span>
-<span class="nc" id="L56">        refresh()</span>
-<span class="nc" id="L57">    }</span>
+<span class="nc" id="L53">    init {</span>
+<span class="nc" id="L54">        refresh()</span>
+<span class="nc" id="L55">    }</span>
 
     @AnyThread
     private fun createUiState(
         moviesByCategory: ImmutableList&lt;Pair&lt;ExploreCategory, ImmutableList&lt;Movie&gt;&gt;&gt;,
         refreshResult: Result&lt;Unit&gt;?
-<span class="nc" id="L63">    ): ExploreUiState = when {</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">        moviesByCategory.none { it.second.isEmpty() } -&gt;</span>
-<span class="nc" id="L65">            ExploreUiState.Explore(moviesByCategory)</span>
-<span class="nc bnc" id="L66" title="All 2 branches missed.">        refreshResult.isLoading -&gt;</span>
-<span class="nc" id="L67">            ExploreUiState.Loading</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        refreshResult.isError -&gt;</span>
-<span class="nc" id="L69">            ExploreUiState.Retry</span>
+<span class="nc" id="L61">    ): ExploreUiState = when {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        moviesByCategory.none { it.second.isEmpty() } -&gt;</span>
+<span class="nc" id="L63">            ExploreUiState.Explore(moviesByCategory)</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        refreshResult.isLoading -&gt;</span>
+<span class="nc" id="L65">            ExploreUiState.Loading</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        refreshResult.isError -&gt;</span>
+<span class="nc" id="L67">            ExploreUiState.Retry</span>
         else -&gt;
-<span class="nc" id="L71">            ExploreUiState.None</span>
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L69">            ExploreUiState.None</span>
+<span class="nc" id="L70">    }</span>
 
     @AnyThread
     fun refresh() {
-<span class="nc" id="L76">        viewModelScope.launch(defaultDispatcher) {</span>
-<span class="nc" id="L77">            asFlowResult { refreshExploreMoviesUseCase(Unit) }</span>
-<span class="nc" id="L78">                .onResultError(errorsDispatcher::dispatch)</span>
-<span class="nc" id="L79">                .safeCollect(</span>
-<span class="nc" id="L80">                    onEach = refreshResultState::emit,</span>
-<span class="nc" id="L81">                    onError = errorsDispatcher::dispatch</span>
+<span class="nc" id="L74">        viewModelScope.launch(defaultDispatcher) {</span>
+<span class="nc" id="L75">            asFlowResult { movieInteractor.refreshExploreMovies() }</span>
+<span class="nc" id="L76">                .onResultError(errorsDispatcher::dispatch)</span>
+<span class="nc" id="L77">                .safeCollect(</span>
+<span class="nc" id="L78">                    onEach = refreshResultState::emit,</span>
+<span class="nc" id="L79">                    onError = errorsDispatcher::dispatch</span>
                 )
-<span class="nc" id="L83">        }</span>
-<span class="nc" id="L84">    }</span>
+<span class="nc" id="L81">        }</span>
+<span class="nc" id="L82">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

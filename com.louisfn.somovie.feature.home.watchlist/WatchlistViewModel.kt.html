@@ -9,9 +9,8 @@ import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
 import com.louisfn.somovie.core.common.extension.takeAs
 import com.louisfn.somovie.core.logger.Logger
 import com.louisfn.somovie.domain.model.Movie
-import com.louisfn.somovie.domain.usecase.authentication.ObserveIsLoggedInUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.ObservePagedWatchlistUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.RemoveFromWatchlistUseCase
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
+import com.louisfn.somovie.domain.usecase.watchlist.WatchlistInteractor
 import com.louisfn.somovie.feature.home.watchlist.WatchlistUiState.AccountLoggedIn.ContentState
 import com.louisfn.somovie.feature.home.watchlist.WatchlistUiState.AccountLoggedIn.LoadNextPageState
 import com.louisfn.somovie.ui.common.base.BaseViewModel
@@ -40,38 +39,37 @@ import java.util.concurrent.CopyOnWriteArrayList
 import javax.inject.Inject
 
 @HiltViewModel
-<span class="fc" id="L43">internal class WatchlistViewModel @Inject constructor(</span>
-    observePagedWatchlistUseCase: ObservePagedWatchlistUseCase,
+<span class="fc" id="L42">internal class WatchlistViewModel @Inject constructor(</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-<span class="fc" id="L46">    private val removeFromWatchlistUseCase: RemoveFromWatchlistUseCase,</span>
-<span class="fc" id="L47">    private val observeIsLoggedInUseCase: ObserveIsLoggedInUseCase,</span>
-<span class="fc" id="L48">    private val errorsDispatcher: ErrorsDispatcher,</span>
-<span class="fc" id="L49">    @ApplicationScope private val applicationScope: CoroutineScope</span>
-<span class="fc" id="L50">) : BaseViewModel&lt;WatchlistAction&gt;(defaultDispatcher) {</span>
+<span class="fc" id="L44">    private val authenticationInteractor: AuthenticationInteractor,</span>
+<span class="fc" id="L45">    private val watchlistInteractor: WatchlistInteractor,</span>
+<span class="fc" id="L46">    private val errorsDispatcher: ErrorsDispatcher,</span>
+<span class="fc" id="L47">    @ApplicationScope private val applicationScope: CoroutineScope</span>
+<span class="fc" id="L48">) : BaseViewModel&lt;WatchlistAction&gt;(defaultDispatcher) {</span>
 
-<span class="fc" id="L52">    private val pagingState = MutableStateFlow&lt;PagingState?&gt;(null)</span>
-<span class="fc" id="L53">    private val hiddenMovieItemIds = MutableStateFlow(emptyList&lt;Long&gt;())</span>
-<span class="fc" id="L54">    private val pendingSwipedMovieItemIds = CopyOnWriteArrayList&lt;Long&gt;()</span>
+<span class="fc" id="L50">    private val pagingState = MutableStateFlow&lt;PagingState?&gt;(null)</span>
+<span class="fc" id="L51">    private val hiddenMovieItemIds = MutableStateFlow(emptyList&lt;Long&gt;())</span>
+<span class="fc" id="L52">    private val pendingSwipedMovieItemIds = CopyOnWriteArrayList&lt;Long&gt;()</span>
 
     //region UiState
 
     private val accountLoggedInUiState: Flow&lt;WatchlistUiState.AccountLoggedIn&gt; =
-<span class="fc" id="L59">        pagingState</span>
-<span class="fc" id="L60">            .map(::createUiState)</span>
+<span class="fc" id="L57">        pagingState</span>
+<span class="fc" id="L58">            .map(::createUiState)</span>
 
     private val accountDisconnectedUiState: Flow&lt;WatchlistUiState.AccountDisconnected&gt; =
-<span class="fc" id="L63">        flowOf(WatchlistUiState.AccountDisconnected)</span>
+<span class="fc" id="L61">        flowOf(WatchlistUiState.AccountDisconnected)</span>
 
-<span class="fc" id="L65">    val uiState: StateFlow&lt;WatchlistUiState&gt; =</span>
-<span class="fc" id="L66">        observeIsLoggedInUseCase(Unit)</span>
-<span class="fc" id="L67">            .flatMapLatest {</span>
+<span class="fc" id="L63">    val uiState: StateFlow&lt;WatchlistUiState&gt; =</span>
+<span class="fc" id="L64">        authenticationInteractor.isLoggedIn()</span>
+<span class="fc" id="L65">            .flatMapLatest {</span>
                 if (it) accountLoggedInUiState
                 else accountDisconnectedUiState
             }
-<span class="fc" id="L71">            .stateIn(</span>
-<span class="fc" id="L72">                scope = viewModelScope,</span>
-<span class="fc" id="L73">                started = SharingStarted.WhileSubscribed(),</span>
-<span class="fc" id="L74">                initialValue = WatchlistUiState.None</span>
+<span class="fc" id="L69">            .stateIn(</span>
+<span class="fc" id="L70">                scope = viewModelScope,</span>
+<span class="fc" id="L71">                started = SharingStarted.WhileSubscribed(),</span>
+<span class="fc" id="L72">                initialValue = WatchlistUiState.None</span>
             )
 
     //endregion
@@ -79,19 +77,19 @@ import javax.inject.Inject
     //region Paged movies
 
     private val pagedMovies =
-<span class="fc" id="L82">        observePagedWatchlistUseCase(Unit)</span>
-<span class="fc" id="L83">            .cachedIn(viewModelScope)</span>
+<span class="fc" id="L80">        watchlistInteractor.watchlistPagingChanges()</span>
+<span class="fc" id="L81">            .cachedIn(viewModelScope)</span>
 
-<span class="fc" id="L85">    val pagedMovieItems =</span>
-<span class="fc" id="L86">        observeIsLoggedInUseCase(Unit)</span>
-<span class="fc" id="L87">            .filter { it }</span>
-<span class="fc" id="L88">            .flatMapLatest {</span>
+<span class="fc" id="L83">    val pagedMovieItems =</span>
+<span class="fc" id="L84">        authenticationInteractor.isLoggedIn()</span>
+<span class="fc" id="L85">            .filter { it }</span>
+<span class="fc" id="L86">            .flatMapLatest {</span>
                 combine(
                     pagedMovies,
                     hiddenMovieItemIds
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                ) { paged, hiddenItemIds -&gt;</span>
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">                    paged.map { movie -&gt;</span>
-<span class="fc" id="L94">                        MovieItem(movie = movie, isHidden = movie.id in hiddenItemIds)</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">                ) { paged, hiddenItemIds -&gt;</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">                    paged.map { movie -&gt;</span>
+<span class="fc" id="L92">                        MovieItem(movie = movie, isHidden = movie.id in hiddenItemIds)</span>
                     }
                 }
                     .flowOn(defaultDispatcher)
@@ -101,28 +99,28 @@ import javax.inject.Inject
 
     @AnyThread
     fun onViewHidden() {
-<span class="fc" id="L104">        removeAllPendingSwipedMovieFromWatchlist()</span>
-<span class="fc" id="L105">    }</span>
+<span class="fc" id="L102">        removeAllPendingSwipedMovieFromWatchlist()</span>
+<span class="fc" id="L103">    }</span>
 
     @AnyThread
     private fun createUiState(pagingState: PagingState?): WatchlistUiState.AccountLoggedIn {
-<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (pagingState == null) {</span>
-<span class="fc" id="L110">            return WatchlistUiState.AccountLoggedIn()</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (pagingState == null) {</span>
+<span class="fc" id="L108">            return WatchlistUiState.AccountLoggedIn()</span>
         }
 
-<span class="fc" id="L113">        val refreshLoadState = pagingState.loadStates.refresh</span>
-<span class="fc" id="L114">        val appendLoadState = pagingState.loadStates.append</span>
+<span class="fc" id="L111">        val refreshLoadState = pagingState.loadStates.refresh</span>
+<span class="fc" id="L112">        val appendLoadState = pagingState.loadStates.append</span>
 
-<span class="fc" id="L116">        return WatchlistUiState.AccountLoggedIn(</span>
-<span class="fc" id="L117">            contentState = when {</span>
-<span class="fc bfc" id="L118" title="All 4 branches covered.">                pagingState.itemCount == 0 &amp;&amp; refreshLoadState.isError -&gt; ContentState.RETRY</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">                pagingState.itemCount == 0 -&gt; ContentState.LOADING</span>
-<span class="fc" id="L120">                else -&gt; ContentState.SUCCESS</span>
+<span class="fc" id="L114">        return WatchlistUiState.AccountLoggedIn(</span>
+<span class="fc" id="L115">            contentState = when {</span>
+<span class="fc bfc" id="L116" title="All 4 branches covered.">                pagingState.itemCount == 0 &amp;&amp; refreshLoadState.isError -&gt; ContentState.RETRY</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">                pagingState.itemCount == 0 -&gt; ContentState.LOADING</span>
+<span class="fc" id="L118">                else -&gt; ContentState.SUCCESS</span>
             },
-<span class="fc" id="L122">            loadNextPageState = when (appendLoadState) {</span>
-<span class="fc bfc" id="L123" title="All 2 branches covered.">                is LoadState.Error -&gt; LoadNextPageState.RETRY</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">                is LoadState.Loading -&gt; LoadNextPageState.LOADING</span>
-<span class="fc" id="L125">                is LoadState.NotLoading -&gt; LoadNextPageState.IDLE</span>
+<span class="fc" id="L120">            loadNextPageState = when (appendLoadState) {</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">                is LoadState.Error -&gt; LoadNextPageState.RETRY</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">                is LoadState.Loading -&gt; LoadNextPageState.LOADING</span>
+<span class="fc" id="L123">                is LoadState.NotLoading -&gt; LoadNextPageState.IDLE</span>
             }
         )
     }
@@ -131,20 +129,20 @@ import javax.inject.Inject
 
     @AnyThread
     fun onLoadStateChanged(loadStates: CombinedLoadStates, itemCount: Int) {
-<span class="fc" id="L134">        pagingState.value = PagingState(loadStates, itemCount)</span>
+<span class="fc" id="L132">        pagingState.value = PagingState(loadStates, itemCount)</span>
 
-<span class="fc bfc" id="L136" title="All 2 branches covered.">        loadStates.refresh.takeAs&lt;LoadState.Error&gt;()?.let {</span>
-<span class="fc" id="L137">            onPagingError(it.error)</span>
-<span class="fc" id="L138">        }</span>
-<span class="fc bfc" id="L139" title="All 2 branches covered.">        loadStates.append.takeAs&lt;LoadState.Error&gt;()?.let {</span>
-<span class="fc" id="L140">            onPagingError(it.error)</span>
-<span class="fc" id="L141">        }</span>
-<span class="fc" id="L142">    }</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        loadStates.refresh.takeAs&lt;LoadState.Error&gt;()?.let {</span>
+<span class="fc" id="L135">            onPagingError(it.error)</span>
+<span class="fc" id="L136">        }</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        loadStates.append.takeAs&lt;LoadState.Error&gt;()?.let {</span>
+<span class="fc" id="L138">            onPagingError(it.error)</span>
+<span class="fc" id="L139">        }</span>
+<span class="fc" id="L140">    }</span>
 
     @AnyThread
     fun onPagingError(e: Throwable) {
-<span class="fc" id="L146">        errorsDispatcher.dispatch(e)</span>
-<span class="fc" id="L147">    }</span>
+<span class="fc" id="L144">        errorsDispatcher.dispatch(e)</span>
+<span class="fc" id="L145">    }</span>
 
     //endregion
 
@@ -152,85 +150,85 @@ import javax.inject.Inject
 
     @AnyThread
     fun onSwipeToDismiss(movie: Movie) {
-<span class="fc" id="L155">        viewModelScope.launch(defaultDispatcher) {</span>
-<span class="fc" id="L156">            addAsHidden(movie.id)</span>
-<span class="fc" id="L157">            addAsPendingSwiped(movie.id)</span>
-<span class="fc" id="L158">            emitAction(WatchlistAction.ShowUndoSwipeToDismissSnackbar(movie.id))</span>
-<span class="fc" id="L159">        }</span>
-<span class="fc" id="L160">    }</span>
+<span class="fc" id="L153">        viewModelScope.launch(defaultDispatcher) {</span>
+<span class="fc" id="L154">            addAsHidden(movie.id)</span>
+<span class="fc" id="L155">            addAsPendingSwiped(movie.id)</span>
+<span class="fc" id="L156">            emitAction(WatchlistAction.ShowUndoSwipeToDismissSnackbar(movie.id))</span>
+<span class="fc" id="L157">        }</span>
+<span class="fc" id="L158">    }</span>
 
     @AnyThread
     fun onUndoSwipeToDismissSnackbarDismissed(movieId: Long) {
-<span class="fc" id="L164">        viewModelScope.launch(defaultDispatcher) {</span>
-<span class="fc" id="L165">            removeAsPendingSwiped(movieId)</span>
-<span class="fc" id="L166">            removeFromWatchlist(movieId)</span>
-<span class="fc" id="L167">        }</span>
-<span class="fc" id="L168">    }</span>
+<span class="fc" id="L162">        viewModelScope.launch(defaultDispatcher) {</span>
+<span class="fc" id="L163">            removeAsPendingSwiped(movieId)</span>
+<span class="fc" id="L164">            removeFromWatchlist(movieId)</span>
+<span class="fc" id="L165">        }</span>
+<span class="fc" id="L166">    }</span>
 
     @AnyThread
     fun onUndoSwipeToDismissSnackbarActionPerformed(movieId: Long) {
-<span class="pc bpc" id="L172" title="1 of 2 branches missed.">        viewModelScope.launch(defaultDispatcher) {</span>
-<span class="fc" id="L173">            removeAsHidden(movieId)</span>
-<span class="fc" id="L174">            removeAsPendingSwiped(movieId)</span>
-<span class="fc" id="L175">        }</span>
-<span class="fc" id="L176">    }</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        viewModelScope.launch(defaultDispatcher) {</span>
+<span class="fc" id="L171">            removeAsHidden(movieId)</span>
+<span class="fc" id="L172">            removeAsPendingSwiped(movieId)</span>
+<span class="fc" id="L173">        }</span>
+<span class="fc" id="L174">    }</span>
 
     @AnyThread
     private fun removeAllPendingSwipedMovieFromWatchlist() {
-<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        applicationScope.launch(defaultDispatcher) {</span>
-<span class="fc" id="L181">            pendingSwipedMovieItemIds</span>
-<span class="fc" id="L182">                .forEach {</span>
-<span class="fc" id="L183">                    launch {</span>
-<span class="fc" id="L184">                        try {</span>
-<span class="fc" id="L185">                            removeFromWatchlistWithTimeout(it)</span>
-<span class="nc" id="L186">                        } catch (e: Exception) {</span>
-<span class="nc" id="L187">                            Logger.e(e)</span>
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">        applicationScope.launch(defaultDispatcher) {</span>
+<span class="fc" id="L179">            pendingSwipedMovieItemIds</span>
+<span class="fc" id="L180">                .forEach {</span>
+<span class="fc" id="L181">                    launch {</span>
+<span class="fc" id="L182">                        try {</span>
+<span class="fc" id="L183">                            removeFromWatchlistWithTimeout(it)</span>
+<span class="nc" id="L184">                        } catch (e: Exception) {</span>
+<span class="nc" id="L185">                            Logger.e(e)</span>
                         }
-<span class="fc" id="L189">                    }</span>
-<span class="fc" id="L190">                }</span>
+<span class="fc" id="L187">                    }</span>
+<span class="fc" id="L188">                }</span>
 
-<span class="fc" id="L192">            pendingSwipedMovieItemIds.clear()</span>
-<span class="fc" id="L193">        }</span>
-<span class="fc" id="L194">    }</span>
+<span class="fc" id="L190">            pendingSwipedMovieItemIds.clear()</span>
+<span class="fc" id="L191">        }</span>
+<span class="fc" id="L192">    }</span>
 
     @WorkerThread
     private suspend fun removeFromWatchlist(movieId: Long) {
-<span class="fc" id="L198">        try {</span>
-<span class="fc" id="L199">            withContext(NonCancellable) {</span>
-<span class="fc" id="L200">                removeFromWatchlistWithTimeout(movieId)</span>
-<span class="fc" id="L201">            }</span>
-<span class="fc" id="L202">        } catch (e: Exception) {</span>
-<span class="fc" id="L203">            removeAsHidden(movieId)</span>
-<span class="fc" id="L204">            errorsDispatcher.dispatch(e)</span>
+<span class="fc" id="L196">        try {</span>
+<span class="fc" id="L197">            withContext(NonCancellable) {</span>
+<span class="fc" id="L198">                removeFromWatchlistWithTimeout(movieId)</span>
+<span class="fc" id="L199">            }</span>
+<span class="fc" id="L200">        } catch (e: Exception) {</span>
+<span class="fc" id="L201">            removeAsHidden(movieId)</span>
+<span class="fc" id="L202">            errorsDispatcher.dispatch(e)</span>
         }
-<span class="fc" id="L206">    }</span>
+<span class="fc" id="L204">    }</span>
 
     @AnyThread
     private suspend fun removeFromWatchlistWithTimeout(movieId: Long) {
-<span class="fc" id="L210">        withTimeout(REMOVE_FROM_WATCHLIST_TIMEOUT) {</span>
-<span class="fc" id="L211">            removeFromWatchlistUseCase(movieId)</span>
-<span class="fc" id="L212">        }</span>
-<span class="fc" id="L213">    }</span>
+<span class="fc" id="L208">        withTimeout(REMOVE_FROM_WATCHLIST_TIMEOUT) {</span>
+<span class="fc" id="L209">            watchlistInteractor.removeFromWatchlist(movieId)</span>
+<span class="fc" id="L210">        }</span>
+<span class="fc" id="L211">    }</span>
 
     @WorkerThread
     private fun addAsHidden(movieId: Long) {
-<span class="fc" id="L217">        hiddenMovieItemIds.update { it + movieId }</span>
-<span class="fc" id="L218">    }</span>
+<span class="fc" id="L215">        hiddenMovieItemIds.update { it + movieId }</span>
+<span class="fc" id="L216">    }</span>
 
     @WorkerThread
     private fun removeAsHidden(movieId: Long) {
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">        hiddenMovieItemIds.update { ids -&gt; ids.filter { it != movieId } }</span>
-<span class="fc" id="L223">    }</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        hiddenMovieItemIds.update { ids -&gt; ids.filter { it != movieId } }</span>
+<span class="fc" id="L221">    }</span>
 
     @WorkerThread
     private fun addAsPendingSwiped(movieId: Long) {
-<span class="fc" id="L227">        pendingSwipedMovieItemIds.add(movieId)</span>
-<span class="fc" id="L228">    }</span>
+<span class="fc" id="L225">        pendingSwipedMovieItemIds.add(movieId)</span>
+<span class="fc" id="L226">    }</span>
 
     @WorkerThread
     private fun removeAsPendingSwiped(movieId: Long) {
-<span class="pc bpc" id="L232" title="2 of 4 branches missed.">        pendingSwipedMovieItemIds.removeIf { it == movieId }</span>
-<span class="fc" id="L233">    }</span>
+<span class="pc bpc" id="L230" title="2 of 4 branches missed.">        pendingSwipedMovieItemIds.removeIf { it == movieId }</span>
+<span class="fc" id="L231">    }</span>
 
     //endregion
 
@@ -238,9 +236,9 @@ import javax.inject.Inject
         private const val REMOVE_FROM_WATCHLIST_TIMEOUT = 10_000L
     }
 
-<span class="fc" id="L241">    data class PagingState(</span>
-<span class="fc" id="L242">        val loadStates: CombinedLoadStates,</span>
-<span class="fc" id="L243">        val itemCount: Int</span>
+<span class="fc" id="L239">    data class PagingState(</span>
+<span class="fc" id="L240">        val loadStates: CombinedLoadStates,</span>
+<span class="fc" id="L241">        val itemCount: Int</span>
     )
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

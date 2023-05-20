@@ -2,8 +2,7 @@
 
 import android.net.Uri
 import androidx.annotation.AnyThread
-import com.louisfn.somovie.domain.usecase.authentication.GetRequestTokenUseCase
-import com.louisfn.somovie.domain.usecase.authentication.LogInUseCase
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,70 +28,69 @@ interface LogInManager {
     fun onDenied()
 }
 
-<span class="nc" id="L32">class DefaultLogInManager @Inject constructor(</span>
-<span class="nc" id="L33">    private val getRequestTokenUseCase: GetRequestTokenUseCase,</span>
-<span class="nc" id="L34">    private val logInUseCase: LogInUseCase</span>
+<span class="nc" id="L31">class DefaultLogInManager @Inject constructor(</span>
+<span class="nc" id="L32">    private val authenticationInteractor: AuthenticationInteractor</span>
 ) : LogInManager {
 
     private lateinit var scope: CoroutineScope
     private var currentRequestToken: String? = null
 
-<span class="nc" id="L40">    private val _state = MutableStateFlow&lt;LogInState&gt;(LogInState.Idle)</span>
-<span class="nc" id="L41">    override val state: StateFlow&lt;LogInState&gt; = _state</span>
+<span class="nc" id="L38">    private val _state = MutableStateFlow&lt;LogInState&gt;(LogInState.Idle)</span>
+<span class="nc" id="L39">    override val state: StateFlow&lt;LogInState&gt; = _state</span>
 
     override fun init(scope: CoroutineScope) {
-<span class="nc" id="L44">        this.scope = scope</span>
-<span class="nc" id="L45">    }</span>
+<span class="nc" id="L42">        this.scope = scope</span>
+<span class="nc" id="L43">    }</span>
 
     override fun reset() {
-<span class="nc" id="L48">        currentRequestToken = null</span>
-<span class="nc" id="L49">        _state.value = LogInState.Idle</span>
-<span class="nc" id="L50">    }</span>
+<span class="nc" id="L46">        currentRequestToken = null</span>
+<span class="nc" id="L47">        _state.value = LogInState.Idle</span>
+<span class="nc" id="L48">    }</span>
 
     override fun start() {
-<span class="nc bnc" id="L53" title="All 2 branches missed.">        check(state.value == LogInState.Idle) {</span>
-<span class="nc" id="L54">            &quot;A log in flow is already started. You should call reset() before starting a new one&quot;</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        check(state.value == LogInState.Idle) {</span>
+<span class="nc" id="L52">            &quot;A log in flow is already started. You should call reset() before starting a new one&quot;</span>
         }
-<span class="nc" id="L56">        _state.value = LogInState.Loading</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">        scope.launch {</span>
-<span class="nc" id="L58">            try {</span>
-<span class="nc" id="L59">                _state.value = LogInState.WebView(generateUri())</span>
-<span class="nc" id="L60">            } catch (e: Exception) {</span>
-<span class="nc" id="L61">                _state.value = LogInState.Failed(e)</span>
+<span class="nc" id="L54">        _state.value = LogInState.Loading</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        scope.launch {</span>
+<span class="nc" id="L56">            try {</span>
+<span class="nc" id="L57">                _state.value = LogInState.WebView(generateUri())</span>
+<span class="nc" id="L58">            } catch (e: Exception) {</span>
+<span class="nc" id="L59">                _state.value = LogInState.Failed(e)</span>
             }
-<span class="nc" id="L63">        }</span>
-<span class="nc" id="L64">    }</span>
+<span class="nc" id="L61">        }</span>
+<span class="nc" id="L62">    }</span>
 
     override fun onApproved() {
-<span class="nc bnc" id="L67" title="All 2 branches missed.">        scope.launch {</span>
-<span class="nc" id="L68">            logIn()</span>
-<span class="nc" id="L69">        }</span>
-<span class="nc" id="L70">    }</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        scope.launch {</span>
+<span class="nc" id="L66">            logIn()</span>
+<span class="nc" id="L67">        }</span>
+<span class="nc" id="L68">    }</span>
 
     override fun onDenied() {
-<span class="nc bnc" id="L73" title="All 4 branches missed.">        scope.launch {</span>
-<span class="nc" id="L74">            _state.value = LogInState.Idle</span>
-<span class="nc" id="L75">        }</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc bnc" id="L71" title="All 4 branches missed.">        scope.launch {</span>
+<span class="nc" id="L72">            _state.value = LogInState.Idle</span>
+<span class="nc" id="L73">        }</span>
+<span class="nc" id="L74">    }</span>
 
     private suspend fun logIn() {
-<span class="nc" id="L79">        try {</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">            val token = checkNotNull(currentRequestToken) {</span>
-<span class="nc" id="L81">                &quot;currentRequestToken should not be null&quot;</span>
+<span class="nc" id="L77">        try {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            val token = checkNotNull(currentRequestToken) {</span>
+<span class="nc" id="L79">                &quot;currentRequestToken should not be null&quot;</span>
             }
-<span class="nc" id="L83">            logInUseCase(token)</span>
-<span class="nc" id="L84">            _state.value = LogInState.Succeed</span>
-<span class="nc" id="L85">        } catch (e: Exception) {</span>
-<span class="nc" id="L86">            _state.value = LogInState.Failed(e)</span>
+<span class="nc" id="L81">            authenticationInteractor.logIn(token)</span>
+<span class="nc" id="L82">            _state.value = LogInState.Succeed</span>
+<span class="nc" id="L83">        } catch (e: Exception) {</span>
+<span class="nc" id="L84">            _state.value = LogInState.Failed(e)</span>
         }
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L86">    }</span>
 
-<span class="nc" id="L90">    private suspend fun generateUri(): Uri {</span>
-<span class="nc" id="L91">        currentRequestToken = getRequestTokenUseCase(Unit)</span>
-<span class="nc" id="L92">        return Uri.parse(LogInConfig.URL)</span>
-<span class="nc" id="L93">            .buildUpon()</span>
-<span class="nc" id="L94">            .appendPath(currentRequestToken)</span>
-<span class="nc" id="L95">            .build()</span>
+<span class="nc" id="L88">    private suspend fun generateUri(): Uri {</span>
+<span class="nc" id="L89">        currentRequestToken = authenticationInteractor.getRequestToken()</span>
+<span class="nc" id="L90">        return Uri.parse(LogInConfig.URL)</span>
+<span class="nc" id="L91">            .buildUpon()</span>
+<span class="nc" id="L92">            .appendPath(currentRequestToken)</span>
+<span class="nc" id="L93">            .build()</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

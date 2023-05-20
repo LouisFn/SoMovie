@@ -9,54 +9,59 @@ import androidx.paging.cachedIn
 import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
 import com.louisfn.somovie.core.common.extension.takeAs
 import com.louisfn.somovie.domain.model.ExploreCategory
-import com.louisfn.somovie.domain.usecase.movie.ObservePagedMoviesUseCase
+import com.louisfn.somovie.domain.usecase.movie.MovieInteractor
 import com.louisfn.somovie.feature.movielist.MovieListUiState.LoadNextPageState
 import com.louisfn.somovie.ui.common.base.BaseViewModel
 import com.louisfn.somovie.ui.common.base.NoneAction
 import com.louisfn.somovie.ui.common.error.ErrorsDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-<span class="nc" id="L23">internal class MovieListViewModel @Inject constructor(</span>
+<span class="nc" id="L28">internal class MovieListViewModel @Inject constructor(</span>
     savedStateHandle: SavedStateHandle,
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    observePagedMoviesUseCase: ObservePagedMoviesUseCase,
-<span class="nc" id="L27">    private val errorsDispatcher: ErrorsDispatcher</span>
-<span class="nc" id="L28">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
+<span class="nc" id="L31">    private val movieInteractor: MovieInteractor,</span>
+<span class="nc" id="L32">    private val errorsDispatcher: ErrorsDispatcher</span>
+<span class="nc" id="L33">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
     private val category: ExploreCategory =
-<span class="nc" id="L31">        ExploreCategory.valueOf(</span>
-<span class="nc bnc" id="L32" title="All 2 branches missed.">            savedStateHandle[MovieListNavigation.ARGS_CATEGORY]</span>
-<span class="nc" id="L33">                ?: throw IllegalArgumentException(&quot;${MovieListNavigation.ARGS_CATEGORY} not found&quot;)</span>
+<span class="nc" id="L36">        ExploreCategory.valueOf(</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            savedStateHandle[MovieListNavigation.ARGS_CATEGORY]</span>
+<span class="nc" id="L38">                ?: throw IllegalArgumentException(&quot;${MovieListNavigation.ARGS_CATEGORY} not found&quot;)</span>
         )
 
-<span class="nc" id="L36">    private val loadStates = MutableStateFlow&lt;CombinedLoadStates?&gt;(null)</span>
+<span class="nc" id="L41">    private val loadStates = MutableStateFlow&lt;CombinedLoadStates?&gt;(null)</span>
 
-<span class="nc" id="L38">    val pagedMovies = observePagedMoviesUseCase(category)</span>
-<span class="nc" id="L39">        .cachedIn(viewModelScope)</span>
+<span class="nc" id="L43">    val pagedMovies = movieInteractor.moviesPagingChanges(category)</span>
+<span class="nc" id="L44">        .cachedIn(viewModelScope)</span>
 
-<span class="nc" id="L41">    val uiState: StateFlow&lt;MovieListUiState&gt; =</span>
-<span class="nc" id="L42">        loadStates</span>
-<span class="nc" id="L43">            .filterNotNull()</span>
-<span class="nc" id="L44">            .map(::createUiState)</span>
-<span class="nc" id="L45">            .stateIn(</span>
-<span class="nc" id="L46">                scope = viewModelScope,</span>
-<span class="nc" id="L47">                started = SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L48">                initialValue = MovieListUiState(category)</span>
+<span class="nc" id="L46">    val uiState: StateFlow&lt;MovieListUiState&gt; =</span>
+<span class="nc" id="L47">        loadStates</span>
+<span class="nc" id="L48">            .filterNotNull()</span>
+<span class="nc" id="L49">            .map(::createUiState)</span>
+<span class="nc" id="L50">            .stateIn(</span>
+<span class="nc" id="L51">                scope = viewModelScope,</span>
+<span class="nc" id="L52">                started = SharingStarted.WhileSubscribed(),</span>
+<span class="nc" id="L53">                initialValue = MovieListUiState(category)</span>
             )
 
     private fun createUiState(loadStates: CombinedLoadStates): MovieListUiState {
-<span class="nc" id="L52">        val appendLoadState = loadStates.append</span>
+<span class="nc" id="L57">        val appendLoadState = loadStates.append</span>
 
-<span class="nc" id="L54">        return MovieListUiState(</span>
-<span class="nc" id="L55">            category = category,</span>
-<span class="nc" id="L56">            loadNextPageState = when (appendLoadState) {</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">                is LoadState.Error -&gt; LoadNextPageState.FAILED</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">                is LoadState.Loading -&gt; LoadNextPageState.LOADING</span>
-<span class="nc" id="L59">                is LoadState.NotLoading -&gt; LoadNextPageState.IDLE</span>
+<span class="nc" id="L59">        return MovieListUiState(</span>
+<span class="nc" id="L60">            category = category,</span>
+<span class="nc" id="L61">            loadNextPageState = when (appendLoadState) {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                is LoadState.Error -&gt; LoadNextPageState.FAILED</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                is LoadState.Loading -&gt; LoadNextPageState.LOADING</span>
+<span class="nc" id="L64">                is LoadState.NotLoading -&gt; LoadNextPageState.IDLE</span>
             }
         )
     }
@@ -65,20 +70,20 @@ import javax.inject.Inject
 
     @AnyThread
     fun onLoadStateChanged(loadStates: CombinedLoadStates) {
-<span class="nc" id="L68">        this.loadStates.value = loadStates</span>
+<span class="nc" id="L73">        this.loadStates.value = loadStates</span>
 
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        loadStates.refresh.takeAs&lt;LoadState.Error&gt;()?.let {</span>
-<span class="nc" id="L71">            onPagingError(it.error)</span>
-<span class="nc" id="L72">        }</span>
-<span class="nc bnc" id="L73" title="All 2 branches missed.">        loadStates.append.takeAs&lt;LoadState.Error&gt;()?.let {</span>
-<span class="nc" id="L74">            onPagingError(it.error)</span>
-<span class="nc" id="L75">        }</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        loadStates.refresh.takeAs&lt;LoadState.Error&gt;()?.let {</span>
+<span class="nc" id="L76">            onPagingError(it.error)</span>
+<span class="nc" id="L77">        }</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        loadStates.append.takeAs&lt;LoadState.Error&gt;()?.let {</span>
+<span class="nc" id="L79">            onPagingError(it.error)</span>
+<span class="nc" id="L80">        }</span>
+<span class="nc" id="L81">    }</span>
 
     @AnyThread
     fun onPagingError(e: Throwable) {
-<span class="nc" id="L80">        errorsDispatcher.dispatch(e)</span>
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L85">        errorsDispatcher.dispatch(e)</span>
+<span class="nc" id="L86">    }</span>
 
     //endregion
 }

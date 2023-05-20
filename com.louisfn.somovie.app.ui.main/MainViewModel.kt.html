@@ -4,7 +4,7 @@ import androidx.annotation.AnyThread
 import androidx.lifecycle.viewModelScope
 import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
 import com.louisfn.somovie.core.logger.Logger
-import com.louisfn.somovie.domain.usecase.startup.RefreshConfigurationUseCase
+import com.louisfn.somovie.domain.usecase.global.TmdbConfigurationInteractor
 import com.louisfn.somovie.ui.common.LoadingManager
 import com.louisfn.somovie.ui.common.base.BaseViewModel
 import com.louisfn.somovie.ui.common.base.NoneAction
@@ -24,7 +24,7 @@ import javax.inject.Inject
 <span class="nc" id="L24">internal class MainViewModel @Inject constructor(</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
 <span class="nc" id="L26">    private val errorsDispatcher: ErrorsDispatcher,</span>
-<span class="nc" id="L27">    private val refreshConfigurationUseCase: RefreshConfigurationUseCase</span>
+<span class="nc" id="L27">    private val configurationInteractor: TmdbConfigurationInteractor</span>
 <span class="nc" id="L28">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
 <span class="nc" id="L30">    private val loadingManager = LoadingManager()</span>
@@ -74,7 +74,7 @@ import javax.inject.Inject
     @AnyThread
     private suspend fun refreshConfiguration() {
 <span class="nc" id="L76">        try {</span>
-<span class="nc" id="L77">            refreshConfigurationUseCase(Unit)</span>
+<span class="nc" id="L77">            configurationInteractor.refresh()</span>
 <span class="nc" id="L78">        } catch (e: Exception) {</span>
 <span class="nc" id="L79">            Logger.e(e)</span>
         }

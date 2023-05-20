@@ -4,8 +4,8 @@ import androidx.annotation.AnyThread
 import androidx.lifecycle.viewModelScope
 import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
 import com.louisfn.somovie.domain.model.Account
-import com.louisfn.somovie.domain.usecase.account.ObserveAccountUseCase
-import com.louisfn.somovie.domain.usecase.authentication.LogOutUseCase
+import com.louisfn.somovie.domain.usecase.account.AccountInteractor
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
 import com.louisfn.somovie.ui.common.base.BaseViewModel
 import com.louisfn.somovie.ui.common.base.NoneAction
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,12 +20,12 @@ import javax.inject.Inject
 @HiltViewModel
 <span class="nc" id="L21">internal class AccountViewModel @Inject constructor(</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-<span class="nc" id="L23">    private val observeAccountUseCase: ObserveAccountUseCase,</span>
-<span class="nc" id="L24">    private val logOutUseCase: LogOutUseCase</span>
+<span class="nc" id="L23">    private val accountInteractor: AccountInteractor,</span>
+<span class="nc" id="L24">    private val authenticationInteractor: AuthenticationInteractor</span>
 <span class="nc" id="L25">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
 <span class="nc" id="L27">    val uiState: StateFlow&lt;AccountUiState&gt; =</span>
-<span class="nc" id="L28">        observeAccountUseCase(Unit)</span>
+<span class="nc" id="L28">        accountInteractor.accountChanges()</span>
 <span class="nc" id="L29">            .map(::createAccountState)</span>
 <span class="nc" id="L30">            .stateIn(</span>
 <span class="nc" id="L31">                scope = viewModelScope,</span>
@@ -43,7 +43,7 @@ import javax.inject.Inject
     @AnyThread
     fun logOut() {
 <span class="nc" id="L45">        viewModelScope.launch {</span>
-<span class="nc" id="L46">            logOutUseCase(Unit)</span>
+<span class="nc" id="L46">            authenticationInteractor.logOut()</span>
 <span class="nc" id="L47">        }</span>
 <span class="nc" id="L48">    }</span>
 }

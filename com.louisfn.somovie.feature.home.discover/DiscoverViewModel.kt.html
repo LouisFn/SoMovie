@@ -11,9 +11,9 @@ import com.louisfn.somovie.core.common.isError
 import com.louisfn.somovie.core.common.isLoading
 import com.louisfn.somovie.core.common.onResultError
 import com.louisfn.somovie.domain.model.Movie
-import com.louisfn.somovie.domain.usecase.authentication.ObserveIsLoggedInUseCase
-import com.louisfn.somovie.domain.usecase.discover.GetMovieDiscoverUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.AddToWatchlistUseCase
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
+import com.louisfn.somovie.domain.usecase.movie.MovieDiscoverInteractor
+import com.louisfn.somovie.domain.usecase.watchlist.WatchlistInteractor
 import com.louisfn.somovie.feature.home.discover.DiscoverUiState.Discover.LogInSnackbarState
 import com.louisfn.somovie.feature.home.discover.DiscoverUiState.MovieItem
 import com.louisfn.somovie.ui.common.base.BaseViewModel
@@ -41,9 +41,9 @@ import javax.inject.Inject
 @HiltViewModel
 <span class="nc" id="L42">internal class DiscoverViewModel @Inject constructor(</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-<span class="nc" id="L44">    private val getMovieDiscoverUseCase: GetMovieDiscoverUseCase,</span>
-<span class="nc" id="L45">    private val addToWatchlistUseCase: AddToWatchlistUseCase,</span>
-<span class="nc" id="L46">    private val observeIsLoggedInUseCase: ObserveIsLoggedInUseCase,</span>
+<span class="nc" id="L44">    private val movieDiscoverInteractor: MovieDiscoverInteractor,</span>
+<span class="nc" id="L45">    private val watchlistInteractor: WatchlistInteractor,</span>
+<span class="nc" id="L46">    private val authenticationInteractor: AuthenticationInteractor,</span>
 <span class="nc" id="L47">    private val movieItemMapper: DiscoverMovieItemMapper,</span>
 <span class="nc" id="L48">    private val errorsDispatcher: ErrorsDispatcher</span>
 <span class="nc" id="L49">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
@@ -52,7 +52,7 @@ import javax.inject.Inject
 <span class="nc" id="L52">    private val fetchNewMoviesResultState = MutableStateFlow&lt;Result&lt;List&lt;Movie&gt;&gt;?&gt;(null)</span>
 <span class="nc" id="L53">    private val isLogInSnackbarShaking = MutableStateFlow(false)</span>
     private val isLoggedIn: Flow&lt;Boolean&gt; =
-<span class="nc" id="L55">        observeIsLoggedInUseCase(Unit)</span>
+<span class="nc" id="L55">        authenticationInteractor.isLoggedIn()</span>
 <span class="nc" id="L56">            .stateIn(viewModelScope, SharingStarted.Lazily, null)</span>
 <span class="nc" id="L57">            .filterNotNull()</span>
 
@@ -134,7 +134,7 @@ import javax.inject.Inject
 <span class="nc" id="L134">        viewModelScope.launch(defaultDispatcher) {</span>
 <span class="nc" id="L135">            val currentState = fetchNewMoviesResultState.getAndUpdate { Result.Loading() }</span>
 <span class="nc bnc" id="L136" title="All 2 branches missed.">            if (currentState !is Result.Loading) {</span>
-<span class="nc" id="L137">                asFlowResult { getMovieDiscoverUseCase(Unit) }</span>
+<span class="nc" id="L137">                asFlowResult { movieDiscoverInteractor.getDiscoverMovies() }</span>
 <span class="nc" id="L138">                    .onResultError(errorsDispatcher::dispatch)</span>
 <span class="nc" id="L139">                    .safeCollect(</span>
                         onEach = { result -&gt;
@@ -150,7 +150,7 @@ import javax.inject.Inject
     @AnyThread
     private suspend fun addToWatchlist(movieItem: MovieItem) {
 <span class="nc" id="L152">        try {</span>
-<span class="nc" id="L153">            addToWatchlistUseCase(movieItem.id)</span>
+<span class="nc" id="L153">            watchlistInteractor.addToWatchlist(movieItem.id)</span>
 <span class="nc" id="L154">        } catch (e: Exception) {</span>
 <span class="nc" id="L155">            errorsDispatcher.dispatch(e)</span>
         }
