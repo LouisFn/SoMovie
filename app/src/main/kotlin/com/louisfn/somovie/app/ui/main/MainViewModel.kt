@@ -4,7 +4,7 @@ import androidx.annotation.AnyThread
 import androidx.lifecycle.viewModelScope
 import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
 import com.louisfn.somovie.core.logger.Logger
-import com.louisfn.somovie.domain.usecase.startup.RefreshConfigurationUseCase
+import com.louisfn.somovie.domain.usecase.global.TmdbConfigurationInteractor
 import com.louisfn.somovie.ui.common.LoadingManager
 import com.louisfn.somovie.ui.common.base.BaseViewModel
 import com.louisfn.somovie.ui.common.base.NoneAction
@@ -24,7 +24,7 @@ import javax.inject.Inject
 internal class MainViewModel @Inject constructor(
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
     private val errorsDispatcher: ErrorsDispatcher,
-    private val refreshConfigurationUseCase: RefreshConfigurationUseCase
+    private val configurationInteractor: TmdbConfigurationInteractor
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
 
     private val loadingManager = LoadingManager()
@@ -74,7 +74,7 @@ internal class MainViewModel @Inject constructor(
     @AnyThread
     private suspend fun refreshConfiguration() {
         try {
-            refreshConfigurationUseCase(Unit)
+            configurationInteractor.refresh()
         } catch (e: Exception) {
             Logger.e(e)
         }

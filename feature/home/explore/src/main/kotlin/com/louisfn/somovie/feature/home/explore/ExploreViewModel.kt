@@ -11,8 +11,7 @@ import com.louisfn.somovie.core.common.isLoading
 import com.louisfn.somovie.core.common.onResultError
 import com.louisfn.somovie.domain.model.ExploreCategory
 import com.louisfn.somovie.domain.model.Movie
-import com.louisfn.somovie.domain.usecase.movie.ObserveExploreMoviesUseCase
-import com.louisfn.somovie.domain.usecase.movie.RefreshExploreMoviesUseCase
+import com.louisfn.somovie.domain.usecase.movie.MovieInteractor
 import com.louisfn.somovie.ui.common.base.BaseViewModel
 import com.louisfn.somovie.ui.common.base.NoneAction
 import com.louisfn.somovie.ui.common.error.ErrorsDispatcher
@@ -31,8 +30,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class ExploreViewModel @Inject constructor(
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    observeExploreMoviesUseCase: ObserveExploreMoviesUseCase,
-    private val refreshExploreMoviesUseCase: RefreshExploreMoviesUseCase,
+    private val movieInteractor: MovieInteractor,
     private val errorsDispatcher: ErrorsDispatcher
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
 
@@ -40,7 +38,7 @@ internal class ExploreViewModel @Inject constructor(
 
     val uiState: StateFlow<ExploreUiState> =
         combine(
-            observeExploreMoviesUseCase(Unit)
+            movieInteractor.exploreMoviesChanges()
                 .map { ImmutableList(it.map { pair -> pair.first to ImmutableList(pair.second) }) },
             refreshResultState
         ) { movies, refreshResult ->
@@ -74,7 +72,7 @@ internal class ExploreViewModel @Inject constructor(
     @AnyThread
     fun refresh() {
         viewModelScope.launch(defaultDispatcher) {
-            asFlowResult { refreshExploreMoviesUseCase(Unit) }
+            asFlowResult { movieInteractor.refreshExploreMovies() }
                 .onResultError(errorsDispatcher::dispatch)
                 .safeCollect(
                     onEach = refreshResultState::emit,

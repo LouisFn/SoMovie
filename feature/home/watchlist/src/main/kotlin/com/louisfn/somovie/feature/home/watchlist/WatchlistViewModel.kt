@@ -9,9 +9,8 @@ import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
 import com.louisfn.somovie.core.common.extension.takeAs
 import com.louisfn.somovie.core.logger.Logger
 import com.louisfn.somovie.domain.model.Movie
-import com.louisfn.somovie.domain.usecase.authentication.ObserveIsLoggedInUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.ObservePagedWatchlistUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.RemoveFromWatchlistUseCase
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
+import com.louisfn.somovie.domain.usecase.watchlist.WatchlistInteractor
 import com.louisfn.somovie.feature.home.watchlist.WatchlistUiState.AccountLoggedIn.ContentState
 import com.louisfn.somovie.feature.home.watchlist.WatchlistUiState.AccountLoggedIn.LoadNextPageState
 import com.louisfn.somovie.ui.common.base.BaseViewModel
@@ -41,10 +40,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class WatchlistViewModel @Inject constructor(
-    observePagedWatchlistUseCase: ObservePagedWatchlistUseCase,
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    private val removeFromWatchlistUseCase: RemoveFromWatchlistUseCase,
-    private val observeIsLoggedInUseCase: ObserveIsLoggedInUseCase,
+    private val authenticationInteractor: AuthenticationInteractor,
+    private val watchlistInteractor: WatchlistInteractor,
     private val errorsDispatcher: ErrorsDispatcher,
     @ApplicationScope private val applicationScope: CoroutineScope
 ) : BaseViewModel<WatchlistAction>(defaultDispatcher) {
@@ -63,7 +61,7 @@ internal class WatchlistViewModel @Inject constructor(
         flowOf(WatchlistUiState.AccountDisconnected)
 
     val uiState: StateFlow<WatchlistUiState> =
-        observeIsLoggedInUseCase(Unit)
+        authenticationInteractor.isLoggedIn()
             .flatMapLatest {
                 if (it) accountLoggedInUiState
                 else accountDisconnectedUiState
@@ -79,11 +77,11 @@ internal class WatchlistViewModel @Inject constructor(
     //region Paged movies
 
     private val pagedMovies =
-        observePagedWatchlistUseCase(Unit)
+        watchlistInteractor.watchlistPagingChanges()
             .cachedIn(viewModelScope)
 
     val pagedMovieItems =
-        observeIsLoggedInUseCase(Unit)
+        authenticationInteractor.isLoggedIn()
             .filter { it }
             .flatMapLatest {
                 combine(
@@ -208,7 +206,7 @@ internal class WatchlistViewModel @Inject constructor(
     @AnyThread
     private suspend fun removeFromWatchlistWithTimeout(movieId: Long) {
         withTimeout(REMOVE_FROM_WATCHLIST_TIMEOUT) {
-            removeFromWatchlistUseCase(movieId)
+            watchlistInteractor.removeFromWatchlist(movieId)
         }
     }
 

@@ -14,13 +14,11 @@ import com.louisfn.somovie.domain.model.BackdropPath
 import com.louisfn.somovie.domain.model.Movie
 import com.louisfn.somovie.domain.model.MovieCredits
 import com.louisfn.somovie.domain.model.YoutubeVideo
-import com.louisfn.somovie.domain.usecase.credits.ObserveMovieCreditsUseCase
-import com.louisfn.somovie.domain.usecase.image.ObserveMovieImagesUseCase
-import com.louisfn.somovie.domain.usecase.movie.ObserveMovieUseCase
-import com.louisfn.somovie.domain.usecase.movie.RefreshMovieUseCase
-import com.louisfn.somovie.domain.usecase.video.ObserveMovieYoutubeVideosUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.AddToWatchlistUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.RemoveFromWatchlistUseCase
+import com.louisfn.somovie.domain.usecase.movie.MovieCreditsInteractor
+import com.louisfn.somovie.domain.usecase.movie.MovieImageInteractor
+import com.louisfn.somovie.domain.usecase.movie.MovieInteractor
+import com.louisfn.somovie.domain.usecase.video.MovieVideosInteractor
+import com.louisfn.somovie.domain.usecase.watchlist.WatchlistInteractor
 import com.louisfn.somovie.feature.moviedetails.WatchlistFabState.WatchlistState
 import com.louisfn.somovie.ui.common.error.ErrorsDispatcher
 import com.louisfn.somovie.ui.common.extension.toDollarFormat
@@ -42,13 +40,11 @@ import javax.inject.Inject
 @HiltViewModel
 internal class MovieDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val observeMovieUseCase: ObserveMovieUseCase,
-    private val observeMovieImagesUseCase: ObserveMovieImagesUseCase,
-    private val observeMovieCreditsUseCase: ObserveMovieCreditsUseCase,
-    private val observeMovieYoutubeVideosUseCase: ObserveMovieYoutubeVideosUseCase,
-    private val refreshMovieUseCase: RefreshMovieUseCase,
-    private val addToWatchlistUseCase: AddToWatchlistUseCase,
-    private val removeFromWatchlistUseCase: RemoveFromWatchlistUseCase,
+    private val movieInteractor: MovieInteractor,
+    private val movieImageInteractor: MovieImageInteractor,
+    private val movieCreditsInteractor: MovieCreditsInteractor,
+    private val movieVideosInteractor: MovieVideosInteractor,
+    private val watchlistInteractor: WatchlistInteractor,
     private val errorsDispatcher: ErrorsDispatcher,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -63,10 +59,10 @@ internal class MovieDetailsViewModel @Inject constructor(
 
     val uiState: StateFlow<MovieDetailsUiState> =
         combine(
-            observeMovie(),
-            observeMovieBackdrops(),
-            observeMovieCredits(),
-            observeMovieYoutubeVideos(),
+            movieChanges(),
+            movieBackdropsChanges(),
+            movieCreditsChanges(),
+            movieYoutubeVideoChanges(),
             refreshMovieResultState,
             updateWatchlistResultState
         ) { movie, backdrops, credits, videos, refreshMovieResult, updateWatchlistResult ->
@@ -151,9 +147,9 @@ internal class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             val flow = when (uiState.value.watchlistFabState?.state) {
                 WatchlistState.ADD_TO_WATCHLIST ->
-                    asFlowResult { addToWatchlistUseCase(movieId) }
+                    asFlowResult { watchlistInteractor.addToWatchlist(movieId) }
                 WatchlistState.REMOVE_FROM_WATCHLIST ->
-                    asFlowResult { removeFromWatchlistUseCase(movieId) }
+                    asFlowResult { watchlistInteractor.removeFromWatchlist(movieId) }
                 else -> null
             }
 
@@ -174,7 +170,7 @@ internal class MovieDetailsViewModel @Inject constructor(
     @AnyThread
     private fun refreshMovieDetails() {
         viewModelScope.launch(defaultDispatcher) {
-            asFlowResult { refreshMovieUseCase(movieId) }
+            asFlowResult { movieInteractor.refreshMovie(movieId) }
                 .onResultError(errorsDispatcher::dispatch)
                 .safeCollect(
                     onEach = refreshMovieResultState::emit,
@@ -184,24 +180,24 @@ internal class MovieDetailsViewModel @Inject constructor(
     }
 
     @AnyThread
-    private fun observeMovie(): Flow<Movie> =
-        observeMovieUseCase(movieId)
+    private fun movieChanges(): Flow<Movie> =
+        movieInteractor.movieChanges(movieId)
             .catch { handleError(it) }
 
     @AnyThread
-    private fun observeMovieBackdrops(): Flow<List<BackdropPath>> =
-        observeMovieImagesUseCase(movieId)
+    private fun movieBackdropsChanges(): Flow<List<BackdropPath>> =
+        movieImageInteractor.movieImagesChanges(movieId)
             .catch { handleError(it) }
             .map { images -> images.backdrops.map { it.path } }
 
     @AnyThread
-    private fun observeMovieCredits(): Flow<MovieCredits> =
-        observeMovieCreditsUseCase(movieId)
+    private fun movieCreditsChanges(): Flow<MovieCredits> =
+        movieCreditsInteractor.movieCreditsChanges(movieId)
             .catch { handleError(it) }
 
     @AnyThread
-    private fun observeMovieYoutubeVideos(): Flow<List<YoutubeVideo>> =
-        observeMovieYoutubeVideosUseCase(movieId)
+    private fun movieYoutubeVideoChanges(): Flow<List<YoutubeVideo>> =
+        movieVideosInteractor.movieVideosYoutubeChanges(movieId)
             .catch { handleError(it) }
 
     @AnyThread

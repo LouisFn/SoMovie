@@ -3,11 +3,13 @@ package com.louisfn.somovie.feature.home.watchlist
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
-import com.louisfn.somovie.domain.usecase.authentication.ObserveIsLoggedInUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.ObservePagedWatchlistUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.RemoveFromWatchlistUseCase
+import com.louisfn.somovie.data.repository.AccountRepository
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
+import com.louisfn.somovie.domain.usecase.watchlist.WatchlistInteractor
 import com.louisfn.somovie.feature.home.watchlist.WatchlistUiState.AccountLoggedIn.ContentState
 import com.louisfn.somovie.feature.home.watchlist.WatchlistUiState.AccountLoggedIn.LoadNextPageState
+import com.louisfn.somovie.test.fixtures.data.repository.FakeAccountRepository
+import com.louisfn.somovie.test.fixtures.data.repository.FakeAuthenticationRepository
 import com.louisfn.somovie.test.fixtures.data.repository.FakeSessionRepository
 import com.louisfn.somovie.test.fixtures.data.repository.FakeWatchlistRepository
 import com.louisfn.somovie.test.fixtures.domain.FakeMovieFactory
@@ -38,6 +40,10 @@ class WatchlistViewModelTest {
     private lateinit var errorsDispatcher: FakeErrorsDispatcher
     private lateinit var watchlistRepository: FakeWatchlistRepository
     private lateinit var sessionRepository: FakeSessionRepository
+    private lateinit var authenticationRepository: FakeAuthenticationRepository
+    private lateinit var accountRepository: AccountRepository
+    private lateinit var watchlistInteractor: WatchlistInteractor
+    private lateinit var authenticationInteractor: AuthenticationInteractor
     private lateinit var viewModel: WatchlistViewModel
 
     private val defaultMovies = FakeMovieFactory.create(3)
@@ -46,14 +52,24 @@ class WatchlistViewModelTest {
     @Before
     fun setUp() {
         errorsDispatcher = FakeErrorsDispatcher()
+
+        authenticationRepository = FakeAuthenticationRepository()
         watchlistRepository = FakeWatchlistRepository(defaultMovies, fakeWebServer)
+        accountRepository = FakeAccountRepository()
         sessionRepository = FakeSessionRepository()
         sessionRepository.setSession(FakeSessionFactory.default)
 
+        watchlistInteractor = WatchlistInteractor(watchlistRepository)
+        authenticationInteractor = AuthenticationInteractor(
+            authenticationRepository = authenticationRepository,
+            sessionRepository = sessionRepository,
+            accountRepository = accountRepository,
+            defaultDispatcher = mainDispatcherRule.testDispatcher
+        )
+
         viewModel = WatchlistViewModel(
-            observePagedWatchlistUseCase = ObservePagedWatchlistUseCase(watchlistRepository),
-            removeFromWatchlistUseCase = RemoveFromWatchlistUseCase(watchlistRepository),
-            observeIsLoggedInUseCase = ObserveIsLoggedInUseCase(sessionRepository),
+            watchlistInteractor = watchlistInteractor,
+            authenticationInteractor = authenticationInteractor,
             errorsDispatcher = errorsDispatcher,
             defaultDispatcher = mainDispatcherRule.testDispatcher,
             applicationScope = testScope

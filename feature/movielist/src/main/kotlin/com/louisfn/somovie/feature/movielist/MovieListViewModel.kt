@@ -9,21 +9,26 @@ import androidx.paging.cachedIn
 import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
 import com.louisfn.somovie.core.common.extension.takeAs
 import com.louisfn.somovie.domain.model.ExploreCategory
-import com.louisfn.somovie.domain.usecase.movie.ObservePagedMoviesUseCase
+import com.louisfn.somovie.domain.usecase.movie.MovieInteractor
 import com.louisfn.somovie.feature.movielist.MovieListUiState.LoadNextPageState
 import com.louisfn.somovie.ui.common.base.BaseViewModel
 import com.louisfn.somovie.ui.common.base.NoneAction
 import com.louisfn.somovie.ui.common.error.ErrorsDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 internal class MovieListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    observePagedMoviesUseCase: ObservePagedMoviesUseCase,
+    private val movieInteractor: MovieInteractor,
     private val errorsDispatcher: ErrorsDispatcher
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
 
@@ -35,7 +40,7 @@ internal class MovieListViewModel @Inject constructor(
 
     private val loadStates = MutableStateFlow<CombinedLoadStates?>(null)
 
-    val pagedMovies = observePagedMoviesUseCase(category)
+    val pagedMovies = movieInteractor.moviesPagingChanges(category)
         .cachedIn(viewModelScope)
 
     val uiState: StateFlow<MovieListUiState> =

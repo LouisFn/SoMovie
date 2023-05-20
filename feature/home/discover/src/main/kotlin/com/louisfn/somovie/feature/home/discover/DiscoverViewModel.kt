@@ -11,9 +11,9 @@ import com.louisfn.somovie.core.common.isError
 import com.louisfn.somovie.core.common.isLoading
 import com.louisfn.somovie.core.common.onResultError
 import com.louisfn.somovie.domain.model.Movie
-import com.louisfn.somovie.domain.usecase.authentication.ObserveIsLoggedInUseCase
-import com.louisfn.somovie.domain.usecase.discover.GetMovieDiscoverUseCase
-import com.louisfn.somovie.domain.usecase.watchlist.AddToWatchlistUseCase
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
+import com.louisfn.somovie.domain.usecase.movie.MovieDiscoverInteractor
+import com.louisfn.somovie.domain.usecase.watchlist.WatchlistInteractor
 import com.louisfn.somovie.feature.home.discover.DiscoverUiState.Discover.LogInSnackbarState
 import com.louisfn.somovie.feature.home.discover.DiscoverUiState.MovieItem
 import com.louisfn.somovie.ui.common.base.BaseViewModel
@@ -41,9 +41,9 @@ import javax.inject.Inject
 @HiltViewModel
 internal class DiscoverViewModel @Inject constructor(
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    private val getMovieDiscoverUseCase: GetMovieDiscoverUseCase,
-    private val addToWatchlistUseCase: AddToWatchlistUseCase,
-    private val observeIsLoggedInUseCase: ObserveIsLoggedInUseCase,
+    private val movieDiscoverInteractor: MovieDiscoverInteractor,
+    private val watchlistInteractor: WatchlistInteractor,
+    private val authenticationInteractor: AuthenticationInteractor,
     private val movieItemMapper: DiscoverMovieItemMapper,
     private val errorsDispatcher: ErrorsDispatcher
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
@@ -52,7 +52,7 @@ internal class DiscoverViewModel @Inject constructor(
     private val fetchNewMoviesResultState = MutableStateFlow<Result<List<Movie>>?>(null)
     private val isLogInSnackbarShaking = MutableStateFlow(false)
     private val isLoggedIn: Flow<Boolean> =
-        observeIsLoggedInUseCase(Unit)
+        authenticationInteractor.isLoggedIn()
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
             .filterNotNull()
 
@@ -134,7 +134,7 @@ internal class DiscoverViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             val currentState = fetchNewMoviesResultState.getAndUpdate { Result.Loading() }
             if (currentState !is Result.Loading) {
-                asFlowResult { getMovieDiscoverUseCase(Unit) }
+                asFlowResult { movieDiscoverInteractor.getDiscoverMovies() }
                     .onResultError(errorsDispatcher::dispatch)
                     .safeCollect(
                         onEach = { result ->
@@ -150,7 +150,7 @@ internal class DiscoverViewModel @Inject constructor(
     @AnyThread
     private suspend fun addToWatchlist(movieItem: MovieItem) {
         try {
-            addToWatchlistUseCase(movieItem.id)
+            watchlistInteractor.addToWatchlist(movieItem.id)
         } catch (e: Exception) {
             errorsDispatcher.dispatch(e)
         }

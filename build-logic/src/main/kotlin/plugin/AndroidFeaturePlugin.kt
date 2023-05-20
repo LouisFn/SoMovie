@@ -32,7 +32,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
                 implementation(project(":core:common"))
                 implementation(project(":core:logger"))
                 implementation(project(":domain:model"))
-                implementation(project(":domain:usecase"))
+                implementation(project(":domain:interactor"))
                 implementation(project(":ui:common"))
                 implementation(project(":ui:component"))
                 implementation(project(":ui:theme"))

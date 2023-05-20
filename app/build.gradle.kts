@@ -19,7 +19,7 @@ dependencies {
     implementation(project(":core:logger"))
     implementation(project(":core:imageurlprovider"))
     implementation(project(":domain:model"))
-    implementation(project(":domain:usecase"))
+    implementation(project(":domain:interactor"))
     implementation(project(":domain:exception"))
     implementation(project(":data:network"))
     implementation(project(":data:repository"))

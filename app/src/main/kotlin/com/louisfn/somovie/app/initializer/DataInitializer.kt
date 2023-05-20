@@ -3,7 +3,7 @@ package com.louisfn.somovie.app.initializer
 import androidx.annotation.UiThread
 import com.louisfn.somovie.core.common.annotation.ApplicationScope
 import com.louisfn.somovie.core.logger.Logger
-import com.louisfn.somovie.domain.usecase.startup.UpdateLanguageUseCase
+import com.louisfn.somovie.domain.usecase.global.AppLanguageInteractor
 import com.louisfn.somovie.ui.common.navigation.AppRouter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 internal class DataInitializer @Inject constructor(
     private val appRouter: AppRouter,
-    private val updateLanguageUseCase: UpdateLanguageUseCase,
+    private val appLanguageInteractor: AppLanguageInteractor,
     @ApplicationScope private val applicationScope: CoroutineScope
 ) : AppInitializer {
 
@@ -24,7 +24,7 @@ internal class DataInitializer @Inject constructor(
     @UiThread
     private suspend fun updateLanguage() {
         try {
-            if (updateLanguageUseCase(Unit)) {
+            if (appLanguageInteractor.refresh()) {
                 relaunchApp()
             }
         } catch (e: Exception) {

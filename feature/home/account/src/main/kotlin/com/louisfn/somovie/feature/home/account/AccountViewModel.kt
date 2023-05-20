@@ -4,8 +4,8 @@ import androidx.annotation.AnyThread
 import androidx.lifecycle.viewModelScope
 import com.louisfn.somovie.core.common.annotation.DefaultDispatcher
 import com.louisfn.somovie.domain.model.Account
-import com.louisfn.somovie.domain.usecase.account.ObserveAccountUseCase
-import com.louisfn.somovie.domain.usecase.authentication.LogOutUseCase
+import com.louisfn.somovie.domain.usecase.account.AccountInteractor
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
 import com.louisfn.somovie.ui.common.base.BaseViewModel
 import com.louisfn.somovie.ui.common.base.NoneAction
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,12 +20,12 @@ import javax.inject.Inject
 @HiltViewModel
 internal class AccountViewModel @Inject constructor(
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    private val observeAccountUseCase: ObserveAccountUseCase,
-    private val logOutUseCase: LogOutUseCase
+    private val accountInteractor: AccountInteractor,
+    private val authenticationInteractor: AuthenticationInteractor
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
 
     val uiState: StateFlow<AccountUiState> =
-        observeAccountUseCase(Unit)
+        accountInteractor.accountChanges()
             .map(::createAccountState)
             .stateIn(
                 scope = viewModelScope,
@@ -43,7 +43,7 @@ internal class AccountViewModel @Inject constructor(
     @AnyThread
     fun logOut() {
         viewModelScope.launch {
-            logOutUseCase(Unit)
+            authenticationInteractor.logOut()
         }
     }
 }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -36,7 +35,6 @@ object CoroutinesModule {
     fun provideMainImmediateDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
 
     @ApplicationScope
-    @Singleton
     @Provides
     fun provideApplicationScope(@MainImmediateDispatcher mainImmediateDispatcher: CoroutineDispatcher) =
         CoroutineScope(SupervisorJob() + mainImmediateDispatcher)

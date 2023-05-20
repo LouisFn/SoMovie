@@ -2,8 +2,7 @@ package com.louisfn.somovie.feature.login
 
 import android.net.Uri
 import androidx.annotation.AnyThread
-import com.louisfn.somovie.domain.usecase.authentication.GetRequestTokenUseCase
-import com.louisfn.somovie.domain.usecase.authentication.LogInUseCase
+import com.louisfn.somovie.domain.usecase.authentication.AuthenticationInteractor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,8 +29,7 @@ interface LogInManager {
 }
 
 class DefaultLogInManager @Inject constructor(
-    private val getRequestTokenUseCase: GetRequestTokenUseCase,
-    private val logInUseCase: LogInUseCase
+    private val authenticationInteractor: AuthenticationInteractor
 ) : LogInManager {
 
     private lateinit var scope: CoroutineScope
@@ -80,7 +78,7 @@ class DefaultLogInManager @Inject constructor(
             val token = checkNotNull(currentRequestToken) {
                 "currentRequestToken should not be null"
             }
-            logInUseCase(token)
+            authenticationInteractor.logIn(token)
             _state.value = LogInState.Succeed
         } catch (e: Exception) {
             _state.value = LogInState.Failed(e)
@@ -88,7 +86,7 @@ class DefaultLogInManager @Inject constructor(
     }
 
     private suspend fun generateUri(): Uri {
-        currentRequestToken = getRequestTokenUseCase(Unit)
+        currentRequestToken = authenticationInteractor.getRequestToken()
         return Uri.parse(LogInConfig.URL)
             .buildUpon()
             .appendPath(currentRequestToken)
