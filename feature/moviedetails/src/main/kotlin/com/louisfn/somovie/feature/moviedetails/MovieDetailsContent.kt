@@ -91,7 +91,7 @@ private fun ColumnScope.OverviewSection(overview: String) {
 
     if (isButtonVisible) {
         CompositionLocalProvider(
-            LocalMinimumTouchTargetEnforcement provides false
+            LocalMinimumInteractiveComponentEnforcement provides false
         ) {
             DefaultTextButton(
                 text = stringResource(

@@ -59,7 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemKey
 import com.louisfn.somovie.domain.model.Movie
 import com.louisfn.somovie.feature.home.watchlist.WatchlistAction.ShowUndoSwipeToDismissSnackbar
 import com.louisfn.somovie.feature.home.watchlist.WatchlistUiState.AccountLoggedIn.ContentState
@@ -264,9 +264,10 @@ private fun WatchlistLazyColumn(
             Divider(color = MaterialTheme.colors.onBackground)
         }
         items(
-            items = pagingItems,
-            key = { it.movie.id }
-        ) { movieItem ->
+            count = pagingItems.itemCount,
+            key = pagingItems.itemKey(key = { it.movie.id })
+        ) { index ->
+            val movieItem = pagingItems[index]
             Column {
                 if (movieItem != null) {
                     WatchlistMovieItem(

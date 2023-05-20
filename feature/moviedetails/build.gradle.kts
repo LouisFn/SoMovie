@@ -8,6 +8,5 @@ android {
 
 dependencies {
     implementation(libs.accompanist.flowlayout)
-    implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
 }

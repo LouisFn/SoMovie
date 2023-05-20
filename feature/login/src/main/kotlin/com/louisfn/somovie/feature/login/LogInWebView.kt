@@ -38,7 +38,7 @@ fun LogInWebView(
     val currentOnApproved by rememberUpdatedState(onApproved)
     val currentOnDenied by rememberUpdatedState(onDenied)
 
-    val currentUrl = state.content.getCurrentUrl()
+    val currentUrl = state.lastLoadedUrl
     LaunchedEffect(key1 = currentUrl) {
         currentUrl?.run {
             when {

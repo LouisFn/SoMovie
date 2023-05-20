@@ -1,8 +1,8 @@
 package com.louisfn.somovie.test.shared
 
 import io.github.serpro69.kfaker.Faker
-import io.github.serpro69.kfaker.provider.RandomProvider
-import io.github.serpro69.kfaker.provider.RandomProviderConfig
+import io.github.serpro69.kfaker.provider.misc.RandomClassProvider
+import io.github.serpro69.kfaker.provider.misc.RandomProviderConfig
 import kotlin.random.Random
 
 object FakeFactory {
@@ -18,7 +18,7 @@ object FakeFactory {
         }
 }
 
-inline fun <reified T : Any> RandomProvider.randomTestClassInstance(configurator: RandomProviderConfig.() -> Unit = {}): T =
+inline fun <reified T : Any> RandomClassProvider.randomTestClassInstance(configurator: RandomProviderConfig.() -> Unit = {}): T =
     randomClassInstance {
         typeGenerator { Random.nextLong(Long.MAX_VALUE) }
         typeGenerator { Random.nextInt(Int.MAX_VALUE) }

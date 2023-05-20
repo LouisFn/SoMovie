@@ -1,10 +1,27 @@
 package com.louisfn.somovie.feature.moviedetails
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.People
@@ -22,10 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.rememberAsyncImagePainter
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
 import com.louisfn.somovie.domain.model.BackdropPath
 import com.louisfn.somovie.ui.common.LocalAppRouter
 import com.louisfn.somovie.ui.common.model.ImmutableList
@@ -215,7 +229,7 @@ private fun MovieDetailsHeaderContent(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BackdropsPager(
     backdropPaths: ImmutableList<BackdropPath>,
@@ -227,7 +241,7 @@ private fun BackdropsPager(
         val pagerState = rememberPagerState()
 
         HorizontalPager(
-            count = backdropPaths.size,
+            pageCount = backdropPaths.size,
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
@@ -243,6 +257,7 @@ private fun BackdropsPager(
 
         HorizontalPagerIndicator(
             pagerState = pagerState,
+            pageCount = backdropPaths.size,
             activeColor = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
