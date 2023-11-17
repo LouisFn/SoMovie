@@ -31,14 +31,14 @@ import com.louisfn.somovie.ui.common.R as commonR
 @Suppress("ViewModelForwarding")
 internal fun AccountScreen(
     viewModel: AccountViewModel = hiltViewModel(),
-    logInViewModel: LogInViewModel = hiltViewModel()
+    logInViewModel: LogInViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateLifecycleAware()
 
     AccountScreen(
         state = state,
         logInManager = logInViewModel,
-        onLogOutButtonClick = { viewModel.logOut() }
+        onLogOutButtonClick = { viewModel.logOut() },
     )
 }
 
@@ -46,17 +46,17 @@ internal fun AccountScreen(
 private fun AccountScreen(
     state: AccountUiState,
     logInManager: LogInManager,
-    onLogOutButtonClick: () -> Unit
+    onLogOutButtonClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
-        topBar = { DefaultTopAppBar(text = stringResource(id = commonR.string.home_account)) }
+        topBar = { DefaultTopAppBar(text = stringResource(id = commonR.string.home_account)) },
     ) {
         AccountContent(
             state = state,
             logInManager = logInManager,
             modifier = Modifier.padding(it),
-            onLogOutButtonClick = onLogOutButtonClick
+            onLogOutButtonClick = onLogOutButtonClick,
         )
     }
 }
@@ -66,21 +66,21 @@ private fun AccountContent(
     state: AccountUiState,
     logInManager: LogInManager,
     modifier: Modifier = Modifier,
-    onLogOutButtonClick: () -> Unit
+    onLogOutButtonClick: () -> Unit,
 ) {
     Box(
         modifier = modifier
-            .background(MaterialTheme.colors.background)
+            .background(MaterialTheme.colors.background),
     ) {
         when (state) {
             is AccountUiState.Disconnected -> LogInLayout(
                 logInManager = logInManager,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
             is AccountUiState.LoggedIn -> AccountContent(
                 username = state.username,
                 modifier = Modifier.fillMaxSize(),
-                onLogOutButtonClick = onLogOutButtonClick
+                onLogOutButtonClick = onLogOutButtonClick,
             )
             else -> Unit
         }
@@ -91,16 +91,16 @@ private fun AccountContent(
 private fun AccountContent(
     username: String,
     modifier: Modifier = Modifier,
-    onLogOutButtonClick: () -> Unit = {}
+    onLogOutButtonClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(commonR.string.account_logged_in_confirmation, username),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         Button(onClick = onLogOutButtonClick) {
             Text(text = stringResource(id = commonR.string.account_log_out))

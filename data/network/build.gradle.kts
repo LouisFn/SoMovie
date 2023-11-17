@@ -11,7 +11,7 @@ android {
         buildConfigField(
             "String",
             "API_KEY",
-            "\"${getLocalProperties()?.getProperty("tmdb_api_key")}\""
+            "\"${getLocalProperties()?.getProperty("tmdb_api_key")}\"",
         )
         buildConfigField("String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\"")
     }

@@ -29,7 +29,7 @@ class DefaultWatchlistLocalDataSourceTest {
         database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
         localDataSource = DefaultWatchlistLocalDataSource(
             database = database,
-            ioDispatcher = mainDispatcherRule.testDispatcher
+            ioDispatcher = mainDispatcherRule.testDispatcher,
         )
     }
 
@@ -46,7 +46,7 @@ class DefaultWatchlistLocalDataSourceTest {
         database.watchListDao().getAll()
             .map { it.movieId }
             .shouldContainExactlyInAnyOrder(
-                entities.map { it.id }
+                entities.map { it.id },
             )
     }
 
@@ -66,7 +66,7 @@ class DefaultWatchlistLocalDataSourceTest {
         database.watchListDao().getAll()
             .map { it.movieId }
             .shouldContainExactlyInAnyOrder(
-                entities.map { it.id }
+                entities.map { it.id },
             )
     }
 

@@ -24,13 +24,13 @@ internal class DatabaseModule {
     @Singleton
     fun provideAppDatabase(
         application: Application,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): AppDatabase =
         Room
             .databaseBuilder(
                 application,
                 AppDatabase::class.java,
-                DATABASE_NAME
+                DATABASE_NAME,
             )
             .setQueryExecutor(ioDispatcher.asExecutor())
             .fallbackToDestructiveMigration()

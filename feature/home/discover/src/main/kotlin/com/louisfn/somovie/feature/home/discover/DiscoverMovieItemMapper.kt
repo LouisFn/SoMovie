@@ -14,7 +14,7 @@ internal class DiscoverMovieItemMapper @Inject constructor() {
             DiscoverUiState.MovieItem(
                 id = movie.id,
                 title = movie.title,
-                posterPath = posterPath
+                posterPath = posterPath,
             )
         }
 }

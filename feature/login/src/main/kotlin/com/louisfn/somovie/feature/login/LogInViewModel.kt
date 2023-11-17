@@ -18,7 +18,7 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(
     private val errorsDispatcher: ErrorsDispatcher,
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    logInManager: LogInManager
+    logInManager: LogInManager,
 ) : BaseViewModel<NoneAction>(defaultDispatcher), LogInManager by logInManager {
 
     override val state: StateFlow<LogInState> =
@@ -27,7 +27,7 @@ class LogInViewModel @Inject constructor(
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(),
-                LogInState.Idle
+                LogInState.Idle,
             )
 
     init {

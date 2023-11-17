@@ -90,7 +90,7 @@ private val MovieItemHeight = 96.dp
 internal fun WatchlistScreen(
     viewModel: WatchlistViewModel = hiltViewModel(),
     logInViewModel: LogInViewModel = hiltViewModel(),
-    showDetails: (Movie) -> Unit
+    showDetails: (Movie) -> Unit,
 ) {
     val pagingItems = viewModel.pagedMovieItems.collectAsLazyPagingItems()
     val uiState by viewModel.uiState.collectAsStateLifecycleAware()
@@ -112,7 +112,7 @@ internal fun WatchlistScreen(
         onMovieClick = showDetails,
         onMovieSwiped = viewModel::onSwipeToDismiss,
         onSnackbarActionPerformed = viewModel::onUndoSwipeToDismissSnackbarActionPerformed,
-        onSnackbarDismissed = viewModel::onUndoSwipeToDismissSnackbarDismissed
+        onSnackbarDismissed = viewModel::onUndoSwipeToDismissSnackbarDismissed,
     )
 }
 
@@ -126,7 +126,7 @@ internal fun WatchlistScreen(
     onMovieClick: (Movie) -> Unit,
     onMovieSwiped: (Movie) -> Unit,
     onSnackbarActionPerformed: (movieId: Long) -> Unit,
-    onSnackbarDismissed: (movieId: Long) -> Unit
+    onSnackbarDismissed: (movieId: Long) -> Unit,
 ) {
     val resources = LocalContext.current.resources
     LaunchedEffect(Unit) {
@@ -137,7 +137,7 @@ internal fun WatchlistScreen(
                         scaffoldState.snackbarHostState.showCancelSwipeToDismissSnackbar(
                             resources = resources,
                             onSnackbarActionPerformed = { onSnackbarActionPerformed(action.movieId) },
-                            onSnackbarDismissed = { onSnackbarDismissed(action.movieId) }
+                            onSnackbarDismissed = { onSnackbarDismissed(action.movieId) },
                         )
                 }
             }
@@ -149,7 +149,7 @@ internal fun WatchlistScreen(
         scaffoldState = scaffoldState,
         logInManager = logInManager,
         onMovieClick = onMovieClick,
-        onMovieSwiped = onMovieSwiped
+        onMovieSwiped = onMovieSwiped,
     )
 }
 
@@ -160,7 +160,7 @@ internal fun WatchlistScreen(
     scaffoldState: ScaffoldState,
     logInManager: LogInManager,
     onMovieClick: (Movie) -> Unit,
-    onMovieSwiped: (Movie) -> Unit
+    onMovieSwiped: (Movie) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
@@ -170,7 +170,7 @@ internal fun WatchlistScreen(
             SnackbarHost(it) { data ->
                 DefaultSnackbar(snackbarData = data)
             }
-        }
+        },
     ) {
         when (uiState) {
             is WatchlistUiState.AccountLoggedIn -> WatchlistContent(
@@ -178,12 +178,12 @@ internal fun WatchlistScreen(
                 pagingItems = pagingItems,
                 contentPadding = it,
                 onMovieClick = onMovieClick,
-                onMovieSwiped = onMovieSwiped
+                onMovieSwiped = onMovieSwiped,
             )
             is WatchlistUiState.AccountDisconnected ->
                 LogInContent(
                     logInManager = logInManager,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
             is WatchlistUiState.None -> Unit
         }
@@ -203,11 +203,11 @@ private fun LogInContent(logInManager: LogInManager, modifier: Modifier = Modifi
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .padding(16.dp)
+                        .padding(16.dp),
                 )
                 Button(modifier = Modifier.align(Alignment.Center))
             }
-        }
+        },
     )
 }
 
@@ -217,28 +217,28 @@ private fun WatchlistContent(
     pagingItems: LazyPagingItems<MovieItem>,
     contentPadding: PaddingValues,
     onMovieClick: (Movie) -> Unit,
-    onMovieSwiped: (Movie) -> Unit
+    onMovieSwiped: (Movie) -> Unit,
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .semantics { testTag = WatchlistTestTag.WatchlistContent }
+            .semantics { testTag = WatchlistTestTag.WatchlistContent },
     ) {
         when (uiState.contentState) {
             ContentState.RETRY -> Retry(
                 modifier = Modifier.align(Alignment.Center),
-                onClick = pagingItems::retry
+                onClick = pagingItems::retry,
             )
             ContentState.LOADING ->
                 IndeterminateProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             else -> WatchlistLazyColumn(
                 pagingItems = pagingItems,
                 loadNextPageState = uiState.loadNextPageState,
                 contentPadding = contentPadding,
                 onMovieClick = onMovieClick,
-                onMovieSwiped = onMovieSwiped
+                onMovieSwiped = onMovieSwiped,
             )
         }
     }
@@ -250,7 +250,7 @@ private fun WatchlistLazyColumn(
     loadNextPageState: LoadNextPageState,
     contentPadding: PaddingValues,
     onMovieClick: (Movie) -> Unit,
-    onMovieSwiped: (Movie) -> Unit
+    onMovieSwiped: (Movie) -> Unit,
 ) {
     // https://issuetracker.google.com/issues/177245496#comment23
     if (pagingItems.itemCount == 0) return
@@ -258,14 +258,14 @@ private fun WatchlistLazyColumn(
     LazyColumn(
         modifier = Modifier
             .semantics { testTag = WatchlistTestTag.LazyColum },
-        contentPadding = contentPadding
+        contentPadding = contentPadding,
     ) {
         item {
             Divider(color = MaterialTheme.colors.onBackground)
         }
         items(
             count = pagingItems.itemCount,
-            key = pagingItems.itemKey(key = { it.movie.id })
+            key = pagingItems.itemKey(key = { it.movie.id }),
         ) { index ->
             val movieItem = pagingItems[index]
             Column {
@@ -274,7 +274,7 @@ private fun WatchlistLazyColumn(
                         movie = movieItem.movie,
                         isHidden = movieItem.isHidden,
                         onClick = { onMovieClick(movieItem.movie) },
-                        onSwiped = { onMovieSwiped(movieItem.movie) }
+                        onSwiped = { onMovieSwiped(movieItem.movie) },
                     )
                     if (!movieItem.isHidden) {
                         Divider(color = MaterialTheme.colors.onBackground)
@@ -297,11 +297,11 @@ private fun WatchlistLazyColumn(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .wrapContentHeight(),
                 ) {
                     TextRetryButton(
                         modifier = Modifier.align(Alignment.Center),
-                        onClick = pagingItems::retry
+                        onClick = pagingItems::retry,
                     )
                 }
             }
@@ -313,30 +313,30 @@ private fun WatchlistLazyColumn(
 private fun WatchlistMovieItemPlaceholder() {
     Row(
         modifier = Modifier
-            .height(MovieItemHeight)
+            .height(MovieItemHeight),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(Dimens.POSTER_RATIO)
-                .background(MaterialTheme.colors.primary)
+                .background(MaterialTheme.colors.primary),
         )
 
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         ) {
             Box(
                 modifier = Modifier
                     .height(with(LocalDensity.current) { Typography.subtitle1.fontSize.toDp() })
                     .fillMaxWidth()
                     .padding(end = 72.dp)
-                    .background(MaterialTheme.customColors.placeholder)
+                    .background(MaterialTheme.customColors.placeholder),
             )
             Box(
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .fillMaxSize()
-                    .background(MaterialTheme.customColors.placeholder)
+                    .background(MaterialTheme.customColors.placeholder),
             )
         }
     }
@@ -349,7 +349,7 @@ fun WatchlistMovieItem(
     movie: Movie,
     isHidden: Boolean,
     onClick: () -> Unit,
-    onSwiped: () -> Unit
+    onSwiped: () -> Unit,
 ) {
     val dismissState = rememberDismissState(
         confirmStateChange = {
@@ -357,7 +357,7 @@ fun WatchlistMovieItem(
                 onSwiped()
             }
             true
-        }
+        },
     )
 
     LaunchedEffect(Unit) {
@@ -384,11 +384,11 @@ fun WatchlistMovieItem(
             AnimatedVisibility(
                 visible = !isHidden,
                 enter = slideInHorizontally { it },
-                exit = shrinkVertically() + fadeOut()
+                exit = shrinkVertically() + fadeOut(),
             ) {
                 WatchlistMovieItemContent(movie = movie, onClick = onClick)
             }
-        }
+        },
     )
 }
 
@@ -399,7 +399,7 @@ private fun WatchlistMovieItemDismissedBackground(dismissState: DismissState) {
             .semantics { testTag = WatchlistTestTag.MovieItemDismissedBackground }
             .height(MovieItemHeight)
             .fillMaxWidth()
-            .background(MaterialTheme.colors.error)
+            .background(MaterialTheme.colors.error),
     ) {
         Icon(
             modifier = Modifier
@@ -410,11 +410,11 @@ private fun WatchlistMovieItemDismissedBackground(dismissState: DismissState) {
                         DismissDirection.StartToEnd -> Alignment.CenterStart
                         DismissDirection.EndToStart -> Alignment.CenterEnd
                         else -> Alignment.Center
-                    }
+                    },
                 ),
             imageVector = Icons.Default.Delete,
             tint = MaterialTheme.colors.onPrimary,
-            contentDescription = ""
+            contentDescription = "",
         )
     }
 }
@@ -426,27 +426,27 @@ private fun WatchlistMovieItemContent(movie: Movie, onClick: () -> Unit) {
             .semantics { testTag = WatchlistTestTag.MovieItemContent }
             .height(MovieItemHeight)
             .background(MaterialTheme.colors.background)
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick),
     ) {
         DefaultAsyncImage(
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(Dimens.POSTER_RATIO),
-            model = movie.posterPath
+            model = movie.posterPath,
         )
 
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         ) {
             AutosizeText(
                 text = movie.title,
                 style = MaterialTheme.typography.subtitle1,
-                maxLines = 2
+                maxLines = 2,
             )
             Text(
                 text = movie.overview,
                 style = MaterialTheme.typography.caption,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }
@@ -458,7 +458,7 @@ private fun BottomLoader(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         IndeterminateProgressIndicator()
     }
@@ -467,11 +467,11 @@ private fun BottomLoader(modifier: Modifier = Modifier) {
 private suspend fun SnackbarHostState.showCancelSwipeToDismissSnackbar(
     resources: Resources,
     onSnackbarActionPerformed: () -> Unit,
-    onSnackbarDismissed: () -> Unit
+    onSnackbarDismissed: () -> Unit,
 ) {
     val result = showSnackbar(
         message = resources.getString(R.string.watchlist_remove_from_watchlist_confirm_message),
-        actionLabel = resources.getString(R.string.watchlist_remove_from_watchlist_action)
+        actionLabel = resources.getString(R.string.watchlist_remove_from_watchlist_action),
     )
     when (result) {
         SnackbarResult.ActionPerformed -> onSnackbarActionPerformed()

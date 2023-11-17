@@ -31,24 +31,24 @@ fun MovieCard(
     movie: Movie,
     modifier: Modifier = Modifier,
     showVotes: Boolean = movie.hasVotes,
-    showDetail: (Movie) -> Unit
+    showDetail: (Movie) -> Unit,
 ) {
     Box(
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
             .width(MOVIE_CARD_WIDTH)
-            .clickable { showDetail(movie) }
+            .clickable { showDetail(movie) },
     ) {
         Column(
             modifier = Modifier
                 .padding(bottom = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             DefaultAsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(POSTER_RATIO),
-                model = movie.posterPath
+                model = movie.posterPath,
             )
             Text(
                 text = movie.title,
@@ -58,7 +58,7 @@ fun MovieCard(
                     .padding(horizontal = 4.dp),
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.caption
+                style = MaterialTheme.typography.caption,
             )
         }
         if (showVotes) {
@@ -66,7 +66,7 @@ fun MovieCard(
                 average = movie.voteAverage,
                 modifier = Modifier
                     .padding(3.dp)
-                    .align(Alignment.TopStart)
+                    .align(Alignment.TopStart),
             )
         }
     }
@@ -79,13 +79,13 @@ fun MovieCardPlaceholder(modifier: Modifier = Modifier) {
             .clip(MaterialTheme.shapes.medium)
             .width(MOVIE_CARD_WIDTH)
             .padding(bottom = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(POSTER_RATIO)
-                .background(MaterialTheme.customColors.placeholder)
+                .background(MaterialTheme.customColors.placeholder),
         ) {}
 
         Box(
@@ -93,7 +93,7 @@ fun MovieCardPlaceholder(modifier: Modifier = Modifier) {
                 .height(16.dp)
                 .fillMaxWidth()
                 .padding(horizontal = 4.dp)
-                .background(MaterialTheme.customColors.placeholder)
+                .background(MaterialTheme.customColors.placeholder),
         ) {}
     }
 }

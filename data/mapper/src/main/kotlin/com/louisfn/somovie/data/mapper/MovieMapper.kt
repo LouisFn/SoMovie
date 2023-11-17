@@ -20,7 +20,7 @@ class MovieMapper @Inject constructor(
     private val genreMapper: GenreMapper,
     private val countryMapper: CountryMapper,
     private val companyMapper: CompanyMapper,
-    private val dateTimeProvider: DateTimeProvider
+    private val dateTimeProvider: DateTimeProvider,
 ) {
 
     //region Map entity to domain
@@ -32,7 +32,7 @@ class MovieMapper @Inject constructor(
             movie = entity,
             countries = emptyList(),
             companies = emptyList(),
-            genres = emptyList()
+            genres = emptyList(),
         )
 
     fun mapToDomain(entity: MovieWithRelations): Movie =
@@ -40,14 +40,14 @@ class MovieMapper @Inject constructor(
             movie = entity.movie,
             countries = entity.productionCountries,
             companies = entity.productionCompanies,
-            genres = entity.genres
+            genres = entity.genres,
         )
 
     private fun mapToDomain(
         movie: MovieEntity,
         countries: List<MovieProductionCountryEntity>,
         companies: List<CompanyEntity>,
-        genres: List<GenreEntity>
+        genres: List<GenreEntity>,
     ) = Movie(
         id = movie.id,
         title = movie.title,
@@ -69,9 +69,9 @@ class MovieMapper @Inject constructor(
                 voteCount = details.voteCount,
                 productionCountries = countryMapper.mapToDomain(countries),
                 productionCompanies = companyMapper.mapToDomain(companies),
-                genres = genreMapper.mapToDomain(genres)
+                genres = genreMapper.mapToDomain(genres),
             )
-        }
+        },
     )
 
     //endregion
@@ -83,7 +83,7 @@ class MovieMapper @Inject constructor(
 
     fun mapToEntity(
         detailsResponse: MovieDetailsResponse,
-        accountStateResponse: MovieAccountStateResponse?
+        accountStateResponse: MovieAccountStateResponse?,
     ): MovieWithRelations =
         MovieWithRelations(
             movie = MovieEntity(
@@ -105,15 +105,15 @@ class MovieMapper @Inject constructor(
                     popularity = detailsResponse.popularity,
                     revenue = detailsResponse.revenue,
                     budget = detailsResponse.budget,
-                    voteCount = detailsResponse.voteCount
-                )
+                    voteCount = detailsResponse.voteCount,
+                ),
             ),
             genres = detailsResponse.genres.map(::mapToEntity),
             productionCompanies = companyMapper.mapToEntity(detailsResponse.productionCompanies),
             productionCountries = countryMapper.mapToEntity(
                 detailsResponse.id,
-                detailsResponse.productionCountries
-            )
+                detailsResponse.productionCountries,
+            ),
         )
 
     @AnyThread
@@ -130,12 +130,12 @@ class MovieMapper @Inject constructor(
         details = null,
         watchlist = true.takeIf { fromWatchlist },
         updatedAt = dateTimeProvider.now(),
-        detailsUpdatedAt = null
+        detailsUpdatedAt = null,
     )
 
     private fun mapToEntity(response: MovieGenreResponse) = GenreEntity(
         id = response.id,
-        name = response.name
+        name = response.name,
     )
 
     //endregion
@@ -158,6 +158,6 @@ class MovieMapper @Inject constructor(
         backdropPath = response.posterPath?.let(::BackdropPath),
         voteAverage = response.voteAverage,
         watchlist = null,
-        details = null
+        details = null,
     )
 }

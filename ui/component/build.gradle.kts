@@ -15,5 +15,4 @@ dependencies {
     implementation(project(":domain:model"))
     implementation(project(":ui:common"))
     implementation(project(":ui:theme"))
-    implementation(libs.accompanist.insets.ui)
 }

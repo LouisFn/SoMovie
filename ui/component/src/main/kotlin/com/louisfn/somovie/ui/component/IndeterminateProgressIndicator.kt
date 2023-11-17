@@ -11,6 +11,6 @@ fun IndeterminateProgressIndicator(modifier: Modifier = Modifier) {
     androidx.compose.material.CircularProgressIndicator(
         modifier = modifier
             .semantics { testTag = ComponentTestTag.IndeterminateProgressIndicator },
-        color = MaterialTheme.colors.onBackground
+        color = MaterialTheme.colors.onBackground,
     )
 }

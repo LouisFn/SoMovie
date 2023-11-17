@@ -5,7 +5,7 @@ import java.time.Instant
 data class TmdbConfiguration(
     val images: Images?,
     val changesKeys: List<String>?,
-    val updatedAt: Instant?
+    val updatedAt: Instant?,
 ) {
 
     data class Images(
@@ -15,7 +15,7 @@ data class TmdbConfiguration(
         val logoSizes: List<String>,
         val posterSizes: List<String>,
         val profileSizes: List<String>,
-        val stillSizes: List<String>
+        val stillSizes: List<String>,
     )
 
     val isFetched = updatedAt != null

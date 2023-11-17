@@ -12,7 +12,7 @@ import javax.inject.Inject
 internal class FlipperInitializer @Inject constructor(
     private val networkFlipperPlugin: NetworkFlipperPlugin,
     private val inspectorFlipperPlugin: InspectorFlipperPlugin,
-    private val crashReporterPlugin: CrashReporterPlugin
+    private val crashReporterPlugin: CrashReporterPlugin,
 ) : AppInitializer {
 
     override fun onCreate(application: Application) {

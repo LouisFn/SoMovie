@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.TestScope
 
 class FakeWatchlistLocalDataSource(
-    private val scope: TestScope
+    private val scope: TestScope,
 ) : WatchlistLocalDataSource {
 
     private val _watchlist = MutableStateFlow<List<MovieEntity>>(emptyList())
@@ -49,6 +49,6 @@ class FakeWatchlistLocalDataSource(
 
     data class MovieWatchlistState(
         val movieId: Long,
-        val watchlist: Boolean
+        val watchlist: Boolean,
     )
 }

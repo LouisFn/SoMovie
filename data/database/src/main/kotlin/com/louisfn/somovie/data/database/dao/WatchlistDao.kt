@@ -16,7 +16,7 @@ internal abstract class WatchlistDao : BaseDao<WatchlistEntity>(TABLE_WATCHLIST)
     @Query(
         "SELECT * FROM $TABLE_WATCHLIST as w " +
             "INNER JOIN $TABLE_MOVIE as m ON w.$COLUMN_FK_MOVIE_ID == m.$COLUMN_ID " +
-            "ORDER BY w.$COLUMN_ID"
+            "ORDER BY w.$COLUMN_ID",
     )
     abstract fun getPaging(): PagingSource<Int, MovieEntity>
 

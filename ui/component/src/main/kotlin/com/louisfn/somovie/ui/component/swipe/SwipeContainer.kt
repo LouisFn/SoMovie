@@ -48,7 +48,7 @@ fun <T> SwipeContainer(
     onSwiped: (T, SwipeDirection) -> Unit = { _, _ -> },
     onDisappeared: (T, SwipeDirection) -> Unit = { _, _ -> },
     onCanceled: (T) -> Unit = {},
-    itemContent: @Composable (T) -> Unit
+    itemContent: @Composable (T) -> Unit,
 ) {
     Box(modifier = modifier) {
         items
@@ -66,7 +66,7 @@ fun <T> SwipeContainer(
                         onDragging = { direction, ratio -> onDragging(item, direction, ratio) },
                         onCanceled = { onCanceled(item) },
                         onDisappeared = { direction -> onDisappeared(item, direction) },
-                        itemContent = itemContent
+                        itemContent = itemContent,
                     )
                 }
             }
@@ -87,7 +87,7 @@ private fun <T> SwipeableItem(
     onDisappeared: (SwipeDirection) -> Unit,
     onCanceled: () -> Unit,
     itemContent: @Composable (T) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var itemSize by remember { mutableStateOf(IntSize.Zero) }
 
@@ -101,19 +101,19 @@ private fun <T> SwipeableItem(
         onDragging = onDragging,
         onSwiped = onSwiped,
         onDisappeared = onDisappeared,
-        onCanceled = onCanceled
+        onCanceled = onCanceled,
     )
 
     Box(
         modifier = modifier
             .onSizeChanged { itemSize = it }
-            .swipeableItem(swipeController)
+            .swipeableItem(swipeController),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .offset { swipeController.offset.toIntOffset() }
-                .rotate(swipeController.rotation)
+                .rotate(swipeController.rotation),
         ) {
             itemContent(item)
         }

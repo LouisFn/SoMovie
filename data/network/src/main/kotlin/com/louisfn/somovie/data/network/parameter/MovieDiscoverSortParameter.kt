@@ -5,7 +5,7 @@ import com.louisfn.somovie.domain.model.MovieDiscoverSortByDirection
 
 internal class MovieDiscoverSortParameter(
     private val sortBy: MovieDiscoverSortBy,
-    private val direction: MovieDiscoverSortByDirection
+    private val direction: MovieDiscoverSortByDirection,
 ) {
 
     override fun toString(): String =

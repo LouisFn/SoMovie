@@ -20,11 +20,11 @@ class MovieCreditsMapper @Inject constructor() {
     @AnyThread
     fun mapToDomain(
         actorEntities: List<ActorWithPerson>,
-        crewMemberEntities: List<CrewMemberWithPerson>
+        crewMemberEntities: List<CrewMemberWithPerson>,
     ) =
         MovieCredits(
             crewMembers = crewMemberEntities.map { mapToDomain(it) },
-            actors = actorEntities.map { mapToDomain(it) }
+            actors = actorEntities.map { mapToDomain(it) },
         )
 
     @AnyThread
@@ -34,7 +34,7 @@ class MovieCreditsMapper @Inject constructor() {
         profilePath = entity.person.profilePath?.let(::ProfilePath),
         popularity = entity.person.popularity,
         character = entity.actor.character,
-        order = entity.actor.order
+        order = entity.actor.order,
     )
 
     @AnyThread
@@ -44,7 +44,7 @@ class MovieCreditsMapper @Inject constructor() {
         profilePath = entity.person.profilePath?.let(::ProfilePath),
         popularity = entity.person.popularity,
         job = entity.crewMember.job,
-        department = entity.crewMember.department
+        department = entity.crewMember.department,
     )
 
     //endregion
@@ -62,39 +62,39 @@ class MovieCreditsMapper @Inject constructor() {
     @AnyThread
     private fun mapToEntity(
         movieId: Long,
-        response: MovieCreditsResponse.CrewMember
+        response: MovieCreditsResponse.CrewMember,
     ) = CrewMemberWithPerson(
         crewMember = CrewMemberEntity(
             job = response.job,
             department = response.department,
             personId = response.id,
-            movieId = movieId
+            movieId = movieId,
         ),
         person = PersonEntity(
             id = response.id,
             name = response.name,
             profilePath = response.profilePath,
-            popularity = response.popularity
-        )
+            popularity = response.popularity,
+        ),
     )
 
     @AnyThread
     private fun mapToEntity(
         movieId: Long,
-        response: MovieCreditsResponse.Actor
+        response: MovieCreditsResponse.Actor,
     ) = ActorWithPerson(
         actor = ActorEntity(
             character = response.character,
             order = response.order,
             personId = response.id,
-            movieId = movieId
+            movieId = movieId,
         ),
         person = PersonEntity(
             id = response.id,
             name = response.name,
             profilePath = response.profilePath,
-            popularity = response.popularity
-        )
+            popularity = response.popularity,
+        ),
     )
 
     //endregion

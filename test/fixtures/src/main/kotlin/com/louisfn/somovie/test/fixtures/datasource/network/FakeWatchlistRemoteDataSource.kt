@@ -13,7 +13,7 @@ class FakeWatchlistRemoteDataSource(
     var movies: List<MovieResponse>,
     var accountId: Long,
     private val fakeWebServer: FakeWebServer,
-    private val nbrOfResultsByPage: Int = DEFAULT_NBR_OF_RESULTS_BY_PAGE
+    private val nbrOfResultsByPage: Int = DEFAULT_NBR_OF_RESULTS_BY_PAGE,
 ) : WatchlistRemoteDataSource {
 
     private val paginatedWatchlist = mutableListOf<MutableList<MovieResponse>>()
@@ -21,7 +21,7 @@ class FakeWatchlistRemoteDataSource(
 
     override suspend fun getWatchList(
         accountId: Long,
-        page: Int
+        page: Int,
     ): PaginatedResultsResponse<MovieResponse> =
         mutex.withLock {
             fakeWebServer.execute()
@@ -32,7 +32,7 @@ class FakeWatchlistRemoteDataSource(
                 totalResults = paginatedWatchlist.sumOf { it.size },
                 totalPages = paginatedWatchlist.size,
                 page = page,
-                results = paginatedWatchlist[page - 1]
+                results = paginatedWatchlist[page - 1],
             )
         }
 

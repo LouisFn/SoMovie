@@ -18,7 +18,7 @@ fun DefaultImage(
     alignment: Alignment = Alignment.Center,
     contentScale: ContentScale = ContentScale.Fit,
     alpha: Float = DefaultAlpha,
-    colorFilter: ColorFilter? = null
+    colorFilter: ColorFilter? = null,
 ) {
     androidx.compose.foundation.Image(
         painter = painter,
@@ -27,7 +27,7 @@ fun DefaultImage(
         alignment = alignment,
         contentScale = contentScale,
         alpha = alpha,
-        colorFilter = colorFilter
+        colorFilter = colorFilter,
     )
 }
 
@@ -41,7 +41,7 @@ fun DefaultAsyncImage(
     contentScale: ContentScale = ContentScale.Fit,
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
-    filterQuality: FilterQuality = DrawScope.DefaultFilterQuality
+    filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
 ) {
     coil.compose.AsyncImage(
         model = model,
@@ -53,7 +53,7 @@ fun DefaultAsyncImage(
         contentScale = contentScale,
         alpha = alpha,
         colorFilter = colorFilter,
-        filterQuality = filterQuality
+        filterQuality = filterQuality,
     )
 }
 
@@ -71,7 +71,7 @@ fun DefaultAsyncImage(
     contentScale: ContentScale = ContentScale.Fit,
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
-    filterQuality: FilterQuality = DrawScope.DefaultFilterQuality
+    filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
 ) {
     coil.compose.AsyncImage(
         model = model,
@@ -87,6 +87,6 @@ fun DefaultAsyncImage(
         contentScale = contentScale,
         alpha = alpha,
         colorFilter = colorFilter,
-        filterQuality = filterQuality
+        filterQuality = filterQuality,
     )
 }

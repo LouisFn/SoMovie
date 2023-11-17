@@ -1,15 +1,14 @@
 package com.louisfn.somovie.feature.home.container
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,7 +21,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.ui.BottomNavigation
 import com.louisfn.somovie.core.logger.Logger
 import com.louisfn.somovie.domain.model.ExploreCategory
 import com.louisfn.somovie.domain.model.Movie
@@ -36,47 +34,46 @@ import com.louisfn.somovie.feature.home.watchlist.watchListGraph
 @Composable
 internal fun HomeScreen(
     showDetails: (Movie) -> Unit,
-    showMore: (ExploreCategory) -> Unit
+    showMore: (ExploreCategory) -> Unit,
 ) {
     Logger.v("Navigation - HomeScreen")
     val navController = rememberNavController()
     val homeItemState = rememberHomeItemState()
 
-    Column {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-        ) {
-            NavHost(
-                modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        modifier = Modifier.systemBarsPadding(),
+        bottomBar = {
+            BottomBar(
                 navController = navController,
-                startDestination = HomeBottomSheetItem.Explore.destination.route
-            ) {
-                exploreGraph(
-                    homeItemState = homeItemState,
-                    showDetail = showDetails,
-                    showMore = showMore
-                )
-                watchListGraph(
-                    showDetails = showDetails
-                )
-                discoverGraph(
-                    showAccount = { navController.navigate(HomeBottomSheetItem.Account) }
-                )
-                accountGraph()
-            }
-        }
-        BottomBar(
+                homeItemState = homeItemState,
+            )
+        },
+    ) {
+        NavHost(
+            modifier = Modifier.fillMaxSize().padding(it),
             navController = navController,
-            homeItemState = homeItemState
-        )
+            startDestination = HomeBottomSheetItem.Explore.destination.route,
+        ) {
+            exploreGraph(
+                homeItemState = homeItemState,
+                showDetail = showDetails,
+                showMore = showMore,
+            )
+            watchListGraph(
+                showDetails = showDetails,
+            )
+            discoverGraph(
+                showAccount = { navController.navigate(HomeBottomSheetItem.Account) },
+            )
+            accountGraph()
+        }
     }
 }
 
 @Composable
 private fun BottomBar(
     navController: NavController,
-    homeItemState: HomeItemState
+    homeItemState: HomeItemState,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -89,24 +86,21 @@ private fun BottomBar(
             } else {
                 homeItemState.homeItemReselect()
             }
-        }
+        },
     )
 }
 
 @Composable
 private fun BottomBar(
     currentDestination: NavDestination?,
-    onItemClick: (HomeBottomSheetItem) -> Unit
+    onItemClick: (HomeBottomSheetItem) -> Unit,
 ) {
-    BottomNavigation(
-        contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-        elevation = 0.dp
-    ) {
+    BottomNavigation(elevation = 0.dp) {
         HomeBottomSheetItems.forEach { item ->
             BottomNavigationItem(
                 item = item,
                 currentDestination = currentDestination,
-                onItemClick = onItemClick
+                onItemClick = onItemClick,
             )
         }
     }
@@ -116,7 +110,7 @@ private fun BottomBar(
 private fun RowScope.BottomNavigationItem(
     item: HomeBottomSheetItem,
     currentDestination: NavDestination?,
-    onItemClick: (HomeBottomSheetItem) -> Unit
+    onItemClick: (HomeBottomSheetItem) -> Unit,
 ) {
     val isCurrentDestination = currentDestination?.route == item.destination.route
     BottomNavigationItem(
@@ -125,7 +119,7 @@ private fun RowScope.BottomNavigationItem(
         selected = isCurrentDestination,
         onClick = { onItemClick(item) },
         selectedContentColor = MaterialTheme.colors.secondary,
-        unselectedContentColor = MaterialTheme.colors.onPrimary
+        unselectedContentColor = MaterialTheme.colors.onPrimary,
     )
 }
 

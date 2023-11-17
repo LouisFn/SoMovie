@@ -42,7 +42,7 @@ data class MovieDetailsResponse(
     @Json(name = "production_countries")
     val productionCountries: List<ProductionCountryResponse>,
     @Json(name = "production_companies")
-    val productionCompanies: List<ProductionCompanyResponse>
+    val productionCompanies: List<ProductionCompanyResponse>,
 ) {
 
     @JsonClass(generateAdapter = true)
@@ -50,7 +50,7 @@ data class MovieDetailsResponse(
         @Json(name = "iso_3166_1")
         val iso31661: String,
         @Json(name = "name")
-        val name: String
+        val name: String,
     )
 
     @JsonClass(generateAdapter = true)
@@ -60,6 +60,6 @@ data class MovieDetailsResponse(
         @Json(name = "logo_path")
         val logoPath: String?,
         @Json(name = "name")
-        val name: String
+        val name: String,
     )
 }

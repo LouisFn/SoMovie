@@ -12,7 +12,7 @@ interface AccountRemoteDataSource {
 }
 
 internal class DefaultAccountRemoteDataSource @Inject constructor(
-    private val executor: ApiServiceExecutor
+    private val executor: ApiServiceExecutor,
 ) : AccountRemoteDataSource {
 
     override suspend fun getAccountResponse(): AccountResponse =

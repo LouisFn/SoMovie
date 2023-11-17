@@ -8,7 +8,7 @@ interface Error {
 
 data class SimpleMessageError(
     val message: String,
-    override val duration: Long = SECONDS.toMillis(DEFAULT_DURATION_IN_SEC)
+    override val duration: Long = SECONDS.toMillis(DEFAULT_DURATION_IN_SEC),
 ) : Error {
 
     companion object {

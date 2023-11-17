@@ -20,7 +20,7 @@ class FakeRemoteKeyLocalDataSource(val dateTimeProvider: FakeDateTimeProvider = 
     override suspend fun updateNextKey(
         type: RemoteKeyEntity.Type,
         nextKey: String,
-        reset: Boolean
+        reset: Boolean,
     ) {
         if (!reset) {
             val remoteKey = remoteKeys.first { it.type == type }

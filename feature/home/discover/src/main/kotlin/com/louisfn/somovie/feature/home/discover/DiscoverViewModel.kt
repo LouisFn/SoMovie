@@ -45,7 +45,7 @@ internal class DiscoverViewModel @Inject constructor(
     private val watchlistInteractor: WatchlistInteractor,
     private val authenticationInteractor: AuthenticationInteractor,
     private val movieItemMapper: DiscoverMovieItemMapper,
-    private val errorsDispatcher: ErrorsDispatcher
+    private val errorsDispatcher: ErrorsDispatcher,
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
 
     private val moviesState = MutableStateFlow(emptyList<Movie>())
@@ -61,19 +61,19 @@ internal class DiscoverViewModel @Inject constructor(
             moviesState.map(movieItemMapper::map),
             fetchNewMoviesResultState,
             isLoggedIn,
-            isLogInSnackbarShaking
+            isLogInSnackbarShaking,
         ) { items, fetchNewMoviesResultState, isLoggedIn, isLogInSnackbarShaking ->
             createDiscoverUiState(
                 items = items,
                 fetchMovieResultState = fetchNewMoviesResultState,
                 isLoggedIn = isLoggedIn,
-                isLogInSnackbarShaking = isLogInSnackbarShaking
+                isLogInSnackbarShaking = isLogInSnackbarShaking,
             )
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(),
-                initialValue = DiscoverUiState.None
+                initialValue = DiscoverUiState.None,
             )
 
     init {
@@ -85,7 +85,7 @@ internal class DiscoverViewModel @Inject constructor(
         items: ImmutableList<MovieItem>,
         fetchMovieResultState: Result<List<Movie>>?,
         isLoggedIn: Boolean,
-        isLogInSnackbarShaking: Boolean
+        isLogInSnackbarShaking: Boolean,
     ): DiscoverUiState = when {
         items.isNotEmpty() -> DiscoverUiState.Discover(
             items = items,
@@ -93,7 +93,7 @@ internal class DiscoverViewModel @Inject constructor(
                 isLoggedIn -> LogInSnackbarState.HIDDEN
                 isLogInSnackbarShaking -> LogInSnackbarState.SHAKING
                 else -> LogInSnackbarState.VISIBLE
-            }
+            },
         )
         fetchMovieResultState.isLoading -> DiscoverUiState.Loading
         fetchMovieResultState.isError -> DiscoverUiState.Retry
@@ -141,7 +141,7 @@ internal class DiscoverViewModel @Inject constructor(
                             moviesState.update { it + result.data.orEmpty() }
                             fetchNewMoviesResultState.emit(result)
                         },
-                        onError = errorsDispatcher::dispatch
+                        onError = errorsDispatcher::dispatch,
                     )
             }
         }

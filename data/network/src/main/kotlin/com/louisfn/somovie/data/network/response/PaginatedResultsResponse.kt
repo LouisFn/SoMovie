@@ -12,5 +12,5 @@ data class PaginatedResultsResponse<T>(
     @Json(name = "page")
     val page: Int,
     @Json(name = "results")
-    val results: List<T>
+    val results: List<T>,
 )

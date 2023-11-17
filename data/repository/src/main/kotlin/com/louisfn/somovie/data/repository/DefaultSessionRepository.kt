@@ -28,7 +28,7 @@ interface SessionRepository {
 internal class DefaultSessionRepository @Inject constructor(
     private val localDataSource: DataStoreLocalDataSource<SessionData>,
     private val mapper: SessionMapper,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : SessionRepository {
 
     override fun sessionChanges(): Flow<Session> =

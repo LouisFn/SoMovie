@@ -85,7 +85,7 @@ internal interface ApiService {
         @Query("sort_by") sortBy: MovieDiscoverSortParameter,
         @Query("vote_count.gte") minVoteCount: Int,
         @Query("vote_average.gte") minVoteAverage: Float,
-        @Query("page") page: Int
+        @Query("page") page: Int,
     ): PaginatedResultsResponse<MovieResponse>
 
     //endregion
@@ -95,13 +95,13 @@ internal interface ApiService {
     @POST("account/{account_id}/watchlist")
     suspend fun addToWatchlist(
         @Path("account_id") accountId: Long,
-        @Body addToWatchlistBody: AddToWatchlistBody
+        @Body addToWatchlistBody: AddToWatchlistBody,
     )
 
     @GET("account/{account_id}/watchlist/movies")
     suspend fun getMovieWatchlist(
         @Path("account_id") accountId: Long,
-        @Query("page") page: Int
+        @Query("page") page: Int,
     ): PaginatedResultsResponse<MovieResponse>
 
     //endregion

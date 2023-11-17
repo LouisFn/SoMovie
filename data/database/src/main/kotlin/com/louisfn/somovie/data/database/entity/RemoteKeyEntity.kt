@@ -17,7 +17,7 @@ data class RemoteKeyEntity(
     @ColumnInfo(name = COLUMN_NEXT_KEY)
     val nextKey: String?,
     @ColumnInfo(name = COLUMN_FIRST_FETCH_AT)
-    val firstFetchAt: Instant
+    val firstFetchAt: Instant,
 ) {
 
     enum class Type(val value: Int) {
@@ -25,6 +25,6 @@ data class RemoteKeyEntity(
         EXPLORE_NOW_PLAYING(1),
         EXPLORE_TOP_RATED(2),
         EXPLORE_UPCOMING(3),
-        WATCH_LIST(4)
+        WATCH_LIST(4),
     }
 }

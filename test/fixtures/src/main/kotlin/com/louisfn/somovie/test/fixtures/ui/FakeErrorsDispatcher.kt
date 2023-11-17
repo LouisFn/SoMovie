@@ -33,6 +33,6 @@ class FakeErrorsDispatcher : ErrorsDispatcher {
 
     class FakeError(
         val throwable: Throwable,
-        override val duration: Long = 0
+        override val duration: Long = 0,
     ) : Error
 }

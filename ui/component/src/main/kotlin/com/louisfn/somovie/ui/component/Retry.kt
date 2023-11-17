@@ -23,17 +23,17 @@ fun Retry(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Column(
         modifier = modifier
             .semantics { testTag = ComponentTestTag.Retry },
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DefaultImage(
             modifier = Modifier.width(128.dp),
             contentScale = ContentScale.FillWidth,
             colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-            painter = painterResource(commonR.drawable.ic_cloud_alert)
+            painter = painterResource(commonR.drawable.ic_cloud_alert),
         )
         Text(
             text = stringResource(id = commonR.string.common_retry_description),
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
         )
         ColumnSpacer(8.dp)
         RetryButton(onClick = onClick)
@@ -44,7 +44,7 @@ fun Retry(modifier: Modifier = Modifier, onClick: () -> Unit) {
 fun RetryButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Button(
         modifier = modifier,
-        onClick = onClick
+        onClick = onClick,
     ) {
         Text(text = stringResource(id = commonR.string.common_retry_button))
     }
@@ -56,7 +56,7 @@ fun TextRetryButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
         text = stringResource(id = commonR.string.common_retry_button),
         modifier = modifier
             .semantics { testTag = ComponentTestTag.TextRetry },
-        onClick = onClick
+        onClick = onClick,
     )
 }
 

@@ -12,7 +12,7 @@ fun AppTheme(content: @Composable () -> Unit) {
             colors = MaterialColorPalette,
             typography = Typography,
             shapes = Shapes,
-            content = content
+            content = content,
         )
     }
 }

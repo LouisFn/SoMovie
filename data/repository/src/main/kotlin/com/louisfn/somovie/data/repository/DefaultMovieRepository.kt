@@ -33,7 +33,7 @@ interface MovieRepository {
     fun moviesPagingChanges(
         category: ExploreCategory,
         pagingConfig: PagingConfig,
-        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT
+        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT,
     ): Flow<PagingData<Movie>>
 
     @AnyThread
@@ -61,7 +61,7 @@ internal class DefaultMovieRepository @Inject constructor(
     private val categoryMapper: ExploreCategoryMapper,
     private val databaseHelper: DatabaseHelper,
     private val sessionLocalDataSource: DataStoreLocalDataSource<SessionData>,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : MovieRepository {
 
     //region Explore movies
@@ -69,14 +69,14 @@ internal class DefaultMovieRepository @Inject constructor(
     override fun moviesPagingChanges(
         category: ExploreCategory,
         pagingConfig: PagingConfig,
-        cacheTimeout: Long
+        cacheTimeout: Long,
     ): Flow<PagingData<Movie>> =
         Pager(
             config = pagingConfig,
             remoteMediator = createMoviesRemoteMediator(category, cacheTimeout),
             pagingSourceFactory = {
                 localDataSource.getPagingMovies(categoryMapper.mapToEntity(category))
-            }
+            },
         )
             .flow
             .mapPaging { mapper.mapToDomain(it) }
@@ -85,7 +85,7 @@ internal class DefaultMovieRepository @Inject constructor(
     @AnyThread
     private fun createMoviesRemoteMediator(
         category: ExploreCategory,
-        cacheTimeout: Long
+        cacheTimeout: Long,
     ) = MoviesRemoteMediator(
         cacheTimeout = cacheTimeout,
         remoteKeyLocalDataSource = remoteKeyLocalDataSource,
@@ -94,7 +94,7 @@ internal class DefaultMovieRepository @Inject constructor(
         movieMapper = mapper,
         categoryMapper = categoryMapper,
         databaseHelper = databaseHelper,
-        category = category
+        category = category,
     )
 
     override fun moviesChanges(category: ExploreCategory, limit: Int): Flow<List<Movie>> =
@@ -118,13 +118,13 @@ internal class DefaultMovieRepository @Inject constructor(
                     insertOrIgnoreMovies(
                         category = categoryEntity,
                         movies = mapper.mapToEntity(response, false),
-                        page = PAGINATION_FIRST_PAGE_INDEX
+                        page = PAGINATION_FIRST_PAGE_INDEX,
                     )
                 }
                 remoteKeyLocalDataSource.updateNextKey(
                     type = remoteKeyTypeEntity,
                     nextKey = (PAGINATION_FIRST_PAGE_INDEX + 1).toString(),
-                    reset = true
+                    reset = true,
                 )
             }
         }
@@ -151,8 +151,8 @@ internal class DefaultMovieRepository @Inject constructor(
             localDataSource.insertOrUpdateMovie(
                 mapper.mapToEntity(
                     detailsResponse = detailsDeferred.await(),
-                    accountStateResponse = accountStateDeferred.await()
-                )
+                    accountStateResponse = accountStateDeferred.await(),
+                ),
             )
         }
     }

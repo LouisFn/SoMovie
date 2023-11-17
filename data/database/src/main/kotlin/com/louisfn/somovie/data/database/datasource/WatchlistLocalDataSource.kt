@@ -31,7 +31,7 @@ interface WatchlistLocalDataSource {
 
 internal class DefaultWatchlistLocalDataSource @Inject constructor(
     private val database: AppDatabase,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : WatchlistLocalDataSource {
 
     override fun getPagingWatchlist(): PagingSource<Int, MovieEntity> =

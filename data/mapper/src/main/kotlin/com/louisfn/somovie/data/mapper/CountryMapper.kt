@@ -13,7 +13,7 @@ class CountryMapper @Inject constructor() {
 
     fun mapToDomain(entity: MovieProductionCountryEntity) = Country(
         name = entity.name,
-        iso31661 = entity.iso31661
+        iso31661 = entity.iso31661,
     )
 
     //endregion
@@ -22,16 +22,16 @@ class CountryMapper @Inject constructor() {
 
     fun mapToEntity(
         movieId: Long,
-        responses: List<MovieDetailsResponse.ProductionCountryResponse>
+        responses: List<MovieDetailsResponse.ProductionCountryResponse>,
     ): List<MovieProductionCountryEntity> = responses.map { mapToEntity(movieId, it) }
 
     fun mapToEntity(
         movieId: Long,
-        response: MovieDetailsResponse.ProductionCountryResponse
+        response: MovieDetailsResponse.ProductionCountryResponse,
     ) = MovieProductionCountryEntity(
         iso31661 = response.iso31661,
         name = response.name,
-        movieId = movieId
+        movieId = movieId,
     )
 
     //endregion

@@ -38,7 +38,7 @@ internal interface DataSourceModule {
 
     @Binds
     fun provideAuthenticationRemoteDataSource(
-        defaultAuthenticationRemoteDataSource: DefaultAuthenticationRemoteDataSource
+        defaultAuthenticationRemoteDataSource: DefaultAuthenticationRemoteDataSource,
     ): AuthenticationRemoteDataSource
 
     @Binds
@@ -46,12 +46,12 @@ internal interface DataSourceModule {
 
     @Binds
     fun provideConfigurationRemoteDataSource(
-        defaultConfigurationRemoteDataSource: DefaultConfigurationRemoteDataSource
+        defaultConfigurationRemoteDataSource: DefaultConfigurationRemoteDataSource,
     ): ConfigurationRemoteDataSource
 
     @Binds
     fun provideMovieDiscoverRemoteDataSource(
-        defaultMovieDiscoverRemoteDataSource: DefaultMovieDiscoverRemoteDataSource
+        defaultMovieDiscoverRemoteDataSource: DefaultMovieDiscoverRemoteDataSource,
     ): MovieDiscoverRemoteDataSource
 
     @Binds

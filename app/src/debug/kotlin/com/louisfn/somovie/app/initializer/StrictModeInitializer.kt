@@ -11,7 +11,7 @@ import kotlinx.coroutines.asExecutor
 import javax.inject.Inject
 
 internal class StrictModeInitializer @Inject constructor(
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : AppInitializer {
 
     init {
@@ -26,14 +26,14 @@ internal class StrictModeInitializer @Inject constructor(
             StrictMode.ThreadPolicy.Builder()
                 .detectAll()
                 .penaltyLogError(STACKTRACE_WHITELIST_THREAD)
-                .build()
+                .build(),
         )
 
         StrictMode.setVmPolicy(
             StrictMode.VmPolicy.Builder()
                 .detectAll()
                 .penaltyLogError(STACKTRACE_WHITELIST_VM)
-                .build()
+                .build(),
         )
     }
 
@@ -67,10 +67,10 @@ internal class StrictModeInitializer @Inject constructor(
 
     companion object {
         private val STACKTRACE_WHITELIST_VM = listOf(
-            "android.os.strictmode.UntaggedSocketViolation"
+            "android.os.strictmode.UntaggedSocketViolation",
         )
         private val STACKTRACE_WHITELIST_THREAD = listOf(
-            "com.louisfn.somovie.app.initializer.FlipperInitializer.onCreate"
+            "com.louisfn.somovie.app.initializer.FlipperInitializer.onCreate",
         )
     }
 }

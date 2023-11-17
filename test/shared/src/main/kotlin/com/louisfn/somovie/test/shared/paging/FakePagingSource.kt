@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class FakePagingSource<T : Any>(
     private val items: StateFlow<List<T>>,
-    private val scope: TestScope
+    private val scope: TestScope,
 ) : PagingSource<Int, T>() {
     private val registeredObserver: AtomicBoolean = AtomicBoolean(false)
 
@@ -43,7 +43,7 @@ class FakePagingSource<T : Any>(
         return LoadResult.Page(
             data = data,
             prevKey = null,
-            nextKey = nextKey
+            nextKey = nextKey,
         )
     }
 }

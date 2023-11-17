@@ -13,9 +13,9 @@ import com.louisfn.somovie.data.database.*
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 data class MovieProductionCountryEntity(
     @PrimaryKey(autoGenerate = true)
@@ -26,5 +26,5 @@ data class MovieProductionCountryEntity(
     @ColumnInfo(name = COLUMN_NAME)
     val name: String,
     @ColumnInfo(name = COLUMN_FK_MOVIE_ID, index = true)
-    val movieId: Long
+    val movieId: Long,
 )

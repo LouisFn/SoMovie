@@ -16,7 +16,7 @@ object FakeTmdbConfigurationFactory {
             logoSizes = listOf("w45", "w92", "w154", "w185", "w300", "w500", "original"),
             posterSizes = listOf("w92", "w154", "w185", "w342", "w500", "w780", "original"),
             profileSizes = listOf("w45", "w185", "h632", "original"),
-            stillSizes = listOf("w92", "w185", "w300", "original")
+            stillSizes = listOf("w92", "w185", "w300", "original"),
         ),
         changesKeys = listOf(
             "adult",
@@ -71,14 +71,14 @@ object FakeTmdbConfigurationFactory {
             "tvrage_id",
             "type",
             "video",
-            "videos"
+            "videos",
         ),
-        updatedAt = LocalDate.of(2022, 8, 1).atStartOfDay().toInstant(ZoneOffset.UTC)
+        updatedAt = LocalDate.of(2022, 8, 1).atStartOfDay().toInstant(ZoneOffset.UTC),
     )
 
     val empty = TmdbConfiguration(
         images = null,
         changesKeys = null,
-        updatedAt = null
+        updatedAt = null,
     )
 }

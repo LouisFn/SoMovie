@@ -13,7 +13,7 @@ data class Actor(
     override val profilePath: ProfilePath?,
     override val popularity: Float,
     val character: String,
-    val order: Int
+    val order: Int,
 ) : Person
 
 data class CrewMember(
@@ -22,5 +22,5 @@ data class CrewMember(
     override val profilePath: ProfilePath?,
     override val popularity: Float,
     val job: String,
-    val department: String
+    val department: String,
 ) : Person

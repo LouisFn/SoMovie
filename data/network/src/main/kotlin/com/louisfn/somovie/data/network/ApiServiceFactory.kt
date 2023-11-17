@@ -10,18 +10,18 @@ internal object ApiServiceFactory {
     fun create(
         baseUrl: String,
         okHttpClient: OkHttpClient,
-        moshi: Moshi
+        moshi: Moshi,
     ): ApiService =
         setupService(
             baseUrl = baseUrl,
             okHttpClient = okHttpClient,
-            moshi = moshi
+            moshi = moshi,
         )
 
     private fun setupService(
         baseUrl: String,
         okHttpClient: OkHttpClient,
-        moshi: Moshi
+        moshi: Moshi,
     ): ApiService {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))

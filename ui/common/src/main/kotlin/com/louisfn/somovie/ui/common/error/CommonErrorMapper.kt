@@ -8,7 +8,7 @@ import javax.inject.Inject
 import com.louisfn.somovie.ui.common.R as commonR
 
 class CommonErrorMapper @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) {
 
     fun map(e: Throwable): Error =

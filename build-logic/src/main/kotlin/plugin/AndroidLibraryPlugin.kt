@@ -23,7 +23,7 @@ class AndroidLibraryPlugin : Plugin<Project> {
 
             configureKotlinOptions()
             extensions.configure<LibraryExtension> {
-                defaultConfig.targetSdk = AppConfig.targetSdkVersion
+                defaultConfig.targetSdk = AppConfig.TARGET_SDK_VERSION
                 configureAndroid(this)
             }
 

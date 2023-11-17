@@ -15,7 +15,7 @@ class AuthenticationInteractor @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val sessionRepository: SessionRepository,
     private val accountRepository: AccountRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) {
 
     @AnyThread

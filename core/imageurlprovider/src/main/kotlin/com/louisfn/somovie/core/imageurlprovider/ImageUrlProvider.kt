@@ -24,7 +24,7 @@ import javax.inject.Singleton
 class ImageUrlProvider @Inject constructor(
     configurationRepository: TmdbConfigurationRepository,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    @ApplicationScope private val applicationScope: CoroutineScope
+    @ApplicationScope private val applicationScope: CoroutineScope,
 ) {
 
     private var currentConfig =
@@ -33,7 +33,7 @@ class ImageUrlProvider @Inject constructor(
             .shareIn(
                 scope = applicationScope,
                 started = SharingStarted.Eagerly,
-                replay = 1
+                replay = 1,
             )
 
     @AnyThread
@@ -41,11 +41,11 @@ class ImageUrlProvider @Inject constructor(
         val configImages = currentConfig.firstOrNull()?.images ?: return@defaultDispatcher null
 
         "${configImages.secureBaseUrl}${
-        getSizeSegment(
-            path,
-            requestedWidth,
-            configImages
-        )
+            getSizeSegment(
+                path,
+                requestedWidth,
+                configImages,
+            )
         }${path.value}"
     }
 
@@ -53,7 +53,7 @@ class ImageUrlProvider @Inject constructor(
     private fun getSizeSegment(
         path: ImagePath,
         requestedWidth: Int?,
-        configImages: TmdbConfiguration.Images
+        configImages: TmdbConfiguration.Images,
     ): String {
         requestedWidth ?: return ORIGINAL_SIZE
 

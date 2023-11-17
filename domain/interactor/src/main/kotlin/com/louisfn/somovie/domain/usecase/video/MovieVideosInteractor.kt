@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieVideosInteractor @Inject constructor(
-    private val movieVideoRepository: MovieVideoRepository
+    private val movieVideoRepository: MovieVideoRepository,
 ) {
 
     fun movieVideosYoutubeChanges(movieId: Long): Flow<List<YoutubeVideo>> =
         movieVideoRepository.youtubeVideosChanges(movieId)
             .map { videos ->
                 videos.sortedWith(
-                    compareBy<YoutubeVideo> { it.type.order }.thenByDescending(YoutubeVideo::publishedAt)
+                    compareBy<YoutubeVideo> { it.type.order }.thenByDescending(YoutubeVideo::publishedAt),
                 )
             }
 }

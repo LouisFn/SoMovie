@@ -30,7 +30,7 @@ internal class SoMovieApp : Application(), LifecycleObserver {
                 override fun onStop(owner: LifecycleOwner) {
                     onBackground()
                 }
-            }
+            },
         )
     }
 

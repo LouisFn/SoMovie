@@ -18,7 +18,7 @@ fun LogInLayout(
     logInManager: LogInManager,
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.(button: @Composable (modifier: Modifier) -> Unit) -> Unit =
-        { it(modifier = Modifier.align(Alignment.Center)) }
+        { it(modifier = Modifier.align(Alignment.Center)) },
 ) {
     val uiState by logInManager.state.collectAsStateLifecycleAware()
 
@@ -33,7 +33,7 @@ fun LogInLayout(
         onLogInButtonClick = logInManager::start,
         onLogInApproved = logInManager::onApproved,
         onLogInDenied = logInManager::onDenied,
-        buttonDecorator = content
+        buttonDecorator = content,
     )
 }
 
@@ -44,19 +44,19 @@ private fun LogInLayout(
     onLogInButtonClick: () -> Unit = {},
     onLogInApproved: () -> Unit = {},
     onLogInDenied: () -> Unit = {},
-    buttonDecorator: @Composable BoxScope.(button: @Composable (modifier: Modifier) -> Unit) -> Unit
+    buttonDecorator: @Composable BoxScope.(button: @Composable (modifier: Modifier) -> Unit) -> Unit,
 ) {
     Box(modifier = modifier) {
         when (uiState) {
             is LogInState.Loading ->
                 IndeterminateProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             is LogInState.Idle ->
                 buttonDecorator { internalModifier ->
                     LogInButton(
                         modifier = internalModifier,
-                        onClick = onLogInButtonClick
+                        onClick = onLogInButtonClick,
                     )
                 }
             is LogInState.WebView ->
@@ -64,7 +64,7 @@ private fun LogInLayout(
                     uri = uiState.uri,
                     modifier = Modifier.fillMaxSize(),
                     onApproved = onLogInApproved,
-                    onDenied = onLogInDenied
+                    onDenied = onLogInDenied,
                 )
             else -> Unit
         }

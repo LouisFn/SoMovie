@@ -10,5 +10,5 @@ data class AccountResponse(
     @Json(name = "name")
     val name: String,
     @Json(name = "username")
-    val username: String
+    val username: String,
 )

@@ -8,7 +8,7 @@ import coil.size.Size as CoilSize
 
 fun CoilSize.toSize() = safeLet(
     width.takeAs<Dimension.Pixels>(),
-    height.takeAs<Dimension.Pixels>()
+    height.takeAs<Dimension.Pixels>(),
 ) { width, height ->
     Size(width.px, height.px)
 }

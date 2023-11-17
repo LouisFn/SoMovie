@@ -17,7 +17,7 @@ class ActorMapper @Inject constructor() {
         profilePath = entity.person.profilePath?.let(::ProfilePath),
         popularity = entity.person.popularity,
         character = entity.actor.character,
-        order = entity.actor.order
+        order = entity.actor.order,
     )
 
     //endregion

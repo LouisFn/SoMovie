@@ -18,7 +18,7 @@ interface AccountRepository {
 internal class DefaultAccountRepository @Inject constructor(
     private val remoteDataSource: AccountRemoteDataSource,
     private val mapper: AccountMapper,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : AccountRepository {
 
     override suspend fun getAccount(): Account = defaultDispatcher {

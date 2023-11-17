@@ -19,7 +19,7 @@ class YoutubeVideoMapper @Inject constructor() {
         name = entity.name,
         type = mapToDomain(entity.type),
         publishedAt = entity.publishedAt,
-        official = entity.official
+        official = entity.official,
     )
 
     private fun mapToDomain(entity: YoutubeVideoEntity.Type) = when (entity) {
@@ -37,7 +37,7 @@ class YoutubeVideoMapper @Inject constructor() {
 
     fun mapToEntity(
         movieId: Long,
-        entities: List<MovieVideoResponse>
+        entities: List<MovieVideoResponse>,
     ): List<YoutubeVideoEntity> =
         entities
             .filter { it.site == MovieVideoResponse.Site.YOUTUBE }
@@ -45,7 +45,7 @@ class YoutubeVideoMapper @Inject constructor() {
 
     private fun mapToEntity(
         movieId: Long,
-        response: MovieVideoResponse
+        response: MovieVideoResponse,
     ): YoutubeVideoEntity {
         check(response.site == MovieVideoResponse.Site.YOUTUBE)
         return YoutubeVideoEntity(
@@ -55,7 +55,7 @@ class YoutubeVideoMapper @Inject constructor() {
             type = mapTypeToEntity(response.type),
             official = response.official,
             publishedAt = response.publishedAt,
-            movieId = movieId
+            movieId = movieId,
         )
     }
 

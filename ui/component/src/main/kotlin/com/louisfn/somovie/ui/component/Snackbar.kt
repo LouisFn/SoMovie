@@ -22,7 +22,7 @@ fun DefaultSnackbar(
     backgroundColor: Color = MaterialTheme.colors.background,
     contentColor: Color = MaterialTheme.colors.surface,
     actionColor: Color = MaterialTheme.colors.secondary,
-    elevation: Dp = 6.dp
+    elevation: Dp = 6.dp,
 ) {
     DefaultSnackbar(
         message = snackbarData.message,
@@ -34,7 +34,7 @@ fun DefaultSnackbar(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         actionColor = actionColor,
-        elevation = elevation
+        elevation = elevation,
     )
 }
 
@@ -49,14 +49,14 @@ fun DefaultSnackbar(
     backgroundColor: Color = MaterialTheme.colors.background,
     contentColor: Color = MaterialTheme.colors.surface,
     actionColor: Color = MaterialTheme.colors.secondary,
-    elevation: Dp = 6.dp
+    elevation: Dp = 6.dp,
 ) {
     val actionComposable: (@Composable () -> Unit)? =
         if (actionLabel != null) {
             @Composable {
                 TextButton(
                     onClick = onActionClick,
-                    content = { Text(text = actionLabel, color = actionColor) }
+                    content = { Text(text = actionLabel, color = actionColor) },
                 )
             }
         } else {
@@ -70,6 +70,6 @@ fun DefaultSnackbar(
         shape = shape,
         backgroundColor = backgroundColor,
         contentColor = contentColor,
-        elevation = elevation
+        elevation = elevation,
     )
 }

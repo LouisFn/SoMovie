@@ -11,13 +11,13 @@ object FakeSessionFactory {
         account = Account(
             id = 10,
             name = "Louis",
-            username = "LouisFn"
-        )
+            username = "LouisFn",
+        ),
     )
 
     val empty = Session(
         sessionId = null,
         languageIso639 = null,
-        account = null
+        account = null,
     )
 }

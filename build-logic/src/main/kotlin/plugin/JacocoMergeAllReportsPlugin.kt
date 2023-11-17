@@ -35,7 +35,7 @@ class JacocoMergeAllReportsPlugin : Plugin<Project> {
                             val variantName = it.name
                             rootProject.tasks.create(
                                 "jacocoMergeAll${variantName.capitalized()}Reports",
-                                JacocoReport::class
+                                JacocoReport::class,
                             ) {
                                 group = "Reporting"
                                 description =

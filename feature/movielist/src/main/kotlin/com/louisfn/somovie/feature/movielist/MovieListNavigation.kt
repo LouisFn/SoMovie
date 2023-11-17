@@ -20,17 +20,17 @@ object MovieListNavigation : NavigationDestination {
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.movieListGraph(
     showDetail: (Movie) -> Unit,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
 ) {
     composable(
         route = MovieListNavigation.route,
         arguments = listOf(
-            navArgument(MovieListNavigation.ARGS_CATEGORY) { type = NavType.StringType }
-        )
+            navArgument(MovieListNavigation.ARGS_CATEGORY) { type = NavType.StringType },
+        ),
     ) {
         MovieListScreen(
             showDetail = showDetail,
-            navigateUp = navigateUp
+            navigateUp = navigateUp,
         )
     }
 }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MovieCreditsInteractor @Inject constructor(
-    private val movieCreditsRepository: MovieCreditsRepository
+    private val movieCreditsRepository: MovieCreditsRepository,
 ) {
     @AnyThread
     fun movieCreditsChanges(movieId: Long): Flow<MovieCredits> =

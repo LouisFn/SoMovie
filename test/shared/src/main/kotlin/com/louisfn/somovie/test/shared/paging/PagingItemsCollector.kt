@@ -19,7 +19,7 @@ class PagingItemsCollector<T : Any>(val dispatcher: TestDispatcher = UnconfinedT
             previousList: NullPaddedList<T>,
             newList: NullPaddedList<T>,
             lastAccessedIndex: Int,
-            onListPresentable: () -> Unit
+            onListPresentable: () -> Unit,
         ): Int? {
             onListPresentable()
             _items.value = snapshot().items

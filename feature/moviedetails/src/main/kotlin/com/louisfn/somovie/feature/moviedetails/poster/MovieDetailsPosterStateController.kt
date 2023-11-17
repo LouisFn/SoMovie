@@ -27,7 +27,7 @@ internal class PosterStateController(
     private val scope: CoroutineScope,
     private val minDragDistanceToReduce: Int,
     private val screenSize: Size,
-    private var onStateChanged: (MovieDetailsPosterState) -> Unit
+    private var onStateChanged: (MovieDetailsPosterState) -> Unit,
 ) {
     private var currentState: MovieDetailsPosterState = MovieDetailsPosterState.REDUCED
 
@@ -60,8 +60,11 @@ internal class PosterStateController(
         dragOffset = dragOffset.plus(dragAmount)
 
         val newWidth =
-            if (dragOffset.getDistance() <= minDragDistanceToReduce) screenSize.width - dragOffset.getDistance()
-            else sizeAnimatable.value.width
+            if (dragOffset.getDistance() <= minDragDistanceToReduce) {
+                screenSize.width - dragOffset.getDistance()
+            } else {
+                sizeAnimatable.value.width
+            }
 
         val x = (screenSize.width - newWidth) / 2
         val sizeOffset = Offset(x = x, y = x / Dimens.POSTER_RATIO)
@@ -103,7 +106,7 @@ internal class PosterStateController(
 @Composable
 internal fun rememberPosterStateController(
     reducedCoordinates: LayoutCoordinates,
-    onStateChanged: (MovieDetailsPosterState) -> Unit
+    onStateChanged: (MovieDetailsPosterState) -> Unit,
 ): PosterStateController {
     val scope = rememberCoroutineScope()
     val minDragDistanceToReduce = MIN_DRAG_DISTANCE_TO_REDUCE.roundToPx()
@@ -115,7 +118,7 @@ internal fun rememberPosterStateController(
             reducedCoordinates = reducedCoordinates,
             screenSize = screenSize,
             onStateChanged = onStateChanged,
-            scope = scope
+            scope = scope,
         )
     }
 }

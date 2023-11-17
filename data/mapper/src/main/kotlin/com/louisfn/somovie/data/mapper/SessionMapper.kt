@@ -14,9 +14,9 @@ class SessionMapper @Inject constructor() {
             Account(
                 id = it.id,
                 name = it.name,
-                username = it.username
+                username = it.username,
             )
-        }
+        },
     )
 
     fun mapToData(session: Session) = SessionData(
@@ -26,8 +26,8 @@ class SessionMapper @Inject constructor() {
             SessionData.Account(
                 id = it.id,
                 name = it.name,
-                username = it.username
+                username = it.username,
             )
-        }
+        },
     )
 }

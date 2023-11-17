@@ -37,7 +37,6 @@ class AndroidFeaturePlugin : Plugin<Project> {
                 implementation(project(":ui:component"))
                 implementation(project(":ui:theme"))
                 implementation(libs.findLibrary("accompanist.navigationAnimation").get())
-                implementation(libs.findLibrary("accompanist.insets.ui").get())
                 implementation(libs.findLibrary("androidx.constraintlayout.compose").get())
                 implementation(libs.findLibrary("androidx.lifecycle.runtime").get())
                 implementation(libs.findLibrary("androidx.lifecycle.viewmodel").get())

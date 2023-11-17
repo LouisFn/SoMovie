@@ -17,5 +17,5 @@ fun rememberVectorPainter(image: ImageVector, tintColor: Color) =
         tintColor = tintColor,
         tintBlendMode = image.tintBlendMode,
         autoMirror = false,
-        content = { _, _ -> RenderVectorGroup(group = image.root) }
+        content = { _, _ -> RenderVectorGroup(group = image.root) },
     )

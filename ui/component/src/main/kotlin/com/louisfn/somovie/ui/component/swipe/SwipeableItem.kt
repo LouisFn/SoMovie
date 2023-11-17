@@ -8,7 +8,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.pointerInput
 
 internal fun Modifier.swipeableItem(
-    swipeController: SwipeController
+    swipeController: SwipeController,
 ) = composed {
     if (!swipeController.isGestureEnabled) return@composed this
 
@@ -21,7 +21,7 @@ internal fun Modifier.swipeableItem(
             },
             onDragEnd = {
                 currentSwipeController.onDragEnd()
-            }
+            },
         )
     }
 }

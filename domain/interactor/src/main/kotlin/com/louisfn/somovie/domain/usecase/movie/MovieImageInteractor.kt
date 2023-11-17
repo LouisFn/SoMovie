@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MovieImageInteractor @Inject constructor(
-    private val movieImageRepository: MovieImageRepository
+    private val movieImageRepository: MovieImageRepository,
 ) {
 
     @AnyThread

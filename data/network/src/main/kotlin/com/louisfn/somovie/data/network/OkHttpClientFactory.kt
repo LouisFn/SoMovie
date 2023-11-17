@@ -7,7 +7,7 @@ internal object OkHttpClientFactory {
 
     fun create(
         applicationInterceptors: Set<Interceptor>,
-        networkInterceptors: Set<Interceptor>
+        networkInterceptors: Set<Interceptor>,
     ): OkHttpClient =
         OkHttpClient
             .Builder()

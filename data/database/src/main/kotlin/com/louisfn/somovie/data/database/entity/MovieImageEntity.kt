@@ -13,9 +13,9 @@ import com.louisfn.somovie.data.database.*
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 data class MovieImageEntity(
     @PrimaryKey(autoGenerate = true)
@@ -28,10 +28,10 @@ data class MovieImageEntity(
     @ColumnInfo(name = COLUMN_TYPE)
     val type: Type,
     @ColumnInfo(name = COLUMN_FK_MOVIE_ID, index = true)
-    val movieId: Long
+    val movieId: Long,
 ) {
     enum class Type(val value: Int) {
         POSTER(0),
-        BACKDROP(1)
+        BACKDROP(1),
     }
 }

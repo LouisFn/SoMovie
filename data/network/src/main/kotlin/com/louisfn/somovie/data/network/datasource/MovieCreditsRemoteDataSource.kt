@@ -15,7 +15,7 @@ interface MovieCreditsRemoteDataSource {
 }
 
 internal class DefaultMovieCreditsRemoteDataSource @Inject constructor(
-    private val executor: ApiServiceExecutor
+    private val executor: ApiServiceExecutor,
 ) : MovieCreditsRemoteDataSource {
 
     override suspend fun getMovieCredits(movieId: Long): MovieCreditsResponse =

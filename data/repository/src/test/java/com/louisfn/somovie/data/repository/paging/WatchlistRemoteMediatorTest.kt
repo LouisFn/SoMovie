@@ -58,7 +58,7 @@ class WatchlistRemoteMediatorTest {
             movies = defaultMovies,
             accountId = accountId,
             fakeWebServer = fakeWebServer,
-            nbrOfResultsByPage = nbrOfResultsByPage
+            nbrOfResultsByPage = nbrOfResultsByPage,
         )
 
         watchlistRemoteMediator = WatchlistRemoteMediator(
@@ -68,7 +68,7 @@ class WatchlistRemoteMediatorTest {
             remoteKeyLocalDataSource = remoteKeyLocalDataSource,
             movieMapper = movieMapper,
             databaseHelper = databaseHelper,
-            accountId = accountId
+            accountId = accountId,
         )
     }
 
@@ -79,7 +79,7 @@ class WatchlistRemoteMediatorTest {
             pages = listOf(),
             anchorPosition = null,
             config = PagingConfig(10),
-            leadingPlaceholderCount = 0
+            leadingPlaceholderCount = 0,
         )
         watchlistRemoteDataSource.addToWatchlist(defaultMovies)
         watchlistLocalDataSource.insertOrIgnoreToWatchlist(FakeMovieEntityFactory.create(1))
@@ -103,7 +103,7 @@ class WatchlistRemoteMediatorTest {
                 pages = listOf(),
                 anchorPosition = null,
                 config = PagingConfig(10),
-                leadingPlaceholderCount = 0
+                leadingPlaceholderCount = 0,
             )
             val watchlist = defaultMovies.take(nbrOfResultsByPage)
             watchlistRemoteDataSource.addToWatchlist(watchlist)
@@ -129,7 +129,7 @@ class WatchlistRemoteMediatorTest {
             pages = listOf(),
             anchorPosition = null,
             config = PagingConfig(10),
-            leadingPlaceholderCount = 0
+            leadingPlaceholderCount = 0,
         )
         val currentWatchlist = FakeMovieEntityFactory.create(1)
         fakeWebServer.isNetworkAvailable = false
@@ -153,7 +153,7 @@ class WatchlistRemoteMediatorTest {
                 pages = listOf(),
                 anchorPosition = null,
                 config = PagingConfig(10),
-                leadingPlaceholderCount = 0
+                leadingPlaceholderCount = 0,
             )
             val watchlist = defaultMovies
             watchlistRemoteDataSource.addToWatchlist(watchlist)
@@ -179,7 +179,7 @@ class WatchlistRemoteMediatorTest {
             pages = listOf(),
             anchorPosition = null,
             config = PagingConfig(10),
-            leadingPlaceholderCount = 0
+            leadingPlaceholderCount = 0,
         )
         watchlistRemoteDataSource.addToWatchlist(defaultMovies)
 

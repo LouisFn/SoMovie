@@ -24,7 +24,7 @@ import javax.inject.Inject
 internal class MainViewModel @Inject constructor(
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
     private val errorsDispatcher: ErrorsDispatcher,
-    private val configurationInteractor: TmdbConfigurationInteractor
+    private val configurationInteractor: TmdbConfigurationInteractor,
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
 
     private val loadingManager = LoadingManager()
@@ -37,7 +37,7 @@ internal class MainViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(),
-                initialValue = MainUiState.Loading
+                initialValue = MainUiState.Loading,
             )
 
     val errors = errorsDispatcher
@@ -45,7 +45,7 @@ internal class MainViewModel @Inject constructor(
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(),
-            ImmutableList()
+            ImmutableList(),
         )
 
     init {
@@ -61,8 +61,11 @@ internal class MainViewModel @Inject constructor(
 
     @AnyThread
     private fun createMainUiState(isRefreshing: Boolean) =
-        if (isRefreshing) MainUiState.Loading
-        else MainUiState.Content
+        if (isRefreshing) {
+            MainUiState.Loading
+        } else {
+            MainUiState.Content
+        }
 
     @AnyThread
     private suspend fun refreshAppData() {

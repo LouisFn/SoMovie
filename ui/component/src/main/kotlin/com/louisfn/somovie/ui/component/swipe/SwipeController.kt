@@ -47,7 +47,7 @@ class SwipeController(
     private val onDragging: (SwipeDirection, ratio: Float) -> Unit,
     private val onSwiped: (SwipeDirection) -> Unit,
     private val onDisappeared: (SwipeDirection) -> Unit,
-    private val onCanceled: () -> Unit
+    private val onCanceled: () -> Unit,
 ) {
 
     private val velocityTracker = VelocityTracker()
@@ -71,7 +71,7 @@ class SwipeController(
             offsetAnimatable.snapTo(offset.plus(dragAmount))
             onDragging(
                 SwipeDirection.fromOffset(offset.x),
-                offset.x.absoluteValue / size.width
+                offset.x.absoluteValue / size.width,
             )
         }
     }
@@ -90,7 +90,7 @@ class SwipeController(
                 onSwiped(direction)
                 offsetAnimatable.animateTo(
                     targetValue = offset.copy(x = targetOffsetX),
-                    animationSpec = swipeAnimationSpec
+                    animationSpec = swipeAnimationSpec,
                 )
                 onDisappeared(direction)
             } else {
@@ -119,7 +119,7 @@ internal fun rememberSwipeController(
     onDragging: (SwipeDirection, ratio: Float) -> Unit,
     onSwiped: (SwipeDirection) -> Unit,
     onDisappeared: (SwipeDirection) -> Unit,
-    onCanceled: () -> Unit
+    onCanceled: () -> Unit,
 ): SwipeController {
     val currentOnDragging by rememberUpdatedState(onDragging)
     val currentOnSwipe by rememberUpdatedState(onSwiped)
@@ -133,7 +133,7 @@ internal fun rememberSwipeController(
         maxRotationInDegrees,
         thresholdConfig,
         swipeAnimationSpec,
-        cancelAnimationSpec
+        cancelAnimationSpec,
     ) {
         SwipeController(
             size = size,
@@ -147,7 +147,7 @@ internal fun rememberSwipeController(
             onDragging = currentOnDragging,
             onSwiped = currentOnSwipe,
             onDisappeared = onDisappeared,
-            onCanceled = onCanceled
+            onCanceled = onCanceled,
         )
     }
 }

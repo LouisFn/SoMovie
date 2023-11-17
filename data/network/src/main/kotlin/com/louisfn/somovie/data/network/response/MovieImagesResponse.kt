@@ -10,7 +10,7 @@ data class MovieImagesResponse(
     @Json(name = "backdrops")
     val backdrops: List<Image>,
     @Json(name = "posters")
-    val posters: List<Image>
+    val posters: List<Image>,
 ) {
 
     @JsonClass(generateAdapter = true)
@@ -18,6 +18,6 @@ data class MovieImagesResponse(
         @Json(name = "file_path")
         val filePath: String,
         @Json(name = "width")
-        val width: Int
+        val width: Int,
     )
 }

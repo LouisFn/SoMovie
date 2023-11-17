@@ -22,7 +22,7 @@ fun PagingItemsLoadStateErrorEffect(
     pagingItems: LazyPagingItems<*>,
     onRefreshError: ((Throwable) -> Unit)? = null,
     onAppendError: ((Throwable) -> Unit)? = null,
-    onPrependError: ((Throwable) -> Unit)? = null
+    onPrependError: ((Throwable) -> Unit)? = null,
 ) {
     val currentOnRefreshError by rememberUpdatedState(onRefreshError)
     val currentOnAppendError by rememberUpdatedState(onAppendError)

@@ -4,7 +4,7 @@ import android.app.Application
 import javax.inject.Inject
 
 internal class AppInitializers @Inject constructor(
-    private val initializers: Set<@JvmSuppressWildcards AppInitializer>
+    private val initializers: Set<@JvmSuppressWildcards AppInitializer>,
 ) : AppInitializer {
 
     override fun onCreate(application: Application) {

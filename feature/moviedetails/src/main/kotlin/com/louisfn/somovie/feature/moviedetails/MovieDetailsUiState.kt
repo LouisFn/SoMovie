@@ -10,7 +10,7 @@ import java.time.Duration
 internal data class MovieDetailsUiState(
     val headerUiState: HeaderUiState? = null,
     val contentUiState: ContentUiState? = null,
-    val watchlistFabState: WatchlistFabState? = null
+    val watchlistFabState: WatchlistFabState? = null,
 )
 
 @Immutable
@@ -23,7 +23,7 @@ internal data class HeaderUiState(
     val voteAverage: Float,
     val voteCount: Int?,
     val tmdbUrl: String,
-    val releaseDate: String?
+    val releaseDate: String?,
 ) {
     val hasVotes: Boolean = voteCount != null && voteCount > 0
 }
@@ -43,13 +43,13 @@ internal sealed interface ContentUiState {
         val genres: ImmutableList<MovieGenre>,
         val crew: ImmutableList<CrewMember>?,
         val cast: ImmutableList<Actor>?,
-        val videos: ImmutableList<YoutubeVideo>?
+        val videos: ImmutableList<YoutubeVideo>?,
     ) : ContentUiState
 }
 
 internal data class WatchlistFabState(
     val isLoading: Boolean,
-    val state: WatchlistState
+    val state: WatchlistState,
 ) {
     enum class WatchlistState { ADD_TO_WATCHLIST, REMOVE_FROM_WATCHLIST }
 }

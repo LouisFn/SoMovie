@@ -10,7 +10,7 @@ data class MovieCreditsResponse(
     @Json(name = "cast")
     val cast: List<Actor>,
     @Json(name = "crew")
-    val crew: List<CrewMember>
+    val crew: List<CrewMember>,
 ) {
 
     @JsonClass(generateAdapter = true)
@@ -26,7 +26,7 @@ data class MovieCreditsResponse(
         @Json(name = "order")
         val order: Int,
         @Json(name = "popularity")
-        val popularity: Float
+        val popularity: Float,
     )
 
     @JsonClass(generateAdapter = true)
@@ -42,6 +42,6 @@ data class MovieCreditsResponse(
         @Json(name = "profile_path")
         val profilePath: String?,
         @Json(name = "popularity")
-        val popularity: Float
+        val popularity: Float,
     )
 }

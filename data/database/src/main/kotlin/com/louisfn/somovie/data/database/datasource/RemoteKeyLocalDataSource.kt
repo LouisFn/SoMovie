@@ -21,7 +21,7 @@ interface RemoteKeyLocalDataSource {
 
 internal class DefaultRemoteKeyLocalDataSource @Inject constructor(
     private val database: AppDatabase,
-    private val dateTimeProvider: DateTimeProvider
+    private val dateTimeProvider: DateTimeProvider,
 ) : RemoteKeyLocalDataSource {
 
     override suspend fun getRemoteKey(type: RemoteKeyEntity.Type): RemoteKeyEntity? =
@@ -37,8 +37,8 @@ internal class DefaultRemoteKeyLocalDataSource @Inject constructor(
                     RemoteKeyEntity(
                         type = type,
                         nextKey = nextKey,
-                        firstFetchAt = dateTimeProvider.now()
-                    )
+                        firstFetchAt = dateTimeProvider.now(),
+                    ),
                 )
             } else {
                 updateNextKey(type, nextKey)

@@ -6,19 +6,23 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 
 internal fun Project.configureAndroid(
-    commonExtension: CommonExtension<*, *, *, *>
+    commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = AppConfig.compileSdkVersion
+        compileSdk = AppConfig.COMPILE_SDK_VERSION
 
         defaultConfig {
-            minSdk = AppConfig.minSdkVersion
-            testInstrumentationRunner = AppConfig.testInstrumentationRunner
+            minSdk = AppConfig.MIN_SDK_VERSION
+            testInstrumentationRunner = AppConfig.TEST_INSTRUMENTATION_RUNNER
+        }
+
+        buildFeatures {
+            buildConfig = true
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
 
         buildTypes {

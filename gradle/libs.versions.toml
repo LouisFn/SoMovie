@@ -1,51 +1,49 @@
 [versions]
-accompanist = "0.30.1"
-androidGradlePlugin = "7.4.0"
-androidxActivityCompose = "1.7.1"
-androidxAnnotation = "1.6.0"
-androidxCompose = "1.4.3"
-androidxComposeCompiler = "1.4.2"
-androidxComposeMaterial = "1.4.3"
+accompanist = "0.32.0"
+androidGradlePlugin = "8.1.4"
+androidxActivityCompose = "1.8.1"
+androidxAnnotation = "1.7.0"
+androidxCompose = "1.5.4"
+androidxComposeCompiler = "1.5.4"
+androidxComposeMaterial = "1.5.4"
 androidxConstraintlayout = "1.0.1"
-androidxCoreKtx = "1.10.1"
+androidxCoreKtx = "1.12.0"
 androidxDatastore = "1.0.0"
-androidxLifecycle = "2.6.1"
-androidxNavigation = "2.5.3"
-androidxPaging = "3.1.1"
-androidxPagingCompose = "1.0.0-alpha19"
-androidxRoom = "2.5.1"
+androidxLifecycle = "2.6.2"
+androidxNavigation = "2.7.5"
+androidxPaging = "3.2.1"
+androidxPagingCompose = "3.2.1"
+androidxRoom = "2.6.0"
 androidxTest = "1.5.2"
 androidxTestExt = "1.1.5"
-androidxWebkit = "1.6.1"
-coil = "2.3.0"
+androidxWebkit = "1.8.0"
+coil = "2.5.0"
 coroutines = "1.7.1"
-detekt = "1.22.0"
-detektCompose = "0.0.26"
-faker = "1.14.0"
-flipper = "0.191.0"
-gradleversions = "0.46.0"
-hilt = "2.46.1"
+detekt = "1.23.3"
+detektCompose = "0.3.3"
+faker = "1.15.0"
+flipper = "0.238.0"
+gradleversions = "0.50.0"
+hilt = "2.48.1"
 hiltAndroidX = "1.0.0"
-hiltCompose = "1.0.0"
+hiltCompose = "1.1.0"
 jacoco = "0.8.7"
 junit = "4.13.2"
 jvm = "1.7.20"
-kotest = "5.6.2"
-kotlin = "1.8.10"
-ksp = "1.8.10-1.0.9"
-ktlint = "0.46.1"
-leakcanary = "2.11"
+kotest = "5.8.0"
+kotlin = "1.9.20"
+ksp = "1.9.20-1.0.14"
+ktlint = "1.0.1"
+leakcanary = "2.12"
 moshi = "1.15.0"
-okHttpLoggingInterceptor = "4.11.0"
+okHttpLoggingInterceptor = "4.12.0"
 retrofit = "2.9.0"
 soloader = "0.10.5"
-spotless = "6.18.0"
+spotless = "6.22.0"
 timber = "5.0.1"
 
 [libraries]
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
-accompanist-insets = { group = "com.google.accompanist", name = "accompanist-insets", version.ref = "accompanist" }
-accompanist-insets-ui = { group = "com.google.accompanist", name = "accompanist-insets-ui", version.ref = "accompanist" }
 accompanist-navigationAnimation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
 accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
@@ -117,7 +115,7 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 detekt =  { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-detekt-compose = { id = "com.twitter.compose.rules:detekt", version.ref = "detektCompose" }
+detekt-compose = { id = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
 gradleversions = { id = "com.github.ben-manes.versions", version.ref = "gradleversions" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

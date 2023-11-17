@@ -29,13 +29,13 @@ internal class MovieListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
     private val movieInteractor: MovieInteractor,
-    private val errorsDispatcher: ErrorsDispatcher
+    private val errorsDispatcher: ErrorsDispatcher,
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
 
     private val category: ExploreCategory =
         ExploreCategory.valueOf(
             savedStateHandle[MovieListNavigation.ARGS_CATEGORY]
-                ?: throw IllegalArgumentException("${MovieListNavigation.ARGS_CATEGORY} not found")
+                ?: throw IllegalArgumentException("${MovieListNavigation.ARGS_CATEGORY} not found"),
         )
 
     private val loadStates = MutableStateFlow<CombinedLoadStates?>(null)
@@ -50,7 +50,7 @@ internal class MovieListViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(),
-                initialValue = MovieListUiState(category)
+                initialValue = MovieListUiState(category),
             )
 
     private fun createUiState(loadStates: CombinedLoadStates): MovieListUiState {
@@ -62,7 +62,7 @@ internal class MovieListViewModel @Inject constructor(
                 is LoadState.Error -> LoadNextPageState.FAILED
                 is LoadState.Loading -> LoadNextPageState.LOADING
                 is LoadState.NotLoading -> LoadNextPageState.IDLE
-            }
+            },
         )
     }
 

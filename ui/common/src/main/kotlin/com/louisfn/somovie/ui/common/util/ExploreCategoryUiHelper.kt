@@ -16,7 +16,7 @@ object ExploreCategoryUiHelper {
                 NOW_PLAYING -> commonR.string.explore_section_now_playing
                 TOP_RATED -> commonR.string.explore_section_top_rated
                 UPCOMING -> commonR.string.explore_section_upcoming
-            }
+            },
         )
 
     val ExploreCategory.canDisplayVotes: Boolean

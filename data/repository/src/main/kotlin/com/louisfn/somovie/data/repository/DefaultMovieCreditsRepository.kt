@@ -26,7 +26,7 @@ internal class DefaultMovieCreditsRepository @Inject constructor(
     private val remoteDataSource: MovieCreditsRemoteDataSource,
     private val localDataSource: MovieCreditsLocalDataSource,
     private val mapper: MovieCreditsMapper,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : MovieCreditsRepository {
 
     override fun movieCreditsChanges(movieId: Long): Flow<MovieCredits> =
@@ -48,7 +48,7 @@ internal class DefaultMovieCreditsRepository @Inject constructor(
     private fun movieCreditsChangesFromLocal(movieId: Long): Flow<MovieCredits> =
         combine(
             localDataSource.actorsChanges(movieId),
-            localDataSource.crewMembersChanges(movieId)
+            localDataSource.crewMembersChanges(movieId),
         ) { actors, crewMembers -> mapper.mapToDomain(actors, crewMembers) }
             .flowOn(defaultDispatcher)
 }

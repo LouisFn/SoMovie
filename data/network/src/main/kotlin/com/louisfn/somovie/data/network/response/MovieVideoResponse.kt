@@ -25,13 +25,13 @@ data class MovieVideoResponse(
     @Json(name = "size")
     val size: Int,
     @Json(name = "type")
-    val type: Type
+    val type: Type,
 ) {
 
     @JsonClass(generateAdapter = false)
     enum class Site(val json: String) {
         YOUTUBE("YouTube"),
-        UNKNOWN("")
+        UNKNOWN(""),
     }
 
     @JsonClass(generateAdapter = false)
@@ -41,6 +41,6 @@ data class MovieVideoResponse(
         CLIPS("Clip"),
         BEHIND("Behind the Scenes"),
         BLOOPERS("Bloopers"),
-        FEATURETTES("Featurette")
+        FEATURETTES("Featurette"),
     }
 }

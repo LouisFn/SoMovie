@@ -716,7 +716,7 @@ style:
     excludeImports:
       - 'java.util.*'
 
-TwitterCompose:
+Compose:
   CompositionLocalAllowlist:
     active: false
   CompositionLocalNaming:

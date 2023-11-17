@@ -16,5 +16,5 @@ data class CompanyEntity(
     @ColumnInfo(name = COLUMN_NAME)
     val name: String,
     @ColumnInfo(name = COLUMN_LOGO_URL)
-    val logoPath: String?
+    val logoPath: String?,
 )

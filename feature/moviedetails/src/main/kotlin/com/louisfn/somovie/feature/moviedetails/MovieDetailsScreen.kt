@@ -37,7 +37,7 @@ internal val MORE_INFO_SECTION_BODY_SPACE = 8.dp
 @Composable
 internal fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel = hiltViewModel(),
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateLifecycleAware()
 
@@ -45,7 +45,7 @@ internal fun MovieDetailsScreen(
         state = state,
         onRetryClick = viewModel::retry,
         onWatchlistFabClick = viewModel::switchWatchlistState,
-        navigateUp = navigateUp
+        navigateUp = navigateUp,
     )
 }
 
@@ -54,7 +54,7 @@ private fun MovieDetailsScreen(
     state: MovieDetailsUiState,
     onRetryClick: () -> Unit,
     onWatchlistFabClick: () -> Unit,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
 ) {
     var posterReducedCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
 
@@ -62,7 +62,7 @@ private fun MovieDetailsScreen(
 
     Box {
         ConstraintLayout(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             val (header, content, watchlistFab) = createRefs()
 
@@ -74,7 +74,7 @@ private fun MovieDetailsScreen(
                     end.linkTo(parent.end)
                 },
                 navigateUp = navigateUp,
-                onPosterPositioned = { posterReducedCoordinates = it }
+                onPosterPositioned = { posterReducedCoordinates = it },
             )
 
             Box(
@@ -85,7 +85,7 @@ private fun MovieDetailsScreen(
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
-                    }
+                    },
             ) {
                 state.contentUiState?.let {
                     MovieDetailsScreen(contentUiState = it, onRetryClick = onRetryClick)
@@ -101,7 +101,7 @@ private fun MovieDetailsScreen(
                             bottom.linkTo(header.bottom)
                             end.linkTo(parent.end, 12.dp)
                         },
-                    onClick = onWatchlistFabClick
+                    onClick = onWatchlistFabClick,
                 )
             }
         }
@@ -109,7 +109,7 @@ private fun MovieDetailsScreen(
         safeLet(posterReducedCoordinates, state.headerUiState.posterPath) { coordinates, path ->
             MovieDetailsPosterFullScreen(
                 posterPath = path,
-                posterReducedCoordinates = coordinates
+                posterReducedCoordinates = coordinates,
             )
         }
     }
@@ -119,7 +119,7 @@ private fun MovieDetailsScreen(
 private fun AddToWatchlistSmallFab(
     watchlistFabState: WatchlistFabState,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(
         onClick = onClick,
@@ -133,8 +133,8 @@ private fun AddToWatchlistSmallFab(
                 backgroundColor = when (watchlistFabState.state) {
                     WatchlistState.ADD_TO_WATCHLIST -> MaterialTheme.colors.secondary
                     WatchlistState.REMOVE_FROM_WATCHLIST -> MaterialTheme.colors.error
-                }
-            )
+                },
+            ),
     ) {
         Icon(
             imageVector = when (watchlistFabState.state) {
@@ -142,7 +142,7 @@ private fun AddToWatchlistSmallFab(
                 WatchlistState.REMOVE_FROM_WATCHLIST -> Icons.Filled.PlaylistRemove
             },
             tint = MaterialTheme.colors.onPrimary,
-            contentDescription = ""
+            contentDescription = "",
         )
     }
 }
@@ -152,11 +152,11 @@ private fun BoxScope.MovieDetailsScreen(contentUiState: ContentUiState, onRetryC
     when (contentUiState) {
         is ContentUiState.Content -> MovieDetailsScreen(state = contentUiState)
         is ContentUiState.Loading -> MovieDetailsLoader(
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier.align(Alignment.Center),
         )
         is ContentUiState.Retry -> MovieDetailsRetry(
             modifier = Modifier.align(Alignment.Center),
-            onClick = onRetryClick
+            onClick = onRetryClick,
         )
     }
 }
@@ -164,7 +164,7 @@ private fun BoxScope.MovieDetailsScreen(contentUiState: ContentUiState, onRetryC
 @Composable
 private fun MovieDetailsLoader(modifier: Modifier = Modifier) {
     IndeterminateProgressIndicator(
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -172,7 +172,7 @@ private fun MovieDetailsLoader(modifier: Modifier = Modifier) {
 private fun MovieDetailsRetry(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Retry(
         modifier = modifier,
-        onClick = onClick
+        onClick = onClick,
     )
 }
 
@@ -189,14 +189,14 @@ private fun MovieDetailScreenPreview() {
                         listOf(
                             BackdropPath("/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg"),
                             BackdropPath("/iQFcwSGbZXMkeyKrxbPnwnRo5fp.jpg"),
-                            BackdropPath("/iQFcwSGbZXMkeyKrxbPnwnRo5fs.jpg")
-                        )
+                            BackdropPath("/iQFcwSGbZXMkeyKrxbPnwnRo5fs.jpg"),
+                        ),
                     ),
                     tagline = "The Multiverse unleashed.",
                     voteAverage = 8.4f,
                     voteCount = 7997,
                     tmdbUrl = "",
-                    releaseDate = "2021/12/15"
+                    releaseDate = "2021/12/15",
                 ),
                 contentUiState = ContentUiState.Content(
                     originalTitle = "Spider-Man: No Way Home",
@@ -214,28 +214,28 @@ private fun MovieDetailScreenPreview() {
                         listOf(
                             MovieGenre(
                                 id = 1,
-                                name = "Action"
+                                name = "Action",
                             ),
                             MovieGenre(
                                 id = 2,
-                                name = "Adventure"
+                                name = "Adventure",
                             ),
                             MovieGenre(
                                 id = 3,
-                                name = "Science Fiction"
-                            )
-                        )
+                                name = "Science Fiction",
+                            ),
+                        ),
                     ),
-                    videos = ImmutableList()
+                    videos = ImmutableList(),
                 ),
                 watchlistFabState = WatchlistFabState(
                     isLoading = true,
-                    state = WatchlistState.REMOVE_FROM_WATCHLIST
-                )
+                    state = WatchlistState.REMOVE_FROM_WATCHLIST,
+                ),
             ),
             onRetryClick = {},
             onWatchlistFabClick = {},
-            navigateUp = {}
+            navigateUp = {},
         )
     }
 }

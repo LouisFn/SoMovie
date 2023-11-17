@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 
 class FakeWatchlistRepository(
     var movies: List<Movie>,
-    val fakeWebServer: FakeWebServer
+    val fakeWebServer: FakeWebServer,
 ) : WatchlistRepository {
 
     private val watchlist = MutableStateFlow<List<Movie>>(emptyList())
@@ -32,7 +32,7 @@ class FakeWatchlistRepository(
 
     override fun watchlistPagingChanges(
         pagingConfig: PagingConfig,
-        cacheTimeout: Long
+        cacheTimeout: Long,
     ): Flow<PagingData<Movie>> =
         watchlist
             .map(PagingData.Companion::from)

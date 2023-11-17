@@ -29,7 +29,7 @@ interface LogInManager {
 }
 
 class DefaultLogInManager @Inject constructor(
-    private val authenticationInteractor: AuthenticationInteractor
+    private val authenticationInteractor: AuthenticationInteractor,
 ) : LogInManager {
 
     private lateinit var scope: CoroutineScope

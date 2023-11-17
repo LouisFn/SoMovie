@@ -48,7 +48,7 @@ internal fun ExploreScreen(
     homeItemState: HomeItemState,
     showDetail: (Movie) -> Unit,
     showMore: (ExploreCategory) -> Unit,
-    viewModel: ExploreViewModel = hiltViewModel()
+    viewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateLifecycleAware()
 
@@ -57,7 +57,7 @@ internal fun ExploreScreen(
         state = state,
         showDetail = showDetail,
         showMore = showMore,
-        retry = viewModel::refresh
+        retry = viewModel::refresh,
     )
 }
 
@@ -67,23 +67,23 @@ private fun ExploreScreen(
     homeItemState: HomeItemState,
     showDetail: (Movie) -> Unit,
     showMore: (ExploreCategory) -> Unit,
-    retry: () -> Unit
+    retry: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
-        topBar = { DefaultTopAppBar(text = stringResource(id = commonR.string.home_explore)) }
+        topBar = { DefaultTopAppBar(text = stringResource(id = commonR.string.home_explore)) },
     ) {
         Box(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize()
+                .fillMaxSize(),
         ) {
             ExploreContent(
                 homeItemState = homeItemState,
                 state = state,
                 showDetail = showDetail,
                 showMore = showMore,
-                retry = retry
+                retry = retry,
             )
         }
     }
@@ -95,22 +95,22 @@ private fun BoxScope.ExploreContent(
     homeItemState: HomeItemState,
     showDetail: (Movie) -> Unit,
     showMore: (ExploreCategory) -> Unit,
-    retry: () -> Unit
+    retry: () -> Unit,
 ) {
     when (state) {
         is ExploreUiState.Loading ->
             IndeterminateProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             )
         is ExploreUiState.Retry -> Retry(
             modifier = Modifier.align(Alignment.Center),
-            onClick = retry
+            onClick = retry,
         )
         is ExploreUiState.Explore -> ExploreLazyColumn(
             homeItemState = homeItemState,
             moviesByCategory = state.movies,
             showDetail = showDetail,
-            showMore = showMore
+            showMore = showMore,
         )
         is ExploreUiState.None -> Unit
     }
@@ -121,14 +121,14 @@ private fun ExploreLazyColumn(
     homeItemState: HomeItemState,
     moviesByCategory: ImmutableList<Pair<ExploreCategory, ImmutableList<Movie>>>,
     showDetail: (Movie) -> Unit,
-    showMore: (ExploreCategory) -> Unit
+    showMore: (ExploreCategory) -> Unit,
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(bottom = 16.dp)
+        contentPadding = PaddingValues(bottom = 16.dp),
     ) {
         items(
             items = moviesByCategory,
-            key = { it.first.ordinal }
+            key = { it.first.ordinal },
         ) { (section, movies) ->
             Column {
                 Section(exploreCategory = section, showMore = showMore)
@@ -136,7 +136,7 @@ private fun ExploreLazyColumn(
                     homeItemState = homeItemState,
                     movies = movies,
                     showVotes = section.canDisplayVotes,
-                    showDetail = showDetail
+                    showDetail = showDetail,
                 )
             }
         }
@@ -146,22 +146,22 @@ private fun ExploreLazyColumn(
 @Composable
 private fun Section(
     exploreCategory: ExploreCategory,
-    showMore: (ExploreCategory) -> Unit
+    showMore: (ExploreCategory) -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = DEFAULT_SCREEN_HORIZONTAL_PADDING, end = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = SpaceBetween
+        horizontalArrangement = SpaceBetween,
     ) {
         Text(
             text = exploreCategory.label,
-            style = MaterialTheme.typography.h6
+            style = MaterialTheme.typography.h6,
         )
         DefaultTextButton(
             text = stringResource(commonR.string.explore_section_show_more),
-            onClick = { showMore(exploreCategory) }
+            onClick = { showMore(exploreCategory) },
         )
     }
 }
@@ -171,7 +171,7 @@ private fun MoviesLazyRow(
     homeItemState: HomeItemState,
     movies: ImmutableList<Movie>,
     showVotes: Boolean,
-    showDetail: (Movie) -> Unit
+    showDetail: (Movie) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -189,16 +189,16 @@ private fun MoviesLazyRow(
     LazyRow(
         state = lazyListState,
         contentPadding = PaddingValues(horizontal = DEFAULT_SCREEN_HORIZONTAL_PADDING),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(
             items = movies,
-            key = { it.id }
+            key = { it.id },
         ) { movie ->
             MovieCard(
                 movie = movie,
                 showDetail = showDetail,
-                showVotes = showVotes
+                showVotes = showVotes,
             )
         }
     }

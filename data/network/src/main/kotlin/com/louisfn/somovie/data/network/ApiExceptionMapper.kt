@@ -19,7 +19,7 @@ import retrofit2.HttpException as RetrofitHttpException
 
 internal class ApiExceptionMapper @Inject constructor(
     @MoshiApiService private val moshi: Moshi,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) {
 
     @AnyThread
@@ -36,7 +36,7 @@ internal class ApiExceptionMapper @Inject constructor(
         return HttpException(
             httpCode = error.code(),
             statusCode = response?.statusCode,
-            statusMessage = response?.statusMessage
+            statusMessage = response?.statusMessage,
         )
     }
 

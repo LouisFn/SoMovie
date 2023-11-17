@@ -32,7 +32,7 @@ fun AutosizeText(
     overflow: TextOverflow = TextOverflow.Clip,
     softWrap: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
-    style: TextStyle = LocalTextStyle.current
+    style: TextStyle = LocalTextStyle.current,
 ) {
     var fontSizeValue by remember { mutableStateOf(style.fontSize.value) }
     var readyToDraw by remember { mutableStateOf(false) }
@@ -60,6 +60,6 @@ fun AutosizeText(
             } else {
                 readyToDraw = true
             }
-        }
+        },
     )
 }

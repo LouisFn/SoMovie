@@ -13,9 +13,9 @@ val MaterialColorPalette = darkColors(
     onSurface = Color.White,
     onBackground = Color.White,
     error = Color.Red,
-    onError = Color.White
+    onError = Color.White,
 )
 
 val CustomColorPalette = CustomColors(
-    placeholder = AppColor.Tuna
+    placeholder = AppColor.Tuna,
 )

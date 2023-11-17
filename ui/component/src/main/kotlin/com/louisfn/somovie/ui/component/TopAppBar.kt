@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.ui.TopAppBar
 
 @Composable
 fun DefaultTopAppBar(
@@ -18,7 +17,7 @@ fun DefaultTopAppBar(
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
     backIcon: ImageVector = Icons.Filled.ArrowBack,
     actions: @Composable RowScope.() -> Unit = {},
-    navigateUp: (() -> Unit)? = null
+    navigateUp: (() -> Unit)? = null,
 ) {
     DefaultTopAppBar(
         modifier = modifier,
@@ -29,7 +28,7 @@ fun DefaultTopAppBar(
             }
         },
         actions = actions,
-        backgroundColor = backgroundColor
+        backgroundColor = backgroundColor,
     )
 }
 
@@ -39,7 +38,7 @@ fun DefaultTopAppBar(
     text: String? = null,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
     actions: @Composable RowScope.() -> Unit = {},
-    navigationIcon: @Composable (() -> Unit)? = null
+    navigationIcon: @Composable (() -> Unit)? = null,
 ) {
     TopAppBar(
         modifier = modifier,
@@ -51,7 +50,7 @@ fun DefaultTopAppBar(
         actions = actions,
         navigationIcon = navigationIcon,
         backgroundColor = backgroundColor,
-        elevation = 0.dp
+        elevation = 0.dp,
     )
 }
 
@@ -60,7 +59,7 @@ private fun TopAppBarBackIcon(backIcon: ImageVector, navigateUp: () -> Unit) {
     IconButton(onClick = { navigateUp() }) {
         Icon(
             imageVector = backIcon,
-            contentDescription = ""
+            contentDescription = "",
         )
     }
 }
