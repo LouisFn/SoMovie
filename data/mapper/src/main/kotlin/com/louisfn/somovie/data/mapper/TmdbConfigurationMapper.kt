@@ -7,7 +7,7 @@ import com.louisfn.somovie.domain.model.TmdbConfiguration
 import javax.inject.Inject
 
 class TmdbConfigurationMapper @Inject constructor(
-    private val dateTimeProvider: DateTimeProvider
+    private val dateTimeProvider: DateTimeProvider,
 ) {
 
     //region Map datastore to domain
@@ -15,7 +15,7 @@ class TmdbConfigurationMapper @Inject constructor(
     fun mapToDomain(tmdbConfigurationData: TmdbConfigurationData) = TmdbConfiguration(
         images = tmdbConfigurationData.images?.let { mapToDomain(it) },
         changesKeys = tmdbConfigurationData.changesKeys,
-        updatedAt = tmdbConfigurationData.updatedAt
+        updatedAt = tmdbConfigurationData.updatedAt,
     )
 
     private fun mapToDomain(images: TmdbConfigurationData.Images) = TmdbConfiguration.Images(
@@ -25,7 +25,7 @@ class TmdbConfigurationMapper @Inject constructor(
         logoSizes = images.logoSizes,
         posterSizes = images.posterSizes,
         profileSizes = images.profileSizes,
-        stillSizes = images.stillSizes
+        stillSizes = images.stillSizes,
     )
 
     //endregion
@@ -35,7 +35,7 @@ class TmdbConfigurationMapper @Inject constructor(
     fun mapToData(domain: TmdbConfiguration) = TmdbConfigurationData(
         images = domain.images?.let { mapToData(it) },
         changesKeys = domain.changesKeys,
-        updatedAt = domain.updatedAt
+        updatedAt = domain.updatedAt,
     )
 
     private fun mapToData(domain: TmdbConfiguration.Images) = TmdbConfigurationData.Images(
@@ -45,7 +45,7 @@ class TmdbConfigurationMapper @Inject constructor(
         logoSizes = domain.logoSizes,
         posterSizes = domain.posterSizes,
         profileSizes = domain.profileSizes,
-        stillSizes = domain.stillSizes
+        stillSizes = domain.stillSizes,
     )
 
     //endregion
@@ -56,7 +56,7 @@ class TmdbConfigurationMapper @Inject constructor(
         TmdbConfigurationData(
             images = mapToData(response.images),
             changesKeys = response.changesKeys,
-            updatedAt = dateTimeProvider.now()
+            updatedAt = dateTimeProvider.now(),
         )
 
     private fun mapToData(response: ConfigurationResponse.Images) =
@@ -67,7 +67,7 @@ class TmdbConfigurationMapper @Inject constructor(
             logoSizes = response.logoSizes,
             posterSizes = response.posterSizes,
             profileSizes = response.profileSizes,
-            stillSizes = response.stillSizes
+            stillSizes = response.stillSizes,
         )
 
     //endregion

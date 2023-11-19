@@ -10,5 +10,5 @@ data class MovieAccountStateResponse(
     @Json(name = "watchlist")
     val watchlist: Boolean,
     @Json(name = "favorite")
-    val favorite: Boolean
+    val favorite: Boolean,
 )

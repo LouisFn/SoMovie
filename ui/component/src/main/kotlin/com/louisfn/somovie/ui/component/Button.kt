@@ -12,16 +12,16 @@ fun DefaultTextButton(
     text: String,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     androidx.compose.material.TextButton(
         modifier = modifier,
         contentPadding = contentPadding,
-        onClick = onClick
+        onClick = onClick,
     ) {
         Text(
             color = MaterialTheme.colors.secondary,
-            text = text
+            text = text,
         )
     }
 }

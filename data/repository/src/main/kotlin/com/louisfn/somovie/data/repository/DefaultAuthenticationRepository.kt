@@ -14,7 +14,7 @@ interface AuthenticationRepository {
 }
 
 internal class DefaultAuthenticationRepository @Inject constructor(
-    private val remoteDataSource: AuthenticationRemoteDataSource
+    private val remoteDataSource: AuthenticationRemoteDataSource,
 ) : AuthenticationRepository {
 
     override suspend fun getRequestToken(): String = remoteDataSource.getRequestToken()

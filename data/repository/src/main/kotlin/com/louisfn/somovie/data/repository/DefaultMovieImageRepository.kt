@@ -26,7 +26,7 @@ internal class DefaultMovieImageRepository @Inject constructor(
     private val remoteDataSource: MovieImageRemoteDataSource,
     private val localDataSource: MovieImageLocalDataSource,
     private val mapper: MovieImageMapper,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : MovieImageRepository {
 
     override fun movieImagesChanges(movieId: Long): Flow<MovieImages> =

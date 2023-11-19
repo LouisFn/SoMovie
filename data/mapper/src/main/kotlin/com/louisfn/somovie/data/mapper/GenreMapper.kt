@@ -12,7 +12,7 @@ class GenreMapper @Inject constructor() {
 
     fun mapToDomain(entity: GenreEntity) = MovieGenre(
         id = entity.id,
-        name = entity.name
+        name = entity.name,
     )
 
     //endregion

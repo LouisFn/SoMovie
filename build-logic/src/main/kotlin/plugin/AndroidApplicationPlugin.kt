@@ -30,10 +30,10 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 configureAndroid(this)
 
                 defaultConfig {
-                    applicationId = AppConfig.applicationId
-                    targetSdk = AppConfig.targetSdkVersion
-                    versionCode = AppConfig.versionCode
-                    versionName = AppConfig.versionName
+                    applicationId = AppConfig.APPLICATION_ID
+                    targetSdk = AppConfig.TARGET_SDK_VERSION
+                    versionCode = AppConfig.VERSION_CODE
+                    versionName = AppConfig.VERSION_NAME
                 }
 
                 signingConfigs {
@@ -49,7 +49,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
                                 """
                        Cannot create a release signing config.
                        The file, $KEYSTORE_PROPERTIES_FILE_NAME, either does not exist or cannot be read from.
-                                """.trimIndent()
+                                """.trimIndent(),
                             )
                         }
                     }
@@ -62,7 +62,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
                         isShrinkResources = true
                         proguardFiles(
                             getDefaultProguardFile("proguard-android-optimize.txt"),
-                            "proguard-rules.pro"
+                            "proguard-rules.pro",
                         )
                     }
                 }

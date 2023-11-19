@@ -18,7 +18,7 @@ internal abstract class MovieDao : BaseDao<MovieEntity>(TABLE_MOVIE) {
             "INNER JOIN $TABLE_MOVIE as m ON d.$COLUMN_FK_MOVIE_ID == m.$COLUMN_ID " +
             "WHERE d.$COLUMN_CATEGORY = :category " +
             "ORDER BY d.$COLUMN_ID " +
-            "LIMIT :limit "
+            "LIMIT :limit ",
     )
     abstract fun changes(category: ExploreEntity.Category, limit: Int): Flow<List<MovieEntity>>
 
@@ -26,7 +26,7 @@ internal abstract class MovieDao : BaseDao<MovieEntity>(TABLE_MOVIE) {
         "SELECT m.* FROM $TABLE_EXPLORE as d " +
             "INNER JOIN $TABLE_MOVIE as m ON d.$COLUMN_FK_MOVIE_ID == m.$COLUMN_ID " +
             "WHERE d.$COLUMN_CATEGORY = :category " +
-            "ORDER BY d.$COLUMN_ID"
+            "ORDER BY d.$COLUMN_ID",
     )
     abstract fun getPaging(category: ExploreEntity.Category): PagingSource<Int, MovieEntity>
 

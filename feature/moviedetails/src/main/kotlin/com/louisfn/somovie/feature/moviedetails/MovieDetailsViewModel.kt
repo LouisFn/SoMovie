@@ -46,7 +46,7 @@ internal class MovieDetailsViewModel @Inject constructor(
     private val movieVideosInteractor: MovieVideosInteractor,
     private val watchlistInteractor: WatchlistInteractor,
     private val errorsDispatcher: ErrorsDispatcher,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val movieId: Long =
@@ -64,19 +64,19 @@ internal class MovieDetailsViewModel @Inject constructor(
             movieCreditsChanges(),
             movieYoutubeVideoChanges(),
             refreshMovieResultState,
-            updateWatchlistResultState
+            updateWatchlistResultState,
         ) { movie, backdrops, credits, videos, refreshMovieResult, updateWatchlistResult ->
             MovieDetailsUiState(
                 headerUiState = createHeaderUiState(movie, backdrops),
                 contentUiState = createContentUiState(movie, credits, videos, refreshMovieResult),
-                watchlistFabState = createWatchlistUiState(movie, updateWatchlistResult)
+                watchlistFabState = createWatchlistUiState(movie, updateWatchlistResult),
             )
         }
             .flowOn(defaultDispatcher)
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(),
-                initialValue = MovieDetailsUiState()
+                initialValue = MovieDetailsUiState(),
             )
 
     init {
@@ -86,7 +86,7 @@ internal class MovieDetailsViewModel @Inject constructor(
     @AnyThread
     private fun createHeaderUiState(
         movie: Movie,
-        backdrops: List<BackdropPath>
+        backdrops: List<BackdropPath>,
     ) = HeaderUiState(
         title = movie.title,
         posterPath = movie.posterPath,
@@ -98,7 +98,7 @@ internal class MovieDetailsViewModel @Inject constructor(
         voteAverage = movie.voteAverage,
         voteCount = movie.details?.voteCount,
         tmdbUrl = movie.tmdbUrl,
-        releaseDate = movie.releaseDate?.toReleaseFormat()
+        releaseDate = movie.releaseDate?.toReleaseFormat(),
     )
 
     @AnyThread
@@ -106,7 +106,7 @@ internal class MovieDetailsViewModel @Inject constructor(
         movie: Movie,
         credits: MovieCredits,
         videos: List<YoutubeVideo>,
-        refreshMovieResult: Result<Unit>?
+        refreshMovieResult: Result<Unit>?,
     ): ContentUiState {
         val details = movie.details
 
@@ -122,23 +122,26 @@ internal class MovieDetailsViewModel @Inject constructor(
                 videos = videos.takeIf { it.isNotEmpty() }?.let(::ImmutableList),
                 overview = movie.overview,
                 originalLanguage = movie.originalLanguage,
-                originalTitle = movie.originalTitle
+                originalTitle = movie.originalTitle,
             )
         }
 
-        return if (refreshMovieResult is Result.Error) ContentUiState.Retry
-        else ContentUiState.Loading
+        return if (refreshMovieResult is Result.Error) {
+            ContentUiState.Retry
+        } else {
+            ContentUiState.Loading
+        }
     }
 
     @AnyThread
     private fun createWatchlistUiState(
         movie: Movie,
-        updateWatchlistResultState: Result<Unit>?
+        updateWatchlistResultState: Result<Unit>?,
     ): WatchlistFabState? =
         movie.watchlist?.let { watchlist ->
             WatchlistFabState(
                 isLoading = updateWatchlistResultState is Result.Loading,
-                state = if (watchlist) WatchlistState.REMOVE_FROM_WATCHLIST else WatchlistState.ADD_TO_WATCHLIST
+                state = if (watchlist) WatchlistState.REMOVE_FROM_WATCHLIST else WatchlistState.ADD_TO_WATCHLIST,
             )
         }
 
@@ -157,7 +160,7 @@ internal class MovieDetailsViewModel @Inject constructor(
                 ?.onResultError(errorsDispatcher::dispatch)
                 ?.safeCollect(
                     onEach = updateWatchlistResultState::emit,
-                    onError = errorsDispatcher::dispatch
+                    onError = errorsDispatcher::dispatch,
                 )
         }
     }
@@ -174,7 +177,7 @@ internal class MovieDetailsViewModel @Inject constructor(
                 .onResultError(errorsDispatcher::dispatch)
                 .safeCollect(
                     onEach = refreshMovieResultState::emit,
-                    onError = errorsDispatcher::dispatch
+                    onError = errorsDispatcher::dispatch,
                 )
         }
     }

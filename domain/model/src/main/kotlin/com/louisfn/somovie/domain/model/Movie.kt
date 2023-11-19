@@ -16,7 +16,7 @@ data class Movie(
     val posterPath: PosterPath?,
     val backdropPath: BackdropPath?,
     val watchlist: Boolean?,
-    val details: Details? = null
+    val details: Details? = null,
 ) {
     val hasVotes = voteAverage > 0
 
@@ -32,6 +32,6 @@ data class Movie(
         val revenue: Int,
         val productionCountries: List<Country>,
         val productionCompanies: List<Company>,
-        val voteCount: Int
+        val voteCount: Int,
     )
 }

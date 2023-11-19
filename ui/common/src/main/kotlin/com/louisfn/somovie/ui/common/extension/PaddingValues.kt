@@ -14,7 +14,7 @@ fun PaddingValues.copy(
     start: Dp? = null,
     top: Dp? = null,
     end: Dp? = null,
-    bottom: Dp? = null
+    bottom: Dp? = null,
 ): PaddingValues =
     remember(this) {
         derivedStateOf {
@@ -22,7 +22,7 @@ fun PaddingValues.copy(
                 start = start ?: calculateStartPadding(LayoutDirection.Ltr),
                 top = top ?: calculateTopPadding(),
                 end = end ?: calculateEndPadding(LayoutDirection.Ltr),
-                bottom = bottom ?: calculateBottomPadding()
+                bottom = bottom ?: calculateBottomPadding(),
             )
         }
     }.value
@@ -44,5 +44,5 @@ operator fun PaddingValues.plus(value: PaddingValues) =
         start = start + value.start,
         top = top + value.top,
         bottom = bottom + value.bottom,
-        end = end + value.end
+        end = end + value.end,
     )

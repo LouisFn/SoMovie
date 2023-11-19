@@ -17,7 +17,7 @@ interface MovieImageLocalDataSource {
 }
 
 internal class DefaultMovieImageLocalDataSource @Inject constructor(
-    private val database: AppDatabase
+    private val database: AppDatabase,
 ) : MovieImageLocalDataSource {
 
     override fun movieImagesChanges(movieId: Long): Flow<List<MovieImageEntity>> =

@@ -32,7 +32,7 @@ interface ErrorsDispatcher {
 @Singleton
 class DefaultErrorsDispatcher @Inject constructor(
     private val commonErrorMapper: CommonErrorMapper,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ErrorsDispatcher {
     private val scope = CoroutineScope(defaultDispatcher)
 
@@ -57,8 +57,11 @@ class DefaultErrorsDispatcher @Inject constructor(
     private fun dispatch(error: Error) =
         scope.launch {
             _errors.update {
-                if (!it.contains(error)) ImmutableList(it + error)
-                else it
+                if (!it.contains(error)) {
+                    ImmutableList(it + error)
+                } else {
+                    it
+                }
             }
 
             delay(error.duration)

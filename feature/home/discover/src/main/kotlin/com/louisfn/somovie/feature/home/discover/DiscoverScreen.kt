@@ -57,7 +57,7 @@ private const val SwipeFractionalThreshold = 0.25f
 @Composable
 internal fun DiscoverScreen(
     viewModel: DiscoverViewModel = hiltViewModel(),
-    showAccount: () -> Unit = {}
+    showAccount: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateLifecycleAware()
 
@@ -66,7 +66,7 @@ internal fun DiscoverScreen(
         onSwiped = viewModel::onMovieSwiped,
         onDisappeared = viewModel::onMovieDisappeared,
         retry = { viewModel.retry() },
-        onLogInSnackbarActionClicked = { showAccount() }
+        onLogInSnackbarActionClicked = { showAccount() },
     )
 }
 
@@ -76,10 +76,10 @@ private fun DiscoverScreen(
     onSwiped: (MovieItem, SwipeDirection) -> Unit,
     onDisappeared: (MovieItem) -> Unit,
     retry: () -> Unit,
-    onLogInSnackbarActionClicked: () -> Unit
+    onLogInSnackbarActionClicked: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         when (uiState) {
             is DiscoverUiState.Discover -> DiscoverContent(
@@ -87,14 +87,14 @@ private fun DiscoverScreen(
                 logInSnackbarState = uiState.logInSnackbarState,
                 onSwiped = onSwiped,
                 onDisappeared = onDisappeared,
-                onLogInSnackbarActionClicked = onLogInSnackbarActionClicked
+                onLogInSnackbarActionClicked = onLogInSnackbarActionClicked,
             )
             is DiscoverUiState.Retry -> Retry(
                 modifier = Modifier.align(Alignment.Center),
-                onClick = retry
+                onClick = retry,
             )
             is DiscoverUiState.Loading -> IndeterminateProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             )
             is DiscoverUiState.None -> Unit
         }
@@ -107,12 +107,12 @@ private fun BoxScope.DiscoverContent(
     logInSnackbarState: LogInSnackbarState,
     onSwiped: (MovieItem, SwipeDirection) -> Unit,
     onDisappeared: (MovieItem) -> Unit,
-    onLogInSnackbarActionClicked: () -> Unit
+    onLogInSnackbarActionClicked: () -> Unit,
 ) {
     DiscoverSwipeContainer(
         items = items,
         onSwiped = onSwiped,
-        onDisappeared = onDisappeared
+        onDisappeared = onDisappeared,
     )
     if (logInSnackbarState != LogInSnackbarState.HIDDEN) {
         DefaultSnackbar(
@@ -121,7 +121,7 @@ private fun BoxScope.DiscoverContent(
             onActionClick = onLogInSnackbarActionClicked,
             modifier = Modifier
                 .shake(logInSnackbarState == LogInSnackbarState.SHAKING)
-                .align(Alignment.BottomCenter)
+                .align(Alignment.BottomCenter),
         )
     }
 }
@@ -131,7 +131,7 @@ private fun BoxScope.DiscoverContent(
 private fun BoxScope.DiscoverSwipeContainer(
     items: ImmutableList<MovieItem>,
     onSwiped: (MovieItem, SwipeDirection) -> Unit,
-    onDisappeared: (MovieItem) -> Unit
+    onDisappeared: (MovieItem) -> Unit,
 ) {
     var draggingState by remember { mutableStateOf<DraggingState?>(null) }
 
@@ -147,7 +147,7 @@ private fun BoxScope.DiscoverSwipeContainer(
             draggingState = null
             onSwiped(item, direction)
         },
-        onDisappeared = { item, _ -> onDisappeared(item) }
+        onDisappeared = { item, _ -> onDisappeared(item) },
     ) { item ->
         DiscoverMovieItem(item)
     }
@@ -164,7 +164,7 @@ private fun BoxScope.DiscoverSwipeIcon(draggingState: DraggingState) {
             .clip(CircleShape)
             .background(draggingState.iconBackgroundColor),
         imageVector = draggingState.icon,
-        contentDescription = null
+        contentDescription = null,
     )
 }
 
@@ -179,7 +179,7 @@ private fun DiscoverMovieItem(item: MovieItem) {
                 .background(MaterialTheme.colors.background),
             contentScale = ContentScale.Crop,
             model = item.posterPath,
-            onState = { isImageLoaded = it is AsyncImagePainter.State.Success }
+            onState = { isImageLoaded = it is AsyncImagePainter.State.Success },
         )
         AutosizeText(
             modifier = Modifier
@@ -190,13 +190,13 @@ private fun DiscoverMovieItem(item: MovieItem) {
             text = item.title,
             style = MaterialTheme.typography.h3,
             textAlign = TextAlign.Center,
-            maxLines = 2
+            maxLines = 2,
         )
         if (!isImageLoaded) {
             IndeterminateProgressIndicator(
                 modifier = Modifier
                     .size(32.dp)
-                    .align(Alignment.Center)
+                    .align(Alignment.Center),
             )
         }
     }
@@ -204,7 +204,7 @@ private fun DiscoverMovieItem(item: MovieItem) {
 
 private data class DraggingState(
     val direction: SwipeDirection,
-    val ratio: Float
+    val ratio: Float,
 ) {
 
     val icon: ImageVector

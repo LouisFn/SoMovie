@@ -25,12 +25,15 @@ class SpotlessPlugin : Plugin<Project> {
                 kotlin {
                     target("**/src/**/*.kt", "**/src/**/*.kts")
 
+                    @Suppress("StringLiteralDuplication")
                     ktlint(ktlintVersion)
-                        .setUseExperimental(true)
                         .editorConfigOverride(
                             mapOf(
-                                "disabled_rules" to "no-wildcard-imports,filename"
-                            )
+                                "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
+                                "ktlint_standard_no-wildcard-imports" to "disabled",
+                                "ktlint_standard_filename" to "disabled",
+                                "ktlint_standard_property-naming" to "disabled",
+                            ),
                         )
                 }
 

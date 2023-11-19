@@ -20,6 +20,6 @@ object FakeMovieFactory {
         posterPath = null,
         backdropPath = null,
         watchlist = null,
-        details = null
+        details = null,
     )
 }

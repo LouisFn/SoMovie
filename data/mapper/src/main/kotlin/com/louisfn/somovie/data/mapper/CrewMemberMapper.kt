@@ -17,7 +17,7 @@ class CrewMemberMapper @Inject constructor() {
         profilePath = entity.person.profilePath?.let(::ProfilePath),
         popularity = entity.person.popularity,
         job = entity.crewMember.job,
-        department = entity.crewMember.department
+        department = entity.crewMember.department,
     )
 
     //endregion

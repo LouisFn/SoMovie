@@ -13,7 +13,7 @@ internal sealed interface DiscoverUiState {
 
     data class Discover(
         val items: ImmutableList<MovieItem>,
-        val logInSnackbarState: LogInSnackbarState
+        val logInSnackbarState: LogInSnackbarState,
     ) : DiscoverUiState {
         enum class LogInSnackbarState {
             VISIBLE,
@@ -25,6 +25,6 @@ internal sealed interface DiscoverUiState {
     data class MovieItem(
         val id: Long,
         val title: String,
-        val posterPath: PosterPath
+        val posterPath: PosterPath,
     )
 }

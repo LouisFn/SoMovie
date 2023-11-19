@@ -12,7 +12,7 @@ interface ConfigurationRemoteDataSource {
 }
 
 internal class DefaultConfigurationRemoteDataSource @Inject constructor(
-    private val executor: ApiServiceExecutor
+    private val executor: ApiServiceExecutor,
 ) : ConfigurationRemoteDataSource {
 
     override suspend fun getConfiguration(): ConfigurationResponse =

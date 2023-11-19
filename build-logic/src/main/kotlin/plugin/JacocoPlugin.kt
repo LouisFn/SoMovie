@@ -24,7 +24,7 @@ class JacocoPlugin : Plugin<Project> {
 
                 tasks.register(
                     "jacoco${variant.name.capitalized()}Report",
-                    JacocoReport::class
+                    JacocoReport::class,
                 ) {
                     dependsOn(unitTestTaskName, androidTestCoverageReportTaskName)
 

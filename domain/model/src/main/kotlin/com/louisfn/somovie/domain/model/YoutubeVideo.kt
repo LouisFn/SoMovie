@@ -8,7 +8,7 @@ data class YoutubeVideo(
     val name: String,
     val type: Type,
     val official: Boolean,
-    val publishedAt: OffsetDateTime
+    val publishedAt: OffsetDateTime,
 ) {
 
     enum class Type(val order: Int) {
@@ -17,7 +17,7 @@ data class YoutubeVideo(
         CLIPS(2),
         BEHIND(3),
         BLOOPERS(4),
-        FEATURETTES(5)
+        FEATURETTES(5),
     }
 
     val thumbnailUrl =

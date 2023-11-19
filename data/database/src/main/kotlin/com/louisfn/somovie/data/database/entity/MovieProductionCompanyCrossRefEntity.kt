@@ -16,19 +16,19 @@ import com.louisfn.somovie.data.database.TABLE_MOVIE_PRODUCTION_COMPANY
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
             entity = CompanyEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_COMPANY_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 data class MovieProductionCompanyCrossRefEntity(
     @ColumnInfo(name = COLUMN_FK_MOVIE_ID, index = true)
     val movieId: Long,
     @ColumnInfo(name = COLUMN_FK_COMPANY_ID, index = true)
-    val companyId: Long
+    val companyId: Long,
 )

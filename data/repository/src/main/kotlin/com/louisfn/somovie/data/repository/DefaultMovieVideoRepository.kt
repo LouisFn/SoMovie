@@ -26,7 +26,7 @@ internal class DefaultMovieVideoRepository @Inject constructor(
     private val localDataSource: MovieVideoLocalDataSource,
     private val remoteDataSource: MovieVideoRemoteDataSource,
     private val youtubeVideoMapper: YoutubeVideoMapper,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : MovieVideoRepository {
 
     override fun youtubeVideosChanges(movieId: Long): Flow<List<YoutubeVideo>> =

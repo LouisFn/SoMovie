@@ -11,5 +11,5 @@ object AppColor {
 }
 
 data class CustomColors(
-    val placeholder: Color
+    val placeholder: Color,
 )

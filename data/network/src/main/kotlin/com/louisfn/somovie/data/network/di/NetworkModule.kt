@@ -41,22 +41,22 @@ internal class NetworkModule {
     @Singleton
     fun provideApiService(
         okHttpClient: OkHttpClient,
-        @MoshiApiService moshi: Moshi
+        @MoshiApiService moshi: Moshi,
     ): ApiService =
         ApiServiceFactory.create(
             baseUrl = BuildConfig.API_BASE_URL,
             okHttpClient = okHttpClient,
-            moshi = moshi
+            moshi = moshi,
         )
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
         @ApplicationInterceptorOkHttpClient applicationInterceptors: Set<@JvmSuppressWildcards Interceptor>,
-        @NetworkInterceptorOkHttpClient networkInterceptors: Set<@JvmSuppressWildcards Interceptor>
+        @NetworkInterceptorOkHttpClient networkInterceptors: Set<@JvmSuppressWildcards Interceptor>,
     ): OkHttpClient = OkHttpClientFactory.create(
         applicationInterceptors = applicationInterceptors,
-        networkInterceptors = networkInterceptors
+        networkInterceptors = networkInterceptors,
     )
 
     @ApplicationInterceptorOkHttpClient

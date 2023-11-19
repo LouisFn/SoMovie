@@ -37,7 +37,7 @@ data class MovieEntity(
     @ColumnInfo(name = COLUMN_DETAILS_UPDATED_AT)
     val detailsUpdatedAt: Instant?,
     @Embedded
-    val details: Details?
+    val details: Details?,
 ) {
     data class Details(
         @ColumnInfo(name = COLUMN_TAGLINE)
@@ -51,6 +51,6 @@ data class MovieEntity(
         @ColumnInfo(name = COLUMN_REVENUE)
         val revenue: Int,
         @ColumnInfo(name = COLUMN_VOTE_COUNT)
-        val voteCount: Int
+        val voteCount: Int,
     )
 }

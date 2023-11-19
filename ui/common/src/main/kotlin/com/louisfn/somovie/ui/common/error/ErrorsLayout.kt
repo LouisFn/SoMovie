@@ -15,11 +15,11 @@ private const val SimpleMessageErrorBackgroundAlpha = 0.6f
 @Composable
 fun ErrorsLayout(
     errors: ImmutableList<Error>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         errors.forEach {
             when (it) {
@@ -36,14 +36,14 @@ private fun SimpleMessageError(error: SimpleMessageError) {
             .padding(horizontal = 8.dp)
             .fillMaxWidth()
             .background(MaterialTheme.colors.error.copy(SimpleMessageErrorBackgroundAlpha))
-            .padding(8.dp)
+            .padding(8.dp),
     ) {
         Text(
             modifier = Modifier,
             text = error.message,
             color = MaterialTheme.colors.onError,
             style = MaterialTheme.typography.caption,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }

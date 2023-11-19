@@ -11,7 +11,7 @@ import java.io.OutputStream
 import javax.inject.Inject
 
 internal class SessionSerializer @Inject constructor(
-    private val moshi: Moshi
+    private val moshi: Moshi,
 ) : Serializer<SessionData> {
 
     override val defaultValue: SessionData = SessionData()
@@ -25,6 +25,6 @@ internal class SessionSerializer @Inject constructor(
 
     override suspend fun writeTo(
         t: SessionData,
-        output: OutputStream
+        output: OutputStream,
     ) = moshi.toJson(output, t)
 }

@@ -41,7 +41,7 @@ internal class DefaultTmdbConfigurationRepository @Inject constructor(
     private val localDataSource: DataStoreLocalDataSource<TmdbConfigurationData>,
     private val mapper: TmdbConfigurationMapper,
     private val dateTimeProvider: DateTimeProvider,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : TmdbConfigurationRepository {
 
     override fun tmdbConfigurationChanges(): Flow<TmdbConfiguration> =

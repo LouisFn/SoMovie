@@ -13,5 +13,5 @@ data class GenreEntity(
     @ColumnInfo(name = COLUMN_ID)
     val id: Long,
     @ColumnInfo(name = COLUMN_NAME)
-    val name: String
+    val name: String,
 )

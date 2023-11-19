@@ -55,19 +55,19 @@ internal fun MovieDetailsHeader(
     headerUiState: HeaderUiState,
     onPosterPositioned: (LayoutCoordinates) -> Unit,
     navigateUp: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
-            .background(MaterialTheme.colors.background)
+            .background(MaterialTheme.colors.background),
     ) {
         MovieDetailsHeaderContent(
             headerUiState = headerUiState,
-            onPosterPositioned = onPosterPositioned
+            onPosterPositioned = onPosterPositioned,
         )
         MovieDetailsTopBar(
             shareUrl = headerUiState.tmdbUrl,
-            navigateUp = navigateUp
+            navigateUp = navigateUp,
         )
     }
 }
@@ -77,7 +77,7 @@ private fun MovieDetailsTopBar(shareUrl: String, navigateUp: () -> Unit) {
     val router = LocalAppRouter.current
     MovieDetailsTopBar(
         share = { router.shareText(shareUrl) },
-        navigateUp = navigateUp
+        navigateUp = navigateUp,
     )
 }
 
@@ -91,7 +91,7 @@ private fun MovieDetailsTopBar(share: () -> Unit, navigateUp: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.Share,
                     tint = MaterialTheme.colors.onPrimary,
-                    contentDescription = ""
+                    contentDescription = "",
                 )
             }
         },
@@ -100,10 +100,10 @@ private fun MovieDetailsTopBar(share: () -> Unit, navigateUp: () -> Unit) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     tint = MaterialTheme.colors.onPrimary,
-                    contentDescription = ""
+                    contentDescription = "",
                 )
             }
-        }
+        },
     )
 }
 
@@ -114,20 +114,20 @@ private fun MovieDetailsIconButton(onClick: () -> Unit, content: @Composable () 
             .clip(CircleShape)
             .background(MaterialTheme.colors.primary.copy(alpha = 0.8f)),
         onClick = onClick,
-        content = content
+        content = content,
     )
 }
 
 @Composable
 private fun MovieDetailsHeaderContent(
     headerUiState: HeaderUiState,
-    onPosterPositioned: (LayoutCoordinates) -> Unit
+    onPosterPositioned: (LayoutCoordinates) -> Unit,
 ) {
     ConstraintLayout(
         modifier = Modifier
             .wrapContentHeight()
             .shadow(8.dp)
-            .background(MaterialTheme.colors.primary)
+            .background(MaterialTheme.colors.primary),
     ) {
         val (poster, backdropsPager, title, releaseDate, divider, tagline, voteAverage) = createRefs()
 
@@ -138,7 +138,7 @@ private fun MovieDetailsHeaderContent(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 },
-            backdropPaths = headerUiState.backdropPaths
+            backdropPaths = headerUiState.backdropPaths,
         )
 
         Box(
@@ -150,7 +150,7 @@ private fun MovieDetailsHeaderContent(
                     bottom.linkTo(backdropsPager.bottom)
                     start.linkTo(parent.start, 24.dp)
                 }
-                .onGloballyPositioned { onPosterPositioned(it) }
+                .onGloballyPositioned { onPosterPositioned(it) },
         )
 
         AutosizeText(
@@ -162,13 +162,13 @@ private fun MovieDetailsHeaderContent(
                         end = voteAverage.start,
                         startMargin = 16.dp,
                         endMargin = 8.dp,
-                        bias = 0f
+                        bias = 0f,
                     )
                     width = Dimension.fillToConstraints
                 },
             text = headerUiState.title,
             style = MaterialTheme.typography.h6,
-            maxLines = 2
+            maxLines = 2,
         )
 
         headerUiState.releaseDate?.let { date ->
@@ -181,11 +181,11 @@ private fun MovieDetailsHeaderContent(
                             start = title.start,
                             end = voteAverage.start,
                             endMargin = 8.dp,
-                            bias = 0f
+                            bias = 0f,
                         )
                     },
                 text = date,
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.body2,
             )
         }
 
@@ -197,7 +197,7 @@ private fun MovieDetailsHeaderContent(
                     .constrainAs(voteAverage) {
                         end.linkTo(parent.end, 8.dp)
                         top.linkTo(title.top)
-                    }
+                    },
             )
         }
 
@@ -209,7 +209,7 @@ private fun MovieDetailsHeaderContent(
                         start.linkTo(parent.start, 24.dp)
                         end.linkTo(parent.end, 24.dp)
                         width = Dimension.fillToConstraints
-                    }
+                    },
             )
 
             Text(
@@ -223,7 +223,7 @@ private fun MovieDetailsHeaderContent(
                     },
                 text = headerUiState.tagline.orEmpty(),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.caption
+                style = MaterialTheme.typography.caption,
             )
         }
     }
@@ -233,25 +233,24 @@ private fun MovieDetailsHeaderContent(
 @Composable
 private fun BackdropsPager(
     backdropPaths: ImmutableList<BackdropPath>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
-        val pagerState = rememberPagerState()
+        val pagerState = rememberPagerState { backdropPaths.size }
 
         HorizontalPager(
-            pageCount = backdropPaths.size,
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(BackdropRatio)
+                .aspectRatio(BackdropRatio),
         ) { page ->
             Image(
                 modifier = Modifier
                     .fillMaxSize(),
                 painter = rememberAsyncImagePainter(backdropPaths[page]),
-                contentDescription = ""
+                contentDescription = "",
             )
         }
 
@@ -261,7 +260,7 @@ private fun BackdropsPager(
             activeColor = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(16.dp)
+                .padding(16.dp),
         )
     }
 }
@@ -270,7 +269,7 @@ private fun BackdropsPager(
 private fun VoteAverage(voteAverage: Float, voteCount: Int?, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         MovieVoteAverageChart(
             modifier = Modifier
@@ -278,7 +277,7 @@ private fun VoteAverage(voteAverage: Float, voteCount: Int?, modifier: Modifier 
                 .size(48.dp),
             average = voteAverage,
             strokeWidth = 5.dp,
-            textStyle = MaterialTheme.typography.subtitle1
+            textStyle = MaterialTheme.typography.subtitle1,
         )
         if (voteCount != null) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -288,11 +287,11 @@ private fun VoteAverage(voteAverage: Float, voteCount: Int?, modifier: Modifier 
                         .size(12.dp),
                     imageVector = Icons.Filled.People,
                     tint = MaterialTheme.typography.overline.color,
-                    contentDescription = ""
+                    contentDescription = "",
                 )
                 Text(
                     text = voteCount.toString(),
-                    style = MaterialTheme.typography.overline
+                    style = MaterialTheme.typography.overline,
                 )
             }
         }

@@ -8,5 +8,5 @@ data class MovieGenreResponse(
     @Json(name = "id")
     val id: Long,
     @Json(name = "name")
-    val name: String
+    val name: String,
 )

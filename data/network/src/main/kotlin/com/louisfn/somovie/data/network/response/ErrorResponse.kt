@@ -9,5 +9,5 @@ data class ErrorResponse(
     @Json(name = "status_code")
     val statusCode: StatusCode,
     @Json(name = "status_message")
-    val statusMessage: String
+    val statusMessage: String,
 )

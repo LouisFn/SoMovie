@@ -12,7 +12,7 @@ import javax.inject.Inject
 internal class DataInitializer @Inject constructor(
     private val appRouter: AppRouter,
     private val appLanguageInteractor: AppLanguageInteractor,
-    @ApplicationScope private val applicationScope: CoroutineScope
+    @ApplicationScope private val applicationScope: CoroutineScope,
 ) : AppInitializer {
 
     override fun onForeground() {

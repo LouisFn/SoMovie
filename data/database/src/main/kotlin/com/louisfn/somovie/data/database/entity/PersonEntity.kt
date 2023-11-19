@@ -15,5 +15,5 @@ data class PersonEntity(
     @ColumnInfo(name = COLUMN_PROFILE_PATH)
     val profilePath: String?,
     @ColumnInfo(name = COLUMN_POPULARITY)
-    val popularity: Float
+    val popularity: Float,
 )

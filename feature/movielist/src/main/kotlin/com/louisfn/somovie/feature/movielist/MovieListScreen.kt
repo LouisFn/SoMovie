@@ -44,7 +44,7 @@ private const val MovieGridNbrColumn = 3
 internal fun MovieListScreen(
     showDetail: (Movie) -> Unit,
     navigateUp: () -> Unit,
-    viewModel: MovieListViewModel = hiltViewModel()
+    viewModel: MovieListViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateLifecycleAware()
     val pagingItems = viewModel.pagedMovies.collectAsLazyPagingItems()
@@ -52,7 +52,7 @@ internal fun MovieListScreen(
     PagingItemsLoadStateErrorEffect(
         pagingItems = pagingItems,
         onRefreshError = viewModel::onPagingError,
-        onAppendError = viewModel::onPagingError
+        onAppendError = viewModel::onPagingError,
     )
 
     LaunchedEffect(pagingItems.loadState, pagingItems) {
@@ -63,7 +63,7 @@ internal fun MovieListScreen(
         uiState = state,
         pagingItems = pagingItems,
         showDetail = showDetail,
-        navigateUp = navigateUp
+        navigateUp = navigateUp,
     )
 }
 
@@ -72,16 +72,16 @@ private fun MovieListScreen(
     uiState: MovieListUiState,
     pagingItems: LazyPagingItems<Movie>,
     showDetail: (Movie) -> Unit,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         topBar = {
             DefaultTopAppBar(
                 text = uiState.category.label,
-                navigateUp = navigateUp
+                navigateUp = navigateUp,
             )
-        }
+        },
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             MovieListLazyGrid(
@@ -89,7 +89,7 @@ private fun MovieListScreen(
                 loadNextPageState = uiState.loadNextPageState,
                 contentPadding = it,
                 showVotes = uiState.category.canDisplayVotes,
-                showDetail = showDetail
+                showDetail = showDetail,
             )
         }
     }
@@ -102,7 +102,7 @@ private fun MovieListLazyGrid(
     loadNextPageState: LoadNextPageState,
     contentPadding: PaddingValues,
     showVotes: Boolean,
-    showDetail: (Movie) -> Unit
+    showDetail: (Movie) -> Unit,
 ) {
     // https://issuetracker.google.com/issues/177245496#comment23
     if (pagingItems.itemCount == 0) return
@@ -113,18 +113,18 @@ private fun MovieListLazyGrid(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = contentPadding + PaddingValues(
             horizontal = DEFAULT_SCREEN_HORIZONTAL_PADDING,
-            vertical = DEFAULT_SCREEN_VERTICAL_PADDING
-        )
+            vertical = DEFAULT_SCREEN_VERTICAL_PADDING,
+        ),
     ) {
         items(
             lazyPagingItems = pagingItems,
-            key = { it.id }
+            key = { it.id },
         ) { movie ->
             if (movie != null) {
                 MovieCard(
                     movie = movie,
                     showVotes = showVotes,
-                    showDetail = showDetail
+                    showDetail = showDetail,
                 )
             } else {
                 MovieCardPlaceholder()
@@ -133,7 +133,7 @@ private fun MovieListLazyGrid(
 
         if (loadNextPageState == LoadNextPageState.LOADING) {
             item(
-                span = { GridItemSpan(MovieGridNbrColumn) }
+                span = { GridItemSpan(MovieGridNbrColumn) },
             ) {
                 Loader()
             }
@@ -141,11 +141,11 @@ private fun MovieListLazyGrid(
 
         if (loadNextPageState == LoadNextPageState.FAILED) {
             item(
-                span = { GridItemSpan(MovieGridNbrColumn) }
+                span = { GridItemSpan(MovieGridNbrColumn) },
             ) {
                 TextRetryButton(
                     modifier = Modifier.wrapContentWidth(),
-                    onClick = pagingItems::retry
+                    onClick = pagingItems::retry,
                 )
             }
         }
@@ -158,7 +158,7 @@ private fun Loader() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         IndeterminateProgressIndicator()
     }

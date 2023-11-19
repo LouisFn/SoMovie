@@ -15,7 +15,7 @@ class CompanyMapper @Inject constructor() {
     fun mapToDomain(entity: CompanyEntity) = Company(
         id = entity.id,
         name = entity.name,
-        logoPath = entity.logoPath?.let(::LogoPath)
+        logoPath = entity.logoPath?.let(::LogoPath),
     )
 
     //endregion
@@ -28,7 +28,7 @@ class CompanyMapper @Inject constructor() {
         CompanyEntity(
             id = response.id,
             logoPath = response.logoPath,
-            name = response.name
+            name = response.name,
         )
 
     //endregion

@@ -43,7 +43,7 @@ private const val OverviewCollapsedMaxLines = 4
 
 @Composable
 internal fun MovieDetailsScreen(
-    state: ContentUiState.Content
+    state: ContentUiState.Content,
 ) {
     Column(
         modifier = Modifier
@@ -53,8 +53,8 @@ internal fun MovieDetailsScreen(
             .verticalScroll(rememberScrollState())
             .padding(
                 horizontal = Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING,
-                vertical = Dimens.DEFAULT_SCREEN_VERTICAL_PADDING
-            )
+                vertical = Dimens.DEFAULT_SCREEN_VERTICAL_PADDING,
+            ),
     ) {
         OverviewSection(overview = state.overview)
         GenresFlowSection(genres = state.genres)
@@ -68,7 +68,7 @@ internal fun MovieDetailsScreen(
 private fun SectionText(text: String) {
     Text(
         text = text,
-        style = MaterialTheme.typography.subtitle1
+        style = MaterialTheme.typography.subtitle1,
     )
 }
 
@@ -86,22 +86,25 @@ private fun ColumnScope.OverviewSection(overview: String) {
         maxLines = if (isExpanded) Int.MAX_VALUE else OverviewCollapsedMaxLines,
         style = MaterialTheme.typography.body2,
         overflow = TextOverflow.Ellipsis,
-        onTextLayout = { isButtonVisible = isExpanded || it.hasVisualOverflow }
+        onTextLayout = { isButtonVisible = isExpanded || it.hasVisualOverflow },
     )
 
     if (isButtonVisible) {
         CompositionLocalProvider(
-            LocalMinimumInteractiveComponentEnforcement provides false
+            LocalMinimumInteractiveComponentEnforcement provides false,
         ) {
             DefaultTextButton(
                 text = stringResource(
-                    id = if (isExpanded) R.string.movie_details_about_read_less
-                    else R.string.movie_details_about_read_more
+                    id = if (isExpanded) {
+                        R.string.movie_details_about_read_less
+                    } else {
+                        R.string.movie_details_about_read_more
+                    },
                 ),
                 modifier = Modifier
                     .padding(0.dp)
                     .offset(x = -ButtonDefaults.TextButtonContentPadding.start),
-                onClick = { isExpanded = !isExpanded }
+                onClick = { isExpanded = !isExpanded },
             )
         }
     }
@@ -125,7 +128,7 @@ private fun ColumnScope.GenresFlowSection(genres: ImmutableList<MovieGenre>?) {
                     .padding(horizontal = 12.dp),
                 text = genre.name,
                 style = MaterialTheme.typography.subtitle2,
-                color = MaterialTheme.colors.onSurface
+                color = MaterialTheme.colors.onSurface,
             )
         }
     }
@@ -138,25 +141,25 @@ private fun ColumnScope.MoreInfoSection(state: ContentUiState.Content) {
     Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))
     MoreInfoRowItem(
         title = stringResource(id = R.string.movie_details_movie_info_original_title),
-        value = state.originalTitle
+        value = state.originalTitle,
     )
     MoreInfoRowItem(
         title = stringResource(id = R.string.movie_details_movie_info_original_language),
-        value = state.originalLanguage
+        value = state.originalLanguage,
     )
     state.runtime?.let {
         MoreInfoRowItem(
             title = stringResource(id = R.string.movie_details_movie_info_runtime),
-            value = it.toRuntimeString(LocalContext.current)
+            value = it.toRuntimeString(LocalContext.current),
         )
     }
     MoreInfoRowItem(
         title = stringResource(id = R.string.movie_details_movie_info_budget),
-        value = state.budget
+        value = state.budget,
     )
     MoreInfoRowItem(
         title = stringResource(id = R.string.movie_details_movie_info_revenue),
-        value = state.revenue
+        value = state.revenue,
     )
     Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))
 }
@@ -164,18 +167,18 @@ private fun ColumnScope.MoreInfoSection(state: ContentUiState.Content) {
 @Composable
 private fun MoreInfoRowItem(
     title: String,
-    value: String
+    value: String,
 ) {
     MoreInfoRowItem {
         Text(
             text = title,
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.body2,
         )
         AutosizeText(
             text = value,
             textAlign = TextAlign.End,
             style = MaterialTheme.typography.subtitle2,
-            maxLines = 2
+            maxLines = 2,
         )
     }
 }
@@ -185,7 +188,7 @@ private fun MoreInfoRowItem(content: @Composable RowScope.() -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        content = content
+        content = content,
     )
 }
 
@@ -200,16 +203,16 @@ private fun ColumnScope.CastSection(cast: ImmutableList<Actor>?) {
     Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))
     LazyRow(
         modifier = Modifier
-            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp)
+            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp),
     ) {
         items(
             items = cast,
-            key = { it.id }
+            key = { it.id },
         ) { item ->
             Column(
                 modifier = Modifier
                     .width(96.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 DefaultAsyncImage(
                     modifier = Modifier
@@ -218,14 +221,14 @@ private fun ColumnScope.CastSection(cast: ImmutableList<Actor>?) {
                     model = item.profilePath,
                     contentScale = ContentScale.Crop,
                     placeholder = placeHolder,
-                    error = placeHolder
+                    error = placeHolder,
                 )
                 Text(
                     text = item.character,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.caption
+                    style = MaterialTheme.typography.caption,
                 )
             }
         }
@@ -243,7 +246,7 @@ private fun ColumnScope.VideosSection(videos: ImmutableList<YoutubeVideo>?) {
         Modifier
             .requiredWidth(LocalConfiguration.current.screenWidthDp.dp),
         contentPadding = PaddingValues(horizontal = Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(videos) { VideoItem(it) }
     }
@@ -258,14 +261,14 @@ private fun VideoItem(video: YoutubeVideo) {
         modifier = Modifier
             .width(180.dp)
             .clickable { router.openYoutubeVideo(video.key) },
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DefaultAsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(Dimens.YOUTUBE_THUMBNAIL_RATIO)
                 .clip(MaterialTheme.shapes.medium),
-            model = video.thumbnailUrl
+            model = video.thumbnailUrl,
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
@@ -273,7 +276,7 @@ private fun VideoItem(video: YoutubeVideo) {
             maxLines = 2,
             text = video.name,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
         )
     }
 }

@@ -48,7 +48,7 @@ class DefaultWatchlistRepositoryTest {
             FakeWatchlistRemoteDataSource(
                 movies = defaultMovies,
                 accountId = requireNotNull(defaultSession.account).id,
-                fakeWebServer = fakeWebServer
+                fakeWebServer = fakeWebServer,
             )
         remoteKeyLocalDataSource = FakeRemoteKeyLocalDataSource()
         watchlistLocalDataSource = FakeWatchlistLocalDataSource(testScope)
@@ -62,7 +62,7 @@ class DefaultWatchlistRepositoryTest {
             remoteKeyLocalDataSource = remoteKeyLocalDataSource,
             movieMapper = movieMapper,
             databaseHelper = FakeDatabaseHelper(),
-            defaultDispatcher = mainDispatcherRule.testDispatcher
+            defaultDispatcher = mainDispatcherRule.testDispatcher,
         )
     }
 

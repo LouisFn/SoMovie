@@ -15,13 +15,13 @@ object ExploreNavigation : NavigationDestination {
 fun NavGraphBuilder.exploreGraph(
     homeItemState: HomeItemState,
     showDetail: (Movie) -> Unit,
-    showMore: (ExploreCategory) -> Unit
+    showMore: (ExploreCategory) -> Unit,
 ) {
     composable(route = ExploreNavigation.route) {
         ExploreScreen(
             homeItemState = homeItemState,
             showDetail = showDetail,
-            showMore = showMore
+            showMore = showMore,
         )
     }
 }

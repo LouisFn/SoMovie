@@ -18,19 +18,19 @@ class MovieImageMapper @Inject constructor() {
         backdrops = entities.filter { it.type == Type.BACKDROP }
             .map { mapToBackdropPathDomain(it) },
         posters = entities.filter { it.type == Type.POSTER }
-            .map { mapToPosterPathDomain(it) }
+            .map { mapToPosterPathDomain(it) },
     )
 
     @AnyThread
     private fun mapToBackdropPathDomain(entity: MovieImageEntity) = MovieImages.Image(
         path = BackdropPath(entity.path),
-        width = entity.width
+        width = entity.width,
     )
 
     @AnyThread
     private fun mapToPosterPathDomain(entity: MovieImageEntity) = MovieImages.Image(
         path = PosterPath(entity.path),
-        width = entity.width
+        width = entity.width,
     )
 
     //endregion
@@ -46,11 +46,11 @@ class MovieImageMapper @Inject constructor() {
     private fun mapResponseToEntity(
         movieId: Long,
         type: Type,
-        response: MovieImagesResponse.Image
+        response: MovieImagesResponse.Image,
     ) = MovieImageEntity(
         movieId = movieId,
         path = response.filePath,
         width = response.width,
-        type = type
+        type = type,
     )
 }

@@ -15,13 +15,13 @@ import com.google.accompanist.web.rememberWebViewState
 fun LogInWebView(
     uri: Uri,
     logInManager: LogInManager,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LogInWebView(
         uri = uri,
         modifier = modifier,
         onApproved = { logInManager.onApproved() },
-        onDenied = { logInManager.onDenied() }
+        onDenied = { logInManager.onDenied() },
     )
 }
 
@@ -31,7 +31,7 @@ fun LogInWebView(
     uri: Uri,
     modifier: Modifier = Modifier,
     onApproved: () -> Unit = {},
-    onDenied: () -> Unit = {}
+    onDenied: () -> Unit = {},
 ) {
     val state = rememberWebViewState(uri.toString())
 
@@ -56,6 +56,6 @@ fun LogInWebView(
         state = state,
         onCreated = {
             it.settings.javaScriptEnabled = true
-        }
+        },
     )
 }

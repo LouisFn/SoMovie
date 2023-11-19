@@ -17,7 +17,7 @@ interface MovieRemoteDataSource {
     @AnyThread
     suspend fun getMovies(
         category: ExploreCategory,
-        page: Int
+        page: Int,
     ): PaginatedResultsResponse<MovieResponse>
 
     @AnyThread
@@ -40,12 +40,12 @@ interface MovieRemoteDataSource {
 }
 
 internal class DefaultMovieRemoteDataSource @Inject constructor(
-    private val executor: ApiServiceExecutor
+    private val executor: ApiServiceExecutor,
 ) : MovieRemoteDataSource {
 
     override suspend fun getMovies(
         category: ExploreCategory,
-        page: Int
+        page: Int,
     ): PaginatedResultsResponse<MovieResponse> =
         when (category) {
             ExploreCategory.UPCOMING -> getUpcoming(page)

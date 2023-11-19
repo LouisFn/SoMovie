@@ -8,7 +8,7 @@ internal sealed interface WatchlistUiState {
 
     data class AccountLoggedIn(
         val contentState: ContentState = ContentState.NONE,
-        val loadNextPageState: LoadNextPageState = LoadNextPageState.IDLE
+        val loadNextPageState: LoadNextPageState = LoadNextPageState.IDLE,
     ) : WatchlistUiState {
         enum class ContentState { NONE, LOADING, RETRY, SUCCESS }
         enum class LoadNextPageState { IDLE, LOADING, RETRY }
@@ -19,5 +19,5 @@ internal sealed interface WatchlistUiState {
 
 internal data class MovieItem(
     val movie: Movie,
-    val isHidden: Boolean
+    val isHidden: Boolean,
 )

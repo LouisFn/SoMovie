@@ -15,11 +15,11 @@ internal interface DataSourceModule {
 
     @Binds
     fun provideTmdbConfigurationLocalDataSource(
-        defaultTmdbConfigurationLocalDataSource: DefaultDataStoreLocalDataSource<TmdbConfigurationData>
+        defaultTmdbConfigurationLocalDataSource: DefaultDataStoreLocalDataSource<TmdbConfigurationData>,
     ): DataStoreLocalDataSource<TmdbConfigurationData>
 
     @Binds
     fun provideSessionLocalDataSource(
-        defaultSessionLocalDataSource: DefaultDataStoreLocalDataSource<SessionData>
+        defaultSessionLocalDataSource: DefaultDataStoreLocalDataSource<SessionData>,
     ): DataStoreLocalDataSource<SessionData>
 }

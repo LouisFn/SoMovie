@@ -10,7 +10,7 @@ import com.louisfn.somovie.data.database.entity.RemoteKeyEntity
 internal abstract class DefaultAppendRemoteMediator<Key : Any, Value : Any> constructor(
     private val remoteKeyLocalDataSource: RemoteKeyLocalDataSource,
     private val remoteKeyType: RemoteKeyEntity.Type,
-    private val cacheTimeout: Long
+    private val cacheTimeout: Long,
 ) : RemoteMediator<Key, Value>() {
 
     override suspend fun initialize() =
@@ -37,7 +37,7 @@ internal abstract class DefaultAppendRemoteMediator<Key : Any, Value : Any> cons
             remoteKeyLocalDataSource.updateNextKey(
                 type = remoteKeyType,
                 nextKey = result.nextKey,
-                reset = loadType == LoadType.REFRESH
+                reset = loadType == LoadType.REFRESH,
             )
 
             MediatorResult.Success(endOfPaginationReached = result.endOfPaginationReached)
@@ -51,6 +51,6 @@ internal abstract class DefaultAppendRemoteMediator<Key : Any, Value : Any> cons
 
     data class Result(
         val nextKey: String,
-        val endOfPaginationReached: Boolean
+        val endOfPaginationReached: Boolean,
     )
 }

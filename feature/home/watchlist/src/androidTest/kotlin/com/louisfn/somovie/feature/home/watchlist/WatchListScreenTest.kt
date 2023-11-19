@@ -60,7 +60,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -90,7 +90,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -113,7 +113,7 @@ class WatchListScreenTest {
         // Given
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.RETRY,
-            loadNextPageState = LoadNextPageState.IDLE
+            loadNextPageState = LoadNextPageState.IDLE,
         )
 
         // When
@@ -127,7 +127,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -148,7 +148,7 @@ class WatchListScreenTest {
         // Given
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.LOADING,
-            loadNextPageState = LoadNextPageState.IDLE
+            loadNextPageState = LoadNextPageState.IDLE,
         )
 
         // When
@@ -162,7 +162,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -183,7 +183,7 @@ class WatchListScreenTest {
         // Given
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.SUCCESS,
-            loadNextPageState = LoadNextPageState.IDLE
+            loadNextPageState = LoadNextPageState.IDLE,
         )
         val items = FakeMovieFactory.create(2)
             .map { MovieItem(movie = it, isHidden = false) }
@@ -201,7 +201,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -211,7 +211,7 @@ class WatchListScreenTest {
             with(
                 onNodeWithTag(WatchlistTestTag.LazyColum)
                     .onChildren()
-                    .filter(hasClickAction())
+                    .filter(hasClickAction()),
             ) {
                 assertCountEquals(2)
                 get(0).assert(hasText(firstItem.movie.title) and hasText(firstItem.movie.overview))
@@ -229,7 +229,7 @@ class WatchListScreenTest {
         // Given
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.SUCCESS,
-            loadNextPageState = LoadNextPageState.LOADING
+            loadNextPageState = LoadNextPageState.LOADING,
         )
         val items = FakeMovieFactory.create(2)
             .map { MovieItem(movie = it, isHidden = false) }
@@ -245,7 +245,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -253,7 +253,7 @@ class WatchListScreenTest {
         // Then
         with(composeTestRule) {
             with(
-                onNodeWithTag(WatchlistTestTag.LazyColum).onChildren()
+                onNodeWithTag(WatchlistTestTag.LazyColum).onChildren(),
             ) {
                 filter(hasClickAction())
                     .assertCountEquals(2)
@@ -268,7 +268,7 @@ class WatchListScreenTest {
         // Given
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.SUCCESS,
-            loadNextPageState = LoadNextPageState.RETRY
+            loadNextPageState = LoadNextPageState.RETRY,
         )
         val items = FakeMovieFactory.create(2)
             .map { MovieItem(movie = it, isHidden = false) }
@@ -284,7 +284,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -292,7 +292,7 @@ class WatchListScreenTest {
         // Then
         with(composeTestRule) {
             with(
-                onNodeWithTag(WatchlistTestTag.LazyColum).onChildren()
+                onNodeWithTag(WatchlistTestTag.LazyColum).onChildren(),
             ) {
                 filter(hasClickAction())
                     .assertCountEquals(3)
@@ -307,7 +307,7 @@ class WatchListScreenTest {
         // Given
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.SUCCESS,
-            loadNextPageState = LoadNextPageState.IDLE
+            loadNextPageState = LoadNextPageState.IDLE,
         )
 
         val firstItem = MovieItem(FakeMovieFactory.create(), true)
@@ -325,7 +325,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -335,7 +335,7 @@ class WatchListScreenTest {
             with(
                 onNodeWithTag(WatchlistTestTag.LazyColum)
                     .onChildren()
-                    .filter(hasClickAction())
+                    .filter(hasClickAction()),
             ) {
                 assertCountEquals(1)
                 get(0).assert(hasText(secondItem.movie.title))
@@ -348,7 +348,7 @@ class WatchListScreenTest {
         // Given
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.SUCCESS,
-            loadNextPageState = LoadNextPageState.IDLE
+            loadNextPageState = LoadNextPageState.IDLE,
         )
 
         // When
@@ -362,7 +362,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {}
+                    onMovieSwiped = {},
                 )
             }
         }
@@ -395,7 +395,7 @@ class WatchListScreenTest {
                     movie = movie,
                     isHidden = false,
                     onClick = {},
-                    onSwiped = { isSwiped = true }
+                    onSwiped = { isSwiped = true },
                 )
             }
         }
@@ -426,7 +426,7 @@ class WatchListScreenTest {
                     movie = movie,
                     isHidden = false,
                     onClick = {},
-                    onSwiped = { isSwiped = true }
+                    onSwiped = { isSwiped = true },
                 )
             }
         }
@@ -451,7 +451,7 @@ class WatchListScreenTest {
         val action = flowOf<WatchlistAction>(ShowUndoSwipeToDismissSnackbar(movieId))
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.NONE,
-            loadNextPageState = LoadNextPageState.IDLE
+            loadNextPageState = LoadNextPageState.IDLE,
         )
         val snackBarActionText =
             composeTestRule.activity.getString(R.string.watchlist_remove_from_watchlist_action)
@@ -469,7 +469,7 @@ class WatchListScreenTest {
                     onMovieClick = {},
                     onMovieSwiped = {},
                     onSnackbarActionPerformed = { isSnackbarActionPerformed = true },
-                    onSnackbarDismissed = {}
+                    onSnackbarDismissed = {},
                 )
             }
         }
@@ -489,7 +489,7 @@ class WatchListScreenTest {
         val action = flowOf<WatchlistAction>(ShowUndoSwipeToDismissSnackbar(movieId))
         val uiState = WatchlistUiState.AccountLoggedIn(
             contentState = ContentState.NONE,
-            loadNextPageState = LoadNextPageState.IDLE
+            loadNextPageState = LoadNextPageState.IDLE,
         )
         val snackBarMessage =
             composeTestRule.activity.getString(R.string.watchlist_remove_from_watchlist_confirm_message)
@@ -507,7 +507,7 @@ class WatchListScreenTest {
                     onMovieClick = {},
                     onMovieSwiped = {},
                     onSnackbarActionPerformed = {},
-                    onSnackbarDismissed = { isSnackbarDismissed = true }
+                    onSnackbarDismissed = { isSnackbarDismissed = true },
                 )
             }
         }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class AppLanguageInteractor @Inject constructor(
     private val appRepository: AppRepository,
-    private val sessionRepository: SessionRepository
+    private val sessionRepository: SessionRepository,
 ) {
 
     /**

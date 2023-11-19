@@ -24,7 +24,7 @@ interface MovieCreditsLocalDataSource {
 }
 
 internal class DefaultMovieCreditsLocalDataSource @Inject constructor(
-    private val database: AppDatabase
+    private val database: AppDatabase,
 ) : MovieCreditsLocalDataSource {
 
     override fun actorsChanges(movieId: Long): Flow<List<ActorWithPerson>> =

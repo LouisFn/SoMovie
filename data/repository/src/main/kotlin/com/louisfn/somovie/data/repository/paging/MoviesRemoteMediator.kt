@@ -18,11 +18,11 @@ internal class MoviesRemoteMediator(
     private val movieMapper: MovieMapper,
     private val categoryMapper: ExploreCategoryMapper,
     private val databaseHelper: DatabaseHelper,
-    private val category: ExploreCategory
+    private val category: ExploreCategory,
 ) : DefaultAppendRemoteMediator<Int, MovieEntity>(
     remoteKeyType = categoryMapper.mapToRemoteKeyTypeEntity(category),
     remoteKeyLocalDataSource = remoteKeyLocalDataSource,
-    cacheTimeout = cacheTimeout
+    cacheTimeout = cacheTimeout,
 ) {
 
     override suspend fun fetchNewData(key: String?): Result {
@@ -43,7 +43,7 @@ internal class MoviesRemoteMediator(
 
         return Result(
             nextKey = (page + 1).toString(),
-            endOfPaginationReached = response.totalPages == page
+            endOfPaginationReached = response.totalPages == page,
         )
     }
 }

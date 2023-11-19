@@ -22,8 +22,8 @@ fun Modifier.shake(
     targetScale: Float = DefaultTargetScale,
     animation: DurationBasedAnimationSpec<Float> = tween(
         durationMillis = DefaultAnimationDuration,
-        easing = LinearEasing
-    )
+        easing = LinearEasing,
+    ),
 ) = composed {
     if (enabled) {
         val infiniteTransition = rememberInfiniteTransition()
@@ -32,8 +32,8 @@ fun Modifier.shake(
             targetValue = targetScale,
             animationSpec = infiniteRepeatable(
                 animation = animation,
-                repeatMode = RepeatMode.Reverse
-            )
+                repeatMode = RepeatMode.Reverse,
+            ),
         )
         Modifier.graphicsLayer {
             scaleX = scale

@@ -27,26 +27,26 @@ fun MovieVoteAverageChart(
     modifier: Modifier = Modifier,
     background: Color = MaterialTheme.colors.surface,
     strokeWidth: Dp = 3.dp,
-    textStyle: TextStyle = MaterialTheme.typography.caption
+    textStyle: TextStyle = MaterialTheme.typography.caption,
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .size(32.dp)
             .clip(CircleShape)
-            .background(background)
+            .background(background),
     ) {
         CircularProgressIndicator(
             modifier = Modifier.fillMaxSize(),
             progress = average / 10,
             color = MaterialTheme.colors.secondary,
-            strokeWidth = strokeWidth
+            strokeWidth = strokeWidth,
         )
         Text(
             text = String.format("%.1f", average),
             style = textStyle,
             color = AppColor.Silver,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
     }
 }

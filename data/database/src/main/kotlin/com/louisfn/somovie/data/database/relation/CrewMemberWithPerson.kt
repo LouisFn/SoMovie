@@ -13,7 +13,7 @@ data class CrewMemberWithPerson(
 
     @Relation(
         parentColumn = COLUMN_FK_PERSON_ID,
-        entityColumn = COLUMN_ID
+        entityColumn = COLUMN_ID,
     )
-    val person: PersonEntity
+    val person: PersonEntity,
 )

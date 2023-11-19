@@ -6,7 +6,7 @@ import java.io.IOException
 
 class FakeWebServer(
     var isNetworkAvailable: Boolean = true,
-    var responseDuration: Long = 0L
+    var responseDuration: Long = 0L,
 ) {
 
     suspend fun execute() {

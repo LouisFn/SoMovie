@@ -31,7 +31,7 @@ import javax.inject.Inject
 internal class ExploreViewModel @Inject constructor(
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
     private val movieInteractor: MovieInteractor,
-    private val errorsDispatcher: ErrorsDispatcher
+    private val errorsDispatcher: ErrorsDispatcher,
 ) : BaseViewModel<NoneAction>(defaultDispatcher) {
 
     private val refreshResultState = MutableStateFlow<Result<Unit>?>(null)
@@ -40,14 +40,14 @@ internal class ExploreViewModel @Inject constructor(
         combine(
             movieInteractor.exploreMoviesChanges()
                 .map { ImmutableList(it.map { pair -> pair.first to ImmutableList(pair.second) }) },
-            refreshResultState
+            refreshResultState,
         ) { movies, refreshResult ->
             createUiState(movies, refreshResult)
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(),
-                initialValue = ExploreUiState.None
+                initialValue = ExploreUiState.None,
             )
 
     init {
@@ -57,7 +57,7 @@ internal class ExploreViewModel @Inject constructor(
     @AnyThread
     private fun createUiState(
         moviesByCategory: ImmutableList<Pair<ExploreCategory, ImmutableList<Movie>>>,
-        refreshResult: Result<Unit>?
+        refreshResult: Result<Unit>?,
     ): ExploreUiState = when {
         moviesByCategory.none { it.second.isEmpty() } ->
             ExploreUiState.Explore(moviesByCategory)
@@ -76,7 +76,7 @@ internal class ExploreViewModel @Inject constructor(
                 .onResultError(errorsDispatcher::dispatch)
                 .safeCollect(
                     onEach = refreshResultState::emit,
-                    onError = errorsDispatcher::dispatch
+                    onError = errorsDispatcher::dispatch,
                 )
         }
     }

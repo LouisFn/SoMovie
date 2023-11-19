@@ -30,7 +30,7 @@ import com.louisfn.somovie.ui.common.R as commonR
 
 @Composable
 internal fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel = hiltViewModel(),
 ) {
     Logger.d("Navigation - MainScreen")
 
@@ -40,7 +40,7 @@ internal fun MainScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background)
+            .background(MaterialTheme.colors.background),
     ) {
         when (uiState) {
             is MainUiState.Loading ->
@@ -48,13 +48,13 @@ internal fun MainScreen(
             is MainUiState.Content ->
                 MainNavHost(
                     startDestination = HomeDestination,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
         }
 
         ErrorsLayout(
             errors = errors,
-            modifier = Modifier.padding(top = WindowInsets.statusBars.top.pxToDp())
+            modifier = Modifier.padding(top = WindowInsets.statusBars.top.pxToDp()),
         )
     }
 }
@@ -65,11 +65,11 @@ private fun AppLoader() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         Text(
             text = stringResource(id = commonR.string.app_name),
-            style = MaterialTheme.typography.h2
+            style = MaterialTheme.typography.h2,
         )
         ColumnSpacer(space = 32.dp)
         IndeterminateProgressIndicator()

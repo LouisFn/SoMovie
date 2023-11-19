@@ -10,7 +10,7 @@ data class AddToWatchlistBody(
     @Json(name = "media_id")
     val movieId: Long,
     @Json(name = "watchlist")
-    val watchlist: Boolean
+    val watchlist: Boolean,
 ) {
     companion object {
         private const val MOVIE_MEDIA_TYPE = "movie"

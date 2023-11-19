@@ -20,8 +20,8 @@ fun NavGraphBuilder.movieDetailsGraph(navigateUp: () -> Unit) {
     composable(
         route = MovieDetailsNavigation.route,
         arguments = listOf(
-            navArgument(MovieDetailsNavigation.ARGS_MOVIE_ID) { type = NavType.LongType }
-        )
+            navArgument(MovieDetailsNavigation.ARGS_MOVIE_ID) { type = NavType.LongType },
+        ),
     ) {
         MovieDetailsScreen(navigateUp = navigateUp)
     }

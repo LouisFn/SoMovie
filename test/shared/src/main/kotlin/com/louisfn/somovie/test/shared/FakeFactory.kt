@@ -11,7 +11,7 @@ object FakeFactory {
 
     inline fun <reified T : Any> create(
         nbr: Int,
-        configurator: RandomProviderConfig.() -> Unit = {}
+        configurator: RandomProviderConfig.() -> Unit = {},
     ): List<T> =
         (0 until nbr).map {
             instance.randomProvider.randomTestClassInstance(configurator)

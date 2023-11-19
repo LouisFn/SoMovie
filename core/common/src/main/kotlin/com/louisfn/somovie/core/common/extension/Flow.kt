@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.withIndex
 
 suspend inline fun <T> Flow<T>.safeCollect(
     crossinline onEach: suspend (value: T) -> Unit,
-    crossinline onError: suspend (e: Throwable) -> Unit
+    crossinline onError: suspend (e: Throwable) -> Unit,
 ) {
     catch { e -> onError(e) }
         .collect {
@@ -27,7 +27,7 @@ suspend inline fun <T> Flow<T>.safeCollect(
 
 suspend inline fun <T> Flow<T>.safeCollectLatest(
     crossinline onEach: suspend (value: T) -> Unit,
-    crossinline onError: suspend (e: Throwable) -> Unit
+    crossinline onError: suspend (e: Throwable) -> Unit,
 ) {
     catch { e -> onError(e) }
         .collectLatest {
@@ -40,7 +40,7 @@ suspend inline fun <T> Flow<T>.safeCollectLatest(
 }
 
 suspend inline fun <T> Flow<T>.safeCollect(
-    crossinline onError: suspend (e: Throwable) -> Unit
+    crossinline onError: suspend (e: Throwable) -> Unit,
 ) {
     catch { e -> onError(e) }
         .collect()

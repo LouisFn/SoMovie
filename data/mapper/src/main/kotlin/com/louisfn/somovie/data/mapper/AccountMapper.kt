@@ -11,7 +11,7 @@ class AccountMapper @Inject constructor() {
     fun mapToDomain(response: AccountResponse) = Account(
         id = response.id,
         name = response.name,
-        username = response.username
+        username = response.username,
     )
 
     //endregion

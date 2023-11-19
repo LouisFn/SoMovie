@@ -44,7 +44,7 @@ internal class WatchlistViewModel @Inject constructor(
     private val authenticationInteractor: AuthenticationInteractor,
     private val watchlistInteractor: WatchlistInteractor,
     private val errorsDispatcher: ErrorsDispatcher,
-    @ApplicationScope private val applicationScope: CoroutineScope
+    @ApplicationScope private val applicationScope: CoroutineScope,
 ) : BaseViewModel<WatchlistAction>(defaultDispatcher) {
 
     private val pagingState = MutableStateFlow<PagingState?>(null)
@@ -63,13 +63,16 @@ internal class WatchlistViewModel @Inject constructor(
     val uiState: StateFlow<WatchlistUiState> =
         authenticationInteractor.isLoggedIn()
             .flatMapLatest {
-                if (it) accountLoggedInUiState
-                else accountDisconnectedUiState
+                if (it) {
+                    accountLoggedInUiState
+                } else {
+                    accountDisconnectedUiState
+                }
             }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(),
-                initialValue = WatchlistUiState.None
+                initialValue = WatchlistUiState.None,
             )
 
     //endregion
@@ -86,7 +89,7 @@ internal class WatchlistViewModel @Inject constructor(
             .flatMapLatest {
                 combine(
                     pagedMovies,
-                    hiddenMovieItemIds
+                    hiddenMovieItemIds,
                 ) { paged, hiddenItemIds ->
                     paged.map { movie ->
                         MovieItem(movie = movie, isHidden = movie.id in hiddenItemIds)
@@ -121,7 +124,7 @@ internal class WatchlistViewModel @Inject constructor(
                 is LoadState.Error -> LoadNextPageState.RETRY
                 is LoadState.Loading -> LoadNextPageState.LOADING
                 is LoadState.NotLoading -> LoadNextPageState.IDLE
-            }
+            },
         )
     }
 
@@ -238,6 +241,6 @@ internal class WatchlistViewModel @Inject constructor(
 
     data class PagingState(
         val loadStates: CombinedLoadStates,
-        val itemCount: Int
+        val itemCount: Int,
     )
 }

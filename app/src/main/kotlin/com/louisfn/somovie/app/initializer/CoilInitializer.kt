@@ -10,7 +10,7 @@ import com.louisfn.somovie.ui.common.coil.MapperInterceptor
 import javax.inject.Inject
 
 internal class CoilInitializer @Inject constructor(
-    private val imagePathMapper: ImagePathMapper
+    private val imagePathMapper: ImagePathMapper,
 ) : AppInitializer {
 
     override fun onCreate(application: Application) {
@@ -24,9 +24,9 @@ internal class CoilInitializer @Inject constructor(
                 add(
                     MapperInterceptor(
                         listOf(
-                            imagePathMapper to ImagePath::class
-                        )
-                    )
+                            imagePathMapper to ImagePath::class,
+                        ),
+                    ),
                 )
             }
             .build()

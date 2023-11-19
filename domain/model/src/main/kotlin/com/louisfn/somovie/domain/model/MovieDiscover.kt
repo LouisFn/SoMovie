@@ -7,10 +7,10 @@ enum class MovieDiscoverSortBy {
     PRIMARY_RELEASE_DATE,
     ORIGINAL_TITLE,
     VOTE_AVERAGE,
-    VOTE_COUNT
+    VOTE_COUNT,
 }
 
 enum class MovieDiscoverSortByDirection {
     ASC,
-    DESC
+    DESC,
 }

@@ -5,5 +5,5 @@ import androidx.compose.ui.unit.IntOffset
 
 fun Offset.toIntOffset() = IntOffset(
     this.x.toInt(),
-    this.y.toInt()
+    this.y.toInt(),
 )

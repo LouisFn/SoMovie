@@ -9,7 +9,7 @@ data class ConfigurationResponse(
     @Json(name = "images")
     val images: Images,
     @Json(name = "change_keys")
-    val changesKeys: List<String>
+    val changesKeys: List<String>,
 ) : DataStoreData {
 
     @JsonClass(generateAdapter = true)
@@ -27,6 +27,6 @@ data class ConfigurationResponse(
         @Json(name = "profile_sizes")
         val profileSizes: List<String>,
         @Json(name = "still_sizes")
-        val stillSizes: List<String>
+        val stillSizes: List<String>,
     )
 }

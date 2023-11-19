@@ -41,7 +41,7 @@ import com.louisfn.somovie.ui.component.DefaultTopAppBar
 fun MovieDetailsPosterFullScreen(
     posterPath: PosterPath,
     posterReducedCoordinates: LayoutCoordinates,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var posterState by remember { mutableStateOf(REDUCED) }
 
@@ -50,14 +50,14 @@ fun MovieDetailsPosterFullScreen(
     Box(modifier = modifier) {
         BackgroundWithTopBar(
             isVisible = posterState == EXPANDED,
-            navigateUp = { posterState = REDUCED }
+            navigateUp = { posterState = REDUCED },
         )
 
         Poster(
             posterPath = posterPath,
             posterState = posterState,
             posterReducedCoordinates = posterReducedCoordinates,
-            onPosterStateChanged = { posterState = it }
+            onPosterStateChanged = { posterState = it },
         )
     }
 }
@@ -67,11 +67,11 @@ private fun Poster(
     posterPath: PosterPath,
     posterState: MovieDetailsPosterState,
     posterReducedCoordinates: LayoutCoordinates,
-    onPosterStateChanged: (MovieDetailsPosterState) -> Unit
+    onPosterStateChanged: (MovieDetailsPosterState) -> Unit,
 ) {
     val posterStateController = rememberPosterStateController(
         reducedCoordinates = posterReducedCoordinates,
-        onStateChanged = onPosterStateChanged
+        onStateChanged = onPosterStateChanged,
     )
     var onLoadImageSuccess by remember { mutableStateOf(false) }
 
@@ -88,7 +88,7 @@ private fun Poster(
                 }
             }
             .draggablePoster(posterStateController),
-        onLoadImageSuccess = { onLoadImageSuccess = true }
+        onLoadImageSuccess = { onLoadImageSuccess = true },
     )
 }
 
@@ -96,7 +96,7 @@ private fun Poster(
 private fun Poster(
     posterPath: PosterPath,
     modifier: Modifier = Modifier,
-    onLoadImageSuccess: () -> Unit
+    onLoadImageSuccess: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     DefaultAsyncImage(
@@ -107,10 +107,10 @@ private fun Poster(
             .Builder(LocalContext.current)
             .size(
                 width = configuration.screenWidth.toInt(),
-                height = configuration.screenHeight.toInt()
+                height = configuration.screenHeight.toInt(),
             )
             .data(posterPath)
-            .build()
+            .build(),
     )
 }
 
@@ -122,17 +122,17 @@ private fun BackgroundWithTopBar(isVisible: Boolean, navigateUp: () -> Unit) {
             .pointerInput(Unit) {},
         visible = isVisible,
         enter = fadeIn(),
-        exit = fadeOut()
+        exit = fadeOut(),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colors.background),
         ) {
             DefaultTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
                 backgroundColor = MaterialTheme.colors.background,
-                navigateUp = navigateUp
+                navigateUp = navigateUp,
             )
         }
     }

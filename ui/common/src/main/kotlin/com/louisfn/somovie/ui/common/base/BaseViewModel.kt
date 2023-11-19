@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.invoke
 
 abstract class BaseViewModel<A : ViewModelAction>(
-    @DefaultDispatcher val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _action by lazy { MutableSharedFlow<A>() }

@@ -6,7 +6,7 @@ import com.louisfn.somovie.data.repository.WatchlistRepository
 import javax.inject.Inject
 
 class WatchlistInteractor @Inject constructor(
-    private val watchlistRepository: WatchlistRepository
+    private val watchlistRepository: WatchlistRepository,
 ) {
 
     @AnyThread
@@ -23,7 +23,7 @@ class WatchlistInteractor @Inject constructor(
         val PAGING_CONFIG = PagingConfig(
             pageSize = 20,
             prefetchDistance = 10,
-            enablePlaceholders = true
+            enablePlaceholders = true,
         )
     }
 }

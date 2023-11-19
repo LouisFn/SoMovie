@@ -23,5 +23,5 @@ data class MovieResponse(
     @Json(name = "release_date")
     val releaseDate: LocalDate?,
     @Json(name = "vote_average")
-    val voteAverage: Float
+    val voteAverage: Float,
 )

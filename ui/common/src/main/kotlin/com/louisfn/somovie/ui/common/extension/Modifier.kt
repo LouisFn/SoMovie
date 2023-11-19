@@ -13,7 +13,7 @@ fun Modifier.clickable(withRipple: Boolean, onClick: () -> Unit): Modifier =
         } else {
             this.clickable(
                 indication = null,
-                interactionSource = remember { MutableInteractionSource() }
+                interactionSource = remember { MutableInteractionSource() },
             ) {
                 onClick()
             }

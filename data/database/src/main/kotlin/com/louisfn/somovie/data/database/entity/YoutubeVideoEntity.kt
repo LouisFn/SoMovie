@@ -14,9 +14,9 @@ import java.time.OffsetDateTime
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 data class YoutubeVideoEntity(
     @PrimaryKey
@@ -33,7 +33,7 @@ data class YoutubeVideoEntity(
     @ColumnInfo(name = COLUMN_PUBLISHED_AT)
     val publishedAt: OffsetDateTime,
     @ColumnInfo(name = COLUMN_FK_MOVIE_ID, index = true)
-    val movieId: Long
+    val movieId: Long,
 ) {
     enum class Type(val value: Int) {
         TRAILERS(0),
@@ -41,6 +41,6 @@ data class YoutubeVideoEntity(
         CLIPS(2),
         BEHIND(3),
         BLOOPERS(4),
-        FEATURETTES(5)
+        FEATURETTES(5),
     }
 }

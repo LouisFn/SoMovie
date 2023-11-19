@@ -22,9 +22,9 @@ import com.louisfn.somovie.data.database.entity.*
         PersonEntity::class,
         ExploreEntity::class,
         YoutubeVideoEntity::class,
-        WatchlistEntity::class
+        WatchlistEntity::class,
     ],
-    version = 1
+    version = 1,
 )
 @TypeConverters(
     ExploreCategoryConverter::class,
@@ -32,7 +32,7 @@ import com.louisfn.somovie.data.database.entity.*
     InstantConverter::class,
     DurationConverter::class,
     RemoteKeyTypeConverter::class,
-    OffsetDateTimeConverter::class
+    OffsetDateTimeConverter::class,
 )
 internal abstract class AppDatabase : RoomDatabase() {
     abstract fun remoteKeyDao(): RemoteKeyDao

@@ -19,8 +19,8 @@ data class MovieWithRelations(
         associateBy = Junction(
             value = MovieGenreCrossRefEntity::class,
             parentColumn = COLUMN_FK_MOVIE_ID,
-            entityColumn = COLUMN_FK_GENRE_ID
-        )
+            entityColumn = COLUMN_FK_GENRE_ID,
+        ),
     )
     val genres: List<GenreEntity>,
 
@@ -30,14 +30,14 @@ data class MovieWithRelations(
         associateBy = Junction(
             value = MovieProductionCompanyCrossRefEntity::class,
             parentColumn = COLUMN_FK_MOVIE_ID,
-            entityColumn = COLUMN_FK_COMPANY_ID
-        )
+            entityColumn = COLUMN_FK_COMPANY_ID,
+        ),
     )
     val productionCompanies: List<CompanyEntity>,
 
     @Relation(
         parentColumn = COLUMN_ID,
-        entityColumn = COLUMN_FK_MOVIE_ID
+        entityColumn = COLUMN_FK_MOVIE_ID,
     )
-    val productionCountries: List<MovieProductionCountryEntity>
+    val productionCountries: List<MovieProductionCountryEntity>,
 )

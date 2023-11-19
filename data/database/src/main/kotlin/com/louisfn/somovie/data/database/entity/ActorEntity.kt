@@ -13,15 +13,15 @@ import com.louisfn.somovie.data.database.*
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
             entity = PersonEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_PERSON_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 data class ActorEntity(
     @PrimaryKey(autoGenerate = true)
@@ -34,5 +34,5 @@ data class ActorEntity(
     @ColumnInfo(name = COLUMN_FK_MOVIE_ID, index = true)
     val movieId: Long,
     @ColumnInfo(name = COLUMN_FK_PERSON_ID, index = true)
-    val personId: Long
+    val personId: Long,
 )

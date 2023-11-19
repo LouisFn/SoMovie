@@ -64,7 +64,7 @@ class WatchlistViewModelTest {
             authenticationRepository = authenticationRepository,
             sessionRepository = sessionRepository,
             accountRepository = accountRepository,
-            defaultDispatcher = mainDispatcherRule.testDispatcher
+            defaultDispatcher = mainDispatcherRule.testDispatcher,
         )
 
         viewModel = WatchlistViewModel(
@@ -72,7 +72,7 @@ class WatchlistViewModelTest {
             authenticationInteractor = authenticationInteractor,
             errorsDispatcher = errorsDispatcher,
             defaultDispatcher = mainDispatcherRule.testDispatcher,
-            applicationScope = testScope
+            applicationScope = testScope,
         )
     }
 
@@ -112,9 +112,9 @@ class WatchlistViewModelTest {
             listOf(
                 MovieItem(
                     movie = movieAddedToWatchlist,
-                    isHidden = false
-                )
-            )
+                    isHidden = false,
+                ),
+            ),
         )
     }
 
@@ -134,9 +134,9 @@ class WatchlistViewModelTest {
             listOf(
                 MovieItem(
                     movie = movieAddedToWatchlist,
-                    isHidden = true
-                )
-            )
+                    isHidden = true,
+                ),
+            ),
         )
     }
 
@@ -157,9 +157,9 @@ class WatchlistViewModelTest {
             listOf(
                 MovieItem(
                     movie = movieAddedToWatchlist,
-                    isHidden = false
-                )
-            )
+                    isHidden = false,
+                ),
+            ),
         )
     }
 
@@ -197,9 +197,9 @@ class WatchlistViewModelTest {
             listOf(
                 MovieItem(
                     movie = movieAddedToWatchlist,
-                    isHidden = false
-                )
-            )
+                    isHidden = false,
+                ),
+            ),
         )
     }
 
@@ -294,14 +294,14 @@ class WatchlistViewModelTest {
         source: LoadStates = LoadStates(
             refresh = LoadState.NotLoading(false),
             prepend = LoadState.NotLoading(false),
-            append = LoadState.NotLoading(false)
+            append = LoadState.NotLoading(false),
         ),
-        mediator: LoadStates? = null
+        mediator: LoadStates? = null,
     ) = CombinedLoadStates(
         refresh = refresh,
         prepend = prepend,
         append = append,
         source = source,
-        mediator = mediator
+        mediator = mediator,
     )
 }

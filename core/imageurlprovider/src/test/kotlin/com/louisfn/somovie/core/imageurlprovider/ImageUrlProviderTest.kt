@@ -27,7 +27,7 @@ internal class ImageUrlProviderTest {
         imageUrlProvider = ImageUrlProvider(
             configurationRepository = configurationRepository,
             defaultDispatcher = testDispatcher,
-            applicationScope = appScope
+            applicationScope = appScope,
         )
     }
 

@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class TmdbConfigurationInteractor @Inject constructor(
     private val configurationRepository: TmdbConfigurationRepository,
-    @ApplicationScope private val applicationScope: CoroutineScope
+    @ApplicationScope private val applicationScope: CoroutineScope,
 ) {
 
     @AnyThread

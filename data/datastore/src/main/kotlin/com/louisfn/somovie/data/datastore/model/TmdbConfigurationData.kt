@@ -11,7 +11,7 @@ data class TmdbConfigurationData(
     @Json(name = "change_keys")
     val changesKeys: List<String>? = null,
     @Json(name = "updated_at")
-    val updatedAt: Instant? = null
+    val updatedAt: Instant? = null,
 ) : DataStoreData {
 
     @JsonClass(generateAdapter = true)
@@ -29,6 +29,6 @@ data class TmdbConfigurationData(
         @Json(name = "profile_sizes")
         val profileSizes: List<String>,
         @Json(name = "still_sizes")
-        val stillSizes: List<String>
+        val stillSizes: List<String>,
     )
 }

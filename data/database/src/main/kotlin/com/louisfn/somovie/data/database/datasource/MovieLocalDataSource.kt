@@ -38,7 +38,7 @@ interface MovieLocalDataSource {
 
 internal class DefaultMovieLocalDataSource @Inject constructor(
     private val database: AppDatabase,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : MovieLocalDataSource {
 
     override fun moviesChanges(category: ExploreEntity.Category, limit: Int): Flow<List<MovieEntity>> =
@@ -69,9 +69,9 @@ internal class DefaultMovieLocalDataSource @Inject constructor(
                         movieWithRelations.genres.map {
                             MovieGenreCrossRefEntity(
                                 movieId = movieId,
-                                genreId = it.id
+                                genreId = it.id,
                             )
-                        }
+                        },
                     )
                 }
 
@@ -81,9 +81,9 @@ internal class DefaultMovieLocalDataSource @Inject constructor(
                         movieWithRelations.productionCompanies.map {
                             MovieProductionCompanyCrossRefEntity(
                                 movieId = movieId,
-                                companyId = it.id
+                                companyId = it.id,
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -99,9 +99,9 @@ internal class DefaultMovieLocalDataSource @Inject constructor(
                         ExploreEntity(
                             movieId = it.id,
                             category = category,
-                            page = page
+                            page = page,
                         )
-                    }
+                    },
                 )
             }
         }

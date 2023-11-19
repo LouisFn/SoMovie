@@ -17,7 +17,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 @Composable
 fun <T : R, R> StateFlow<T>.collectAsStateLifecycleAware(
     context: CoroutineContext = EmptyCoroutineContext,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
 ): State<R> =
     rememberFlowWithLifecycle(flow = this, minActiveState = minActiveState)
         .collectAsState(context = context, initial = value)
@@ -26,10 +26,10 @@ fun <T : R, R> StateFlow<T>.collectAsStateLifecycleAware(
 private fun <T> rememberFlowWithLifecycle(
     flow: Flow<T>,
     lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
 ): Flow<T> = remember(flow, lifecycle) {
     flow.flowWithLifecycle(
         lifecycle = lifecycle,
-        minActiveState = minActiveState
+        minActiveState = minActiveState,
     )
 }

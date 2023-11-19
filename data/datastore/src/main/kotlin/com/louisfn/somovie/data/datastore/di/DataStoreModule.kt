@@ -29,12 +29,12 @@ internal class DataStoreModule {
     fun provideSessionDataStore(
         @ApplicationContext context: Context,
         moshi: Moshi,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): DataStore<SessionData> =
         DataStoreFactory.create(
             serializer = SessionSerializer(moshi),
             produceFile = { context.dataStoreFile(SESSION_FILE_NAME) },
-            scope = CoroutineScope(ioDispatcher + SupervisorJob())
+            scope = CoroutineScope(ioDispatcher + SupervisorJob()),
         )
 
     @Provides
@@ -42,12 +42,12 @@ internal class DataStoreModule {
     fun provideTmdbConfigurationDataStore(
         @ApplicationContext context: Context,
         moshi: Moshi,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): DataStore<TmdbConfigurationData> =
         DataStoreFactory.create(
             serializer = TmdbConfigurationSerializer(moshi),
             produceFile = { context.dataStoreFile(TMDB_CONFIGURATION_FILE_NAME) },
-            scope = CoroutineScope(ioDispatcher + SupervisorJob())
+            scope = CoroutineScope(ioDispatcher + SupervisorJob()),
         )
 
     companion object {

@@ -29,12 +29,12 @@ fun LogInButton(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
             Text(
                 text = stringResource(id = R.string.account_log_in),
                 fontSize = 16.sp,
-                style = MaterialTheme.typography.button
+                style = MaterialTheme.typography.button,
             )
             Spacer(modifier = Modifier.width(8.dp))
             DefaultImage(
                 modifier = Modifier.height(24.dp),
-                painter = painterResource(id = R.drawable.ic_tmdb)
+                painter = painterResource(id = R.drawable.ic_tmdb),
             )
         }
     }

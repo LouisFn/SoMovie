@@ -28,7 +28,7 @@ internal fun JacocoReport.configureJacoco(project: Project, variantName: String)
     val sources = projects.map { proj ->
         listOf(
             "${proj.projectDir}/src/main/java",
-            "${proj.projectDir}/src/main/kotlin"
+            "${proj.projectDir}/src/main/kotlin",
         )
     }.flatten()
 
@@ -39,7 +39,7 @@ internal fun JacocoReport.configureJacoco(project: Project, variantName: String)
             proj.fileTree(proj.buildDir).apply {
                 include(
                     "/outputs/code_coverage/${variantName}AndroidTest/connected/**/coverage.ec",
-                    "/outputs/unit_test_code_coverage/${variantName}UnitTest/test${variantName.capitalized()}UnitTest.exec"
+                    "/outputs/unit_test_code_coverage/${variantName}UnitTest/test${variantName.capitalized()}UnitTest.exec",
                 )
             }
         }
@@ -65,5 +65,5 @@ private val coverageExclusions = listOf(
     "**/*\$inlined$*.*",
     "**/*_Impl*",
     "**/*_Factory*",
-    "**/di/*.*"
+    "**/di/*.*",
 )

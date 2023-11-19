@@ -10,7 +10,7 @@ object FakeSessionDataFactory {
         account = SessionData.Account(
             id = 10,
             name = "name",
-            username = "louis"
-        )
+            username = "louis",
+        ),
     )
 }

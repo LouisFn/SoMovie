@@ -11,7 +11,7 @@ import java.io.OutputStream
 import javax.inject.Inject
 
 internal class TmdbConfigurationSerializer @Inject constructor(
-    private val moshi: Moshi
+    private val moshi: Moshi,
 ) : Serializer<TmdbConfigurationData> {
 
     override val defaultValue: TmdbConfigurationData = TmdbConfigurationData()
@@ -25,6 +25,6 @@ internal class TmdbConfigurationSerializer @Inject constructor(
 
     override suspend fun writeTo(
         t: TmdbConfigurationData,
-        output: OutputStream
+        output: OutputStream,
     ) = moshi.toJson(output, t)
 }

@@ -12,15 +12,15 @@ import com.louisfn.somovie.data.database.TABLE_WATCHLIST
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
-        )
+            onDelete = ForeignKey.CASCADE,
+        ),
     ],
-    indices = [Index(COLUMN_FK_MOVIE_ID, unique = true)]
+    indices = [Index(COLUMN_FK_MOVIE_ID, unique = true)],
 )
 data class WatchlistEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COLUMN_ID)
     val id: Long = 0,
     @ColumnInfo(name = COLUMN_FK_MOVIE_ID)
-    val movieId: Long
+    val movieId: Long,
 )

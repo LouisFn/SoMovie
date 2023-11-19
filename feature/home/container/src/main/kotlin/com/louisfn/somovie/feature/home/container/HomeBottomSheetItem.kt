@@ -18,7 +18,7 @@ import com.louisfn.somovie.ui.common.navigation.NavigationDestination
 sealed class HomeBottomSheetItem(
     val destination: NavigationDestination,
     @StringRes val titleId: Int,
-    val icon: ImageVector
+    val icon: ImageVector,
 ) {
     object Explore : HomeBottomSheetItem(ExploreNavigation, R.string.home_explore, Icons.Default.Movie)
     object WatchList : HomeBottomSheetItem(WatchlistDestination, R.string.home_watchlist, Icons.Default.List)

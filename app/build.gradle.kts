@@ -33,8 +33,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.retrofit.core)
     implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.insets)
-    implementation(libs.accompanist.insets.ui)
     implementation(libs.timber)
 
     debugImplementation(libs.leakcanary)

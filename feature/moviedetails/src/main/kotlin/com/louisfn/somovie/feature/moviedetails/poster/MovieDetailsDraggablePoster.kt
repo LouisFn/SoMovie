@@ -8,7 +8,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.pointerInput
 
 internal fun Modifier.draggablePoster(
-    stateController: PosterStateController
+    stateController: PosterStateController,
 ) = composed {
     val currentStateController by rememberUpdatedState(stateController)
 
@@ -20,7 +20,7 @@ internal fun Modifier.draggablePoster(
             },
             onDragEnd = {
                 currentStateController.onDragEnd()
-            }
+            },
         )
     }
 }

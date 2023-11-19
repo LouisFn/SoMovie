@@ -19,7 +19,7 @@ class MovieInteractor @Inject constructor(
     private val movieRepository: MovieRepository,
     private val movieImageRepository: MovieImageRepository,
     private val movieCreditsRepository: MovieCreditsRepository,
-    private val movieVideoRepository: MovieVideoRepository
+    private val movieVideoRepository: MovieVideoRepository,
 ) {
 
     @AnyThread
@@ -48,13 +48,13 @@ class MovieInteractor @Inject constructor(
                 val flows = categories.map {
                     movieRepository.moviesChanges(
                         category = it,
-                        limit = LIMIT_BY_CATEGORY
+                        limit = LIMIT_BY_CATEGORY,
                     )
                 }
 
                 combine(
                     flows = flows,
-                    transform = { it.mapIndexed { index, list -> categories[index] to list } }
+                    transform = { it.mapIndexed { index, list -> categories[index] to list } },
                 )
             }
 
@@ -75,7 +75,7 @@ class MovieInteractor @Inject constructor(
         private val PAGING_CONFIG = PagingConfig(
             pageSize = 20,
             prefetchDistance = 10,
-            enablePlaceholders = true
+            enablePlaceholders = true,
         )
     }
 }

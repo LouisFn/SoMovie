@@ -6,7 +6,7 @@ import com.louisfn.somovie.core.logger.Logger
 import javax.inject.Inject
 
 internal class LoggerInitializer @Inject constructor(
-    private val logAdapter: LogAdapter
+    private val logAdapter: LogAdapter,
 ) : AppInitializer {
 
     override fun onCreate(application: Application) {

@@ -10,7 +10,7 @@ data class SessionData(
     @Json(name = "language")
     val languageIso639: String? = null,
     @Json(name = "account")
-    val account: Account? = null
+    val account: Account? = null,
 ) : DataStoreData {
 
     @JsonClass(generateAdapter = true)
@@ -20,6 +20,6 @@ data class SessionData(
         @Json(name = "name")
         val name: String,
         @Json(name = "username")
-        val username: String
+        val username: String,
     )
 }

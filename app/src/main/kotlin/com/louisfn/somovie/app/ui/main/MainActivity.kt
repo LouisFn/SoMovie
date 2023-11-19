@@ -32,7 +32,7 @@ internal class MainActivity : BaseActivity() {
         setContent {
             CompositionLocalProvider(
                 LocalMoshi provides moshi,
-                LocalAppRouter provides appRouter
+                LocalAppRouter provides appRouter,
             ) {
                 AppTheme {
                     val systemUiController = rememberSystemUiController()

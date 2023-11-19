@@ -35,7 +35,7 @@ interface WatchlistRepository {
     @AnyThread
     fun watchlistPagingChanges(
         pagingConfig: PagingConfig,
-        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT
+        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT,
     ): Flow<PagingData<Movie>>
 
     companion object {
@@ -50,19 +50,19 @@ internal class DefaultWatchlistRepository @Inject constructor(
     private val remoteKeyLocalDataSource: RemoteKeyLocalDataSource,
     private val movieMapper: MovieMapper,
     private val databaseHelper: DatabaseHelper,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : WatchlistRepository {
 
     override fun watchlistPagingChanges(
         pagingConfig: PagingConfig,
-        cacheTimeout: Long
+        cacheTimeout: Long,
     ): Flow<PagingData<Movie>> =
         flow {
             val pagerFlow =
                 Pager(
                     config = pagingConfig,
                     remoteMediator = createWatchlistRemoteMediator(cacheTimeout),
-                    pagingSourceFactory = { localDataSource.getPagingWatchlist() }
+                    pagingSourceFactory = { localDataSource.getPagingWatchlist() },
                 ).flow
             emitAll(pagerFlow)
         }
@@ -71,7 +71,7 @@ internal class DefaultWatchlistRepository @Inject constructor(
 
     @AnyThread
     private suspend fun createWatchlistRemoteMediator(
-        cacheTimeout: Long
+        cacheTimeout: Long,
     ) = WatchlistRemoteMediator(
         cacheTimeout = cacheTimeout,
         remoteKeyLocalDataSource = remoteKeyLocalDataSource,
@@ -79,7 +79,7 @@ internal class DefaultWatchlistRepository @Inject constructor(
         remoteDataSource = remoteDataSource,
         movieMapper = movieMapper,
         databaseHelper = databaseHelper,
-        accountId = getAccountId()
+        accountId = getAccountId(),
     )
 
     override suspend fun addToWatchlist(movieId: Long) = defaultDispatcher {
@@ -87,8 +87,8 @@ internal class DefaultWatchlistRepository @Inject constructor(
             accountId = getAccountId(),
             addToWatchlistBody = AddToWatchlistBody(
                 movieId = movieId,
-                watchlist = true
-            )
+                watchlist = true,
+            ),
         )
         localDataSource.updateWatchlistState(movieId, true)
     }
@@ -98,8 +98,8 @@ internal class DefaultWatchlistRepository @Inject constructor(
             accountId = getAccountId(),
             addToWatchlistBody = AddToWatchlistBody(
                 movieId = movieId,
-                watchlist = false
-            )
+                watchlist = false,
+            ),
         )
         databaseHelper.withTransaction {
             localDataSource.updateWatchlistState(movieId, false)

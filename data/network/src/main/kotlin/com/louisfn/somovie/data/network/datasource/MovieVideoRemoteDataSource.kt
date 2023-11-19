@@ -15,7 +15,7 @@ interface MovieVideoRemoteDataSource {
 }
 
 internal class DefaultMovieVideoRemoteDataSource @Inject constructor(
-    private val executor: ApiServiceExecutor
+    private val executor: ApiServiceExecutor,
 ) : MovieVideoRemoteDataSource {
 
     override suspend fun getMovieVideos(movieId: Long): List<MovieVideoResponse> =

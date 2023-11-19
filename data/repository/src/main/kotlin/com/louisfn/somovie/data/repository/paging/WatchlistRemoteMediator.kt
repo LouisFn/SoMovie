@@ -16,11 +16,11 @@ internal class WatchlistRemoteMediator(
     private val remoteDataSource: WatchlistRemoteDataSource,
     private val movieMapper: MovieMapper,
     private val databaseHelper: DatabaseHelper,
-    private val accountId: Long
+    private val accountId: Long,
 ) : DefaultAppendRemoteMediator<Int, MovieEntity>(
     remoteKeyType = WATCH_LIST,
     remoteKeyLocalDataSource = remoteKeyLocalDataSource,
-    cacheTimeout = cacheTimeout
+    cacheTimeout = cacheTimeout,
 ) {
 
     override suspend fun fetchNewData(key: String?): Result {
@@ -40,7 +40,7 @@ internal class WatchlistRemoteMediator(
 
         return Result(
             nextKey = (page + 1).toString(),
-            endOfPaginationReached = response.totalPages == page
+            endOfPaginationReached = response.totalPages == page,
         )
     }
 }
