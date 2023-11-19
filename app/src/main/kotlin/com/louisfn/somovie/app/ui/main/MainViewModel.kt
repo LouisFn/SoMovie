@@ -61,11 +61,8 @@ internal class MainViewModel @Inject constructor(
 
     @AnyThread
     private fun createMainUiState(isRefreshing: Boolean) =
-        if (isRefreshing) {
-            MainUiState.Loading
-        } else {
-            MainUiState.Content
-        }
+        if (isRefreshing) MainUiState.Loading
+        else MainUiState.Content
 
     @AnyThread
     private suspend fun refreshAppData() {

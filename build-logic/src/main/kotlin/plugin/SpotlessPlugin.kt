@@ -33,6 +33,7 @@ class SpotlessPlugin : Plugin<Project> {
                                 "ktlint_standard_no-wildcard-imports" to "disabled",
                                 "ktlint_standard_filename" to "disabled",
                                 "ktlint_standard_property-naming" to "disabled",
+                                "ktlint_standard_multiline-if-else" to "disabled",
                             ),
                         )
                 }
