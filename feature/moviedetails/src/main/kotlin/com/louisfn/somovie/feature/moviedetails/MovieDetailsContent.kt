@@ -40,6 +40,8 @@ import com.louisfn.somovie.ui.theme.AppColor
 import com.louisfn.somovie.ui.theme.Dimens
 
 private const val OverviewCollapsedMaxLines = 4
+private val MoreInfoSectionSpace = 16.dp
+private val MoreInfoSectionBodySpace = 8.dp
 
 @Composable
 internal fun MovieDetailsScreen(
@@ -52,8 +54,8 @@ internal fun MovieDetailsScreen(
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(
-                horizontal = Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING,
-                vertical = Dimens.DEFAULT_SCREEN_VERTICAL_PADDING,
+                horizontal = Dimens.DefaultScreenHorizontalPadding,
+                vertical = Dimens.DefaultScreenVerticalPadding,
             ),
     ) {
         OverviewSection(overview = state.overview)
@@ -79,7 +81,7 @@ private fun ColumnScope.OverviewSection(overview: String) {
     var isButtonVisible by remember { mutableStateOf(true) }
 
     SectionText(text = stringResource(id = R.string.movie_details_about_section))
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))
 
     Text(
         text = overview,
@@ -109,7 +111,7 @@ private fun ColumnScope.OverviewSection(overview: String) {
         }
     }
 
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE - ButtonDefaults.TextButtonContentPadding.bottom))
+    Spacer(modifier = Modifier.height(MoreInfoSectionSpace - ButtonDefaults.TextButtonContentPadding.bottom))
 }
 
 @Composable
@@ -117,7 +119,7 @@ private fun ColumnScope.GenresFlowSection(genres: ImmutableList<MovieGenre>?) {
     genres ?: return
 
     SectionText(text = stringResource(id = R.string.movie_details_genres_section))
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))
     FlowRow {
         genres.forEach { genre ->
             Text(
@@ -132,13 +134,13 @@ private fun ColumnScope.GenresFlowSection(genres: ImmutableList<MovieGenre>?) {
             )
         }
     }
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionSpace))
 }
 
 @Composable
 private fun ColumnScope.MoreInfoSection(state: ContentUiState.Content) {
     SectionText(text = stringResource(id = R.string.movie_details_movie_info_section))
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))
     MoreInfoRowItem(
         title = stringResource(id = R.string.movie_details_movie_info_original_title),
         value = state.originalTitle,
@@ -161,7 +163,7 @@ private fun ColumnScope.MoreInfoSection(state: ContentUiState.Content) {
         title = stringResource(id = R.string.movie_details_movie_info_revenue),
         value = state.revenue,
     )
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionSpace))
 }
 
 @Composable
@@ -200,7 +202,7 @@ private fun ColumnScope.CastSection(cast: ImmutableList<Actor>?) {
         rememberVectorPainter(image = Icons.Sharp.AccountCircle, tintColor = AppColor.Gray)
 
     SectionText(text = stringResource(id = R.string.movie_details_movie_cast_section))
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))
     LazyRow(
         modifier = Modifier
             .requiredWidth(LocalConfiguration.current.screenWidthDp.dp),
@@ -233,7 +235,7 @@ private fun ColumnScope.CastSection(cast: ImmutableList<Actor>?) {
             }
         }
     }
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionSpace))
 }
 
 @Composable
@@ -241,16 +243,16 @@ private fun ColumnScope.VideosSection(videos: ImmutableList<YoutubeVideo>?) {
     videos ?: return
 
     SectionText(text = stringResource(id = R.string.movie_details_movie_videos_section))
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))
     LazyRow(
         Modifier
             .requiredWidth(LocalConfiguration.current.screenWidthDp.dp),
-        contentPadding = PaddingValues(horizontal = Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING),
+        contentPadding = PaddingValues(horizontal = Dimens.DefaultScreenHorizontalPadding),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(videos) { VideoItem(it) }
     }
-    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))
+    Spacer(modifier = Modifier.height(MoreInfoSectionSpace))
 }
 
 @Composable
@@ -266,7 +268,7 @@ private fun VideoItem(video: YoutubeVideo) {
         DefaultAsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(Dimens.YOUTUBE_THUMBNAIL_RATIO)
+                .aspectRatio(Dimens.YoutubeThumbnailRatio)
                 .clip(MaterialTheme.shapes.medium),
             model = video.thumbnailUrl,
         )

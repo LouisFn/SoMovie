@@ -144,7 +144,7 @@ private fun MovieDetailsHeaderContent(
         Box(
             modifier = Modifier
                 .width(108.dp)
-                .aspectRatio(Dimens.POSTER_RATIO)
+                .aspectRatio(Dimens.PosterRatio)
                 .constrainAs(poster) {
                     top.linkTo(backdropsPager.bottom)
                     bottom.linkTo(backdropsPager.bottom)

@@ -59,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.louisfn.somovie.domain.model.Movie
 import com.louisfn.somovie.feature.home.watchlist.WatchlistAction.ShowUndoSwipeToDismissSnackbar
@@ -180,11 +181,13 @@ internal fun WatchlistScreen(
                 onMovieClick = onMovieClick,
                 onMovieSwiped = onMovieSwiped,
             )
+
             is WatchlistUiState.AccountDisconnected ->
                 LogInContent(
                     logInManager = logInManager,
                     modifier = Modifier.fillMaxSize(),
                 )
+
             is WatchlistUiState.None -> Unit
         }
     }
@@ -229,10 +232,12 @@ private fun WatchlistContent(
                 modifier = Modifier.align(Alignment.Center),
                 onClick = pagingItems::retry,
             )
+
             ContentState.LOADING ->
                 IndeterminateProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
                 )
+
             else -> WatchlistLazyColumn(
                 pagingItems = pagingItems,
                 loadNextPageState = uiState.loadNextPageState,
@@ -266,6 +271,7 @@ private fun WatchlistLazyColumn(
         items(
             count = pagingItems.itemCount,
             key = pagingItems.itemKey(key = { it.movie.id }),
+            contentType = { pagingItems.itemContentType { } },
         ) { index ->
             val movieItem = pagingItems[index]
             Column {
@@ -318,7 +324,7 @@ private fun WatchlistMovieItemPlaceholder() {
         Box(
             modifier = Modifier
                 .fillMaxHeight()
-                .aspectRatio(Dimens.POSTER_RATIO)
+                .aspectRatio(Dimens.PosterRatio)
                 .background(MaterialTheme.colors.primary),
         )
 
@@ -431,7 +437,7 @@ private fun WatchlistMovieItemContent(movie: Movie, onClick: () -> Unit) {
         DefaultAsyncImage(
             modifier = Modifier
                 .fillMaxHeight()
-                .aspectRatio(Dimens.POSTER_RATIO),
+                .aspectRatio(Dimens.PosterRatio),
             model = movie.posterPath,
         )
 

@@ -21,10 +21,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.louisfn.somovie.domain.model.Movie
 import com.louisfn.somovie.ui.component.DefaultAsyncImage
-import com.louisfn.somovie.ui.theme.Dimens.POSTER_RATIO
+import com.louisfn.somovie.ui.theme.Dimens.PosterRatio
 import com.louisfn.somovie.ui.theme.customColors
 
-private val MOVIE_CARD_WIDTH = 96.dp
+private val MovieCardWidth = 96.dp
 
 @Composable
 fun MovieCard(
@@ -36,7 +36,7 @@ fun MovieCard(
     Box(
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
-            .width(MOVIE_CARD_WIDTH)
+            .width(MovieCardWidth)
             .clickable { showDetail(movie) },
     ) {
         Column(
@@ -47,7 +47,7 @@ fun MovieCard(
             DefaultAsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(POSTER_RATIO),
+                    .aspectRatio(PosterRatio),
                 model = movie.posterPath,
             )
             Text(
@@ -77,14 +77,14 @@ fun MovieCardPlaceholder(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
-            .width(MOVIE_CARD_WIDTH)
+            .width(MovieCardWidth)
             .padding(bottom = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(POSTER_RATIO)
+                .aspectRatio(PosterRatio)
                 .background(MaterialTheme.customColors.placeholder),
         ) {}
 

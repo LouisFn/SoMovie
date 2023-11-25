@@ -39,7 +39,7 @@ import com.louisfn.somovie.ui.component.DefaultTopAppBar
 import com.louisfn.somovie.ui.component.IndeterminateProgressIndicator
 import com.louisfn.somovie.ui.component.Retry
 import com.louisfn.somovie.ui.component.movie.MovieCard
-import com.louisfn.somovie.ui.theme.Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING
+import com.louisfn.somovie.ui.theme.Dimens.DefaultScreenHorizontalPadding
 import kotlinx.coroutines.launch
 import com.louisfn.somovie.ui.common.R as commonR
 
@@ -151,7 +151,7 @@ private fun Section(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = DEFAULT_SCREEN_HORIZONTAL_PADDING, end = 4.dp),
+            .padding(start = DefaultScreenHorizontalPadding, end = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = SpaceBetween,
     ) {
@@ -188,7 +188,7 @@ private fun MoviesLazyRow(
 
     LazyRow(
         state = lazyListState,
-        contentPadding = PaddingValues(horizontal = DEFAULT_SCREEN_HORIZONTAL_PADDING),
+        contentPadding = PaddingValues(horizontal = DefaultScreenHorizontalPadding),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(

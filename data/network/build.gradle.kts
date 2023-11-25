@@ -30,9 +30,9 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.moshiConverter)
     implementation(libs.hilt.core)
-    implementation(libs.flipper.network)
     implementation(libs.coroutines.android)
     implementation(libs.okhttp.logginInterceptor)
+    debugImplementation(libs.flipper.network)
 
     kapt(libs.hilt.android.compiler)
 }

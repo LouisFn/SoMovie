@@ -14,3 +14,8 @@
 
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
+
+# Retain service method parameters when optimizing.
+-keep,allowobfuscation,allowoptimization interface * {
+    @retrofit2.http.* <methods>;
+}

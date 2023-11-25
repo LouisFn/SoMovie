@@ -1,6 +1,10 @@
 package com.louisfn.somovie.feature.moviedetails
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -9,7 +13,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.material.icons.filled.PlaylistRemove
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LayoutCoordinates
@@ -30,9 +38,6 @@ import com.louisfn.somovie.ui.component.IndeterminateProgressIndicator
 import com.louisfn.somovie.ui.component.Retry
 import com.louisfn.somovie.ui.theme.AppTheme
 import java.time.Duration
-
-internal val MORE_INFO_SECTION_SPACE = 16.dp
-internal val MORE_INFO_SECTION_BODY_SPACE = 8.dp
 
 @Composable
 internal fun MovieDetailsScreen(

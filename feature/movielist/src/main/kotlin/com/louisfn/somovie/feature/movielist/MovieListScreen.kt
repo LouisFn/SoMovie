@@ -22,11 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.louisfn.somovie.domain.model.Movie
 import com.louisfn.somovie.feature.movielist.MovieListUiState.LoadNextPageState
 import com.louisfn.somovie.ui.common.extension.PagingItemsLoadStateErrorEffect
 import com.louisfn.somovie.ui.common.extension.collectAsStateLifecycleAware
-import com.louisfn.somovie.ui.common.extension.items
 import com.louisfn.somovie.ui.common.extension.plus
 import com.louisfn.somovie.ui.common.util.ExploreCategoryUiHelper.canDisplayVotes
 import com.louisfn.somovie.ui.common.util.ExploreCategoryUiHelper.label
@@ -35,8 +36,8 @@ import com.louisfn.somovie.ui.component.IndeterminateProgressIndicator
 import com.louisfn.somovie.ui.component.TextRetryButton
 import com.louisfn.somovie.ui.component.movie.MovieCard
 import com.louisfn.somovie.ui.component.movie.MovieCardPlaceholder
-import com.louisfn.somovie.ui.theme.Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING
-import com.louisfn.somovie.ui.theme.Dimens.DEFAULT_SCREEN_VERTICAL_PADDING
+import com.louisfn.somovie.ui.theme.Dimens.DefaultScreenHorizontalPadding
+import com.louisfn.somovie.ui.theme.Dimens.DefaultScreenVerticalPadding
 
 private const val MovieGridNbrColumn = 3
 
@@ -112,14 +113,16 @@ private fun MovieListLazyGrid(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = contentPadding + PaddingValues(
-            horizontal = DEFAULT_SCREEN_HORIZONTAL_PADDING,
-            vertical = DEFAULT_SCREEN_VERTICAL_PADDING,
+            horizontal = DefaultScreenHorizontalPadding,
+            vertical = DefaultScreenVerticalPadding,
         ),
     ) {
         items(
-            lazyPagingItems = pagingItems,
-            key = { it.id },
-        ) { movie ->
+            count = pagingItems.itemCount,
+            key = pagingItems.itemKey { it.id },
+            contentType = pagingItems.itemContentType {},
+        ) { index ->
+            val movie = pagingItems[index]
             if (movie != null) {
                 MovieCard(
                     movie = movie,
