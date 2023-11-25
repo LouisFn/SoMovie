@@ -1,9 +1,12 @@
 package plugin.util
 
 import AppConfig
+import androidTestImplementation
 import com.android.build.api.dsl.CommonExtension
+import getLibsVersionCatalog
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 internal fun Project.configureAndroid(
     commonExtension: CommonExtension<*, *, *, *, *>,
@@ -35,5 +38,9 @@ internal fun Project.configureAndroid(
                 enableAndroidTestCoverage = true
             }
         }
+    }
+    dependencies {
+        val libs = getLibsVersionCatalog()
+        androidTestImplementation(libs.findLibrary("androidx.test.runner").get())
     }
 }

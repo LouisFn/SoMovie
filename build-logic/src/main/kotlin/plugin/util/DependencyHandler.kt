@@ -40,7 +40,6 @@ fun DependencyHandler.androidTest(libs: VersionCatalog) {
     androidTestImplementation(project(":test:fixtures"))
 
     androidTestImplementation(libs.findLibrary("androidx.test.ext.junit").get())
-    androidTestImplementation(libs.findLibrary("androidx.test.runner").get())
     androidTestImplementation(libs.findLibrary("androidx.test.core").get())
     androidTestImplementation(libs.findLibrary("kotest.assertions.core").get())
     androidTestImplementation(libs.findLibrary("coroutines.test").get())
