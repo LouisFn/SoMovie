@@ -129,12 +129,15 @@ jobs:
           disable-animations: true
           script: ./gradlew connectedDebugAndroidTest
 
+      - name: Delete xml files without tests
+        run: find . -type f -path '**/build/outputs/androidTest-results/connected/debug/TEST-*.xml' -exec grep -q 'tests="0"' {} \; -exec rm -f {} \;
+
       - name: Generate android test results
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
           name: Android test results
-          path: '**/build/outputs/androidTest-results/connected/TEST-*.xml'
+          path: '**/build/outputs/androidTest-results/connected/debug/TEST-*.xml'
           reporter: java-junit
           fail-on-error: false
 

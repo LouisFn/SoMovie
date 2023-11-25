@@ -115,7 +115,7 @@ jobs:
         if: success() || failure()
         with:
           name: Android test results
-          path: '**/build/outputs/androidTest-results/connected/TEST-*.xml'
+          path: '**/build/outputs/androidTest-results/connected/release/TEST-*.xml'
           reporter: java-junit
           fail-on-error: false
 
