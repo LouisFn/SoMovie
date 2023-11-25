@@ -13,7 +13,7 @@ import kotlinx.coroutines.sync.withLock
 <span class="pc" id="L13">    var movies: List&lt;MovieResponse&gt;,</span>
 <span class="pc" id="L14">    var accountId: Long,</span>
 <span class="fc" id="L15">    private val fakeWebServer: FakeWebServer,</span>
-<span class="fc" id="L16">    private val nbrOfResultsByPage: Int = DEFAULT_NBR_OF_RESULTS_BY_PAGE</span>
+<span class="fc" id="L16">    private val nbrOfResultsByPage: Int = DEFAULT_NBR_OF_RESULTS_BY_PAGE,</span>
 ) : WatchlistRemoteDataSource {
 
 <span class="fc" id="L19">    private val paginatedWatchlist = mutableListOf&lt;MutableList&lt;MovieResponse&gt;&gt;()</span>
@@ -21,7 +21,7 @@ import kotlinx.coroutines.sync.withLock
 
     override suspend fun getWatchList(
         accountId: Long,
-        page: Int
+        page: Int,
     ): PaginatedResultsResponse&lt;MovieResponse&gt; =
 <span class="fc" id="L26">        mutex.withLock {</span>
 <span class="fc" id="L27">            fakeWebServer.execute()</span>
@@ -32,7 +32,7 @@ import kotlinx.coroutines.sync.withLock
 <span class="fc bfc" id="L32" title="All 2 branches covered.">                totalResults = paginatedWatchlist.sumOf { it.size },</span>
 <span class="fc" id="L33">                totalPages = paginatedWatchlist.size,</span>
 <span class="fc" id="L34">                page = page,</span>
-<span class="fc" id="L35">                results = paginatedWatchlist[page - 1]</span>
+<span class="fc" id="L35">                results = paginatedWatchlist[page - 1],</span>
             )
 <span class="fc" id="L37">        }</span>
 

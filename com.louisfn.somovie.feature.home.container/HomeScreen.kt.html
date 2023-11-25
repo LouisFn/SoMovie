@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HomeScreen.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SoMovie</a> &gt; <a href="index.source.html" class="el_package">com.louisfn.somovie.feature.home.container</a> &gt; <span class="el_source">HomeScreen.kt</span></div><h1>HomeScreen.kt</h1><pre class="source lang-java linenums">package com.louisfn.somovie.feature.home.container
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,7 +21,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.ui.BottomNavigation
 import com.louisfn.somovie.core.logger.Logger
 import com.louisfn.somovie.domain.model.ExploreCategory
 import com.louisfn.somovie.domain.model.Movie
@@ -36,103 +34,99 @@ import com.louisfn.somovie.feature.home.watchlist.watchListGraph
 @Composable
 internal fun HomeScreen(
     showDetails: (Movie) -&gt; Unit,
-    showMore: (ExploreCategory) -&gt; Unit
-<span class="nc bnc" id="L40" title="All 14 branches missed.">) {</span>
-<span class="nc" id="L41">    Logger.v(&quot;Navigation - HomeScreen&quot;)</span>
-<span class="nc" id="L42">    val navController = rememberNavController()</span>
-<span class="nc" id="L43">    val homeItemState = rememberHomeItemState()</span>
+    showMore: (ExploreCategory) -&gt; Unit,
+<span class="nc bnc" id="L38" title="All 14 branches missed.">) {</span>
+<span class="nc" id="L39">    Logger.v(&quot;Navigation - HomeScreen&quot;)</span>
+<span class="nc" id="L40">    val navController = rememberNavController()</span>
+<span class="nc" id="L41">    val homeItemState = rememberHomeItemState()</span>
 
-<span class="nc" id="L45">    Column {</span>
-<span class="nc bnc" id="L46" title="All 4 branches missed.">        Box(</span>
-<span class="nc" id="L47">            modifier = Modifier</span>
-<span class="nc" id="L48">                .weight(1f)</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    Scaffold(</span>
+<span class="nc" id="L44">        modifier = Modifier.systemBarsPadding(),</span>
+<span class="nc" id="L45">        bottomBar = {</span>
+<span class="nc bnc" id="L46" title="All 8 branches missed.">            BottomBar(</span>
+<span class="nc" id="L47">                navController = navController,</span>
+<span class="nc" id="L48">                homeItemState = homeItemState,</span>
+<span class="nc" id="L49">            )</span>
+<span class="nc" id="L50">        },</span>
+<span class="nc" id="L51">    ) {</span>
+<span class="nc bnc" id="L52" title="All 8 branches missed.">        NavHost(</span>
+<span class="nc" id="L53">            modifier = Modifier.fillMaxSize().padding(it),</span>
+<span class="nc" id="L54">            navController = navController,</span>
+<span class="nc" id="L55">            startDestination = HomeBottomSheetItem.Explore.destination.route,</span>
         ) {
-<span class="nc bnc" id="L50" title="All 4 branches missed.">            NavHost(</span>
-<span class="nc" id="L51">                modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L52">                navController = navController,</span>
-<span class="nc" id="L53">                startDestination = HomeBottomSheetItem.Explore.destination.route</span>
-            ) {
-<span class="nc" id="L55">                exploreGraph(</span>
-<span class="nc" id="L56">                    homeItemState = homeItemState,</span>
-<span class="nc" id="L57">                    showDetail = showDetails,</span>
-<span class="nc" id="L58">                    showMore = showMore</span>
-                )
-<span class="nc" id="L60">                watchListGraph(</span>
-<span class="nc" id="L61">                    showDetails = showDetails</span>
-                )
-<span class="nc" id="L63">                discoverGraph(</span>
-<span class="nc" id="L64">                    showAccount = { navController.navigate(HomeBottomSheetItem.Account) }</span>
-                )
-<span class="nc" id="L66">                accountGraph()</span>
-<span class="nc" id="L67">            }</span>
-<span class="nc" id="L68">        }</span>
-<span class="nc" id="L69">        BottomBar(</span>
-<span class="nc" id="L70">            navController = navController,</span>
-<span class="nc" id="L71">            homeItemState = homeItemState</span>
-<span class="nc" id="L72">        )</span>
-<span class="nc" id="L73">    }</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">}</span>
+<span class="nc" id="L57">            exploreGraph(</span>
+<span class="nc" id="L58">                homeItemState = homeItemState,</span>
+<span class="nc" id="L59">                showDetail = showDetails,</span>
+<span class="nc" id="L60">                showMore = showMore,</span>
+            )
+<span class="nc" id="L62">            watchListGraph(</span>
+<span class="nc" id="L63">                showDetails = showDetails,</span>
+            )
+<span class="nc" id="L65">            discoverGraph(</span>
+<span class="nc" id="L66">                showAccount = { navController.navigate(HomeBottomSheetItem.Account) },</span>
+            )
+<span class="nc" id="L68">            accountGraph()</span>
+<span class="nc" id="L69">        }</span>
+<span class="nc" id="L70">    }</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">}</span>
 
 @Composable
 private fun BottomBar(
     navController: NavController,
-    homeItemState: HomeItemState
-<span class="nc bnc" id="L80" title="All 2 branches missed.">) {</span>
-<span class="nc" id="L81">    val navBackStackEntry by navController.currentBackStackEntryAsState()</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">    val currentDestination = navBackStackEntry?.destination</span>
+    homeItemState: HomeItemState,
+<span class="nc bnc" id="L77" title="All 2 branches missed.">) {</span>
+<span class="nc" id="L78">    val navBackStackEntry by navController.currentBackStackEntryAsState()</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    val currentDestination = navBackStackEntry?.destination</span>
 
-<span class="nc bnc" id="L84" title="All 4 branches missed.">    BottomBar(</span>
-<span class="nc" id="L85">        currentDestination = currentDestination,</span>
+<span class="nc bnc" id="L81" title="All 4 branches missed.">    BottomBar(</span>
+<span class="nc" id="L82">        currentDestination = currentDestination,</span>
         onItemClick = { item -&gt;
-<span class="nc bnc" id="L87" title="All 4 branches missed.">            if (item.destination.route != currentDestination?.route) {</span>
-<span class="nc" id="L88">                navController.navigate(item)</span>
+<span class="nc bnc" id="L84" title="All 4 branches missed.">            if (item.destination.route != currentDestination?.route) {</span>
+<span class="nc" id="L85">                navController.navigate(item)</span>
             } else {
-<span class="nc" id="L90">                homeItemState.homeItemReselect()</span>
+<span class="nc" id="L87">                homeItemState.homeItemReselect()</span>
             }
-<span class="nc" id="L92">        }</span>
+<span class="nc" id="L89">        },</span>
     )
-<span class="nc" id="L94">}</span>
+<span class="nc" id="L91">}</span>
 
 @Composable
 private fun BottomBar(
     currentDestination: NavDestination?,
-    onItemClick: (HomeBottomSheetItem) -&gt; Unit
-<span class="nc bnc" id="L100" title="All 2 branches missed.">) {</span>
-<span class="nc bnc" id="L101" title="All 4 branches missed.">    BottomNavigation(</span>
-<span class="nc" id="L102">        contentPadding = WindowInsets.navigationBars.asPaddingValues(),</span>
-<span class="nc" id="L103">        elevation = 0.dp</span>
-<span class="nc" id="L104">    ) {</span>
-<span class="nc bnc" id="L105" title="All 6 branches missed.">        HomeBottomSheetItems.forEach { item -&gt;</span>
-<span class="nc" id="L106">            BottomNavigationItem(</span>
-<span class="nc" id="L107">                item = item,</span>
-<span class="nc" id="L108">                currentDestination = currentDestination,</span>
-<span class="nc" id="L109">                onItemClick = onItemClick</span>
+    onItemClick: (HomeBottomSheetItem) -&gt; Unit,
+<span class="nc bnc" id="L97" title="All 2 branches missed.">) {</span>
+<span class="nc bnc" id="L98" title="All 4 branches missed.">    BottomNavigation(elevation = 0.dp) {</span>
+<span class="nc bnc" id="L99" title="All 6 branches missed.">        HomeBottomSheetItems.forEach { item -&gt;</span>
+<span class="nc" id="L100">            BottomNavigationItem(</span>
+<span class="nc" id="L101">                item = item,</span>
+<span class="nc" id="L102">                currentDestination = currentDestination,</span>
+<span class="nc" id="L103">                onItemClick = onItemClick,</span>
             )
-<span class="nc" id="L111">        }</span>
-<span class="nc" id="L112">    }</span>
-<span class="nc" id="L113">}</span>
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">    }</span>
+<span class="nc" id="L107">}</span>
 
 @Composable
 private fun RowScope.BottomNavigationItem(
     item: HomeBottomSheetItem,
     currentDestination: NavDestination?,
-    onItemClick: (HomeBottomSheetItem) -&gt; Unit
-<span class="nc bnc" id="L120" title="All 2 branches missed.">) {</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">    val isCurrentDestination = currentDestination?.route == item.destination.route</span>
-<span class="nc bnc" id="L122" title="All 4 branches missed.">    BottomNavigationItem(</span>
-<span class="nc bnc" id="L123" title="All 8 branches missed.">        label = { Text(stringResource(id = item.titleId)) },</span>
-<span class="nc bnc" id="L124" title="All 8 branches missed.">        icon = { Icon(item.icon, contentDescription = null) },</span>
-<span class="nc" id="L125">        selected = isCurrentDestination,</span>
-<span class="nc" id="L126">        onClick = { onItemClick(item) },</span>
-<span class="nc" id="L127">        selectedContentColor = MaterialTheme.colors.secondary,</span>
-<span class="nc" id="L128">        unselectedContentColor = MaterialTheme.colors.onPrimary</span>
+    onItemClick: (HomeBottomSheetItem) -&gt; Unit,
+<span class="nc bnc" id="L114" title="All 2 branches missed.">) {</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">    val isCurrentDestination = currentDestination?.route == item.destination.route</span>
+<span class="nc bnc" id="L116" title="All 4 branches missed.">    BottomNavigationItem(</span>
+<span class="nc bnc" id="L117" title="All 8 branches missed.">        label = { Text(stringResource(id = item.titleId)) },</span>
+<span class="nc bnc" id="L118" title="All 8 branches missed.">        icon = { Icon(item.icon, contentDescription = null) },</span>
+<span class="nc" id="L119">        selected = isCurrentDestination,</span>
+<span class="nc" id="L120">        onClick = { onItemClick(item) },</span>
+<span class="nc" id="L121">        selectedContentColor = MaterialTheme.colors.secondary,</span>
+<span class="nc" id="L122">        unselectedContentColor = MaterialTheme.colors.onPrimary,</span>
     )
-<span class="nc" id="L130">}</span>
+<span class="nc" id="L124">}</span>
 
 private fun NavController.navigate(item: HomeBottomSheetItem) {
-<span class="nc" id="L133">    navigate(item.destination.route) {</span>
-<span class="nc" id="L134">        popUpTo(graph.findStartDestination().id)</span>
-<span class="nc" id="L135">        launchSingleTop = true</span>
-<span class="nc" id="L136">    }</span>
-<span class="nc" id="L137">}</span>
+<span class="nc" id="L127">    navigate(item.destination.route) {</span>
+<span class="nc" id="L128">        popUpTo(graph.findStartDestination().id)</span>
+<span class="nc" id="L129">        launchSingleTop = true</span>
+<span class="nc" id="L130">    }</span>
+<span class="nc" id="L131">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -21,7 +21,7 @@ interface RemoteKeyLocalDataSource {
 
 <span class="nc" id="L22">internal class DefaultRemoteKeyLocalDataSource @Inject constructor(</span>
 <span class="nc" id="L23">    private val database: AppDatabase,</span>
-<span class="nc" id="L24">    private val dateTimeProvider: DateTimeProvider</span>
+<span class="nc" id="L24">    private val dateTimeProvider: DateTimeProvider,</span>
 ) : RemoteKeyLocalDataSource {
 
     override suspend fun getRemoteKey(type: RemoteKeyEntity.Type): RemoteKeyEntity? =
@@ -33,12 +33,12 @@ interface RemoteKeyLocalDataSource {
     override suspend fun updateNextKey(type: RemoteKeyEntity.Type, nextKey: String, reset: Boolean) {
 <span class="nc" id="L34">        with(database.remoteKeyDao()) {</span>
 <span class="nc bnc" id="L35" title="All 2 branches missed.">            if (reset) {</span>
-<span class="nc" id="L36">                insertOrReplace(</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                insertOrReplace(</span>
 <span class="nc" id="L37">                    RemoteKeyEntity(</span>
 <span class="nc" id="L38">                        type = type,</span>
 <span class="nc" id="L39">                        nextKey = nextKey,</span>
-<span class="nc" id="L40">                        firstFetchAt = dateTimeProvider.now()</span>
-                    )
+<span class="nc" id="L40">                        firstFetchAt = dateTimeProvider.now(),</span>
+                    ),
                 )
             } else {
 <span class="nc" id="L44">                updateNextKey(type, nextKey)</span>

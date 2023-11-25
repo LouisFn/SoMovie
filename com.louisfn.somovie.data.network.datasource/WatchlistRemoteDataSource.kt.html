@@ -17,7 +17,7 @@ interface WatchlistRemoteDataSource {
 }
 
 <span class="nc" id="L19">internal class DefaultWatchlistRemoteDataSource @Inject constructor(</span>
-<span class="nc" id="L20">    private val apiServiceExecutor: ApiServiceExecutor</span>
+<span class="nc" id="L20">    private val apiServiceExecutor: ApiServiceExecutor,</span>
 ) : WatchlistRemoteDataSource {
 
     override suspend fun addToWatchlist(accountId: Long, addToWatchlistBody: AddToWatchlistBody) {

@@ -48,7 +48,7 @@ internal fun ExploreScreen(
     homeItemState: HomeItemState,
     showDetail: (Movie) -&gt; Unit,
     showMore: (ExploreCategory) -&gt; Unit,
-<span class="nc" id="L51">    viewModel: ExploreViewModel = hiltViewModel()</span>
+<span class="nc" id="L51">    viewModel: ExploreViewModel = hiltViewModel(),</span>
 <span class="nc bnc" id="L52" title="All 32 branches missed.">) {</span>
 <span class="nc" id="L53">    val state by viewModel.uiState.collectAsStateLifecycleAware()</span>
 
@@ -57,7 +57,7 @@ internal fun ExploreScreen(
 <span class="nc" id="L57">        state = state,</span>
 <span class="nc" id="L58">        showDetail = showDetail,</span>
 <span class="nc" id="L59">        showMore = showMore,</span>
-<span class="nc" id="L60">        retry = viewModel::refresh</span>
+<span class="nc" id="L60">        retry = viewModel::refresh,</span>
     )
 <span class="nc bnc" id="L62" title="All 2 branches missed.">}</span>
 
@@ -67,24 +67,24 @@ private fun ExploreScreen(
     homeItemState: HomeItemState,
     showDetail: (Movie) -&gt; Unit,
     showMore: (ExploreCategory) -&gt; Unit,
-    retry: () -&gt; Unit
+    retry: () -&gt; Unit,
 <span class="nc bnc" id="L71" title="All 26 branches missed.">) {</span>
 <span class="nc bnc" id="L72" title="All 2 branches missed.">    Scaffold(</span>
 <span class="nc" id="L73">        modifier = Modifier.statusBarsPadding(),</span>
-<span class="nc bnc" id="L74" title="All 8 branches missed.">        topBar = { DefaultTopAppBar(text = stringResource(id = commonR.string.home_explore)) }</span>
+<span class="nc bnc" id="L74" title="All 8 branches missed.">        topBar = { DefaultTopAppBar(text = stringResource(id = commonR.string.home_explore)) },</span>
 <span class="nc" id="L75">    ) {</span>
 <span class="nc bnc" id="L76" title="All 6 branches missed.">        Box(</span>
 <span class="nc" id="L77">            modifier = Modifier</span>
 <span class="nc" id="L78">                .padding(it)</span>
-<span class="nc" id="L79">                .fillMaxSize()</span>
+<span class="nc" id="L79">                .fillMaxSize(),</span>
         ) {
-<span class="nc bnc" id="L81" title="All 4 branches missed.">            ExploreContent(</span>
+<span class="nc" id="L81">            ExploreContent(</span>
 <span class="nc" id="L82">                homeItemState = homeItemState,</span>
 <span class="nc" id="L83">                state = state,</span>
 <span class="nc" id="L84">                showDetail = showDetail,</span>
 <span class="nc" id="L85">                showMore = showMore,</span>
-<span class="nc" id="L86">                retry = retry</span>
-<span class="nc" id="L87">            )</span>
+<span class="nc" id="L86">                retry = retry,</span>
+            )
 <span class="nc" id="L88">        }</span>
 <span class="nc" id="L89">    }</span>
 <span class="nc bnc" id="L90" title="All 2 branches missed.">}</span>
@@ -95,22 +95,22 @@ private fun BoxScope.ExploreContent(
     homeItemState: HomeItemState,
     showDetail: (Movie) -&gt; Unit,
     showMore: (ExploreCategory) -&gt; Unit,
-    retry: () -&gt; Unit
+    retry: () -&gt; Unit,
 <span class="nc bnc" id="L99" title="All 30 branches missed.">) {</span>
 <span class="nc" id="L100">    when (state) {</span>
 <span class="nc bnc" id="L101" title="All 2 branches missed.">        is ExploreUiState.Loading -&gt;</span>
 <span class="nc" id="L102">            IndeterminateProgressIndicator(</span>
-<span class="nc" id="L103">                modifier = Modifier.align(Alignment.Center)</span>
+<span class="nc" id="L103">                modifier = Modifier.align(Alignment.Center),</span>
             )
 <span class="nc bnc" id="L105" title="All 2 branches missed.">        is ExploreUiState.Retry -&gt; Retry(</span>
 <span class="nc" id="L106">            modifier = Modifier.align(Alignment.Center),</span>
-<span class="nc" id="L107">            onClick = retry</span>
+<span class="nc" id="L107">            onClick = retry,</span>
         )
 <span class="nc bnc" id="L109" title="All 2 branches missed.">        is ExploreUiState.Explore -&gt; ExploreLazyColumn(</span>
 <span class="nc" id="L110">            homeItemState = homeItemState,</span>
 <span class="nc" id="L111">            moviesByCategory = state.movies,</span>
 <span class="nc" id="L112">            showDetail = showDetail,</span>
-<span class="nc" id="L113">            showMore = showMore</span>
+<span class="nc" id="L113">            showMore = showMore,</span>
         )
 <span class="nc bnc" id="L115" title="All 2 branches missed.">        is ExploreUiState.None -&gt; Unit</span>
 <span class="nc bnc" id="L116" title="All 2 branches missed.">    }</span>
@@ -121,14 +121,14 @@ private fun ExploreLazyColumn(
     homeItemState: HomeItemState,
     moviesByCategory: ImmutableList&lt;Pair&lt;ExploreCategory, ImmutableList&lt;Movie&gt;&gt;&gt;,
     showDetail: (Movie) -&gt; Unit,
-    showMore: (ExploreCategory) -&gt; Unit
+    showMore: (ExploreCategory) -&gt; Unit,
 <span class="nc bnc" id="L125" title="All 22 branches missed.">) {</span>
 <span class="nc bnc" id="L126" title="All 2 branches missed.">    LazyColumn(</span>
-<span class="nc" id="L127">        contentPadding = PaddingValues(bottom = 16.dp)</span>
+<span class="nc" id="L127">        contentPadding = PaddingValues(bottom = 16.dp),</span>
     ) {
 <span class="nc" id="L129">        items(</span>
 <span class="nc" id="L130">            items = moviesByCategory,</span>
-<span class="nc" id="L131">            key = { it.first.ordinal }</span>
+<span class="nc" id="L131">            key = { it.first.ordinal },</span>
         ) { (section, movies) -&gt;
             Column {
                 Section(exploreCategory = section, showMore = showMore)
@@ -136,7 +136,7 @@ private fun ExploreLazyColumn(
                     homeItemState = homeItemState,
                     movies = movies,
                     showVotes = section.canDisplayVotes,
-                    showDetail = showDetail
+                    showDetail = showDetail,
                 )
             }
         }
@@ -146,23 +146,23 @@ private fun ExploreLazyColumn(
 @Composable
 private fun Section(
     exploreCategory: ExploreCategory,
-    showMore: (ExploreCategory) -&gt; Unit
+    showMore: (ExploreCategory) -&gt; Unit,
 <span class="nc bnc" id="L150" title="All 14 branches missed.">) {</span>
 <span class="nc" id="L151">    Row(</span>
 <span class="nc" id="L152">        modifier = Modifier</span>
 <span class="nc" id="L153">            .fillMaxWidth()</span>
 <span class="nc" id="L154">            .padding(start = DEFAULT_SCREEN_HORIZONTAL_PADDING, end = 4.dp),</span>
 <span class="nc" id="L155">        verticalAlignment = Alignment.CenterVertically,</span>
-<span class="nc" id="L156">        horizontalArrangement = SpaceBetween</span>
+<span class="nc" id="L156">        horizontalArrangement = SpaceBetween,</span>
     ) {
-<span class="nc bnc" id="L158" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L158">        Text(</span>
 <span class="nc" id="L159">            text = exploreCategory.label,</span>
-<span class="nc" id="L160">            style = MaterialTheme.typography.h6</span>
+<span class="nc" id="L160">            style = MaterialTheme.typography.h6,</span>
         )
 <span class="nc" id="L162">        DefaultTextButton(</span>
 <span class="nc" id="L163">            text = stringResource(commonR.string.explore_section_show_more),</span>
-<span class="nc" id="L164">            onClick = { showMore(exploreCategory) }</span>
-<span class="nc" id="L165">        )</span>
+<span class="nc" id="L164">            onClick = { showMore(exploreCategory) },</span>
+        )
 <span class="nc" id="L166">    }</span>
 <span class="nc bnc" id="L167" title="All 2 branches missed.">}</span>
 
@@ -171,7 +171,7 @@ private fun MoviesLazyRow(
     homeItemState: HomeItemState,
     movies: ImmutableList&lt;Movie&gt;,
     showVotes: Boolean,
-    showDetail: (Movie) -&gt; Unit
+    showDetail: (Movie) -&gt; Unit,
 <span class="nc bnc" id="L175" title="All 22 branches missed.">) {</span>
 <span class="nc" id="L176">    val lazyListState = rememberLazyListState()</span>
 <span class="nc" id="L177">    val coroutineScope = rememberCoroutineScope()</span>
@@ -189,16 +189,16 @@ private fun MoviesLazyRow(
 <span class="nc bnc" id="L189" title="All 2 branches missed.">    LazyRow(</span>
 <span class="nc" id="L190">        state = lazyListState,</span>
 <span class="nc" id="L191">        contentPadding = PaddingValues(horizontal = DEFAULT_SCREEN_HORIZONTAL_PADDING),</span>
-<span class="nc" id="L192">        horizontalArrangement = Arrangement.spacedBy(12.dp)</span>
+<span class="nc" id="L192">        horizontalArrangement = Arrangement.spacedBy(12.dp),</span>
 <span class="nc" id="L193">    ) {</span>
 <span class="nc" id="L194">        items(</span>
 <span class="nc" id="L195">            items = movies,</span>
-<span class="nc" id="L196">            key = { it.id }</span>
+<span class="nc" id="L196">            key = { it.id },</span>
         ) { movie -&gt;
             MovieCard(
                 movie = movie,
                 showDetail = showDetail,
-                showVotes = showVotes
+                showVotes = showVotes,
             )
         }
 <span class="nc" id="L204">    }</span>

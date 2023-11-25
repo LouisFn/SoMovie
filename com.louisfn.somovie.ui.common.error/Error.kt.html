@@ -8,7 +8,7 @@ interface Error {
 
 <span class="nc" id="L9">data class SimpleMessageError(</span>
 <span class="nc" id="L10">    val message: String,</span>
-<span class="nc" id="L11">    override val duration: Long = SECONDS.toMillis(DEFAULT_DURATION_IN_SEC)</span>
+<span class="nc" id="L11">    override val duration: Long = SECONDS.toMillis(DEFAULT_DURATION_IN_SEC),</span>
 ) : Error {
 
     companion object {

@@ -7,7 +7,7 @@ internal object OkHttpClientFactory {
 
     fun create(
         applicationInterceptors: Set&lt;Interceptor&gt;,
-        networkInterceptors: Set&lt;Interceptor&gt;
+        networkInterceptors: Set&lt;Interceptor&gt;,
     ): OkHttpClient =
         OkHttpClient
 <span class="nc" id="L13">            .Builder()</span>

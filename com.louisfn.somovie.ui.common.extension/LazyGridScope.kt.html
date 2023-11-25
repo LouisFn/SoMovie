@@ -10,19 +10,21 @@ import androidx.paging.compose.LazyPagingItems
 <span class="nc" id="L10">fun &lt;T : Any&gt; LazyGridScope.items(</span>
     lazyPagingItems: LazyPagingItems&lt;T&gt;,
 <span class="nc" id="L12">    key: ((item: T) -&gt; Any)? = null,</span>
-    itemContent: @Composable LazyGridItemScope.(value: T?) -&gt; Unit
+    itemContent: @Composable LazyGridItemScope.(value: T?) -&gt; Unit,
 ) {
 <span class="nc" id="L15">    items(</span>
 <span class="nc" id="L16">        count = lazyPagingItems.itemCount,</span>
 <span class="nc bnc" id="L17" title="All 2 branches missed.">        key = if (key == null) {</span>
 <span class="nc" id="L18">            null</span>
-        } else { index -&gt;
-<span class="nc bnc" id="L20" title="All 2 branches missed.">            lazyPagingItems.peek(index)</span>
-<span class="nc bnc" id="L21" title="All 2 branches missed.">                ?.let { key(it) }</span>
-<span class="nc" id="L22">                ?: index</span>
-        }
-<span class="nc" id="L24">    ) { index -&gt;</span>
-<span class="nc bnc" id="L25" title="All 8 branches missed.">        itemContent(lazyPagingItems[index])</span>
-<span class="nc" id="L26">    }</span>
-<span class="nc" id="L27">}</span>
+        } else {
+            { index -&gt;
+<span class="nc bnc" id="L21" title="All 2 branches missed.">                lazyPagingItems.peek(index)</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">                    ?.let { key(it) }</span>
+<span class="nc" id="L23">                    ?: index</span>
+            }
+        },
+<span class="nc" id="L26">    ) { index -&gt;</span>
+<span class="nc bnc" id="L27" title="All 8 branches missed.">        itemContent(lazyPagingItems[index])</span>
+<span class="nc" id="L28">    }</span>
+<span class="nc" id="L29">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

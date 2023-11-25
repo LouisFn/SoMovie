@@ -13,7 +13,7 @@ internal sealed interface DiscoverUiState {
 
 <span class="nc" id="L14">    data class Discover(</span>
 <span class="nc" id="L15">        val items: ImmutableList&lt;MovieItem&gt;,</span>
-<span class="nc" id="L16">        val logInSnackbarState: LogInSnackbarState</span>
+<span class="nc" id="L16">        val logInSnackbarState: LogInSnackbarState,</span>
     ) : DiscoverUiState {
         enum class LogInSnackbarState {
 <span class="nc" id="L19">            VISIBLE,</span>
@@ -25,7 +25,7 @@ internal sealed interface DiscoverUiState {
 <span class="nc" id="L25">    data class MovieItem(</span>
 <span class="nc" id="L26">        val id: Long,</span>
 <span class="nc" id="L27">        val title: String,</span>
-<span class="nc" id="L28">        val posterPath: PosterPath</span>
+<span class="nc" id="L28">        val posterPath: PosterPath,</span>
     )
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

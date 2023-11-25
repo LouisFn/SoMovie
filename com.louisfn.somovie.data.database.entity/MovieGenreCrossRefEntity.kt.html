@@ -16,20 +16,20 @@ import com.louisfn.somovie.data.database.TABLE_MOVIE_GENRE
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
             entity = GenreEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_GENRE_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 <span class="nc" id="L29">data class MovieGenreCrossRefEntity(</span>
 <span class="nc" id="L30">    @ColumnInfo(name = COLUMN_FK_MOVIE_ID, index = true)</span>
 <span class="nc" id="L31">    val movieId: Long,</span>
 <span class="nc" id="L32">    @ColumnInfo(name = COLUMN_FK_GENRE_ID, index = true)</span>
-<span class="nc" id="L33">    val genreId: Long</span>
+<span class="nc" id="L33">    val genreId: Long,</span>
 )
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

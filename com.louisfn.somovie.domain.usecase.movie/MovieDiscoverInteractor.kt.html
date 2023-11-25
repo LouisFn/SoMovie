@@ -9,7 +9,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 <span class="nc" id="L11">class MovieDiscoverInteractor @Inject constructor(</span>
-<span class="nc" id="L12">    private val movieDiscoverRepository: MovieDiscoverRepository</span>
+<span class="nc" id="L12">    private val movieDiscoverRepository: MovieDiscoverRepository,</span>
 ) {
 
     @AnyThread
@@ -19,7 +19,7 @@ import kotlin.random.Random
 <span class="nc" id="L19">            sortByDirection = MovieDiscoverSortByDirection.DESC,</span>
 <span class="nc" id="L20">            minVoteCount = MIN_VOTE_COUNT,</span>
 <span class="nc" id="L21">            minVoteAverage = MIN_VOTE_AVERAGE,</span>
-<span class="nc" id="L22">            page = Random.nextInt(1, MAX_PAGE)</span>
+<span class="nc" id="L22">            page = Random.nextInt(1, MAX_PAGE),</span>
 <span class="nc" id="L23">        )</span>
 
     // Hardcoded values to simulate a list of pseudo-random discoveries

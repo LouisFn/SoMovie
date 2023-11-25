@@ -38,7 +38,7 @@ interface MovieLocalDataSource {
 
 <span class="nc" id="L39">internal class DefaultMovieLocalDataSource @Inject constructor(</span>
 <span class="nc" id="L40">    private val database: AppDatabase,</span>
-<span class="nc" id="L41">    @IoDispatcher private val ioDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L41">    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,</span>
 ) : MovieLocalDataSource {
 
     override fun moviesChanges(category: ExploreEntity.Category, limit: Int): Flow&lt;List&lt;MovieEntity&gt;&gt; =
@@ -69,9 +69,9 @@ interface MovieLocalDataSource {
 <span class="nc" id="L69">                        movieWithRelations.genres.map {</span>
 <span class="nc" id="L70">                            MovieGenreCrossRefEntity(</span>
 <span class="nc" id="L71">                                movieId = movieId,</span>
-<span class="nc" id="L72">                                genreId = it.id</span>
+<span class="nc" id="L72">                                genreId = it.id,</span>
                             )
-                        }
+                        },
                     )
 <span class="nc" id="L76">                }</span>
 
@@ -81,9 +81,9 @@ interface MovieLocalDataSource {
 <span class="nc" id="L81">                        movieWithRelations.productionCompanies.map {</span>
 <span class="nc" id="L82">                            MovieProductionCompanyCrossRefEntity(</span>
 <span class="nc" id="L83">                                movieId = movieId,</span>
-<span class="nc" id="L84">                                companyId = it.id</span>
+<span class="nc" id="L84">                                companyId = it.id,</span>
                             )
-                        }
+                        },
                     )
 <span class="nc" id="L88">                }</span>
 <span class="nc" id="L89">            }</span>
@@ -99,9 +99,9 @@ interface MovieLocalDataSource {
 <span class="nc" id="L99">                        ExploreEntity(</span>
 <span class="nc" id="L100">                            movieId = it.id,</span>
 <span class="nc" id="L101">                            category = category,</span>
-<span class="nc" id="L102">                            page = page</span>
+<span class="nc" id="L102">                            page = page,</span>
                         )
-                    }
+                    },
                 )
 <span class="nc" id="L106">            }</span>
 <span class="nc" id="L107">        }</span>

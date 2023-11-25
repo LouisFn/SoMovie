@@ -29,7 +29,7 @@ interface LogInManager {
 }
 
 <span class="nc" id="L31">class DefaultLogInManager @Inject constructor(</span>
-<span class="nc" id="L32">    private val authenticationInteractor: AuthenticationInteractor</span>
+<span class="nc" id="L32">    private val authenticationInteractor: AuthenticationInteractor,</span>
 ) : LogInManager {
 
     private lateinit var scope: CoroutineScope

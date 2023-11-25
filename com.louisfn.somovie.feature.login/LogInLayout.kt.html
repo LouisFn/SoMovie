@@ -18,11 +18,11 @@ fun LogInLayout(
     logInManager: LogInManager,
 <span class="pc bpc" id="L19" title="2 of 4 branches missed.">    modifier: Modifier = Modifier,</span>
     content: @Composable BoxScope.(button: @Composable (modifier: Modifier) -&gt; Unit) -&gt; Unit =
-<span class="nc bnc" id="L21" title="All 8 branches missed.">        { it(modifier = Modifier.align(Alignment.Center)) }</span>
+<span class="nc bnc" id="L21" title="All 8 branches missed.">        { it(modifier = Modifier.align(Alignment.Center)) },</span>
 <span class="pc bpc" id="L22" title="16 of 24 branches missed.">) {</span>
 <span class="fc" id="L23">    val uiState by logInManager.state.collectAsStateLifecycleAware()</span>
 
-<span class="fc" id="L25">    LaunchedEffect(Unit) {</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">    LaunchedEffect(Unit) {</span>
 <span class="fc" id="L26">        logInManager.reset()</span>
 <span class="fc" id="L27">    }</span>
 
@@ -33,7 +33,7 @@ fun LogInLayout(
 <span class="fc" id="L33">        onLogInButtonClick = logInManager::start,</span>
 <span class="fc" id="L34">        onLogInApproved = logInManager::onApproved,</span>
 <span class="fc" id="L35">        onLogInDenied = logInManager::onDenied,</span>
-<span class="fc" id="L36">        buttonDecorator = content</span>
+<span class="fc" id="L36">        buttonDecorator = content,</span>
     )
 <span class="pc bpc" id="L38" title="1 of 2 branches missed.">}</span>
 
@@ -44,19 +44,19 @@ private fun LogInLayout(
 <span class="pc bpc" id="L44" title="1 of 2 branches missed.">    onLogInButtonClick: () -&gt; Unit = {},</span>
 <span class="pc bpc" id="L45" title="1 of 2 branches missed.">    onLogInApproved: () -&gt; Unit = {},</span>
 <span class="pc bpc" id="L46" title="1 of 2 branches missed.">    onLogInDenied: () -&gt; Unit = {},</span>
-    buttonDecorator: @Composable BoxScope.(button: @Composable (modifier: Modifier) -&gt; Unit) -&gt; Unit
+    buttonDecorator: @Composable BoxScope.(button: @Composable (modifier: Modifier) -&gt; Unit) -&gt; Unit,
 <span class="pc bpc" id="L48" title="23 of 42 branches missed.">) {</span>
 <span class="fc" id="L49">    Box(modifier = modifier) {</span>
-<span class="pc bpc" id="L50" title="3 of 4 branches missed.">        when (uiState) {</span>
+<span class="fc" id="L50">        when (uiState) {</span>
 <span class="pc bpc" id="L51" title="1 of 2 branches missed.">            is LogInState.Loading -&gt;</span>
 <span class="nc" id="L52">                IndeterminateProgressIndicator(</span>
-<span class="nc" id="L53">                    modifier = Modifier.align(Alignment.Center)</span>
+<span class="nc" id="L53">                    modifier = Modifier.align(Alignment.Center),</span>
                 )
 <span class="pc bpc" id="L55" title="1 of 2 branches missed.">            is LogInState.Idle -&gt;</span>
 <span class="fc" id="L56">                buttonDecorator { internalModifier -&gt;</span>
 <span class="pc bpc" id="L57" title="5 of 8 branches missed.">                    LogInButton(</span>
 <span class="fc" id="L58">                        modifier = internalModifier,</span>
-<span class="fc" id="L59">                        onClick = onLogInButtonClick</span>
+<span class="fc" id="L59">                        onClick = onLogInButtonClick,</span>
 <span class="nc" id="L60">                    )</span>
 <span class="fc" id="L61">                }</span>
 <span class="nc bnc" id="L62" title="All 2 branches missed.">            is LogInState.WebView -&gt;</span>
@@ -64,10 +64,10 @@ private fun LogInLayout(
 <span class="nc" id="L64">                    uri = uiState.uri,</span>
 <span class="nc" id="L65">                    modifier = Modifier.fillMaxSize(),</span>
 <span class="nc" id="L66">                    onApproved = onLogInApproved,</span>
-<span class="nc" id="L67">                    onDenied = onLogInDenied</span>
+<span class="nc" id="L67">                    onDenied = onLogInDenied,</span>
                 )
-<span class="nc" id="L69">            else -&gt; Unit</span>
-<span class="pc" id="L70">        }</span>
+<span class="pc" id="L69">            else -&gt; Unit</span>
+        }
 <span class="fc" id="L71">    }</span>
 <span class="pc bpc" id="L72" title="1 of 2 branches missed.">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

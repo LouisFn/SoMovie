@@ -8,7 +8,7 @@ internal sealed interface WatchlistUiState {
 
 <span class="fc" id="L9">    data class AccountLoggedIn(</span>
 <span class="fc" id="L10">        val contentState: ContentState = ContentState.NONE,</span>
-<span class="fc" id="L11">        val loadNextPageState: LoadNextPageState = LoadNextPageState.IDLE</span>
+<span class="fc" id="L11">        val loadNextPageState: LoadNextPageState = LoadNextPageState.IDLE,</span>
     ) : WatchlistUiState {
 <span class="fc" id="L13">        enum class ContentState { NONE, LOADING, RETRY, SUCCESS }</span>
 <span class="fc" id="L14">        enum class LoadNextPageState { IDLE, LOADING, RETRY }</span>
@@ -19,6 +19,6 @@ internal sealed interface WatchlistUiState {
 
 <span class="fc" id="L20">internal data class MovieItem(</span>
 <span class="fc" id="L21">    val movie: Movie,</span>
-<span class="fc" id="L22">    val isHidden: Boolean</span>
+<span class="fc" id="L22">    val isHidden: Boolean,</span>
 )
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

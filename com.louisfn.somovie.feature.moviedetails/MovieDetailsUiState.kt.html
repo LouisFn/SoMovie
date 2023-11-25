@@ -10,7 +10,7 @@ import java.time.Duration
 <span class="nc" id="L10">internal data class MovieDetailsUiState(</span>
 <span class="nc" id="L11">    val headerUiState: HeaderUiState? = null,</span>
 <span class="nc" id="L12">    val contentUiState: ContentUiState? = null,</span>
-<span class="nc" id="L13">    val watchlistFabState: WatchlistFabState? = null</span>
+<span class="nc" id="L13">    val watchlistFabState: WatchlistFabState? = null,</span>
 <span class="nc" id="L14">)</span>
 
 <span class="nc" id="L16">@Immutable</span>
@@ -23,7 +23,7 @@ import java.time.Duration
 <span class="nc" id="L23">    val voteAverage: Float,</span>
 <span class="nc" id="L24">    val voteCount: Int?,</span>
 <span class="nc" id="L25">    val tmdbUrl: String,</span>
-<span class="nc" id="L26">    val releaseDate: String?</span>
+<span class="nc" id="L26">    val releaseDate: String?,</span>
 ) {
 <span class="nc bnc" id="L28" title="All 4 branches missed.">    val hasVotes: Boolean = voteCount != null &amp;&amp; voteCount &gt; 0</span>
 }
@@ -43,13 +43,13 @@ internal sealed interface ContentUiState {
 <span class="nc" id="L43">        val genres: ImmutableList&lt;MovieGenre&gt;,</span>
 <span class="nc" id="L44">        val crew: ImmutableList&lt;CrewMember&gt;?,</span>
 <span class="nc" id="L45">        val cast: ImmutableList&lt;Actor&gt;?,</span>
-<span class="nc" id="L46">        val videos: ImmutableList&lt;YoutubeVideo&gt;?</span>
+<span class="nc" id="L46">        val videos: ImmutableList&lt;YoutubeVideo&gt;?,</span>
     ) : ContentUiState
 }
 
 <span class="nc" id="L50">internal data class WatchlistFabState(</span>
 <span class="nc" id="L51">    val isLoading: Boolean,</span>
-<span class="nc" id="L52">    val state: WatchlistState</span>
+<span class="nc" id="L52">    val state: WatchlistState,</span>
 ) {
 <span class="nc" id="L54">    enum class WatchlistState { ADD_TO_WATCHLIST, REMOVE_FROM_WATCHLIST }</span>
 }

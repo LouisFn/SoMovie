@@ -19,7 +19,7 @@ import javax.inject.Inject
 <span class="nc" id="L19">    private val movieRepository: MovieRepository,</span>
 <span class="nc" id="L20">    private val movieImageRepository: MovieImageRepository,</span>
 <span class="nc" id="L21">    private val movieCreditsRepository: MovieCreditsRepository,</span>
-<span class="nc" id="L22">    private val movieVideoRepository: MovieVideoRepository</span>
+<span class="nc" id="L22">    private val movieVideoRepository: MovieVideoRepository,</span>
 ) {
 
     @AnyThread
@@ -48,13 +48,13 @@ import javax.inject.Inject
 <span class="nc" id="L48">                val flows = categories.map {</span>
 <span class="nc" id="L49">                    movieRepository.moviesChanges(</span>
 <span class="nc" id="L50">                        category = it,</span>
-<span class="nc" id="L51">                        limit = LIMIT_BY_CATEGORY</span>
+<span class="nc" id="L51">                        limit = LIMIT_BY_CATEGORY,</span>
                     )
                 }
 
 <span class="nc" id="L55">                combine(</span>
                     flows = flows,
-                    transform = { it.mapIndexed { index, list -&gt; categories[index] to list } }
+                    transform = { it.mapIndexed { index, list -&gt; categories[index] to list } },
                 )
 <span class="nc" id="L59">            }</span>
 
@@ -75,7 +75,7 @@ import javax.inject.Inject
 <span class="nc" id="L75">        private val PAGING_CONFIG = PagingConfig(</span>
 <span class="nc" id="L76">            pageSize = 20,</span>
 <span class="nc" id="L77">            prefetchDistance = 10,</span>
-<span class="nc" id="L78">            enablePlaceholders = true</span>
+<span class="nc" id="L78">            enablePlaceholders = true,</span>
         )
     }
 }

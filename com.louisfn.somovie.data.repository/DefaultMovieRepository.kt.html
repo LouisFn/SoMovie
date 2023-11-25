@@ -33,7 +33,7 @@ interface MovieRepository {
 <span class="nc" id="L33">    fun moviesPagingChanges(</span>
         category: ExploreCategory,
         pagingConfig: PagingConfig,
-<span class="nc" id="L36">        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT</span>
+<span class="nc" id="L36">        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT,</span>
     ): Flow&lt;PagingData&lt;Movie&gt;&gt;
 
     @AnyThread
@@ -61,7 +61,7 @@ interface MovieRepository {
 <span class="nc" id="L61">    private val categoryMapper: ExploreCategoryMapper,</span>
 <span class="nc" id="L62">    private val databaseHelper: DatabaseHelper,</span>
 <span class="nc" id="L63">    private val sessionLocalDataSource: DataStoreLocalDataSource&lt;SessionData&gt;,</span>
-<span class="nc" id="L64">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L64">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) : MovieRepository {
 
     //region Explore movies
@@ -69,14 +69,14 @@ interface MovieRepository {
     override fun moviesPagingChanges(
         category: ExploreCategory,
         pagingConfig: PagingConfig,
-        cacheTimeout: Long
+        cacheTimeout: Long,
     ): Flow&lt;PagingData&lt;Movie&gt;&gt; =
 <span class="nc" id="L74">        Pager(</span>
 <span class="nc" id="L75">            config = pagingConfig,</span>
 <span class="nc" id="L76">            remoteMediator = createMoviesRemoteMediator(category, cacheTimeout),</span>
             pagingSourceFactory = {
 <span class="nc" id="L78">                localDataSource.getPagingMovies(categoryMapper.mapToEntity(category))</span>
-            }
+            },
         )
 <span class="nc" id="L81">            .flow</span>
 <span class="nc" id="L82">            .mapPaging { mapper.mapToDomain(it) }</span>
@@ -85,7 +85,7 @@ interface MovieRepository {
     @AnyThread
     private fun createMoviesRemoteMediator(
         category: ExploreCategory,
-        cacheTimeout: Long
+        cacheTimeout: Long,
 <span class="nc" id="L89">    ) = MoviesRemoteMediator(</span>
 <span class="nc" id="L90">        cacheTimeout = cacheTimeout,</span>
 <span class="nc" id="L91">        remoteKeyLocalDataSource = remoteKeyLocalDataSource,</span>
@@ -94,7 +94,7 @@ interface MovieRepository {
 <span class="nc" id="L94">        movieMapper = mapper,</span>
 <span class="nc" id="L95">        categoryMapper = categoryMapper,</span>
 <span class="nc" id="L96">        databaseHelper = databaseHelper,</span>
-<span class="nc" id="L97">        category = category</span>
+<span class="nc" id="L97">        category = category,</span>
 <span class="nc" id="L98">    )</span>
 
     override fun moviesChanges(category: ExploreCategory, limit: Int): Flow&lt;List&lt;Movie&gt;&gt; =
@@ -118,13 +118,13 @@ interface MovieRepository {
 <span class="nc" id="L118">                    insertOrIgnoreMovies(</span>
 <span class="nc" id="L119">                        category = categoryEntity,</span>
 <span class="nc" id="L120">                        movies = mapper.mapToEntity(response, false),</span>
-<span class="nc" id="L121">                        page = PAGINATION_FIRST_PAGE_INDEX</span>
+<span class="nc" id="L121">                        page = PAGINATION_FIRST_PAGE_INDEX,</span>
                     )
 <span class="nc" id="L123">                }</span>
 <span class="nc" id="L124">                remoteKeyLocalDataSource.updateNextKey(</span>
 <span class="nc" id="L125">                    type = remoteKeyTypeEntity,</span>
 <span class="nc" id="L126">                    nextKey = (PAGINATION_FIRST_PAGE_INDEX + 1).toString(),</span>
-<span class="nc" id="L127">                    reset = true</span>
+<span class="nc" id="L127">                    reset = true,</span>
                 )
 <span class="nc" id="L129">            }</span>
 <span class="nc" id="L130">        }</span>
@@ -151,8 +151,8 @@ interface MovieRepository {
 <span class="nc" id="L151">            localDataSource.insertOrUpdateMovie(</span>
 <span class="nc" id="L152">                mapper.mapToEntity(</span>
 <span class="nc" id="L153">                    detailsResponse = detailsDeferred.await(),</span>
-<span class="nc" id="L154">                    accountStateResponse = accountStateDeferred.await()</span>
-                )
+<span class="nc" id="L154">                    accountStateResponse = accountStateDeferred.await(),</span>
+                ),
             )
 <span class="nc" id="L157">        }</span>
 <span class="nc" id="L158">    }</span>

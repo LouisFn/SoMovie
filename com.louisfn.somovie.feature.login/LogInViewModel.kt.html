@@ -18,7 +18,7 @@ import javax.inject.Inject
 <span class="nc" id="L18">class LogInViewModel @Inject constructor(</span>
 <span class="nc" id="L19">    private val errorsDispatcher: ErrorsDispatcher,</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
-    logInManager: LogInManager
+    logInManager: LogInManager,
 <span class="nc" id="L22">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher), LogInManager by logInManager {</span>
 
 <span class="nc" id="L24">    override val state: StateFlow&lt;LogInState&gt; =</span>
@@ -27,7 +27,7 @@ import javax.inject.Inject
 <span class="nc" id="L27">            .stateIn(</span>
 <span class="nc" id="L28">                viewModelScope,</span>
 <span class="nc" id="L29">                SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L30">                LogInState.Idle</span>
+<span class="nc" id="L30">                LogInState.Idle,</span>
             )
 
 <span class="nc" id="L33">    init {</span>

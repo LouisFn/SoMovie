@@ -19,7 +19,7 @@ import retrofit2.HttpException as RetrofitHttpException
 
 <span class="nc" id="L20">internal class ApiExceptionMapper @Inject constructor(</span>
 <span class="nc" id="L21">    @MoshiApiService private val moshi: Moshi,</span>
-<span class="nc" id="L22">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L22">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) {
 
     @AnyThread
@@ -36,7 +36,7 @@ import retrofit2.HttpException as RetrofitHttpException
 <span class="nc" id="L36">        return HttpException(</span>
 <span class="nc" id="L37">            httpCode = error.code(),</span>
 <span class="nc bnc" id="L38" title="All 2 branches missed.">            statusCode = response?.statusCode,</span>
-<span class="nc bnc" id="L39" title="All 2 branches missed.">            statusMessage = response?.statusMessage</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            statusMessage = response?.statusMessage,</span>
         )
     }
 

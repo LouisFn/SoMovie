@@ -8,7 +8,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.pointerInput
 
 internal fun Modifier.swipeableItem(
-    swipeController: SwipeController
+    swipeController: SwipeController,
 <span class="nc" id="L12">) = composed {</span>
 <span class="nc bnc" id="L13" title="All 4 branches missed.">    if (!swipeController.isGestureEnabled) return@composed this</span>
 
@@ -21,7 +21,7 @@ internal fun Modifier.swipeableItem(
 <span class="nc" id="L21">            },</span>
             onDragEnd = {
 <span class="nc" id="L23">                currentSwipeController.onDragEnd()</span>
-<span class="nc" id="L24">            }</span>
+<span class="nc" id="L24">            },</span>
         )
 <span class="nc" id="L26">    }</span>
 <span class="nc" id="L27">}</span>

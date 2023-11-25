@@ -45,7 +45,7 @@ import javax.inject.Inject
 <span class="nc" id="L45">    private val watchlistInteractor: WatchlistInteractor,</span>
 <span class="nc" id="L46">    private val authenticationInteractor: AuthenticationInteractor,</span>
 <span class="nc" id="L47">    private val movieItemMapper: DiscoverMovieItemMapper,</span>
-<span class="nc" id="L48">    private val errorsDispatcher: ErrorsDispatcher</span>
+<span class="nc" id="L48">    private val errorsDispatcher: ErrorsDispatcher,</span>
 <span class="nc" id="L49">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
 <span class="nc" id="L51">    private val moviesState = MutableStateFlow(emptyList&lt;Movie&gt;())</span>
@@ -61,19 +61,19 @@ import javax.inject.Inject
 <span class="nc" id="L61">            moviesState.map(movieItemMapper::map),</span>
 <span class="nc" id="L62">            fetchNewMoviesResultState,</span>
 <span class="nc" id="L63">            isLoggedIn,</span>
-<span class="nc" id="L64">            isLogInSnackbarShaking</span>
+<span class="nc" id="L64">            isLogInSnackbarShaking,</span>
 <span class="nc bnc" id="L65" title="All 2 branches missed.">        ) { items, fetchNewMoviesResultState, isLoggedIn, isLogInSnackbarShaking -&gt;</span>
 <span class="nc" id="L66">            createDiscoverUiState(</span>
 <span class="nc" id="L67">                items = items,</span>
 <span class="nc" id="L68">                fetchMovieResultState = fetchNewMoviesResultState,</span>
 <span class="nc bnc" id="L69" title="All 2 branches missed.">                isLoggedIn = isLoggedIn,</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">                isLogInSnackbarShaking = isLogInSnackbarShaking</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                isLogInSnackbarShaking = isLogInSnackbarShaking,</span>
             )
         }
 <span class="nc" id="L73">            .stateIn(</span>
 <span class="nc" id="L74">                scope = viewModelScope,</span>
 <span class="nc" id="L75">                started = SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L76">                initialValue = DiscoverUiState.None</span>
+<span class="nc" id="L76">                initialValue = DiscoverUiState.None,</span>
             )
 
 <span class="nc" id="L79">    init {</span>
@@ -85,7 +85,7 @@ import javax.inject.Inject
         items: ImmutableList&lt;MovieItem&gt;,
         fetchMovieResultState: Result&lt;List&lt;Movie&gt;&gt;?,
         isLoggedIn: Boolean,
-        isLogInSnackbarShaking: Boolean
+        isLogInSnackbarShaking: Boolean,
 <span class="nc" id="L89">    ): DiscoverUiState = when {</span>
 <span class="nc bnc" id="L90" title="All 4 branches missed.">        items.isNotEmpty() -&gt; DiscoverUiState.Discover(</span>
 <span class="nc" id="L91">            items = items,</span>
@@ -93,7 +93,7 @@ import javax.inject.Inject
 <span class="nc bnc" id="L93" title="All 2 branches missed.">                isLoggedIn -&gt; LogInSnackbarState.HIDDEN</span>
 <span class="nc bnc" id="L94" title="All 2 branches missed.">                isLogInSnackbarShaking -&gt; LogInSnackbarState.SHAKING</span>
 <span class="nc" id="L95">                else -&gt; LogInSnackbarState.VISIBLE</span>
-            }
+            },
         )
 <span class="nc bnc" id="L98" title="All 2 branches missed.">        fetchMovieResultState.isLoading -&gt; DiscoverUiState.Loading</span>
 <span class="nc bnc" id="L99" title="All 2 branches missed.">        fetchMovieResultState.isError -&gt; DiscoverUiState.Retry</span>
@@ -141,7 +141,7 @@ import javax.inject.Inject
                             moviesState.update { it + result.data.orEmpty() }
                             fetchNewMoviesResultState.emit(result)
                         },
-<span class="nc" id="L144">                        onError = errorsDispatcher::dispatch</span>
+<span class="nc" id="L144">                        onError = errorsDispatcher::dispatch,</span>
                     )
             }
 <span class="nc" id="L147">        }</span>

@@ -47,7 +47,7 @@ import kotlin.math.withSign
 <span class="nc" id="L47">    private val onDragging: (SwipeDirection, ratio: Float) -&gt; Unit,</span>
 <span class="nc" id="L48">    private val onSwiped: (SwipeDirection) -&gt; Unit,</span>
 <span class="nc" id="L49">    private val onDisappeared: (SwipeDirection) -&gt; Unit,</span>
-<span class="nc" id="L50">    private val onCanceled: () -&gt; Unit</span>
+<span class="nc" id="L50">    private val onCanceled: () -&gt; Unit,</span>
 ) {
 
 <span class="nc" id="L53">    private val velocityTracker = VelocityTracker()</span>
@@ -71,7 +71,7 @@ import kotlin.math.withSign
 <span class="nc" id="L71">            offsetAnimatable.snapTo(offset.plus(dragAmount))</span>
 <span class="nc" id="L72">            onDragging(</span>
 <span class="nc" id="L73">                SwipeDirection.fromOffset(offset.x),</span>
-<span class="nc" id="L74">                offset.x.absoluteValue / size.width</span>
+<span class="nc" id="L74">                offset.x.absoluteValue / size.width,</span>
             )
 <span class="nc" id="L76">        }</span>
 <span class="nc" id="L77">    }</span>
@@ -90,7 +90,7 @@ import kotlin.math.withSign
 <span class="nc" id="L90">                onSwiped(direction)</span>
 <span class="nc" id="L91">                offsetAnimatable.animateTo(</span>
 <span class="nc" id="L92">                    targetValue = offset.copy(x = targetOffsetX),</span>
-<span class="nc" id="L93">                    animationSpec = swipeAnimationSpec</span>
+<span class="nc" id="L93">                    animationSpec = swipeAnimationSpec,</span>
                 )
 <span class="nc" id="L95">                onDisappeared(direction)</span>
             } else {
@@ -119,7 +119,7 @@ internal fun rememberSwipeController(
     onDragging: (SwipeDirection, ratio: Float) -&gt; Unit,
     onSwiped: (SwipeDirection) -&gt; Unit,
     onDisappeared: (SwipeDirection) -&gt; Unit,
-    onCanceled: () -&gt; Unit
+    onCanceled: () -&gt; Unit,
 <span class="nc" id="L123">): SwipeController {</span>
 <span class="nc" id="L124">    val currentOnDragging by rememberUpdatedState(onDragging)</span>
 <span class="nc" id="L125">    val currentOnSwipe by rememberUpdatedState(onSwiped)</span>
@@ -133,7 +133,7 @@ internal fun rememberSwipeController(
 <span class="nc" id="L133">        maxRotationInDegrees,</span>
 <span class="nc" id="L134">        thresholdConfig,</span>
 <span class="nc" id="L135">        swipeAnimationSpec,</span>
-<span class="nc" id="L136">        cancelAnimationSpec</span>
+<span class="nc" id="L136">        cancelAnimationSpec,</span>
     ) {
 <span class="nc" id="L138">        SwipeController(</span>
 <span class="nc" id="L139">            size = size,</span>
@@ -147,7 +147,7 @@ internal fun rememberSwipeController(
 <span class="nc" id="L147">            onDragging = currentOnDragging,</span>
 <span class="nc" id="L148">            onSwiped = currentOnSwipe,</span>
 <span class="nc" id="L149">            onDisappeared = onDisappeared,</span>
-<span class="nc" id="L150">            onCanceled = onCanceled</span>
+<span class="nc" id="L150">            onCanceled = onCanceled,</span>
         )
     }
 }

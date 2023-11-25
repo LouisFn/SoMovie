@@ -10,7 +10,7 @@ import com.louisfn.somovie.ui.common.coil.MapperInterceptor
 import javax.inject.Inject
 
 <span class="nc" id="L12">internal class CoilInitializer @Inject constructor(</span>
-<span class="nc" id="L13">    private val imagePathMapper: ImagePathMapper</span>
+<span class="nc" id="L13">    private val imagePathMapper: ImagePathMapper,</span>
 ) : AppInitializer {
 
     override fun onCreate(application: Application) {
@@ -24,9 +24,9 @@ import javax.inject.Inject
 <span class="nc" id="L24">                add(</span>
 <span class="nc" id="L25">                    MapperInterceptor(</span>
 <span class="nc" id="L26">                        listOf(</span>
-<span class="nc" id="L27">                            imagePathMapper to ImagePath::class</span>
-                        )
-                    )
+<span class="nc" id="L27">                            imagePathMapper to ImagePath::class,</span>
+                        ),
+                    ),
                 )
 <span class="nc" id="L31">            }</span>
 <span class="nc" id="L32">            .build()</span>

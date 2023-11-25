@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 <span class="nc" id="L14">    fun mapToDomain(entity: MovieProductionCountryEntity) = Country(</span>
 <span class="nc" id="L15">        name = entity.name,</span>
-<span class="nc" id="L16">        iso31661 = entity.iso31661</span>
+<span class="nc" id="L16">        iso31661 = entity.iso31661,</span>
 <span class="nc" id="L17">    )</span>
 
     //endregion
@@ -22,16 +22,16 @@ import javax.inject.Inject
 
     fun mapToEntity(
         movieId: Long,
-        responses: List&lt;MovieDetailsResponse.ProductionCountryResponse&gt;
+        responses: List&lt;MovieDetailsResponse.ProductionCountryResponse&gt;,
 <span class="nc" id="L26">    ): List&lt;MovieProductionCountryEntity&gt; = responses.map { mapToEntity(movieId, it) }</span>
 
     fun mapToEntity(
         movieId: Long,
-        response: MovieDetailsResponse.ProductionCountryResponse
+        response: MovieDetailsResponse.ProductionCountryResponse,
 <span class="nc" id="L31">    ) = MovieProductionCountryEntity(</span>
 <span class="nc" id="L32">        iso31661 = response.iso31661,</span>
 <span class="nc" id="L33">        name = response.name,</span>
-<span class="nc" id="L34">        movieId = movieId</span>
+<span class="nc" id="L34">        movieId = movieId,</span>
 <span class="nc" id="L35">    )</span>
 
     //endregion

@@ -14,7 +14,7 @@ interface AuthenticationRepository {
 }
 
 <span class="nc" id="L16">internal class DefaultAuthenticationRepository @Inject constructor(</span>
-<span class="nc" id="L17">    private val remoteDataSource: AuthenticationRemoteDataSource</span>
+<span class="nc" id="L17">    private val remoteDataSource: AuthenticationRemoteDataSource,</span>
 ) : AuthenticationRepository {
 
 <span class="nc" id="L20">    override suspend fun getRequestToken(): String = remoteDataSource.getRequestToken()</span>

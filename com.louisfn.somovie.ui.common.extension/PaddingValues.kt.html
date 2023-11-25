@@ -14,7 +14,7 @@ fun PaddingValues.copy(
 <span class="nc bnc" id="L14" title="All 2 branches missed.">    start: Dp? = null,</span>
 <span class="nc bnc" id="L15" title="All 2 branches missed.">    top: Dp? = null,</span>
 <span class="nc bnc" id="L16" title="All 2 branches missed.">    end: Dp? = null,</span>
-<span class="nc bnc" id="L17" title="All 2 branches missed.">    bottom: Dp? = null</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">    bottom: Dp? = null,</span>
 ): PaddingValues =
 <span class="nc" id="L19">    remember(this) {</span>
 <span class="nc" id="L20">        derivedStateOf {</span>
@@ -22,7 +22,7 @@ fun PaddingValues.copy(
 <span class="nc bnc" id="L22" title="All 2 branches missed.">                start = start ?: calculateStartPadding(LayoutDirection.Ltr),</span>
 <span class="nc bnc" id="L23" title="All 2 branches missed.">                top = top ?: calculateTopPadding(),</span>
 <span class="nc bnc" id="L24" title="All 2 branches missed.">                end = end ?: calculateEndPadding(LayoutDirection.Ltr),</span>
-<span class="nc bnc" id="L25" title="All 2 branches missed.">                bottom = bottom ?: calculateBottomPadding()</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">                bottom = bottom ?: calculateBottomPadding(),</span>
             )
         }
 <span class="nc bnc" id="L28" title="All 2 branches missed.">    }.value</span>
@@ -44,6 +44,6 @@ operator fun PaddingValues.plus(value: PaddingValues) =
 <span class="nc" id="L44">        start = start + value.start,</span>
 <span class="nc" id="L45">        top = top + value.top,</span>
 <span class="nc" id="L46">        bottom = bottom + value.bottom,</span>
-<span class="nc" id="L47">        end = end + value.end</span>
+<span class="nc" id="L47">        end = end + value.end,</span>
 <span class="nc" id="L48">    )</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

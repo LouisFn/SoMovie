@@ -31,7 +31,7 @@ import javax.inject.Inject
 <span class="nc" id="L31">internal class ExploreViewModel @Inject constructor(</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
 <span class="nc" id="L33">    private val movieInteractor: MovieInteractor,</span>
-<span class="nc" id="L34">    private val errorsDispatcher: ErrorsDispatcher</span>
+<span class="nc" id="L34">    private val errorsDispatcher: ErrorsDispatcher,</span>
 <span class="nc" id="L35">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
 <span class="nc" id="L37">    private val refreshResultState = MutableStateFlow&lt;Result&lt;Unit&gt;?&gt;(null)</span>
@@ -40,14 +40,14 @@ import javax.inject.Inject
 <span class="nc" id="L40">        combine(</span>
 <span class="nc" id="L41">            movieInteractor.exploreMoviesChanges()</span>
 <span class="nc" id="L42">                .map { ImmutableList(it.map { pair -&gt; pair.first to ImmutableList(pair.second) }) },</span>
-<span class="nc" id="L43">            refreshResultState</span>
+<span class="nc" id="L43">            refreshResultState,</span>
 <span class="nc bnc" id="L44" title="All 2 branches missed.">        ) { movies, refreshResult -&gt;</span>
 <span class="nc" id="L45">            createUiState(movies, refreshResult)</span>
         }
 <span class="nc" id="L47">            .stateIn(</span>
 <span class="nc" id="L48">                scope = viewModelScope,</span>
 <span class="nc" id="L49">                started = SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L50">                initialValue = ExploreUiState.None</span>
+<span class="nc" id="L50">                initialValue = ExploreUiState.None,</span>
             )
 
 <span class="nc" id="L53">    init {</span>
@@ -57,7 +57,7 @@ import javax.inject.Inject
     @AnyThread
     private fun createUiState(
         moviesByCategory: ImmutableList&lt;Pair&lt;ExploreCategory, ImmutableList&lt;Movie&gt;&gt;&gt;,
-        refreshResult: Result&lt;Unit&gt;?
+        refreshResult: Result&lt;Unit&gt;?,
 <span class="nc" id="L61">    ): ExploreUiState = when {</span>
 <span class="nc bnc" id="L62" title="All 2 branches missed.">        moviesByCategory.none { it.second.isEmpty() } -&gt;</span>
 <span class="nc" id="L63">            ExploreUiState.Explore(moviesByCategory)</span>
@@ -76,7 +76,7 @@ import javax.inject.Inject
 <span class="nc" id="L76">                .onResultError(errorsDispatcher::dispatch)</span>
 <span class="nc" id="L77">                .safeCollect(</span>
 <span class="nc" id="L78">                    onEach = refreshResultState::emit,</span>
-<span class="nc" id="L79">                    onError = errorsDispatcher::dispatch</span>
+<span class="nc" id="L79">                    onError = errorsDispatcher::dispatch,</span>
                 )
 <span class="nc" id="L81">        }</span>
 <span class="nc" id="L82">    }</span>

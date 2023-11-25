@@ -23,19 +23,19 @@ import com.louisfn.somovie.ui.component.DefaultImage
 <span class="nc bnc" id="L23" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="pc bpc" id="L26" title="14 of 22 branches missed.">fun LogInButton(modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}) {</span>
+<span class="pc bpc" id="L26" title="13 of 22 branches missed.">fun LogInButton(modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}) {</span>
 <span class="pc bpc" id="L27" title="1 of 2 branches missed.">    Button(modifier = modifier, onClick = onClick) {</span>
 <span class="pc bpc" id="L28" title="3 of 6 branches missed.">        Row(verticalAlignment = Alignment.CenterVertically) {</span>
-<span class="pc bpc" id="L29" title="3 of 4 branches missed.">            Text(</span>
+<span class="fc" id="L29">            Text(</span>
 <span class="fc" id="L30">                text = stringResource(id = R.string.account_log_in),</span>
 <span class="fc" id="L31">                fontSize = 16.sp,</span>
-<span class="fc" id="L32">                style = MaterialTheme.typography.button</span>
+<span class="fc" id="L32">                style = MaterialTheme.typography.button,</span>
             )
 <span class="fc" id="L34">            Spacer(modifier = Modifier.width(8.dp))</span>
 <span class="fc" id="L35">            DefaultImage(</span>
 <span class="fc" id="L36">                modifier = Modifier.height(24.dp),</span>
-<span class="fc" id="L37">                painter = painterResource(id = R.drawable.ic_tmdb)</span>
-<span class="pc" id="L38">            )</span>
+<span class="fc" id="L37">                painter = painterResource(id = R.drawable.ic_tmdb),</span>
+            )
 <span class="pc" id="L39">        }</span>
 <span class="fc" id="L40">    }</span>
 <span class="pc bpc" id="L41" title="1 of 2 branches missed.">}</span>

@@ -10,10 +10,10 @@ fun Modifier.clickable(withRipple: Boolean, onClick: () -&gt; Unit): Modifier =
 <span class="nc" id="L10">    composed {</span>
 <span class="nc bnc" id="L11" title="All 4 branches missed.">        if (withRipple) {</span>
 <span class="nc" id="L12">            this.clickable { onClick() }</span>
-<span class="nc" id="L13">        } else {</span>
+        } else {
 <span class="nc" id="L14">            this.clickable(</span>
 <span class="nc" id="L15">                indication = null,</span>
-<span class="nc" id="L16">                interactionSource = remember { MutableInteractionSource() }</span>
+<span class="nc" id="L16">                interactionSource = remember { MutableInteractionSource() },</span>
 <span class="nc" id="L17">            ) {</span>
 <span class="nc" id="L18">                onClick()</span>
 <span class="nc" id="L19">            }</span>

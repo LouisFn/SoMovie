@@ -47,11 +47,11 @@ fun &lt;T&gt; SwipeContainer(
 <span class="nc bnc" id="L47" title="All 2 branches missed.">    onDragging: (T, SwipeDirection, ratio: Float) -&gt; Unit = { _, _, _ -&gt; },</span>
 <span class="nc bnc" id="L48" title="All 2 branches missed.">    onSwiped: (T, SwipeDirection) -&gt; Unit = { _, _ -&gt; },</span>
 <span class="nc bnc" id="L49" title="All 2 branches missed.">    onDisappeared: (T, SwipeDirection) -&gt; Unit = { _, _ -&gt; },</span>
-<span class="nc bnc" id="L50" title="All 4 branches missed.">    onCanceled: (T) -&gt; Unit = {},</span>
-    itemContent: @Composable (T) -&gt; Unit
-<span class="nc bnc" id="L52" title="All 84 branches missed.">) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">    onCanceled: (T) -&gt; Unit = {},</span>
+    itemContent: @Composable (T) -&gt; Unit,
+<span class="nc bnc" id="L52" title="All 80 branches missed.">) {</span>
 <span class="nc" id="L53">    Box(modifier = modifier) {</span>
-<span class="nc bnc" id="L54" title="All 4 branches missed.">        items</span>
+<span class="nc" id="L54">        items</span>
 <span class="nc" id="L55">            .asReversed()</span>
 <span class="nc" id="L56">            .forEach { item -&gt;</span>
 <span class="nc" id="L57">                key(itemKey(item)) {</span>
@@ -66,7 +66,7 @@ fun &lt;T&gt; SwipeContainer(
 <span class="nc" id="L66">                        onDragging = { direction, ratio -&gt; onDragging(item, direction, ratio) },</span>
 <span class="nc" id="L67">                        onCanceled = { onCanceled(item) },</span>
 <span class="nc" id="L68">                        onDisappeared = { direction -&gt; onDisappeared(item, direction) },</span>
-<span class="nc" id="L69">                        itemContent = itemContent</span>
+<span class="nc" id="L69">                        itemContent = itemContent,</span>
                     )
                 }
 <span class="nc" id="L72">            }</span>
@@ -87,7 +87,7 @@ private fun &lt;T&gt; SwipeableItem(
     onDisappeared: (SwipeDirection) -&gt; Unit,
     onCanceled: () -&gt; Unit,
     itemContent: @Composable (T) -&gt; Unit,
-<span class="nc bnc" id="L90" title="All 2 branches missed.">    modifier: Modifier = Modifier</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
 <span class="nc bnc" id="L91" title="All 2 branches missed.">) {</span>
 <span class="nc" id="L92">    var itemSize by remember { mutableStateOf(IntSize.Zero) }</span>
 
@@ -101,21 +101,21 @@ private fun &lt;T&gt; SwipeableItem(
 <span class="nc" id="L101">        onDragging = onDragging,</span>
 <span class="nc" id="L102">        onSwiped = onSwiped,</span>
 <span class="nc" id="L103">        onDisappeared = onDisappeared,</span>
-<span class="nc" id="L104">        onCanceled = onCanceled</span>
+<span class="nc" id="L104">        onCanceled = onCanceled,</span>
     )
 
 <span class="nc" id="L107">    Box(</span>
 <span class="nc" id="L108">        modifier = modifier</span>
 <span class="nc" id="L109">            .onSizeChanged { itemSize = it }</span>
-<span class="nc" id="L110">            .swipeableItem(swipeController)</span>
+<span class="nc" id="L110">            .swipeableItem(swipeController),</span>
     ) {
-<span class="nc bnc" id="L112" title="All 4 branches missed.">        Box(</span>
+<span class="nc" id="L112">        Box(</span>
 <span class="nc" id="L113">            modifier = Modifier</span>
 <span class="nc" id="L114">                .fillMaxSize()</span>
 <span class="nc" id="L115">                .offset { swipeController.offset.toIntOffset() }</span>
-<span class="nc" id="L116">                .rotate(swipeController.rotation)</span>
+<span class="nc" id="L116">                .rotate(swipeController.rotation),</span>
         ) {
-<span class="nc bnc" id="L118" title="All 4 branches missed.">            itemContent(item)</span>
+<span class="nc" id="L118">            itemContent(item)</span>
 <span class="nc" id="L119">        }</span>
 <span class="nc" id="L120">    }</span>
 <span class="nc" id="L121">}</span>

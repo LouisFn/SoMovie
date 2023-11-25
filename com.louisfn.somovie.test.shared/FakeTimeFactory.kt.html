@@ -9,7 +9,7 @@ object FakeInstantFactory {
 
 <span class="fc" id="L10">    fun create(</span>
 <span class="fc" id="L11">        from: Instant = Instant.ofEpochMilli(0),</span>
-<span class="fc" id="L12">        to: Instant = Instant.now()</span>
+<span class="fc" id="L12">        to: Instant = Instant.now(),</span>
 <span class="fc" id="L13">    ): Instant = Instant.ofEpochMilli(Random.nextLong(from.toEpochMilli(), to.toEpochMilli()))</span>
 }
 
@@ -17,7 +17,7 @@ object FakeDurationFactory {
 
 <span class="fc" id="L18">    fun create(</span>
 <span class="fc" id="L19">        from: Duration = Duration.ofHours(0),</span>
-<span class="fc" id="L20">        to: Duration = Duration.ofHours(24)</span>
+<span class="fc" id="L20">        to: Duration = Duration.ofHours(24),</span>
 <span class="fc" id="L21">    ): Duration = Duration.ofMillis(Random.nextLong(from.toMillis(), to.toMillis()))</span>
 }
 
@@ -25,7 +25,7 @@ object FakeLocalDateFactory {
 
 <span class="fc" id="L26">    fun create(</span>
 <span class="fc" id="L27">        from: LocalDate = LocalDate.ofEpochDay(0),</span>
-<span class="fc" id="L28">        to: LocalDate = LocalDate.now()</span>
+<span class="fc" id="L28">        to: LocalDate = LocalDate.now(),</span>
 <span class="fc" id="L29">    ): LocalDate = LocalDate.ofEpochDay(Random.nextLong(from.toEpochDay(), to.toEpochDay()))</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -20,11 +20,11 @@ import javax.inject.Inject
     @AnyThread
     fun mapToDomain(
         actorEntities: List&lt;ActorWithPerson&gt;,
-        crewMemberEntities: List&lt;CrewMemberWithPerson&gt;
+        crewMemberEntities: List&lt;CrewMemberWithPerson&gt;,
     ) =
 <span class="nc" id="L25">        MovieCredits(</span>
 <span class="nc" id="L26">            crewMembers = crewMemberEntities.map { mapToDomain(it) },</span>
-<span class="nc" id="L27">            actors = actorEntities.map { mapToDomain(it) }</span>
+<span class="nc" id="L27">            actors = actorEntities.map { mapToDomain(it) },</span>
 <span class="nc" id="L28">        )</span>
 
     @AnyThread
@@ -34,7 +34,7 @@ import javax.inject.Inject
 <span class="nc bnc" id="L34" title="All 2 branches missed.">        profilePath = entity.person.profilePath?.let(::ProfilePath),</span>
 <span class="nc" id="L35">        popularity = entity.person.popularity,</span>
 <span class="nc" id="L36">        character = entity.actor.character,</span>
-<span class="nc" id="L37">        order = entity.actor.order</span>
+<span class="nc" id="L37">        order = entity.actor.order,</span>
 <span class="nc" id="L38">    )</span>
 
     @AnyThread
@@ -44,7 +44,7 @@ import javax.inject.Inject
 <span class="nc bnc" id="L44" title="All 2 branches missed.">        profilePath = entity.person.profilePath?.let(::ProfilePath),</span>
 <span class="nc" id="L45">        popularity = entity.person.popularity,</span>
 <span class="nc" id="L46">        job = entity.crewMember.job,</span>
-<span class="nc" id="L47">        department = entity.crewMember.department</span>
+<span class="nc" id="L47">        department = entity.crewMember.department,</span>
 <span class="nc" id="L48">    )</span>
 
     //endregion
@@ -62,39 +62,39 @@ import javax.inject.Inject
     @AnyThread
     private fun mapToEntity(
         movieId: Long,
-        response: MovieCreditsResponse.CrewMember
+        response: MovieCreditsResponse.CrewMember,
 <span class="nc" id="L66">    ) = CrewMemberWithPerson(</span>
 <span class="nc" id="L67">        crewMember = CrewMemberEntity(</span>
 <span class="nc" id="L68">            job = response.job,</span>
 <span class="nc" id="L69">            department = response.department,</span>
 <span class="nc" id="L70">            personId = response.id,</span>
-<span class="nc" id="L71">            movieId = movieId</span>
+<span class="nc" id="L71">            movieId = movieId,</span>
         ),
 <span class="nc" id="L73">        person = PersonEntity(</span>
 <span class="nc" id="L74">            id = response.id,</span>
 <span class="nc" id="L75">            name = response.name,</span>
 <span class="nc" id="L76">            profilePath = response.profilePath,</span>
-<span class="nc" id="L77">            popularity = response.popularity</span>
-        )
+<span class="nc" id="L77">            popularity = response.popularity,</span>
+        ),
 <span class="nc" id="L79">    )</span>
 
     @AnyThread
     private fun mapToEntity(
         movieId: Long,
-        response: MovieCreditsResponse.Actor
+        response: MovieCreditsResponse.Actor,
 <span class="nc" id="L85">    ) = ActorWithPerson(</span>
 <span class="nc" id="L86">        actor = ActorEntity(</span>
 <span class="nc" id="L87">            character = response.character,</span>
 <span class="nc" id="L88">            order = response.order,</span>
 <span class="nc" id="L89">            personId = response.id,</span>
-<span class="nc" id="L90">            movieId = movieId</span>
+<span class="nc" id="L90">            movieId = movieId,</span>
         ),
 <span class="nc" id="L92">        person = PersonEntity(</span>
 <span class="nc" id="L93">            id = response.id,</span>
 <span class="nc" id="L94">            name = response.name,</span>
 <span class="nc" id="L95">            profilePath = response.profilePath,</span>
-<span class="nc" id="L96">            popularity = response.popularity</span>
-        )
+<span class="nc" id="L96">            popularity = response.popularity,</span>
+        ),
 <span class="nc" id="L98">    )</span>
 
     //endregion

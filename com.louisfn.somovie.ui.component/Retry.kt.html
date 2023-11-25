@@ -23,20 +23,20 @@ import com.louisfn.somovie.ui.common.R as commonR
 <span class="fc" id="L23">    Column(</span>
 <span class="fc" id="L24">        modifier = modifier</span>
 <span class="fc" id="L25">            .semantics { testTag = ComponentTestTag.Retry },</span>
-<span class="fc" id="L26">        horizontalAlignment = Alignment.CenterHorizontally</span>
+<span class="fc" id="L26">        horizontalAlignment = Alignment.CenterHorizontally,</span>
     ) {
-<span class="pc bpc" id="L28" title="3 of 4 branches missed.">        DefaultImage(</span>
+<span class="fc" id="L28">        DefaultImage(</span>
 <span class="fc" id="L29">            modifier = Modifier.width(128.dp),</span>
 <span class="fc" id="L30">            contentScale = ContentScale.FillWidth,</span>
 <span class="fc" id="L31">            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),</span>
-<span class="fc" id="L32">            painter = painterResource(commonR.drawable.ic_cloud_alert)</span>
+<span class="fc" id="L32">            painter = painterResource(commonR.drawable.ic_cloud_alert),</span>
         )
 <span class="fc" id="L34">        Text(</span>
 <span class="fc" id="L35">            text = stringResource(id = commonR.string.common_retry_description),</span>
-<span class="fc" id="L36">            style = MaterialTheme.typography.subtitle1</span>
+<span class="fc" id="L36">            style = MaterialTheme.typography.subtitle1,</span>
         )
 <span class="fc" id="L38">        ColumnSpacer(8.dp)</span>
-<span class="pc" id="L39">        RetryButton(onClick = onClick)</span>
+<span class="fc" id="L39">        RetryButton(onClick = onClick)</span>
 <span class="fc" id="L40">    }</span>
 <span class="pc bpc" id="L41" title="1 of 2 branches missed.">}</span>
 
@@ -44,7 +44,7 @@ import com.louisfn.somovie.ui.common.R as commonR
 <span class="pc bpc" id="L44" title="14 of 20 branches missed.">fun RetryButton(modifier: Modifier = Modifier, onClick: () -&gt; Unit) {</span>
 <span class="pc bpc" id="L45" title="1 of 2 branches missed.">    Button(</span>
 <span class="fc" id="L46">        modifier = modifier,</span>
-<span class="fc" id="L47">        onClick = onClick</span>
+<span class="fc" id="L47">        onClick = onClick,</span>
 <span class="fc" id="L48">    ) {</span>
 <span class="pc bpc" id="L49" title="4 of 8 branches missed.">        Text(text = stringResource(id = commonR.string.common_retry_button))</span>
 <span class="fc" id="L50">    }</span>
@@ -56,7 +56,7 @@ import com.louisfn.somovie.ui.common.R as commonR
 <span class="fc" id="L56">        text = stringResource(id = commonR.string.common_retry_button),</span>
 <span class="fc" id="L57">        modifier = modifier</span>
 <span class="fc" id="L58">            .semantics { testTag = ComponentTestTag.TextRetry },</span>
-<span class="fc" id="L59">        onClick = onClick</span>
+<span class="fc" id="L59">        onClick = onClick,</span>
     )
 <span class="pc bpc" id="L61" title="1 of 2 branches missed.">}</span>
 

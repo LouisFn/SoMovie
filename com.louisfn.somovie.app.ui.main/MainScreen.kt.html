@@ -30,7 +30,7 @@ import com.louisfn.somovie.ui.common.R as commonR
 
 @Composable
 internal fun MainScreen(
-<span class="nc" id="L33">    viewModel: MainViewModel = hiltViewModel()</span>
+<span class="nc" id="L33">    viewModel: MainViewModel = hiltViewModel(),</span>
 <span class="nc bnc" id="L34" title="All 14 branches missed.">) {</span>
 <span class="nc" id="L35">    Logger.d(&quot;Navigation - MainScreen&quot;)</span>
 
@@ -40,22 +40,22 @@ internal fun MainScreen(
 <span class="nc" id="L40">    Box(</span>
 <span class="nc" id="L41">        modifier = Modifier</span>
 <span class="nc" id="L42">            .fillMaxSize()</span>
-<span class="nc" id="L43">            .background(MaterialTheme.colors.background)</span>
+<span class="nc" id="L43">            .background(MaterialTheme.colors.background),</span>
     ) {
-<span class="nc bnc" id="L45" title="All 4 branches missed.">        when (uiState) {</span>
+<span class="nc" id="L45">        when (uiState) {</span>
 <span class="nc bnc" id="L46" title="All 2 branches missed.">            is MainUiState.Loading -&gt;</span>
 <span class="nc" id="L47">                AppLoader()</span>
 <span class="nc bnc" id="L48" title="All 2 branches missed.">            is MainUiState.Content -&gt;</span>
 <span class="nc" id="L49">                MainNavHost(</span>
 <span class="nc" id="L50">                    startDestination = HomeDestination,</span>
-<span class="nc" id="L51">                    modifier = Modifier.fillMaxSize()</span>
+<span class="nc" id="L51">                    modifier = Modifier.fillMaxSize(),</span>
                 )
 <span class="nc" id="L53">        }</span>
 
 <span class="nc" id="L55">        ErrorsLayout(</span>
 <span class="nc" id="L56">            errors = errors,</span>
-<span class="nc" id="L57">            modifier = Modifier.padding(top = WindowInsets.statusBars.top.pxToDp())</span>
-<span class="nc" id="L58">        )</span>
+<span class="nc" id="L57">            modifier = Modifier.padding(top = WindowInsets.statusBars.top.pxToDp()),</span>
+        )
 <span class="nc" id="L59">    }</span>
 <span class="nc bnc" id="L60" title="All 2 branches missed.">}</span>
 
@@ -65,11 +65,11 @@ internal fun MainScreen(
 <span class="nc" id="L65">        verticalArrangement = Arrangement.Center,</span>
 <span class="nc" id="L66">        horizontalAlignment = Alignment.CenterHorizontally,</span>
 <span class="nc" id="L67">        modifier = Modifier</span>
-<span class="nc" id="L68">            .fillMaxSize()</span>
+<span class="nc" id="L68">            .fillMaxSize(),</span>
     ) {
-<span class="nc bnc" id="L70" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L70">        Text(</span>
 <span class="nc" id="L71">            text = stringResource(id = commonR.string.app_name),</span>
-<span class="nc" id="L72">            style = MaterialTheme.typography.h2</span>
+<span class="nc" id="L72">            style = MaterialTheme.typography.h2,</span>
         )
 <span class="nc" id="L74">        ColumnSpacer(space = 32.dp)</span>
 <span class="nc" id="L75">        IndeterminateProgressIndicator()</span>

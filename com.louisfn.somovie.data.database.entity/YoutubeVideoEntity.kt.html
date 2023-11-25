@@ -14,9 +14,9 @@ import java.time.OffsetDateTime
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 <span class="nc" id="L21">data class YoutubeVideoEntity(</span>
 <span class="nc" id="L22">    @PrimaryKey</span>
@@ -33,7 +33,7 @@ import java.time.OffsetDateTime
 <span class="nc" id="L33">    @ColumnInfo(name = COLUMN_PUBLISHED_AT)</span>
 <span class="nc" id="L34">    val publishedAt: OffsetDateTime,</span>
 <span class="nc" id="L35">    @ColumnInfo(name = COLUMN_FK_MOVIE_ID, index = true)</span>
-<span class="nc" id="L36">    val movieId: Long</span>
+<span class="nc" id="L36">    val movieId: Long,</span>
 ) {
 <span class="nc" id="L38">    enum class Type(val value: Int) {</span>
 <span class="nc" id="L39">        TRAILERS(0),</span>
@@ -41,7 +41,7 @@ import java.time.OffsetDateTime
 <span class="nc" id="L41">        CLIPS(2),</span>
 <span class="nc" id="L42">        BEHIND(3),</span>
 <span class="nc" id="L43">        BLOOPERS(4),</span>
-<span class="nc" id="L44">        FEATURETTES(5)</span>
+<span class="nc" id="L44">        FEATURETTES(5),</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -22,7 +22,7 @@ fun DefaultSnackbar(
 <span class="pc bpc" id="L22" title="1 of 2 branches missed.">    backgroundColor: Color = MaterialTheme.colors.background,</span>
 <span class="pc bpc" id="L23" title="1 of 2 branches missed.">    contentColor: Color = MaterialTheme.colors.surface,</span>
 <span class="pc bpc" id="L24" title="1 of 2 branches missed.">    actionColor: Color = MaterialTheme.colors.secondary,</span>
-<span class="fc" id="L25">    elevation: Dp = 6.dp</span>
+<span class="fc" id="L25">    elevation: Dp = 6.dp,</span>
 <span class="pc bpc" id="L26" title="1 of 2 branches missed.">) {</span>
 <span class="pc bpc" id="L27" title="2 of 4 branches missed.">    DefaultSnackbar(</span>
 <span class="fc" id="L28">        message = snackbarData.message,</span>
@@ -34,7 +34,7 @@ fun DefaultSnackbar(
 <span class="fc" id="L34">        backgroundColor = backgroundColor,</span>
 <span class="fc" id="L35">        contentColor = contentColor,</span>
 <span class="fc" id="L36">        actionColor = actionColor,</span>
-<span class="fc" id="L37">        elevation = elevation</span>
+<span class="fc" id="L37">        elevation = elevation,</span>
     )
 <span class="fc" id="L39">}</span>
 
@@ -49,14 +49,14 @@ fun DefaultSnackbar(
 <span class="pc bpc" id="L49" title="1 of 2 branches missed.">    backgroundColor: Color = MaterialTheme.colors.background,</span>
 <span class="pc bpc" id="L50" title="1 of 2 branches missed.">    contentColor: Color = MaterialTheme.colors.surface,</span>
 <span class="pc bpc" id="L51" title="1 of 2 branches missed.">    actionColor: Color = MaterialTheme.colors.secondary,</span>
-<span class="nc" id="L52">    elevation: Dp = 6.dp</span>
+<span class="nc" id="L52">    elevation: Dp = 6.dp,</span>
 <span class="pc bpc" id="L53" title="28 of 70 branches missed.">) {</span>
 <span class="fc" id="L54">    val actionComposable: (@Composable () -&gt; Unit)? =</span>
 <span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (actionLabel != null) {</span>
 <span class="fc" id="L56">            @Composable {</span>
 <span class="pc bpc" id="L57" title="5 of 8 branches missed.">                TextButton(</span>
 <span class="fc" id="L58">                    onClick = onActionClick,</span>
-<span class="pc bpc" id="L59" title="4 of 8 branches missed.">                    content = { Text(text = actionLabel, color = actionColor) }</span>
+<span class="pc bpc" id="L59" title="4 of 8 branches missed.">                    content = { Text(text = actionLabel, color = actionColor) },</span>
 <span class="nc" id="L60">                )</span>
 <span class="fc" id="L61">            }</span>
         } else {
@@ -70,7 +70,7 @@ fun DefaultSnackbar(
 <span class="fc" id="L70">        shape = shape,</span>
 <span class="fc" id="L71">        backgroundColor = backgroundColor,</span>
 <span class="fc" id="L72">        contentColor = contentColor,</span>
-<span class="fc" id="L73">        elevation = elevation</span>
+<span class="fc" id="L73">        elevation = elevation,</span>
     )
 <span class="pc bpc" id="L75" title="1 of 2 branches missed.">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

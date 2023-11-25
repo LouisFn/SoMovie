@@ -18,12 +18,12 @@ interface MovieDiscoverRemoteDataSource {
         sortByDirection: MovieDiscoverSortByDirection,
         minVoteCount: Int,
         @FloatRange(from = 0.0, to = 10.0) minVoteAverage: Float,
-        page: Int
+        page: Int,
     ): PaginatedResultsResponse&lt;MovieResponse&gt;
 }
 
 <span class="nc" id="L25">internal class DefaultMovieDiscoverRemoteDataSource @Inject constructor(</span>
-<span class="nc" id="L26">    private val executor: ApiServiceExecutor</span>
+<span class="nc" id="L26">    private val executor: ApiServiceExecutor,</span>
 ) : MovieDiscoverRemoteDataSource {
 
     override suspend fun getMovieDiscover(
@@ -31,14 +31,14 @@ interface MovieDiscoverRemoteDataSource {
         sortByDirection: MovieDiscoverSortByDirection,
         minVoteCount: Int,
         @FloatRange(from = 0.0, to = 10.0) minVoteAverage: Float,
-        page: Int
+        page: Int,
     ): PaginatedResultsResponse&lt;MovieResponse&gt; =
 <span class="nc" id="L36">        executor.execute {</span>
 <span class="nc" id="L37">            it.getMovieDiscover(</span>
 <span class="nc" id="L38">                sortBy = MovieDiscoverSortParameter(sortBy, sortByDirection),</span>
 <span class="nc" id="L39">                minVoteCount = minVoteCount,</span>
 <span class="nc" id="L40">                minVoteAverage = minVoteAverage,</span>
-<span class="nc" id="L41">                page = page</span>
+<span class="nc" id="L41">                page = page,</span>
             )
 <span class="nc" id="L43">        }</span>
 }

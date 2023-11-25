@@ -19,7 +19,7 @@ import javax.inject.Inject
 <span class="nc" id="L19">        name = entity.name,</span>
 <span class="nc" id="L20">        type = mapToDomain(entity.type),</span>
 <span class="nc" id="L21">        publishedAt = entity.publishedAt,</span>
-<span class="nc" id="L22">        official = entity.official</span>
+<span class="nc" id="L22">        official = entity.official,</span>
 <span class="nc" id="L23">    )</span>
 
 <span class="nc bnc" id="L25" title="All 6 branches missed.">    private fun mapToDomain(entity: YoutubeVideoEntity.Type) = when (entity) {</span>
@@ -37,7 +37,7 @@ import javax.inject.Inject
 
     fun mapToEntity(
         movieId: Long,
-        entities: List&lt;MovieVideoResponse&gt;
+        entities: List&lt;MovieVideoResponse&gt;,
     ): List&lt;YoutubeVideoEntity&gt; =
 <span class="nc" id="L42">        entities</span>
 <span class="nc bnc" id="L43" title="All 2 branches missed.">            .filter { it.site == MovieVideoResponse.Site.YOUTUBE }</span>
@@ -45,7 +45,7 @@ import javax.inject.Inject
 
     private fun mapToEntity(
         movieId: Long,
-        response: MovieVideoResponse
+        response: MovieVideoResponse,
     ): YoutubeVideoEntity {
 <span class="nc bnc" id="L50" title="All 4 branches missed.">        check(response.site == MovieVideoResponse.Site.YOUTUBE)</span>
 <span class="nc" id="L51">        return YoutubeVideoEntity(</span>
@@ -55,7 +55,7 @@ import javax.inject.Inject
 <span class="nc" id="L55">            type = mapTypeToEntity(response.type),</span>
 <span class="nc" id="L56">            official = response.official,</span>
 <span class="nc" id="L57">            publishedAt = response.publishedAt,</span>
-<span class="nc" id="L58">            movieId = movieId</span>
+<span class="nc" id="L58">            movieId = movieId,</span>
         )
     }
 

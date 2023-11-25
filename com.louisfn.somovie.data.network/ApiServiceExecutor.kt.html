@@ -5,13 +5,13 @@ import javax.inject.Inject
 
 <span class="nc" id="L6">internal class ApiServiceExecutor @Inject constructor(</span>
 <span class="nc" id="L7">    private val apiService: ApiService,</span>
-<span class="nc" id="L8">    private val apiExceptionMapper: ApiExceptionMapper</span>
+<span class="nc" id="L8">    private val apiExceptionMapper: ApiExceptionMapper,</span>
 ) {
 
     @AnyThread
 <span class="nc" id="L12">    suspend fun &lt;T&gt; execute(</span>
 <span class="nc" id="L13">        mapHttpException: ((HttpException) -&gt; Exception?)? = null,</span>
-        request: suspend (ApiService) -&gt; T
+        request: suspend (ApiService) -&gt; T,
     ): T =
 <span class="nc" id="L16">        try {</span>
 <span class="nc" id="L17">            request(apiService)</span>

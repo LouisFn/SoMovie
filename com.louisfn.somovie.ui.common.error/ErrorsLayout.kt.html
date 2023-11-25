@@ -15,13 +15,13 @@ private const val SimpleMessageErrorBackgroundAlpha = 0.6f
 @Composable
 fun ErrorsLayout(
     errors: ImmutableList&lt;Error&gt;,
-<span class="nc bnc" id="L18" title="All 2 branches missed.">    modifier: Modifier = Modifier</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
 <span class="nc bnc" id="L19" title="All 18 branches missed.">) {</span>
 <span class="nc" id="L20">    Column(</span>
         modifier = modifier,
-<span class="nc" id="L22">        verticalArrangement = Arrangement.spacedBy(4.dp)</span>
+<span class="nc" id="L22">        verticalArrangement = Arrangement.spacedBy(4.dp),</span>
     ) {
-<span class="nc bnc" id="L24" title="All 4 branches missed.">        errors.forEach {</span>
+<span class="nc" id="L24">        errors.forEach {</span>
 <span class="nc" id="L25">            when (it) {</span>
 <span class="nc bnc" id="L26" title="All 2 branches missed.">                is SimpleMessageError -&gt; SimpleMessageError(it)</span>
             }
@@ -36,15 +36,15 @@ fun ErrorsLayout(
 <span class="nc" id="L36">            .padding(horizontal = 8.dp)</span>
 <span class="nc" id="L37">            .fillMaxWidth()</span>
 <span class="nc" id="L38">            .background(MaterialTheme.colors.error.copy(SimpleMessageErrorBackgroundAlpha))</span>
-<span class="nc" id="L39">            .padding(8.dp)</span>
+<span class="nc" id="L39">            .padding(8.dp),</span>
     ) {
-<span class="nc bnc" id="L41" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L41">        Text(</span>
 <span class="nc" id="L42">            modifier = Modifier,</span>
 <span class="nc" id="L43">            text = error.message,</span>
 <span class="nc" id="L44">            color = MaterialTheme.colors.onError,</span>
 <span class="nc" id="L45">            style = MaterialTheme.typography.caption,</span>
-<span class="nc" id="L46">            textAlign = TextAlign.Center</span>
-<span class="nc" id="L47">        )</span>
+<span class="nc" id="L46">            textAlign = TextAlign.Center,</span>
+        )
 <span class="nc" id="L48">    }</span>
 <span class="nc bnc" id="L49" title="All 2 branches missed.">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

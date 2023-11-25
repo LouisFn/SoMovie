@@ -10,7 +10,7 @@ import com.louisfn.somovie.data.database.entity.RemoteKeyEntity
 <span class="fc" id="L10">internal abstract class DefaultAppendRemoteMediator&lt;Key : Any, Value : Any&gt; constructor(</span>
 <span class="fc" id="L11">    private val remoteKeyLocalDataSource: RemoteKeyLocalDataSource,</span>
 <span class="fc" id="L12">    private val remoteKeyType: RemoteKeyEntity.Type,</span>
-<span class="fc" id="L13">    private val cacheTimeout: Long</span>
+<span class="fc" id="L13">    private val cacheTimeout: Long,</span>
 <span class="fc" id="L14">) : RemoteMediator&lt;Key, Value&gt;() {</span>
 
     override suspend fun initialize() =
@@ -37,7 +37,7 @@ import com.louisfn.somovie.data.database.entity.RemoteKeyEntity
 <span class="fc" id="L37">            remoteKeyLocalDataSource.updateNextKey(</span>
 <span class="fc" id="L38">                type = remoteKeyType,</span>
 <span class="fc" id="L39">                nextKey = result.nextKey,</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">                reset = loadType == LoadType.REFRESH</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                reset = loadType == LoadType.REFRESH,</span>
             )
 
 <span class="fc" id="L43">            MediatorResult.Success(endOfPaginationReached = result.endOfPaginationReached)</span>
@@ -51,7 +51,7 @@ import com.louisfn.somovie.data.database.entity.RemoteKeyEntity
 
 <span class="fc" id="L52">    data class Result(</span>
 <span class="fc" id="L53">        val nextKey: String,</span>
-<span class="fc" id="L54">        val endOfPaginationReached: Boolean</span>
+<span class="fc" id="L54">        val endOfPaginationReached: Boolean,</span>
     )
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

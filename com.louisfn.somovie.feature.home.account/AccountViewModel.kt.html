@@ -21,7 +21,7 @@ import javax.inject.Inject
 <span class="nc" id="L21">internal class AccountViewModel @Inject constructor(</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
 <span class="nc" id="L23">    private val accountInteractor: AccountInteractor,</span>
-<span class="nc" id="L24">    private val authenticationInteractor: AuthenticationInteractor</span>
+<span class="nc" id="L24">    private val authenticationInteractor: AuthenticationInteractor,</span>
 <span class="nc" id="L25">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
 <span class="nc" id="L27">    val uiState: StateFlow&lt;AccountUiState&gt; =</span>
@@ -30,7 +30,7 @@ import javax.inject.Inject
 <span class="nc" id="L30">            .stateIn(</span>
 <span class="nc" id="L31">                scope = viewModelScope,</span>
 <span class="nc" id="L32">                started = SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L33">                initialValue = AccountUiState.None</span>
+<span class="nc" id="L33">                initialValue = AccountUiState.None,</span>
             )
 
     @AnyThread

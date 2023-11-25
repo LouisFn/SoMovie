@@ -27,27 +27,27 @@ fun MovieVoteAverageChart(
 <span class="nc bnc" id="L27" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
 <span class="nc bnc" id="L28" title="All 2 branches missed.">    background: Color = MaterialTheme.colors.surface,</span>
 <span class="nc" id="L29">    strokeWidth: Dp = 3.dp,</span>
-<span class="nc bnc" id="L30" title="All 8 branches missed.">    textStyle: TextStyle = MaterialTheme.typography.caption</span>
+<span class="nc bnc" id="L30" title="All 8 branches missed.">    textStyle: TextStyle = MaterialTheme.typography.caption,</span>
 <span class="nc bnc" id="L31" title="All 40 branches missed.">) {</span>
 <span class="nc" id="L32">    Box(</span>
 <span class="nc" id="L33">        contentAlignment = Alignment.Center,</span>
 <span class="nc" id="L34">        modifier = modifier</span>
 <span class="nc" id="L35">            .size(32.dp)</span>
 <span class="nc" id="L36">            .clip(CircleShape)</span>
-<span class="nc" id="L37">            .background(background)</span>
+<span class="nc" id="L37">            .background(background),</span>
     ) {
-<span class="nc bnc" id="L39" title="All 4 branches missed.">        CircularProgressIndicator(</span>
+<span class="nc" id="L39">        CircularProgressIndicator(</span>
 <span class="nc" id="L40">            modifier = Modifier.fillMaxSize(),</span>
 <span class="nc" id="L41">            progress = average / 10,</span>
 <span class="nc" id="L42">            color = MaterialTheme.colors.secondary,</span>
-<span class="nc" id="L43">            strokeWidth = strokeWidth</span>
+<span class="nc" id="L43">            strokeWidth = strokeWidth,</span>
         )
 <span class="nc" id="L45">        Text(</span>
 <span class="nc" id="L46">            text = String.format(&quot;%.1f&quot;, average),</span>
 <span class="nc" id="L47">            style = textStyle,</span>
 <span class="nc" id="L48">            color = AppColor.Silver,</span>
-<span class="nc" id="L49">            fontWeight = FontWeight.Bold</span>
-<span class="nc" id="L50">        )</span>
+<span class="nc" id="L49">            fontWeight = FontWeight.Bold,</span>
+        )
 <span class="nc" id="L51">    }</span>
 <span class="nc bnc" id="L52" title="All 2 branches missed.">}</span>
 

@@ -32,7 +32,7 @@ interface ErrorsDispatcher {
 <span class="nc" id="L32">@Singleton</span>
 <span class="nc" id="L33">class DefaultErrorsDispatcher @Inject constructor(</span>
 <span class="nc" id="L34">    private val commonErrorMapper: CommonErrorMapper,</span>
-<span class="nc" id="L35">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L35">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) : ErrorsDispatcher {
 <span class="nc" id="L37">    private val scope = CoroutineScope(defaultDispatcher)</span>
 
@@ -57,13 +57,16 @@ interface ErrorsDispatcher {
     private fun dispatch(error: Error) =
 <span class="nc" id="L58">        scope.launch {</span>
 <span class="nc" id="L59">            _errors.update {</span>
-<span class="nc bnc" id="L60" title="All 2 branches missed.">                if (!it.contains(error)) ImmutableList(it + error)</span>
-<span class="nc" id="L61">                else it</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                if (!it.contains(error)) {</span>
+<span class="nc" id="L61">                    ImmutableList(it + error)</span>
+                } else {
+<span class="nc" id="L63">                    it</span>
+                }
             }
 
-<span class="nc" id="L64">            delay(error.duration)</span>
+<span class="nc" id="L67">            delay(error.duration)</span>
 
-<span class="nc" id="L66">            _errors.update { ImmutableList(it - error) }</span>
-<span class="nc" id="L67">        }</span>
+<span class="nc" id="L69">            _errors.update { ImmutableList(it - error) }</span>
+<span class="nc" id="L70">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

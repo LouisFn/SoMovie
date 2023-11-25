@@ -35,7 +35,7 @@ interface WatchlistRepository {
     @AnyThread
 <span class="fc" id="L36">    fun watchlistPagingChanges(</span>
         pagingConfig: PagingConfig,
-<span class="fc" id="L38">        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT</span>
+<span class="fc" id="L38">        cacheTimeout: Long = DEFAULT_CACHE_TIMEOUT,</span>
     ): Flow&lt;PagingData&lt;Movie&gt;&gt;
 
     companion object {
@@ -50,19 +50,19 @@ interface WatchlistRepository {
 <span class="fc" id="L50">    private val remoteKeyLocalDataSource: RemoteKeyLocalDataSource,</span>
 <span class="fc" id="L51">    private val movieMapper: MovieMapper,</span>
 <span class="fc" id="L52">    private val databaseHelper: DatabaseHelper,</span>
-<span class="fc" id="L53">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="fc" id="L53">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) : WatchlistRepository {
 
     override fun watchlistPagingChanges(
         pagingConfig: PagingConfig,
-        cacheTimeout: Long
+        cacheTimeout: Long,
     ): Flow&lt;PagingData&lt;Movie&gt;&gt; =
 <span class="fc" id="L60">        flow {</span>
 <span class="fc" id="L61">            val pagerFlow =</span>
 <span class="fc" id="L62">                Pager(</span>
 <span class="fc" id="L63">                    config = pagingConfig,</span>
 <span class="fc" id="L64">                    remoteMediator = createWatchlistRemoteMediator(cacheTimeout),</span>
-<span class="fc" id="L65">                    pagingSourceFactory = { localDataSource.getPagingWatchlist() }</span>
+<span class="fc" id="L65">                    pagingSourceFactory = { localDataSource.getPagingWatchlist() },</span>
 <span class="fc" id="L66">                ).flow</span>
 <span class="fc" id="L67">            emitAll(pagerFlow)</span>
 <span class="nc" id="L68">        }</span>
@@ -71,7 +71,7 @@ interface WatchlistRepository {
 
     @AnyThread
     private suspend fun createWatchlistRemoteMediator(
-        cacheTimeout: Long
+        cacheTimeout: Long,
 <span class="fc" id="L75">    ) = WatchlistRemoteMediator(</span>
 <span class="fc" id="L76">        cacheTimeout = cacheTimeout,</span>
 <span class="fc" id="L77">        remoteKeyLocalDataSource = remoteKeyLocalDataSource,</span>
@@ -79,7 +79,7 @@ interface WatchlistRepository {
 <span class="fc" id="L79">        remoteDataSource = remoteDataSource,</span>
 <span class="fc" id="L80">        movieMapper = movieMapper,</span>
 <span class="fc" id="L81">        databaseHelper = databaseHelper,</span>
-<span class="fc" id="L82">        accountId = getAccountId()</span>
+<span class="fc" id="L82">        accountId = getAccountId(),</span>
 <span class="fc" id="L83">    )</span>
 
 <span class="fc" id="L85">    override suspend fun addToWatchlist(movieId: Long) = defaultDispatcher {</span>
@@ -87,8 +87,8 @@ interface WatchlistRepository {
 <span class="fc" id="L87">            accountId = getAccountId(),</span>
 <span class="fc" id="L88">            addToWatchlistBody = AddToWatchlistBody(</span>
 <span class="fc" id="L89">                movieId = movieId,</span>
-<span class="fc" id="L90">                watchlist = true</span>
-            )
+<span class="fc" id="L90">                watchlist = true,</span>
+            ),
         )
 <span class="fc" id="L93">        localDataSource.updateWatchlistState(movieId, true)</span>
 <span class="fc" id="L94">    }</span>
@@ -98,8 +98,8 @@ interface WatchlistRepository {
 <span class="fc" id="L98">            accountId = getAccountId(),</span>
 <span class="fc" id="L99">            addToWatchlistBody = AddToWatchlistBody(</span>
 <span class="fc" id="L100">                movieId = movieId,</span>
-<span class="fc" id="L101">                watchlist = false</span>
-            )
+<span class="fc" id="L101">                watchlist = false,</span>
+            ),
         )
 <span class="fc" id="L104">        databaseHelper.withTransaction {</span>
 <span class="fc" id="L105">            localDataSource.updateWatchlistState(movieId, false)</span>

@@ -11,7 +11,7 @@ interface AppRepository {
 }
 
 <span class="nc" id="L13">internal class DefaultAppRepository @Inject constructor(</span>
-<span class="nc" id="L14">    private val databaseHelper: DatabaseHelper</span>
+<span class="nc" id="L14">    private val databaseHelper: DatabaseHelper,</span>
 ) : AppRepository {
 
     override suspend fun clearDatabase() {

@@ -16,7 +16,7 @@ object FakeTmdbConfigurationFactory {
 <span class="fc" id="L16">            logoSizes = listOf(&quot;w45&quot;, &quot;w92&quot;, &quot;w154&quot;, &quot;w185&quot;, &quot;w300&quot;, &quot;w500&quot;, &quot;original&quot;),</span>
 <span class="fc" id="L17">            posterSizes = listOf(&quot;w92&quot;, &quot;w154&quot;, &quot;w185&quot;, &quot;w342&quot;, &quot;w500&quot;, &quot;w780&quot;, &quot;original&quot;),</span>
 <span class="fc" id="L18">            profileSizes = listOf(&quot;w45&quot;, &quot;w185&quot;, &quot;h632&quot;, &quot;original&quot;),</span>
-<span class="fc" id="L19">            stillSizes = listOf(&quot;w92&quot;, &quot;w185&quot;, &quot;w300&quot;, &quot;original&quot;)</span>
+<span class="fc" id="L19">            stillSizes = listOf(&quot;w92&quot;, &quot;w185&quot;, &quot;w300&quot;, &quot;original&quot;),</span>
         ),
 <span class="fc" id="L21">        changesKeys = listOf(</span>
 <span class="fc" id="L22">            &quot;adult&quot;,</span>
@@ -71,15 +71,15 @@ object FakeTmdbConfigurationFactory {
 <span class="fc" id="L71">            &quot;tvrage_id&quot;,</span>
 <span class="fc" id="L72">            &quot;type&quot;,</span>
 <span class="fc" id="L73">            &quot;video&quot;,</span>
-<span class="fc" id="L74">            &quot;videos&quot;</span>
+<span class="fc" id="L74">            &quot;videos&quot;,</span>
         ),
-<span class="fc" id="L76">        updatedAt = LocalDate.of(2022, 8, 1).atStartOfDay().toInstant(ZoneOffset.UTC)</span>
+<span class="fc" id="L76">        updatedAt = LocalDate.of(2022, 8, 1).atStartOfDay().toInstant(ZoneOffset.UTC),</span>
     )
 
 <span class="pc" id="L79">    val empty = TmdbConfiguration(</span>
 <span class="fc" id="L80">        images = null,</span>
 <span class="fc" id="L81">        changesKeys = null,</span>
-<span class="fc" id="L82">        updatedAt = null</span>
+<span class="fc" id="L82">        updatedAt = null,</span>
     )
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

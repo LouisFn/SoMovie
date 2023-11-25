@@ -20,17 +20,17 @@ object MovieListNavigation : NavigationDestination {
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.movieListGraph(
     showDetail: (Movie) -&gt; Unit,
-    navigateUp: () -&gt; Unit
+    navigateUp: () -&gt; Unit,
 ) {
 <span class="nc" id="L25">    composable(</span>
 <span class="nc" id="L26">        route = MovieListNavigation.route,</span>
 <span class="nc" id="L27">        arguments = listOf(</span>
-<span class="nc" id="L28">            navArgument(MovieListNavigation.ARGS_CATEGORY) { type = NavType.StringType }</span>
-        )
+<span class="nc" id="L28">            navArgument(MovieListNavigation.ARGS_CATEGORY) { type = NavType.StringType },</span>
+        ),
 <span class="nc" id="L30">    ) {</span>
 <span class="nc bnc" id="L31" title="All 2 branches missed.">        MovieListScreen(</span>
 <span class="nc" id="L32">            showDetail = showDetail,</span>
-<span class="nc" id="L33">            navigateUp = navigateUp</span>
+<span class="nc" id="L33">            navigateUp = navigateUp,</span>
         )
 <span class="nc" id="L35">    }</span>
 <span class="nc" id="L36">}</span>

@@ -18,7 +18,7 @@ interface AuthenticationRemoteDataSource {
 }
 
 <span class="nc" id="L20">internal class DefaultAuthenticationRemoteDataSource @Inject constructor(</span>
-<span class="nc" id="L21">    private val executor: ApiServiceExecutor</span>
+<span class="nc" id="L21">    private val executor: ApiServiceExecutor,</span>
 ) : AuthenticationRemoteDataSource {
 
     override suspend fun getRequestToken(): String =

@@ -26,7 +26,7 @@ interface MovieVideoRepository {
 <span class="nc" id="L26">    private val localDataSource: MovieVideoLocalDataSource,</span>
 <span class="nc" id="L27">    private val remoteDataSource: MovieVideoRemoteDataSource,</span>
 <span class="nc" id="L28">    private val youtubeVideoMapper: YoutubeVideoMapper,</span>
-<span class="nc" id="L29">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L29">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) : MovieVideoRepository {
 
     override fun youtubeVideosChanges(movieId: Long): Flow&lt;List&lt;YoutubeVideo&gt;&gt; =

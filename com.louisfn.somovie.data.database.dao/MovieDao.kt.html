@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
             &quot;INNER JOIN $TABLE_MOVIE as m ON d.$COLUMN_FK_MOVIE_ID == m.$COLUMN_ID &quot; +
             &quot;WHERE d.$COLUMN_CATEGORY = :category &quot; +
             &quot;ORDER BY d.$COLUMN_ID &quot; +
-            &quot;LIMIT :limit &quot;
+            &quot;LIMIT :limit &quot;,
     )
     abstract fun changes(category: ExploreEntity.Category, limit: Int): Flow&lt;List&lt;MovieEntity&gt;&gt;
 
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.Flow
         &quot;SELECT m.* FROM $TABLE_EXPLORE as d &quot; +
             &quot;INNER JOIN $TABLE_MOVIE as m ON d.$COLUMN_FK_MOVIE_ID == m.$COLUMN_ID &quot; +
             &quot;WHERE d.$COLUMN_CATEGORY = :category &quot; +
-            &quot;ORDER BY d.$COLUMN_ID&quot;
+            &quot;ORDER BY d.$COLUMN_ID&quot;,
     )
     abstract fun getPaging(category: ExploreEntity.Category): PagingSource&lt;Int, MovieEntity&gt;
 

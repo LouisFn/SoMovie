@@ -17,7 +17,7 @@ import java.time.Instant
 <span class="fc" id="L17">    @ColumnInfo(name = COLUMN_NEXT_KEY)</span>
 <span class="fc" id="L18">    val nextKey: String?,</span>
 <span class="fc" id="L19">    @ColumnInfo(name = COLUMN_FIRST_FETCH_AT)</span>
-<span class="nc" id="L20">    val firstFetchAt: Instant</span>
+<span class="nc" id="L20">    val firstFetchAt: Instant,</span>
 ) {
 
 <span class="pc" id="L23">    enum class Type(val value: Int) {</span>
@@ -25,7 +25,7 @@ import java.time.Instant
 <span class="fc" id="L25">        EXPLORE_NOW_PLAYING(1),</span>
 <span class="fc" id="L26">        EXPLORE_TOP_RATED(2),</span>
 <span class="fc" id="L27">        EXPLORE_UPCOMING(3),</span>
-<span class="fc" id="L28">        WATCH_LIST(4)</span>
+<span class="fc" id="L28">        WATCH_LIST(4),</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

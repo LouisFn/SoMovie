@@ -18,7 +18,7 @@ interface AccountRepository {
 <span class="nc" id="L18">internal class DefaultAccountRepository @Inject constructor(</span>
 <span class="nc" id="L19">    private val remoteDataSource: AccountRemoteDataSource,</span>
 <span class="nc" id="L20">    private val mapper: AccountMapper,</span>
-<span class="nc" id="L21">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L21">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) : AccountRepository {
 
 <span class="nc" id="L24">    override suspend fun getAccount(): Account = defaultDispatcher {</span>

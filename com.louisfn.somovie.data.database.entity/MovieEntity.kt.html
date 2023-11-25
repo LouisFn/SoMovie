@@ -37,7 +37,7 @@ import java.time.LocalDate
 <span class="fc" id="L37">    @ColumnInfo(name = COLUMN_DETAILS_UPDATED_AT)</span>
 <span class="fc" id="L38">    val detailsUpdatedAt: Instant?,</span>
 <span class="fc" id="L39">    @Embedded</span>
-<span class="fc" id="L40">    val details: Details?</span>
+<span class="fc" id="L40">    val details: Details?,</span>
 ) {
 <span class="fc" id="L42">    data class Details(</span>
 <span class="fc" id="L43">        @ColumnInfo(name = COLUMN_TAGLINE)</span>
@@ -51,7 +51,7 @@ import java.time.LocalDate
 <span class="fc" id="L51">        @ColumnInfo(name = COLUMN_REVENUE)</span>
 <span class="fc" id="L52">        val revenue: Int,</span>
 <span class="fc" id="L53">        @ColumnInfo(name = COLUMN_VOTE_COUNT)</span>
-<span class="fc" id="L54">        val voteCount: Int</span>
+<span class="fc" id="L54">        val voteCount: Int,</span>
     )
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

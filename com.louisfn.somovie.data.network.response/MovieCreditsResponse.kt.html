@@ -10,7 +10,7 @@ import com.squareup.moshi.JsonClass
 <span class="nc" id="L10">    @Json(name = &quot;cast&quot;)</span>
 <span class="nc" id="L11">    val cast: List&lt;Actor&gt;,</span>
 <span class="nc" id="L12">    @Json(name = &quot;crew&quot;)</span>
-<span class="nc" id="L13">    val crew: List&lt;CrewMember&gt;</span>
+<span class="nc" id="L13">    val crew: List&lt;CrewMember&gt;,</span>
 ) {
 
 <span class="nc" id="L16">    @JsonClass(generateAdapter = true)</span>
@@ -26,7 +26,7 @@ import com.squareup.moshi.JsonClass
 <span class="nc" id="L26">        @Json(name = &quot;order&quot;)</span>
 <span class="nc" id="L27">        val order: Int,</span>
 <span class="nc" id="L28">        @Json(name = &quot;popularity&quot;)</span>
-<span class="nc" id="L29">        val popularity: Float</span>
+<span class="nc" id="L29">        val popularity: Float,</span>
     )
 
 <span class="nc" id="L32">    @JsonClass(generateAdapter = true)</span>
@@ -42,7 +42,7 @@ import com.squareup.moshi.JsonClass
 <span class="nc" id="L42">        @Json(name = &quot;profile_path&quot;)</span>
 <span class="nc" id="L43">        val profilePath: String?,</span>
 <span class="nc" id="L44">        @Json(name = &quot;popularity&quot;)</span>
-<span class="nc" id="L45">        val popularity: Float</span>
+<span class="nc" id="L45">        val popularity: Float,</span>
     )
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -15,13 +15,13 @@ object ExploreNavigation : NavigationDestination {
 fun NavGraphBuilder.exploreGraph(
     homeItemState: HomeItemState,
     showDetail: (Movie) -&gt; Unit,
-    showMore: (ExploreCategory) -&gt; Unit
+    showMore: (ExploreCategory) -&gt; Unit,
 ) {
 <span class="nc" id="L20">    composable(route = ExploreNavigation.route) {</span>
 <span class="nc bnc" id="L21" title="All 2 branches missed.">        ExploreScreen(</span>
 <span class="nc" id="L22">            homeItemState = homeItemState,</span>
 <span class="nc" id="L23">            showDetail = showDetail,</span>
-<span class="nc" id="L24">            showMore = showMore</span>
+<span class="nc" id="L24">            showMore = showMore,</span>
         )
 <span class="nc" id="L26">    }</span>
 <span class="nc" id="L27">}</span>

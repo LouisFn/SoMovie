@@ -15,7 +15,7 @@ import javax.inject.Inject
 <span class="nc" id="L15">    fun mapToDomain(entity: CompanyEntity) = Company(</span>
 <span class="nc" id="L16">        id = entity.id,</span>
 <span class="nc" id="L17">        name = entity.name,</span>
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        logoPath = entity.logoPath?.let(::LogoPath)</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        logoPath = entity.logoPath?.let(::LogoPath),</span>
 <span class="nc" id="L19">    )</span>
 
     //endregion
@@ -28,7 +28,7 @@ import javax.inject.Inject
 <span class="nc" id="L28">        CompanyEntity(</span>
 <span class="nc" id="L29">            id = response.id,</span>
 <span class="nc" id="L30">            logoPath = response.logoPath,</span>
-<span class="nc" id="L31">            name = response.name</span>
+<span class="nc" id="L31">            name = response.name,</span>
 <span class="nc" id="L32">        )</span>
 
     //endregion

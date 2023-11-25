@@ -18,11 +18,11 @@ import com.louisfn.somovie.domain.model.ExploreCategory
 <span class="nc" id="L18">    private val movieMapper: MovieMapper,</span>
 <span class="nc" id="L19">    private val categoryMapper: ExploreCategoryMapper,</span>
 <span class="nc" id="L20">    private val databaseHelper: DatabaseHelper,</span>
-<span class="nc" id="L21">    private val category: ExploreCategory</span>
+<span class="nc" id="L21">    private val category: ExploreCategory,</span>
 <span class="nc" id="L22">) : DefaultAppendRemoteMediator&lt;Int, MovieEntity&gt;(</span>
 <span class="nc" id="L23">    remoteKeyType = categoryMapper.mapToRemoteKeyTypeEntity(category),</span>
 <span class="nc" id="L24">    remoteKeyLocalDataSource = remoteKeyLocalDataSource,</span>
-<span class="nc" id="L25">    cacheTimeout = cacheTimeout</span>
+<span class="nc" id="L25">    cacheTimeout = cacheTimeout,</span>
 ) {
 
 <span class="nc" id="L28">    override suspend fun fetchNewData(key: String?): Result {</span>
@@ -43,7 +43,7 @@ import com.louisfn.somovie.domain.model.ExploreCategory
 
 <span class="nc" id="L44">        return Result(</span>
 <span class="nc" id="L45">            nextKey = (page + 1).toString(),</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">            endOfPaginationReached = response.totalPages == page</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            endOfPaginationReached = response.totalPages == page,</span>
         )
     }
 }

@@ -20,8 +20,8 @@ fun NavGraphBuilder.movieDetailsGraph(navigateUp: () -&gt; Unit) {
 <span class="nc" id="L20">    composable(</span>
 <span class="nc" id="L21">        route = MovieDetailsNavigation.route,</span>
 <span class="nc" id="L22">        arguments = listOf(</span>
-<span class="nc" id="L23">            navArgument(MovieDetailsNavigation.ARGS_MOVIE_ID) { type = NavType.LongType }</span>
-        )
+<span class="nc" id="L23">            navArgument(MovieDetailsNavigation.ARGS_MOVIE_ID) { type = NavType.LongType },</span>
+        ),
 <span class="nc" id="L25">    ) {</span>
 <span class="nc bnc" id="L26" title="All 2 branches missed.">        MovieDetailsScreen(navigateUp = navigateUp)</span>
 <span class="nc" id="L27">    }</span>

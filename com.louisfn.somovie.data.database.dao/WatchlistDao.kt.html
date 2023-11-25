@@ -16,7 +16,7 @@ import com.louisfn.somovie.data.database.entity.WatchlistEntity
     @Query(
         &quot;SELECT * FROM $TABLE_WATCHLIST as w &quot; +
             &quot;INNER JOIN $TABLE_MOVIE as m ON w.$COLUMN_FK_MOVIE_ID == m.$COLUMN_ID &quot; +
-            &quot;ORDER BY w.$COLUMN_ID&quot;
+            &quot;ORDER BY w.$COLUMN_ID&quot;,
     )
     abstract fun getPaging(): PagingSource&lt;Int, MovieEntity&gt;
 

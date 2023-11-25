@@ -17,7 +17,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 @Composable
 fun &lt;T : R, R&gt; StateFlow&lt;T&gt;.collectAsStateLifecycleAware(
 <span class="pc bpc" id="L19" title="1 of 2 branches missed.">    context: CoroutineContext = EmptyCoroutineContext,</span>
-<span class="pc bpc" id="L20" title="1 of 2 branches missed.">    minActiveState: Lifecycle.State = Lifecycle.State.STARTED</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,</span>
 ): State&lt;R&gt; =
 <span class="pc" id="L22">    rememberFlowWithLifecycle(flow = this, minActiveState = minActiveState)</span>
 <span class="pc bpc" id="L23" title="1 of 2 branches missed.">        .collectAsState(context = context, initial = value)</span>
@@ -26,11 +26,11 @@ fun &lt;T : R, R&gt; StateFlow&lt;T&gt;.collectAsStateLifecycleAware(
 private fun &lt;T&gt; rememberFlowWithLifecycle(
     flow: Flow&lt;T&gt;,
 <span class="pc bpc" id="L28" title="1 of 2 branches missed.">    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,</span>
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">    minActiveState: Lifecycle.State = Lifecycle.State.STARTED</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,</span>
 <span class="pc bpc" id="L30" title="1 of 2 branches missed.">): Flow&lt;T&gt; = remember(flow, lifecycle) {</span>
 <span class="fc" id="L31">    flow.flowWithLifecycle(</span>
 <span class="fc" id="L32">        lifecycle = lifecycle,</span>
-<span class="fc" id="L33">        minActiveState = minActiveState</span>
+<span class="fc" id="L33">        minActiveState = minActiveState,</span>
     )
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

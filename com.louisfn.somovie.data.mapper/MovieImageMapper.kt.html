@@ -18,19 +18,19 @@ import javax.inject.Inject
 <span class="nc bnc" id="L18" title="All 2 branches missed.">        backdrops = entities.filter { it.type == Type.BACKDROP }</span>
 <span class="nc" id="L19">            .map { mapToBackdropPathDomain(it) },</span>
 <span class="nc bnc" id="L20" title="All 2 branches missed.">        posters = entities.filter { it.type == Type.POSTER }</span>
-<span class="nc" id="L21">            .map { mapToPosterPathDomain(it) }</span>
+<span class="nc" id="L21">            .map { mapToPosterPathDomain(it) },</span>
 <span class="nc" id="L22">    )</span>
 
     @AnyThread
 <span class="nc" id="L25">    private fun mapToBackdropPathDomain(entity: MovieImageEntity) = MovieImages.Image(</span>
 <span class="nc" id="L26">        path = BackdropPath(entity.path),</span>
-<span class="nc" id="L27">        width = entity.width</span>
+<span class="nc" id="L27">        width = entity.width,</span>
 <span class="nc" id="L28">    )</span>
 
     @AnyThread
 <span class="nc" id="L31">    private fun mapToPosterPathDomain(entity: MovieImageEntity) = MovieImages.Image(</span>
 <span class="nc" id="L32">        path = PosterPath(entity.path),</span>
-<span class="nc" id="L33">        width = entity.width</span>
+<span class="nc" id="L33">        width = entity.width,</span>
 <span class="nc" id="L34">    )</span>
 
     //endregion
@@ -46,12 +46,12 @@ import javax.inject.Inject
     private fun mapResponseToEntity(
         movieId: Long,
         type: Type,
-        response: MovieImagesResponse.Image
+        response: MovieImagesResponse.Image,
 <span class="nc" id="L50">    ) = MovieImageEntity(</span>
 <span class="nc" id="L51">        movieId = movieId,</span>
 <span class="nc" id="L52">        path = response.filePath,</span>
 <span class="nc" id="L53">        width = response.width,</span>
-<span class="nc" id="L54">        type = type</span>
+<span class="nc" id="L54">        type = type,</span>
 <span class="nc" id="L55">    )</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -24,7 +24,7 @@ import javax.inject.Inject
 <span class="nc" id="L24">internal class MainViewModel @Inject constructor(</span>
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
 <span class="nc" id="L26">    private val errorsDispatcher: ErrorsDispatcher,</span>
-<span class="nc" id="L27">    private val configurationInteractor: TmdbConfigurationInteractor</span>
+<span class="nc" id="L27">    private val configurationInteractor: TmdbConfigurationInteractor,</span>
 <span class="nc" id="L28">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
 <span class="nc" id="L30">    private val loadingManager = LoadingManager()</span>
@@ -37,7 +37,7 @@ import javax.inject.Inject
 <span class="nc" id="L37">            .stateIn(</span>
 <span class="nc" id="L38">                scope = viewModelScope,</span>
 <span class="nc" id="L39">                started = SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L40">                initialValue = MainUiState.Loading</span>
+<span class="nc" id="L40">                initialValue = MainUiState.Loading,</span>
             )
 
 <span class="nc" id="L43">    val errors = errorsDispatcher</span>
@@ -45,7 +45,7 @@ import javax.inject.Inject
 <span class="nc" id="L45">        .stateIn(</span>
 <span class="nc" id="L46">            viewModelScope,</span>
 <span class="nc" id="L47">            SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L48">            ImmutableList()</span>
+<span class="nc" id="L48">            ImmutableList(),</span>
         )
 
 <span class="nc" id="L51">    init {</span>

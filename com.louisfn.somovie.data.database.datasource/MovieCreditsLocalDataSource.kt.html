@@ -24,7 +24,7 @@ interface MovieCreditsLocalDataSource {
 }
 
 <span class="nc" id="L26">internal class DefaultMovieCreditsLocalDataSource @Inject constructor(</span>
-<span class="nc" id="L27">    private val database: AppDatabase</span>
+<span class="nc" id="L27">    private val database: AppDatabase,</span>
 ) : MovieCreditsLocalDataSource {
 
     override fun actorsChanges(movieId: Long): Flow&lt;List&lt;ActorWithPerson&gt;&gt; =

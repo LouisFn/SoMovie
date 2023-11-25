@@ -7,10 +7,11 @@ import com.squareup.moshi.JsonClass
 <span class="nc" id="L7">    AUTHENTICATION_FAILED(3),</span>
 <span class="nc" id="L8">    SESSION_DENIED(17),</span>
 <span class="nc" id="L9">    RESOURCE_REQUESTED_NOT_FOUND(34),</span>
-<span class="nc" id="L10">    UNKNOWN(-1);</span>
+<span class="nc" id="L10">    UNKNOWN(-1),</span>
+    ;
 
     companion object {
-<span class="nc bnc" id="L13" title="All 4 branches missed.">        fun fromCode(code: Int): StatusCode = values().firstOrNull { it.code == code } ?: UNKNOWN</span>
+<span class="nc bnc" id="L14" title="All 4 branches missed.">        fun fromCode(code: Int): StatusCode = values().firstOrNull { it.code == code } ?: UNKNOWN</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

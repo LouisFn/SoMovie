@@ -22,8 +22,8 @@ private const val DefaultAnimationDuration = 50
 <span class="nc" id="L22">    targetScale: Float = DefaultTargetScale,</span>
 <span class="nc" id="L23">    animation: DurationBasedAnimationSpec&lt;Float&gt; = tween(</span>
 <span class="nc" id="L24">        durationMillis = DefaultAnimationDuration,</span>
-<span class="nc" id="L25">        easing = LinearEasing</span>
-    )
+<span class="nc" id="L25">        easing = LinearEasing,</span>
+    ),
 <span class="nc" id="L27">) = composed {</span>
 <span class="nc bnc" id="L28" title="All 4 branches missed.">    if (enabled) {</span>
 <span class="nc" id="L29">        val infiniteTransition = rememberInfiniteTransition()</span>
@@ -32,8 +32,8 @@ private const val DefaultAnimationDuration = 50
 <span class="nc" id="L32">            targetValue = targetScale,</span>
 <span class="nc" id="L33">            animationSpec = infiniteRepeatable(</span>
 <span class="nc" id="L34">                animation = animation,</span>
-<span class="nc" id="L35">                repeatMode = RepeatMode.Reverse</span>
-            )
+<span class="nc" id="L35">                repeatMode = RepeatMode.Reverse,</span>
+            ),
         )
 <span class="nc" id="L38">        Modifier.graphicsLayer {</span>
 <span class="nc" id="L39">            scaleX = scale</span>

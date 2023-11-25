@@ -11,11 +11,11 @@ object WatchlistDestination : NavigationDestination {
 }
 
 fun NavGraphBuilder.watchListGraph(
-    showDetails: (Movie) -&gt; Unit
+    showDetails: (Movie) -&gt; Unit,
 ) {
 <span class="nc" id="L16">    composable(route = WatchlistDestination.route) {</span>
 <span class="nc bnc" id="L17" title="All 2 branches missed.">        WatchlistScreen(</span>
-<span class="nc" id="L18">            showDetails = showDetails</span>
+<span class="nc" id="L18">            showDetails = showDetails,</span>
         )
 <span class="nc" id="L20">    }</span>
 <span class="nc" id="L21">}</span>

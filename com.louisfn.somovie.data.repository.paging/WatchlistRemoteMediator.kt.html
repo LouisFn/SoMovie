@@ -16,11 +16,11 @@ import com.louisfn.somovie.data.network.datasource.WatchlistRemoteDataSource
 <span class="fc" id="L16">    private val remoteDataSource: WatchlistRemoteDataSource,</span>
 <span class="fc" id="L17">    private val movieMapper: MovieMapper,</span>
 <span class="fc" id="L18">    private val databaseHelper: DatabaseHelper,</span>
-<span class="fc" id="L19">    private val accountId: Long</span>
+<span class="fc" id="L19">    private val accountId: Long,</span>
 <span class="fc" id="L20">) : DefaultAppendRemoteMediator&lt;Int, MovieEntity&gt;(</span>
 <span class="fc" id="L21">    remoteKeyType = WATCH_LIST,</span>
 <span class="fc" id="L22">    remoteKeyLocalDataSource = remoteKeyLocalDataSource,</span>
-<span class="fc" id="L23">    cacheTimeout = cacheTimeout</span>
+<span class="fc" id="L23">    cacheTimeout = cacheTimeout,</span>
 ) {
 
 <span class="fc" id="L26">    override suspend fun fetchNewData(key: String?): Result {</span>
@@ -40,7 +40,7 @@ import com.louisfn.somovie.data.network.datasource.WatchlistRemoteDataSource
 
 <span class="fc" id="L41">        return Result(</span>
 <span class="fc" id="L42">            nextKey = (page + 1).toString(),</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">            endOfPaginationReached = response.totalPages == page</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            endOfPaginationReached = response.totalPages == page,</span>
         )
     }
 }

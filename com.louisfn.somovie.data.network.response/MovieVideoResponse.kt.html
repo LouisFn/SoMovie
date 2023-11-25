@@ -25,13 +25,13 @@ import java.time.OffsetDateTime
 <span class="nc" id="L25">    @Json(name = &quot;size&quot;)</span>
 <span class="nc" id="L26">    val size: Int,</span>
 <span class="nc" id="L27">    @Json(name = &quot;type&quot;)</span>
-<span class="nc" id="L28">    val type: Type</span>
+<span class="nc" id="L28">    val type: Type,</span>
 ) {
 
 <span class="nc" id="L31">    @JsonClass(generateAdapter = false)</span>
 <span class="nc" id="L32">    enum class Site(val json: String) {</span>
 <span class="nc" id="L33">        YOUTUBE(&quot;YouTube&quot;),</span>
-<span class="nc" id="L34">        UNKNOWN(&quot;&quot;)</span>
+<span class="nc" id="L34">        UNKNOWN(&quot;&quot;),</span>
     }
 
 <span class="nc" id="L37">    @JsonClass(generateAdapter = false)</span>
@@ -41,7 +41,7 @@ import java.time.OffsetDateTime
 <span class="nc" id="L41">        CLIPS(&quot;Clip&quot;),</span>
 <span class="nc" id="L42">        BEHIND(&quot;Behind the Scenes&quot;),</span>
 <span class="nc" id="L43">        BLOOPERS(&quot;Bloopers&quot;),</span>
-<span class="nc" id="L44">        FEATURETTES(&quot;Featurette&quot;)</span>
+<span class="nc" id="L44">        FEATURETTES(&quot;Featurette&quot;),</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

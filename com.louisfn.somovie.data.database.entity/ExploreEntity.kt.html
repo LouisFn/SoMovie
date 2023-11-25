@@ -6,16 +6,16 @@ import com.louisfn.somovie.data.database.*
 <span class="nc" id="L6">@Entity(</span>
     tableName = TABLE_EXPLORE,
     indices = [
-        Index(COLUMN_CATEGORY, COLUMN_FK_MOVIE_ID, unique = true)
+        Index(COLUMN_CATEGORY, COLUMN_FK_MOVIE_ID, unique = true),
     ],
     foreignKeys = [
         ForeignKey(
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 <span class="nc" id="L20">data class ExploreEntity(</span>
 <span class="nc" id="L21">    @PrimaryKey(autoGenerate = true)</span>
@@ -26,13 +26,13 @@ import com.louisfn.somovie.data.database.*
 <span class="nc" id="L26">    @ColumnInfo(name = COLUMN_CATEGORY)</span>
 <span class="nc" id="L27">    val category: Category,</span>
 <span class="nc" id="L28">    @ColumnInfo(name = COLUMN_PAGE)</span>
-<span class="nc" id="L29">    val page: Int</span>
+<span class="nc" id="L29">    val page: Int,</span>
 ) {
 <span class="nc" id="L31">    enum class Category(val value: Int) {</span>
 <span class="nc" id="L32">        POPULAR(0),</span>
 <span class="nc" id="L33">        NOW_PLAYING(1),</span>
 <span class="nc" id="L34">        TOP_RATED(2),</span>
-<span class="nc" id="L35">        UPCOMING(3)</span>
+<span class="nc" id="L35">        UPCOMING(3),</span>
     }
 <span class="nc" id="L37">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

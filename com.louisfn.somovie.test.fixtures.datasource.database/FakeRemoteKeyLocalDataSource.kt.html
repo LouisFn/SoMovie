@@ -20,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList
     override suspend fun updateNextKey(
         type: RemoteKeyEntity.Type,
         nextKey: String,
-        reset: Boolean
+        reset: Boolean,
     ) {
 <span class="fc bfc" id="L25" title="All 2 branches covered.">        if (!reset) {</span>
 <span class="pc bpc" id="L26" title="1 of 2 branches missed.">            val remoteKey = remoteKeys.first { it.type == type }</span>

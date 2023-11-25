@@ -57,7 +57,7 @@ private const val SwipeFractionalThreshold = 0.25f
 @Composable
 internal fun DiscoverScreen(
 <span class="nc" id="L59">    viewModel: DiscoverViewModel = hiltViewModel(),</span>
-<span class="nc bnc" id="L60" title="All 4 branches missed.">    showAccount: () -&gt; Unit = {}</span>
+<span class="nc bnc" id="L60" title="All 4 branches missed.">    showAccount: () -&gt; Unit = {},</span>
 <span class="nc bnc" id="L61" title="All 20 branches missed.">) {</span>
 <span class="nc" id="L62">    val uiState by viewModel.uiState.collectAsStateLifecycleAware()</span>
 
@@ -66,7 +66,7 @@ internal fun DiscoverScreen(
 <span class="nc" id="L66">        onSwiped = viewModel::onMovieSwiped,</span>
 <span class="nc" id="L67">        onDisappeared = viewModel::onMovieDisappeared,</span>
 <span class="nc" id="L68">        retry = { viewModel.retry() },</span>
-<span class="nc" id="L69">        onLogInSnackbarActionClicked = { showAccount() }</span>
+<span class="nc" id="L69">        onLogInSnackbarActionClicked = { showAccount() },</span>
     )
 <span class="nc bnc" id="L71" title="All 2 branches missed.">}</span>
 
@@ -76,25 +76,25 @@ private fun DiscoverScreen(
     onSwiped: (MovieItem, SwipeDirection) -&gt; Unit,
     onDisappeared: (MovieItem) -&gt; Unit,
     retry: () -&gt; Unit,
-    onLogInSnackbarActionClicked: () -&gt; Unit
+    onLogInSnackbarActionClicked: () -&gt; Unit,
 <span class="nc bnc" id="L80" title="All 26 branches missed.">) {</span>
 <span class="nc" id="L81">    Box(</span>
-<span class="nc" id="L82">        modifier = Modifier.fillMaxSize()</span>
+<span class="nc" id="L82">        modifier = Modifier.fillMaxSize(),</span>
     ) {
-<span class="nc bnc" id="L84" title="All 4 branches missed.">        when (uiState) {</span>
+<span class="nc" id="L84">        when (uiState) {</span>
 <span class="nc bnc" id="L85" title="All 2 branches missed.">            is DiscoverUiState.Discover -&gt; DiscoverContent(</span>
 <span class="nc" id="L86">                items = uiState.items,</span>
 <span class="nc" id="L87">                logInSnackbarState = uiState.logInSnackbarState,</span>
 <span class="nc" id="L88">                onSwiped = onSwiped,</span>
 <span class="nc" id="L89">                onDisappeared = onDisappeared,</span>
-<span class="nc" id="L90">                onLogInSnackbarActionClicked = onLogInSnackbarActionClicked</span>
+<span class="nc" id="L90">                onLogInSnackbarActionClicked = onLogInSnackbarActionClicked,</span>
             )
 <span class="nc bnc" id="L92" title="All 2 branches missed.">            is DiscoverUiState.Retry -&gt; Retry(</span>
 <span class="nc" id="L93">                modifier = Modifier.align(Alignment.Center),</span>
-<span class="nc" id="L94">                onClick = retry</span>
+<span class="nc" id="L94">                onClick = retry,</span>
             )
 <span class="nc bnc" id="L96" title="All 2 branches missed.">            is DiscoverUiState.Loading -&gt; IndeterminateProgressIndicator(</span>
-<span class="nc" id="L97">                modifier = Modifier.align(Alignment.Center)</span>
+<span class="nc" id="L97">                modifier = Modifier.align(Alignment.Center),</span>
             )
 <span class="nc bnc" id="L99" title="All 2 branches missed.">            is DiscoverUiState.None -&gt; Unit</span>
 <span class="nc" id="L100">        }</span>
@@ -107,12 +107,12 @@ private fun BoxScope.DiscoverContent(
     logInSnackbarState: LogInSnackbarState,
     onSwiped: (MovieItem, SwipeDirection) -&gt; Unit,
     onDisappeared: (MovieItem) -&gt; Unit,
-    onLogInSnackbarActionClicked: () -&gt; Unit
+    onLogInSnackbarActionClicked: () -&gt; Unit,
 <span class="nc bnc" id="L111" title="All 30 branches missed.">) {</span>
 <span class="nc" id="L112">    DiscoverSwipeContainer(</span>
 <span class="nc" id="L113">        items = items,</span>
 <span class="nc" id="L114">        onSwiped = onSwiped,</span>
-<span class="nc" id="L115">        onDisappeared = onDisappeared</span>
+<span class="nc" id="L115">        onDisappeared = onDisappeared,</span>
     )
 <span class="nc bnc" id="L117" title="All 2 branches missed.">    if (logInSnackbarState != LogInSnackbarState.HIDDEN) {</span>
 <span class="nc bnc" id="L118" title="All 2 branches missed.">        DefaultSnackbar(</span>
@@ -121,7 +121,7 @@ private fun BoxScope.DiscoverContent(
 <span class="nc" id="L121">            onActionClick = onLogInSnackbarActionClicked,</span>
 <span class="nc" id="L122">            modifier = Modifier</span>
 <span class="nc bnc" id="L123" title="All 2 branches missed.">                .shake(logInSnackbarState == LogInSnackbarState.SHAKING)</span>
-<span class="nc" id="L124">                .align(Alignment.BottomCenter)</span>
+<span class="nc" id="L124">                .align(Alignment.BottomCenter),</span>
         )
     }
 <span class="nc bnc" id="L127" title="All 2 branches missed.">}</span>
@@ -131,7 +131,7 @@ private fun BoxScope.DiscoverContent(
 private fun BoxScope.DiscoverSwipeContainer(
     items: ImmutableList&lt;MovieItem&gt;,
     onSwiped: (MovieItem, SwipeDirection) -&gt; Unit,
-    onDisappeared: (MovieItem) -&gt; Unit
+    onDisappeared: (MovieItem) -&gt; Unit,
 <span class="nc bnc" id="L135" title="All 22 branches missed.">) {</span>
 <span class="nc" id="L136">    var draggingState by remember { mutableStateOf&lt;DraggingState?&gt;(null) }</span>
 
@@ -147,9 +147,9 @@ private fun BoxScope.DiscoverSwipeContainer(
 <span class="nc" id="L147">            draggingState = null</span>
 <span class="nc" id="L148">            onSwiped(item, direction)</span>
 <span class="nc" id="L149">        },</span>
-<span class="nc" id="L150">        onDisappeared = { item, _ -&gt; onDisappeared(item) }</span>
+<span class="nc" id="L150">        onDisappeared = { item, _ -&gt; onDisappeared(item) },</span>
 <span class="nc" id="L151">    ) { item -&gt;</span>
-<span class="nc bnc" id="L152" title="All 2 branches missed.">        DiscoverMovieItem(item)</span>
+<span class="nc bnc" id="L152" title="All 8 branches missed.">        DiscoverMovieItem(item)</span>
 <span class="nc" id="L153">    }</span>
 
 <span class="nc bnc" id="L155" title="All 4 branches missed.">    draggingState?.let { DiscoverSwipeIcon(it) }</span>
@@ -164,22 +164,22 @@ private fun BoxScope.DiscoverSwipeContainer(
 <span class="nc" id="L164">            .clip(CircleShape)</span>
 <span class="nc" id="L165">            .background(draggingState.iconBackgroundColor),</span>
 <span class="nc" id="L166">        imageVector = draggingState.icon,</span>
-<span class="nc" id="L167">        contentDescription = null</span>
+<span class="nc" id="L167">        contentDescription = null,</span>
     )
 <span class="nc bnc" id="L169" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L172" title="All 2 branches missed.">private fun DiscoverMovieItem(item: MovieItem) {</span>
+<span class="nc bnc" id="L172" title="All 10 branches missed.">private fun DiscoverMovieItem(item: MovieItem) {</span>
 <span class="nc" id="L173">    var isImageLoaded by remember { mutableStateOf(false) }</span>
 
 <span class="nc" id="L175">    Box {</span>
-<span class="nc bnc" id="L176" title="All 4 branches missed.">        DefaultAsyncImage(</span>
+<span class="nc" id="L176">        DefaultAsyncImage(</span>
 <span class="nc" id="L177">            modifier = Modifier</span>
 <span class="nc" id="L178">                .fillMaxSize()</span>
 <span class="nc" id="L179">                .background(MaterialTheme.colors.background),</span>
 <span class="nc" id="L180">            contentScale = ContentScale.Crop,</span>
 <span class="nc" id="L181">            model = item.posterPath,</span>
-<span class="nc" id="L182">            onState = { isImageLoaded = it is AsyncImagePainter.State.Success }</span>
+<span class="nc" id="L182">            onState = { isImageLoaded = it is AsyncImagePainter.State.Success },</span>
         )
 <span class="nc" id="L184">        AutosizeText(</span>
 <span class="nc" id="L185">            modifier = Modifier</span>
@@ -190,21 +190,21 @@ private fun BoxScope.DiscoverSwipeContainer(
 <span class="nc" id="L190">            text = item.title,</span>
 <span class="nc" id="L191">            style = MaterialTheme.typography.h3,</span>
 <span class="nc" id="L192">            textAlign = TextAlign.Center,</span>
-<span class="nc" id="L193">            maxLines = 2</span>
+<span class="nc" id="L193">            maxLines = 2,</span>
         )
 <span class="nc bnc" id="L195" title="All 2 branches missed.">        if (!isImageLoaded) {</span>
 <span class="nc" id="L196">            IndeterminateProgressIndicator(</span>
 <span class="nc" id="L197">                modifier = Modifier</span>
 <span class="nc" id="L198">                    .size(32.dp)</span>
-<span class="nc" id="L199">                    .align(Alignment.Center)</span>
+<span class="nc" id="L199">                    .align(Alignment.Center),</span>
             )
-<span class="nc" id="L201">        }</span>
+        }
 <span class="nc" id="L202">    }</span>
-<span class="nc" id="L203">}</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">}</span>
 
 <span class="nc" id="L205">private data class DraggingState(</span>
 <span class="nc" id="L206">    val direction: SwipeDirection,</span>
-<span class="nc" id="L207">    val ratio: Float</span>
+<span class="nc" id="L207">    val ratio: Float,</span>
 ) {
 
     val icon: ImageVector

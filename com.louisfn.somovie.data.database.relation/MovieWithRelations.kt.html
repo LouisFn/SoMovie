@@ -19,8 +19,8 @@ import com.louisfn.somovie.data.database.entity.*
         associateBy = Junction(
             value = MovieGenreCrossRefEntity::class,
             parentColumn = COLUMN_FK_MOVIE_ID,
-            entityColumn = COLUMN_FK_GENRE_ID
-        )
+            entityColumn = COLUMN_FK_GENRE_ID,
+        ),
     )
 <span class="nc" id="L25">    val genres: List&lt;GenreEntity&gt;,</span>
 
@@ -30,15 +30,15 @@ import com.louisfn.somovie.data.database.entity.*
         associateBy = Junction(
             value = MovieProductionCompanyCrossRefEntity::class,
             parentColumn = COLUMN_FK_MOVIE_ID,
-            entityColumn = COLUMN_FK_COMPANY_ID
-        )
+            entityColumn = COLUMN_FK_COMPANY_ID,
+        ),
     )
 <span class="nc" id="L36">    val productionCompanies: List&lt;CompanyEntity&gt;,</span>
 
 <span class="nc" id="L38">    @Relation(</span>
         parentColumn = COLUMN_ID,
-        entityColumn = COLUMN_FK_MOVIE_ID
+        entityColumn = COLUMN_FK_MOVIE_ID,
     )
-<span class="nc" id="L42">    val productionCountries: List&lt;MovieProductionCountryEntity&gt;</span>
+<span class="nc" id="L42">    val productionCountries: List&lt;MovieProductionCountryEntity&gt;,</span>
 )
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -26,7 +26,7 @@ interface MovieCreditsRepository {
 <span class="nc" id="L26">    private val remoteDataSource: MovieCreditsRemoteDataSource,</span>
 <span class="nc" id="L27">    private val localDataSource: MovieCreditsLocalDataSource,</span>
 <span class="nc" id="L28">    private val mapper: MovieCreditsMapper,</span>
-<span class="nc" id="L29">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L29">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) : MovieCreditsRepository {
 
     override fun movieCreditsChanges(movieId: Long): Flow&lt;MovieCredits&gt; =
@@ -48,7 +48,7 @@ interface MovieCreditsRepository {
     private fun movieCreditsChangesFromLocal(movieId: Long): Flow&lt;MovieCredits&gt; =
 <span class="nc" id="L49">        combine(</span>
 <span class="nc" id="L50">            localDataSource.actorsChanges(movieId),</span>
-<span class="nc" id="L51">            localDataSource.crewMembersChanges(movieId)</span>
+<span class="nc" id="L51">            localDataSource.crewMembersChanges(movieId),</span>
 <span class="nc bnc" id="L52" title="All 2 branches missed.">        ) { actors, crewMembers -&gt; mapper.mapToDomain(actors, crewMembers) }</span>
 <span class="nc" id="L53">            .flowOn(defaultDispatcher)</span>
 }

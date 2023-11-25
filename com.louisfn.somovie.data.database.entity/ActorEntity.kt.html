@@ -13,15 +13,15 @@ import com.louisfn.somovie.data.database.*
             entity = MovieEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_MOVIE_ID),
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
             entity = PersonEntity::class,
             parentColumns = arrayOf(COLUMN_ID),
             childColumns = arrayOf(COLUMN_FK_PERSON_ID),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 <span class="nc" id="L26">data class ActorEntity(</span>
 <span class="nc" id="L27">    @PrimaryKey(autoGenerate = true)</span>
@@ -34,6 +34,6 @@ import com.louisfn.somovie.data.database.*
 <span class="nc" id="L34">    @ColumnInfo(name = COLUMN_FK_MOVIE_ID, index = true)</span>
 <span class="nc" id="L35">    val movieId: Long,</span>
 <span class="nc" id="L36">    @ColumnInfo(name = COLUMN_FK_PERSON_ID, index = true)</span>
-<span class="nc" id="L37">    val personId: Long</span>
+<span class="nc" id="L37">    val personId: Long,</span>
 <span class="nc" id="L38">)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

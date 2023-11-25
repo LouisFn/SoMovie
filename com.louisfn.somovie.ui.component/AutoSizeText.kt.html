@@ -32,7 +32,7 @@ fun AutosizeText(
 <span class="pc bpc" id="L32" title="1 of 2 branches missed.">    overflow: TextOverflow = TextOverflow.Clip,</span>
 <span class="pc bpc" id="L33" title="1 of 2 branches missed.">    softWrap: Boolean = true,</span>
 <span class="pc bpc" id="L34" title="1 of 2 branches missed.">    maxLines: Int = Int.MAX_VALUE,</span>
-<span class="nc" id="L35">    style: TextStyle = LocalTextStyle.current</span>
+<span class="nc" id="L35">    style: TextStyle = LocalTextStyle.current,</span>
 <span class="pc bpc" id="L36" title="76 of 102 branches missed.">) {</span>
 <span class="pc" id="L37">    var fontSizeValue by remember { mutableStateOf(style.fontSize.value) }</span>
 <span class="fc" id="L38">    var readyToDraw by remember { mutableStateOf(false) }</span>
@@ -60,7 +60,7 @@ fun AutosizeText(
             } else {
 <span class="fc" id="L61">                readyToDraw = true</span>
             }
-<span class="fc" id="L63">        }</span>
+<span class="fc" id="L63">        },</span>
     )
 <span class="pc bpc" id="L65" title="1 of 2 branches missed.">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

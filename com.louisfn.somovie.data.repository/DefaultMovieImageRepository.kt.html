@@ -26,7 +26,7 @@ interface MovieImageRepository {
 <span class="nc" id="L26">    private val remoteDataSource: MovieImageRemoteDataSource,</span>
 <span class="nc" id="L27">    private val localDataSource: MovieImageLocalDataSource,</span>
 <span class="nc" id="L28">    private val mapper: MovieImageMapper,</span>
-<span class="nc" id="L29">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L29">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) : MovieImageRepository {
 
     override fun movieImagesChanges(movieId: Long): Flow&lt;MovieImages&gt; =

@@ -22,13 +22,13 @@ fun PagingItemsLoadStateErrorEffect(
     pagingItems: LazyPagingItems&lt;*&gt;,
 <span class="nc bnc" id="L23" title="All 2 branches missed.">    onRefreshError: ((Throwable) -&gt; Unit)? = null,</span>
 <span class="nc bnc" id="L24" title="All 2 branches missed.">    onAppendError: ((Throwable) -&gt; Unit)? = null,</span>
-<span class="nc bnc" id="L25" title="All 2 branches missed.">    onPrependError: ((Throwable) -&gt; Unit)? = null</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">    onPrependError: ((Throwable) -&gt; Unit)? = null,</span>
 <span class="nc bnc" id="L26" title="All 30 branches missed.">) {</span>
 <span class="nc" id="L27">    val currentOnRefreshError by rememberUpdatedState(onRefreshError)</span>
 <span class="nc" id="L28">    val currentOnAppendError by rememberUpdatedState(onAppendError)</span>
 <span class="nc" id="L29">    val currentOnPrependError by rememberUpdatedState(onPrependError)</span>
 
-<span class="nc bnc" id="L31" title="All 2 branches missed.">    LaunchedEffect(pagingItems.loadState) {</span>
+<span class="nc bnc" id="L31" title="All 4 branches missed.">    LaunchedEffect(pagingItems.loadState) {</span>
 <span class="nc bnc" id="L32" title="All 2 branches missed.">        pagingItems.loadState.refresh.takeAs&lt;LoadState.Error&gt;()?.let {</span>
 <span class="nc bnc" id="L33" title="All 2 branches missed.">            currentOnRefreshError?.invoke(it.error)</span>
         }

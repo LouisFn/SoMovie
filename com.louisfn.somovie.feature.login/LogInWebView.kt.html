@@ -15,13 +15,13 @@ import com.google.accompanist.web.rememberWebViewState
 fun LogInWebView(
     uri: Uri,
     logInManager: LogInManager,
-<span class="nc bnc" id="L18" title="All 2 branches missed.">    modifier: Modifier = Modifier</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
 <span class="nc bnc" id="L19" title="All 2 branches missed.">) {</span>
 <span class="nc bnc" id="L20" title="All 4 branches missed.">    LogInWebView(</span>
 <span class="nc" id="L21">        uri = uri,</span>
 <span class="nc" id="L22">        modifier = modifier,</span>
 <span class="nc" id="L23">        onApproved = { logInManager.onApproved() },</span>
-<span class="nc" id="L24">        onDenied = { logInManager.onDenied() }</span>
+<span class="nc" id="L24">        onDenied = { logInManager.onDenied() },</span>
     )
 <span class="nc" id="L26">}</span>
 
@@ -31,15 +31,15 @@ fun LogInWebView(
     uri: Uri,
 <span class="nc bnc" id="L32" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
 <span class="nc bnc" id="L33" title="All 2 branches missed.">    onApproved: () -&gt; Unit = {},</span>
-<span class="nc bnc" id="L34" title="All 2 branches missed.">    onDenied: () -&gt; Unit = {}</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">    onDenied: () -&gt; Unit = {},</span>
 <span class="nc bnc" id="L35" title="All 2 branches missed.">) {</span>
 <span class="nc" id="L36">    val state = rememberWebViewState(uri.toString())</span>
 
 <span class="nc" id="L38">    val currentOnApproved by rememberUpdatedState(onApproved)</span>
 <span class="nc" id="L39">    val currentOnDenied by rememberUpdatedState(onDenied)</span>
 
-<span class="nc" id="L41">    val currentUrl = state.content.getCurrentUrl()</span>
-<span class="nc" id="L42">    LaunchedEffect(key1 = currentUrl) {</span>
+<span class="nc" id="L41">    val currentUrl = state.lastLoadedUrl</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    LaunchedEffect(key1 = currentUrl) {</span>
 <span class="nc bnc" id="L43" title="All 2 branches missed.">        currentUrl?.run {</span>
 <span class="nc" id="L44">            when {</span>
 <span class="nc bnc" id="L45" title="All 2 branches missed.">                contains(LogInConfig.APPROVE_PATH) -&gt; currentOnApproved()</span>
@@ -56,7 +56,7 @@ fun LogInWebView(
 <span class="nc" id="L56">        state = state,</span>
         onCreated = {
 <span class="nc" id="L58">            it.settings.javaScriptEnabled = true</span>
-<span class="nc" id="L59">        }</span>
+<span class="nc" id="L59">        },</span>
     )
 <span class="nc" id="L61">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

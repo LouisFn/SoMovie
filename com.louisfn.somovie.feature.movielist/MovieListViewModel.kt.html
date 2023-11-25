@@ -29,13 +29,13 @@ import javax.inject.Inject
     savedStateHandle: SavedStateHandle,
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
 <span class="nc" id="L31">    private val movieInteractor: MovieInteractor,</span>
-<span class="nc" id="L32">    private val errorsDispatcher: ErrorsDispatcher</span>
+<span class="nc" id="L32">    private val errorsDispatcher: ErrorsDispatcher,</span>
 <span class="nc" id="L33">) : BaseViewModel&lt;NoneAction&gt;(defaultDispatcher) {</span>
 
     private val category: ExploreCategory =
 <span class="nc" id="L36">        ExploreCategory.valueOf(</span>
 <span class="nc bnc" id="L37" title="All 2 branches missed.">            savedStateHandle[MovieListNavigation.ARGS_CATEGORY]</span>
-<span class="nc" id="L38">                ?: throw IllegalArgumentException(&quot;${MovieListNavigation.ARGS_CATEGORY} not found&quot;)</span>
+<span class="nc" id="L38">                ?: throw IllegalArgumentException(&quot;${MovieListNavigation.ARGS_CATEGORY} not found&quot;),</span>
         )
 
 <span class="nc" id="L41">    private val loadStates = MutableStateFlow&lt;CombinedLoadStates?&gt;(null)</span>
@@ -50,7 +50,7 @@ import javax.inject.Inject
 <span class="nc" id="L50">            .stateIn(</span>
 <span class="nc" id="L51">                scope = viewModelScope,</span>
 <span class="nc" id="L52">                started = SharingStarted.WhileSubscribed(),</span>
-<span class="nc" id="L53">                initialValue = MovieListUiState(category)</span>
+<span class="nc" id="L53">                initialValue = MovieListUiState(category),</span>
             )
 
     private fun createUiState(loadStates: CombinedLoadStates): MovieListUiState {
@@ -62,7 +62,7 @@ import javax.inject.Inject
 <span class="nc bnc" id="L62" title="All 2 branches missed.">                is LoadState.Error -&gt; LoadNextPageState.FAILED</span>
 <span class="nc bnc" id="L63" title="All 2 branches missed.">                is LoadState.Loading -&gt; LoadNextPageState.LOADING</span>
 <span class="nc" id="L64">                is LoadState.NotLoading -&gt; LoadNextPageState.IDLE</span>
-            }
+            },
         )
     }
 

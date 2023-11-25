@@ -41,7 +41,7 @@ interface TmdbConfigurationRepository {
 <span class="nc" id="L41">    private val localDataSource: DataStoreLocalDataSource&lt;TmdbConfigurationData&gt;,</span>
 <span class="nc" id="L42">    private val mapper: TmdbConfigurationMapper,</span>
 <span class="nc" id="L43">    private val dateTimeProvider: DateTimeProvider,</span>
-<span class="nc" id="L44">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L44">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
 ) : TmdbConfigurationRepository {
 
     override fun tmdbConfigurationChanges(): Flow&lt;TmdbConfiguration&gt; =

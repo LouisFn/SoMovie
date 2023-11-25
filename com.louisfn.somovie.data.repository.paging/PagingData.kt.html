@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 inline fun &lt;T : Any, R : Any&gt; Flow&lt;PagingData&lt;T&gt;&gt;.mapPaging(
-    crossinline transform: suspend (value: T) -&gt; R
+    crossinline transform: suspend (value: T) -&gt; R,
 ): Flow&lt;PagingData&lt;R&gt;&gt; =
 <span class="nc" id="L11">    map { pagingData -&gt; pagingData.map { transform(it) } }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

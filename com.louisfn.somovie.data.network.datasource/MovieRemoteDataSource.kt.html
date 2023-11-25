@@ -17,7 +17,7 @@ interface MovieRemoteDataSource {
     @AnyThread
     suspend fun getMovies(
         category: ExploreCategory,
-        page: Int
+        page: Int,
     ): PaginatedResultsResponse&lt;MovieResponse&gt;
 
     @AnyThread
@@ -40,12 +40,12 @@ interface MovieRemoteDataSource {
 }
 
 <span class="nc" id="L42">internal class DefaultMovieRemoteDataSource @Inject constructor(</span>
-<span class="nc" id="L43">    private val executor: ApiServiceExecutor</span>
+<span class="nc" id="L43">    private val executor: ApiServiceExecutor,</span>
 ) : MovieRemoteDataSource {
 
     override suspend fun getMovies(
         category: ExploreCategory,
-        page: Int
+        page: Int,
     ): PaginatedResultsResponse&lt;MovieResponse&gt; =
 <span class="nc bnc" id="L50" title="All 4 branches missed.">        when (category) {</span>
 <span class="nc" id="L51">            ExploreCategory.UPCOMING -&gt; getUpcoming(page)</span>

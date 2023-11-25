@@ -19,7 +19,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
             previousList: NullPaddedList&lt;T&gt;,
             newList: NullPaddedList&lt;T&gt;,
             lastAccessedIndex: Int,
-            onListPresentable: () -&gt; Unit
+            onListPresentable: () -&gt; Unit,
         ): Int? {
 <span class="fc" id="L24">            onListPresentable()</span>
 <span class="fc" id="L25">            _items.value = snapshot().items</span>

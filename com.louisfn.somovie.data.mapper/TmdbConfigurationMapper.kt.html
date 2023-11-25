@@ -7,7 +7,7 @@ import com.louisfn.somovie.domain.model.TmdbConfiguration
 import javax.inject.Inject
 
 <span class="nc" id="L9">class TmdbConfigurationMapper @Inject constructor(</span>
-<span class="nc" id="L10">    private val dateTimeProvider: DateTimeProvider</span>
+<span class="nc" id="L10">    private val dateTimeProvider: DateTimeProvider,</span>
 ) {
 
     //region Map datastore to domain
@@ -15,7 +15,7 @@ import javax.inject.Inject
 <span class="nc" id="L15">    fun mapToDomain(tmdbConfigurationData: TmdbConfigurationData) = TmdbConfiguration(</span>
 <span class="nc bnc" id="L16" title="All 2 branches missed.">        images = tmdbConfigurationData.images?.let { mapToDomain(it) },</span>
 <span class="nc" id="L17">        changesKeys = tmdbConfigurationData.changesKeys,</span>
-<span class="nc" id="L18">        updatedAt = tmdbConfigurationData.updatedAt</span>
+<span class="nc" id="L18">        updatedAt = tmdbConfigurationData.updatedAt,</span>
 <span class="nc" id="L19">    )</span>
 
 <span class="nc" id="L21">    private fun mapToDomain(images: TmdbConfigurationData.Images) = TmdbConfiguration.Images(</span>
@@ -25,7 +25,7 @@ import javax.inject.Inject
 <span class="nc" id="L25">        logoSizes = images.logoSizes,</span>
 <span class="nc" id="L26">        posterSizes = images.posterSizes,</span>
 <span class="nc" id="L27">        profileSizes = images.profileSizes,</span>
-<span class="nc" id="L28">        stillSizes = images.stillSizes</span>
+<span class="nc" id="L28">        stillSizes = images.stillSizes,</span>
 <span class="nc" id="L29">    )</span>
 
     //endregion
@@ -35,7 +35,7 @@ import javax.inject.Inject
 <span class="nc" id="L35">    fun mapToData(domain: TmdbConfiguration) = TmdbConfigurationData(</span>
 <span class="nc bnc" id="L36" title="All 2 branches missed.">        images = domain.images?.let { mapToData(it) },</span>
 <span class="nc" id="L37">        changesKeys = domain.changesKeys,</span>
-<span class="nc" id="L38">        updatedAt = domain.updatedAt</span>
+<span class="nc" id="L38">        updatedAt = domain.updatedAt,</span>
 <span class="nc" id="L39">    )</span>
 
 <span class="nc" id="L41">    private fun mapToData(domain: TmdbConfiguration.Images) = TmdbConfigurationData.Images(</span>
@@ -45,7 +45,7 @@ import javax.inject.Inject
 <span class="nc" id="L45">        logoSizes = domain.logoSizes,</span>
 <span class="nc" id="L46">        posterSizes = domain.posterSizes,</span>
 <span class="nc" id="L47">        profileSizes = domain.profileSizes,</span>
-<span class="nc" id="L48">        stillSizes = domain.stillSizes</span>
+<span class="nc" id="L48">        stillSizes = domain.stillSizes,</span>
 <span class="nc" id="L49">    )</span>
 
     //endregion
@@ -56,7 +56,7 @@ import javax.inject.Inject
 <span class="nc" id="L56">        TmdbConfigurationData(</span>
 <span class="nc" id="L57">            images = mapToData(response.images),</span>
 <span class="nc" id="L58">            changesKeys = response.changesKeys,</span>
-<span class="nc" id="L59">            updatedAt = dateTimeProvider.now()</span>
+<span class="nc" id="L59">            updatedAt = dateTimeProvider.now(),</span>
 <span class="nc" id="L60">        )</span>
 
     private fun mapToData(response: ConfigurationResponse.Images) =
@@ -67,7 +67,7 @@ import javax.inject.Inject
 <span class="nc" id="L67">            logoSizes = response.logoSizes,</span>
 <span class="nc" id="L68">            posterSizes = response.posterSizes,</span>
 <span class="nc" id="L69">            profileSizes = response.profileSizes,</span>
-<span class="nc" id="L70">            stillSizes = response.stillSizes</span>
+<span class="nc" id="L70">            stillSizes = response.stillSizes,</span>
 <span class="nc" id="L71">        )</span>
 
     //endregion

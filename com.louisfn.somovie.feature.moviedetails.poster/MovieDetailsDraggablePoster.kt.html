@@ -8,7 +8,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.pointerInput
 
 internal fun Modifier.draggablePoster(
-    stateController: PosterStateController
+    stateController: PosterStateController,
 <span class="nc" id="L12">) = composed {</span>
 <span class="nc" id="L13">    val currentStateController by rememberUpdatedState(stateController)</span>
 
@@ -20,7 +20,7 @@ internal fun Modifier.draggablePoster(
 <span class="nc" id="L20">            },</span>
             onDragEnd = {
 <span class="nc" id="L22">                currentStateController.onDragEnd()</span>
-<span class="nc" id="L23">            }</span>
+<span class="nc" id="L23">            },</span>
         )
 <span class="nc" id="L25">    }</span>
 <span class="nc" id="L26">}</span>

@@ -17,7 +17,7 @@ interface DatabaseHelper {
 
 <span class="nc" id="L18">internal class DefaultDatabaseHelper @Inject constructor(</span>
 <span class="nc" id="L19">    private val appDatabase: AppDatabase,</span>
-<span class="nc" id="L20">    @IoDispatcher private val ioDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L20">    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,</span>
 ) : DatabaseHelper {
 
 <span class="nc" id="L23">    override suspend fun &lt;R&gt; withTransaction(block: suspend () -&gt; R): R = ioDispatcher {</span>

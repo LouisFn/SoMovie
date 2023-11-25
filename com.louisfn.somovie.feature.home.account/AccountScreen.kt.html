@@ -31,14 +31,14 @@ import com.louisfn.somovie.ui.common.R as commonR
 @Suppress(&quot;ViewModelForwarding&quot;)
 internal fun AccountScreen(
 <span class="nc" id="L33">    viewModel: AccountViewModel = hiltViewModel(),</span>
-<span class="nc" id="L34">    logInViewModel: LogInViewModel = hiltViewModel()</span>
+<span class="nc" id="L34">    logInViewModel: LogInViewModel = hiltViewModel(),</span>
 <span class="nc bnc" id="L35" title="All 20 branches missed.">) {</span>
 <span class="nc" id="L36">    val state by viewModel.uiState.collectAsStateLifecycleAware()</span>
 
 <span class="nc bnc" id="L38" title="All 2 branches missed.">    AccountScreen(</span>
 <span class="nc" id="L39">        state = state,</span>
 <span class="nc" id="L40">        logInManager = logInViewModel,</span>
-<span class="nc" id="L41">        onLogOutButtonClick = { viewModel.logOut() }</span>
+<span class="nc" id="L41">        onLogOutButtonClick = { viewModel.logOut() },</span>
     )
 <span class="nc bnc" id="L43" title="All 2 branches missed.">}</span>
 
@@ -46,17 +46,17 @@ internal fun AccountScreen(
 private fun AccountScreen(
     state: AccountUiState,
     logInManager: LogInManager,
-    onLogOutButtonClick: () -&gt; Unit
+    onLogOutButtonClick: () -&gt; Unit,
 <span class="nc bnc" id="L50" title="All 2 branches missed.">) {</span>
 <span class="nc bnc" id="L51" title="All 4 branches missed.">    Scaffold(</span>
 <span class="nc" id="L52">        modifier = Modifier.statusBarsPadding(),</span>
-<span class="nc bnc" id="L53" title="All 8 branches missed.">        topBar = { DefaultTopAppBar(text = stringResource(id = commonR.string.home_account)) }</span>
+<span class="nc bnc" id="L53" title="All 8 branches missed.">        topBar = { DefaultTopAppBar(text = stringResource(id = commonR.string.home_account)) },</span>
 <span class="nc" id="L54">    ) {</span>
 <span class="nc bnc" id="L55" title="All 8 branches missed.">        AccountContent(</span>
 <span class="nc" id="L56">            state = state,</span>
 <span class="nc" id="L57">            logInManager = logInManager,</span>
 <span class="nc" id="L58">            modifier = Modifier.padding(it),</span>
-<span class="nc" id="L59">            onLogOutButtonClick = onLogOutButtonClick</span>
+<span class="nc" id="L59">            onLogOutButtonClick = onLogOutButtonClick,</span>
 <span class="nc" id="L60">        )</span>
 <span class="nc" id="L61">    }</span>
 <span class="nc" id="L62">}</span>
@@ -66,24 +66,24 @@ private fun AccountContent(
     state: AccountUiState,
     logInManager: LogInManager,
 <span class="nc bnc" id="L68" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
-    onLogOutButtonClick: () -&gt; Unit
+    onLogOutButtonClick: () -&gt; Unit,
 <span class="nc bnc" id="L70" title="All 2 branches missed.">) {</span>
 <span class="nc" id="L71">    Box(</span>
 <span class="nc" id="L72">        modifier = modifier</span>
-<span class="nc" id="L73">            .background(MaterialTheme.colors.background)</span>
+<span class="nc" id="L73">            .background(MaterialTheme.colors.background),</span>
     ) {
-<span class="nc bnc" id="L75" title="All 4 branches missed.">        when (state) {</span>
+<span class="nc" id="L75">        when (state) {</span>
 <span class="nc bnc" id="L76" title="All 2 branches missed.">            is AccountUiState.Disconnected -&gt; LogInLayout(</span>
 <span class="nc" id="L77">                logInManager = logInManager,</span>
-<span class="nc" id="L78">                modifier = Modifier.fillMaxSize()</span>
+<span class="nc" id="L78">                modifier = Modifier.fillMaxSize(),</span>
             )
 <span class="nc bnc" id="L80" title="All 2 branches missed.">            is AccountUiState.LoggedIn -&gt; AccountContent(</span>
 <span class="nc" id="L81">                username = state.username,</span>
 <span class="nc" id="L82">                modifier = Modifier.fillMaxSize(),</span>
-<span class="nc" id="L83">                onLogOutButtonClick = onLogOutButtonClick</span>
+<span class="nc" id="L83">                onLogOutButtonClick = onLogOutButtonClick,</span>
             )
 <span class="nc" id="L85">            else -&gt; Unit</span>
-<span class="nc" id="L86">        }</span>
+        }
 <span class="nc" id="L87">    }</span>
 <span class="nc" id="L88">}</span>
 
@@ -91,16 +91,16 @@ private fun AccountContent(
 private fun AccountContent(
     username: String,
 <span class="nc bnc" id="L93" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">    onLogOutButtonClick: () -&gt; Unit = {}</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">    onLogOutButtonClick: () -&gt; Unit = {},</span>
 <span class="nc bnc" id="L95" title="All 24 branches missed.">) {</span>
 <span class="nc" id="L96">    Column(</span>
 <span class="nc" id="L97">        modifier = modifier.padding(16.dp),</span>
 <span class="nc" id="L98">        verticalArrangement = Arrangement.Center,</span>
-<span class="nc" id="L99">        horizontalAlignment = Alignment.CenterHorizontally</span>
+<span class="nc" id="L99">        horizontalAlignment = Alignment.CenterHorizontally,</span>
     ) {
-<span class="nc bnc" id="L101" title="All 4 branches missed.">        Text(</span>
+<span class="nc" id="L101">        Text(</span>
 <span class="nc" id="L102">            text = stringResource(commonR.string.account_logged_in_confirmation, username),</span>
-<span class="nc" id="L103">            textAlign = TextAlign.Center</span>
+<span class="nc" id="L103">            textAlign = TextAlign.Center,</span>
         )
 <span class="nc" id="L105">        Button(onClick = onLogOutButtonClick) {</span>
 <span class="nc bnc" id="L106" title="All 8 branches missed.">            Text(text = stringResource(id = commonR.string.account_log_out))</span>

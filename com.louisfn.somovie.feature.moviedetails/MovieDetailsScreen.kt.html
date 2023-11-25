@@ -37,7 +37,7 @@ import java.time.Duration
 @Composable
 internal fun MovieDetailsScreen(
 <span class="nc" id="L39">    viewModel: MovieDetailsViewModel = hiltViewModel(),</span>
-    navigateUp: () -&gt; Unit
+    navigateUp: () -&gt; Unit,
 <span class="nc bnc" id="L41" title="All 20 branches missed.">) {</span>
 <span class="nc" id="L42">    val state by viewModel.uiState.collectAsStateLifecycleAware()</span>
 
@@ -45,7 +45,7 @@ internal fun MovieDetailsScreen(
 <span class="nc" id="L45">        state = state,</span>
 <span class="nc" id="L46">        onRetryClick = viewModel::retry,</span>
 <span class="nc" id="L47">        onWatchlistFabClick = viewModel::switchWatchlistState,</span>
-<span class="nc" id="L48">        navigateUp = navigateUp</span>
+<span class="nc" id="L48">        navigateUp = navigateUp,</span>
     )
 <span class="nc bnc" id="L50" title="All 2 branches missed.">}</span>
 
@@ -54,15 +54,15 @@ private fun MovieDetailsScreen(
     state: MovieDetailsUiState,
     onRetryClick: () -&gt; Unit,
     onWatchlistFabClick: () -&gt; Unit,
-    navigateUp: () -&gt; Unit
+    navigateUp: () -&gt; Unit,
 <span class="nc bnc" id="L58" title="All 22 branches missed.">) {</span>
 <span class="nc" id="L59">    var posterReducedCoordinates by remember { mutableStateOf&lt;LayoutCoordinates?&gt;(null) }</span>
 
-<span class="nc bnc" id="L61" title="All 10 branches missed.">    val headerUiState = state.headerUiState ?: return Box {}</span>
+<span class="nc bnc" id="L61" title="All 6 branches missed.">    val headerUiState = state.headerUiState ?: return Box {}</span>
 
 <span class="nc" id="L63">    Box {</span>
-<span class="nc bnc" id="L64" title="All 4 branches missed.">        ConstraintLayout(</span>
-<span class="nc" id="L65">            modifier = Modifier.fillMaxSize()</span>
+<span class="nc" id="L64">        ConstraintLayout(</span>
+<span class="nc" id="L65">            modifier = Modifier.fillMaxSize(),</span>
         ) {
             val (header, content, watchlistFab) = createRefs()
 
@@ -74,7 +74,7 @@ private fun MovieDetailsScreen(
 <span class="nc" id="L74">                    end.linkTo(parent.end)</span>
 <span class="nc" id="L75">                },</span>
                 navigateUp = navigateUp,
-<span class="nc" id="L77">                onPosterPositioned = { posterReducedCoordinates = it }</span>
+<span class="nc" id="L77">                onPosterPositioned = { posterReducedCoordinates = it },</span>
             )
 
             Box(
@@ -85,7 +85,7 @@ private fun MovieDetailsScreen(
 <span class="nc" id="L85">                        end.linkTo(parent.end)</span>
 <span class="nc" id="L86">                        bottom.linkTo(parent.bottom)</span>
 <span class="nc" id="L87">                        height = Dimension.fillToConstraints</span>
-<span class="nc" id="L88">                    }</span>
+<span class="nc" id="L88">                    },</span>
             ) {
                 state.contentUiState?.let {
                     MovieDetailsScreen(contentUiState = it, onRetryClick = onRetryClick)
@@ -101,7 +101,7 @@ private fun MovieDetailsScreen(
 <span class="nc" id="L101">                            bottom.linkTo(header.bottom)</span>
 <span class="nc" id="L102">                            end.linkTo(parent.end, 12.dp)</span>
 <span class="nc" id="L103">                        },</span>
-                    onClick = onWatchlistFabClick
+                    onClick = onWatchlistFabClick,
                 )
             }
         }
@@ -109,7 +109,7 @@ private fun MovieDetailsScreen(
 <span class="nc bnc" id="L109" title="All 2 branches missed.">        safeLet(posterReducedCoordinates, state.headerUiState.posterPath) { coordinates, path -&gt;</span>
 <span class="nc" id="L110">            MovieDetailsPosterFullScreen(</span>
 <span class="nc" id="L111">                posterPath = path,</span>
-<span class="nc" id="L112">                posterReducedCoordinates = coordinates</span>
+<span class="nc" id="L112">                posterReducedCoordinates = coordinates,</span>
             )
 <span class="nc" id="L114">        }</span>
 <span class="nc" id="L115">    }</span>
@@ -119,7 +119,7 @@ private fun MovieDetailsScreen(
 private fun AddToWatchlistSmallFab(
     watchlistFabState: WatchlistFabState,
 <span class="nc bnc" id="L121" title="All 2 branches missed.">    modifier: Modifier = Modifier,</span>
-    onClick: () -&gt; Unit
+    onClick: () -&gt; Unit,
 <span class="nc bnc" id="L123" title="All 24 branches missed.">) {</span>
 <span class="nc bnc" id="L124" title="All 2 branches missed.">    Button(</span>
 <span class="nc" id="L125">        onClick = onClick,</span>
@@ -133,8 +133,8 @@ private fun AddToWatchlistSmallFab(
 <span class="nc bnc" id="L133" title="All 3 branches missed.">                backgroundColor = when (watchlistFabState.state) {</span>
 <span class="nc" id="L134">                    WatchlistState.ADD_TO_WATCHLIST -&gt; MaterialTheme.colors.secondary</span>
 <span class="nc" id="L135">                    WatchlistState.REMOVE_FROM_WATCHLIST -&gt; MaterialTheme.colors.error</span>
-                }
-            )
+                },
+            ),
 <span class="nc" id="L138">    ) {</span>
 <span class="nc bnc" id="L139" title="All 8 branches missed.">        Icon(</span>
 <span class="nc bnc" id="L140" title="All 2 branches missed.">            imageVector = when (watchlistFabState.state) {</span>
@@ -142,7 +142,7 @@ private fun AddToWatchlistSmallFab(
 <span class="nc" id="L142">                WatchlistState.REMOVE_FROM_WATCHLIST -&gt; Icons.Filled.PlaylistRemove</span>
             },
 <span class="nc" id="L144">            tint = MaterialTheme.colors.onPrimary,</span>
-<span class="nc" id="L145">            contentDescription = &quot;&quot;</span>
+<span class="nc" id="L145">            contentDescription = &quot;&quot;,</span>
 <span class="nc" id="L146">        )</span>
 <span class="nc" id="L147">    }</span>
 <span class="nc bnc" id="L148" title="All 2 branches missed.">}</span>
@@ -152,11 +152,11 @@ private fun AddToWatchlistSmallFab(
 <span class="nc" id="L152">    when (contentUiState) {</span>
 <span class="nc bnc" id="L153" title="All 2 branches missed.">        is ContentUiState.Content -&gt; MovieDetailsScreen(state = contentUiState)</span>
 <span class="nc bnc" id="L154" title="All 2 branches missed.">        is ContentUiState.Loading -&gt; MovieDetailsLoader(</span>
-<span class="nc" id="L155">            modifier = Modifier.align(Alignment.Center)</span>
+<span class="nc" id="L155">            modifier = Modifier.align(Alignment.Center),</span>
         )
 <span class="nc bnc" id="L157" title="All 2 branches missed.">        is ContentUiState.Retry -&gt; MovieDetailsRetry(</span>
 <span class="nc" id="L158">            modifier = Modifier.align(Alignment.Center),</span>
-<span class="nc" id="L159">            onClick = onRetryClick</span>
+<span class="nc" id="L159">            onClick = onRetryClick,</span>
         )
 <span class="nc bnc" id="L161" title="All 2 branches missed.">    }</span>
 <span class="nc bnc" id="L162" title="All 2 branches missed.">}</span>
@@ -164,7 +164,7 @@ private fun AddToWatchlistSmallFab(
 @Composable
 <span class="nc bnc" id="L165" title="All 14 branches missed.">private fun MovieDetailsLoader(modifier: Modifier = Modifier) {</span>
 <span class="nc bnc" id="L166" title="All 2 branches missed.">    IndeterminateProgressIndicator(</span>
-<span class="nc" id="L167">        modifier = modifier</span>
+<span class="nc" id="L167">        modifier = modifier,</span>
     )
 <span class="nc bnc" id="L169" title="All 2 branches missed.">}</span>
 
@@ -172,7 +172,7 @@ private fun AddToWatchlistSmallFab(
 <span class="nc bnc" id="L172" title="All 20 branches missed.">private fun MovieDetailsRetry(modifier: Modifier = Modifier, onClick: () -&gt; Unit) {</span>
 <span class="nc bnc" id="L173" title="All 2 branches missed.">    Retry(</span>
 <span class="nc" id="L174">        modifier = modifier,</span>
-<span class="nc" id="L175">        onClick = onClick</span>
+<span class="nc" id="L175">        onClick = onClick,</span>
     )
 <span class="nc bnc" id="L177" title="All 2 branches missed.">}</span>
 
@@ -189,14 +189,14 @@ private fun AddToWatchlistSmallFab(
 <span class="nc" id="L189">                        listOf(</span>
 <span class="nc" id="L190">                            BackdropPath(&quot;/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg&quot;),</span>
 <span class="nc" id="L191">                            BackdropPath(&quot;/iQFcwSGbZXMkeyKrxbPnwnRo5fp.jpg&quot;),</span>
-<span class="nc" id="L192">                            BackdropPath(&quot;/iQFcwSGbZXMkeyKrxbPnwnRo5fs.jpg&quot;)</span>
-                        )
+<span class="nc" id="L192">                            BackdropPath(&quot;/iQFcwSGbZXMkeyKrxbPnwnRo5fs.jpg&quot;),</span>
+                        ),
                     ),
 <span class="nc" id="L195">                    tagline = &quot;The Multiverse unleashed.&quot;,</span>
 <span class="nc" id="L196">                    voteAverage = 8.4f,</span>
 <span class="nc" id="L197">                    voteCount = 7997,</span>
 <span class="nc" id="L198">                    tmdbUrl = &quot;&quot;,</span>
-<span class="nc" id="L199">                    releaseDate = &quot;2021/12/15&quot;</span>
+<span class="nc" id="L199">                    releaseDate = &quot;2021/12/15&quot;,</span>
                 ),
 <span class="nc" id="L201">                contentUiState = ContentUiState.Content(</span>
 <span class="nc" id="L202">                    originalTitle = &quot;Spider-Man: No Way Home&quot;,</span>
@@ -214,28 +214,28 @@ private fun AddToWatchlistSmallFab(
 <span class="nc" id="L214">                        listOf(</span>
 <span class="nc" id="L215">                            MovieGenre(</span>
 <span class="nc" id="L216">                                id = 1,</span>
-<span class="nc" id="L217">                                name = &quot;Action&quot;</span>
+<span class="nc" id="L217">                                name = &quot;Action&quot;,</span>
                             ),
 <span class="nc" id="L219">                            MovieGenre(</span>
 <span class="nc" id="L220">                                id = 2,</span>
-<span class="nc" id="L221">                                name = &quot;Adventure&quot;</span>
+<span class="nc" id="L221">                                name = &quot;Adventure&quot;,</span>
                             ),
 <span class="nc" id="L223">                            MovieGenre(</span>
 <span class="nc" id="L224">                                id = 3,</span>
-<span class="nc" id="L225">                                name = &quot;Science Fiction&quot;</span>
-                            )
-                        )
+<span class="nc" id="L225">                                name = &quot;Science Fiction&quot;,</span>
+                            ),
+                        ),
                     ),
-<span class="nc" id="L229">                    videos = ImmutableList()</span>
+<span class="nc" id="L229">                    videos = ImmutableList(),</span>
                 ),
 <span class="nc" id="L231">                watchlistFabState = WatchlistFabState(</span>
 <span class="nc" id="L232">                    isLoading = true,</span>
-<span class="nc" id="L233">                    state = WatchlistState.REMOVE_FROM_WATCHLIST</span>
-                )
+<span class="nc" id="L233">                    state = WatchlistState.REMOVE_FROM_WATCHLIST,</span>
+                ),
             ),
 <span class="nc" id="L236">            onRetryClick = {},</span>
 <span class="nc" id="L237">            onWatchlistFabClick = {},</span>
-<span class="nc" id="L238">            navigateUp = {}</span>
+<span class="nc" id="L238">            navigateUp = {},</span>
 <span class="nc" id="L239">        )</span>
 <span class="nc" id="L240">    }</span>
 <span class="nc bnc" id="L241" title="All 2 branches missed.">}</span>

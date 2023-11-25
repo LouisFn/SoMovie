@@ -6,7 +6,7 @@ import com.louisfn.somovie.data.repository.WatchlistRepository
 import javax.inject.Inject
 
 <span class="fc" id="L8">class WatchlistInteractor @Inject constructor(</span>
-<span class="fc" id="L9">    private val watchlistRepository: WatchlistRepository</span>
+<span class="fc" id="L9">    private val watchlistRepository: WatchlistRepository,</span>
 ) {
 
     @AnyThread
@@ -23,7 +23,7 @@ import javax.inject.Inject
 <span class="pc" id="L23">        val PAGING_CONFIG = PagingConfig(</span>
 <span class="fc" id="L24">            pageSize = 20,</span>
 <span class="fc" id="L25">            prefetchDistance = 10,</span>
-<span class="fc" id="L26">            enablePlaceholders = true</span>
+<span class="fc" id="L26">            enablePlaceholders = true,</span>
         )
     }
 }

@@ -17,13 +17,13 @@ interface MovieDiscoverRepository {
         sortByDirection: MovieDiscoverSortByDirection,
         minVoteCount: Int,
         @FloatRange(from = 0.0, to = 10.0) minVoteAverage: Float,
-        page: Int
+        page: Int,
     ): List&lt;Movie&gt;
 }
 
 <span class="nc" id="L24">internal class DefaultMovieDiscoverRepository @Inject constructor(</span>
 <span class="nc" id="L25">    private val remoteDataSource: MovieDiscoverRemoteDataSource,</span>
-<span class="nc" id="L26">    private val movieMapper: MovieMapper</span>
+<span class="nc" id="L26">    private val movieMapper: MovieMapper,</span>
 ) : MovieDiscoverRepository {
 
 <span class="nc" id="L29">    override suspend fun getDiscoverMovies(</span>
@@ -31,14 +31,14 @@ interface MovieDiscoverRepository {
         sortByDirection: MovieDiscoverSortByDirection,
         minVoteCount: Int,
         @FloatRange(from = 0.0, to = 10.0) minVoteAverage: Float,
-        page: Int
+        page: Int,
     ): List&lt;Movie&gt; =
 <span class="nc" id="L36">        remoteDataSource.getMovieDiscover(</span>
 <span class="nc" id="L37">            sortBy = sortBy,</span>
 <span class="nc" id="L38">            sortByDirection = sortByDirection,</span>
 <span class="nc" id="L39">            minVoteCount = minVoteCount,</span>
 <span class="nc" id="L40">            minVoteAverage = minVoteAverage,</span>
-<span class="nc" id="L41">            page = page</span>
+<span class="nc" id="L41">            page = page,</span>
         )
 <span class="nc" id="L43">            .results</span>
 <span class="nc" id="L44">            .let { movieMapper.mapToDomain(it) }</span>

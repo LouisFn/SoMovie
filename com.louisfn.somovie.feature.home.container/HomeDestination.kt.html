@@ -14,12 +14,12 @@ object HomeDestination : NavigationDestination {
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.homeGraph(
     showDetails: (Movie) -&gt; Unit,
-    showMore: (ExploreCategory) -&gt; Unit
+    showMore: (ExploreCategory) -&gt; Unit,
 ) {
 <span class="nc" id="L19">    composable(route = HomeDestination.route) {</span>
 <span class="nc bnc" id="L20" title="All 2 branches missed.">        HomeScreen(</span>
 <span class="nc" id="L21">            showDetails = showDetails,</span>
-<span class="nc" id="L22">            showMore = showMore</span>
+<span class="nc" id="L22">            showMore = showMore,</span>
         )
 <span class="nc" id="L24">    }</span>
 <span class="nc" id="L25">}</span>

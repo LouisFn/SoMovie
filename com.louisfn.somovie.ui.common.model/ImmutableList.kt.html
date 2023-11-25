@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 
 <span class="fc" id="L5">@Immutable</span>
 <span class="fc" id="L6">data class ImmutableList&lt;out E&gt;(</span>
-<span class="fc" id="L7">    private val internalList: List&lt;E&gt; = emptyList()</span>
+<span class="fc" id="L7">    private val internalList: List&lt;E&gt; = emptyList(),</span>
 ) : List&lt;E&gt; by internalList {
 
     operator fun plus(list: ImmutableList&lt;@UnsafeVariance E&gt;): ImmutableList&lt;E&gt; =

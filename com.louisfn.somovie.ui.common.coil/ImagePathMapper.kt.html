@@ -8,7 +8,7 @@ import com.louisfn.somovie.domain.model.ImagePath
 import javax.inject.Inject
 
 <span class="nc" id="L10">class ImagePathMapper @Inject constructor(</span>
-<span class="nc" id="L11">    private val imageUrlProvider: ImageUrlProvider</span>
+<span class="nc" id="L11">    private val imageUrlProvider: ImageUrlProvider,</span>
 ) : Mapper&lt;ImagePath, String&gt; {
 
     override suspend fun map(data: ImagePath, size: Size): String? =

@@ -24,7 +24,7 @@ import javax.inject.Singleton
 <span class="fc" id="L24">class ImageUrlProvider @Inject constructor(</span>
     configurationRepository: TmdbConfigurationRepository,
 <span class="fc" id="L26">    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,</span>
-<span class="fc" id="L27">    @ApplicationScope private val applicationScope: CoroutineScope</span>
+<span class="fc" id="L27">    @ApplicationScope private val applicationScope: CoroutineScope,</span>
 ) {
 
     private var currentConfig =
@@ -33,7 +33,7 @@ import javax.inject.Singleton
 <span class="fc" id="L33">            .shareIn(</span>
 <span class="fc" id="L34">                scope = applicationScope,</span>
 <span class="fc" id="L35">                started = SharingStarted.Eagerly,</span>
-<span class="fc" id="L36">                replay = 1</span>
+<span class="fc" id="L36">                replay = 1,</span>
             )
 
     @AnyThread
@@ -41,11 +41,11 @@ import javax.inject.Singleton
 <span class="pc bpc" id="L41" title="2 of 4 branches missed.">        val configImages = currentConfig.firstOrNull()?.images ?: return@defaultDispatcher null</span>
 
 <span class="fc" id="L43">        &quot;${configImages.secureBaseUrl}${</span>
-<span class="fc" id="L44">        getSizeSegment(</span>
-<span class="fc" id="L45">            path,</span>
-<span class="fc" id="L46">            requestedWidth,</span>
-<span class="fc" id="L47">            configImages</span>
-        )
+<span class="fc" id="L44">            getSizeSegment(</span>
+<span class="fc" id="L45">                path,</span>
+<span class="fc" id="L46">                requestedWidth,</span>
+<span class="fc" id="L47">                configImages,</span>
+            )
 <span class="fc" id="L49">        }${path.value}&quot;</span>
 <span class="fc" id="L50">    }</span>
 
@@ -53,7 +53,7 @@ import javax.inject.Singleton
     private fun getSizeSegment(
         path: ImagePath,
         requestedWidth: Int?,
-        configImages: TmdbConfiguration.Images
+        configImages: TmdbConfiguration.Images,
     ): String {
 <span class="fc bfc" id="L58" title="All 2 branches covered.">        requestedWidth ?: return ORIGINAL_SIZE</span>
 

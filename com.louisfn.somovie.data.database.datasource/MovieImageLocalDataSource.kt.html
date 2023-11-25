@@ -17,7 +17,7 @@ interface MovieImageLocalDataSource {
 }
 
 <span class="nc" id="L19">internal class DefaultMovieImageLocalDataSource @Inject constructor(</span>
-<span class="nc" id="L20">    private val database: AppDatabase</span>
+<span class="nc" id="L20">    private val database: AppDatabase,</span>
 ) : MovieImageLocalDataSource {
 
     override fun movieImagesChanges(movieId: Long): Flow&lt;List&lt;MovieImageEntity&gt;&gt; =

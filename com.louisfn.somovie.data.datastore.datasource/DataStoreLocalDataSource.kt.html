@@ -26,7 +26,7 @@ interface DataStoreLocalDataSource&lt;T : DataStoreData&gt; {
 
 <span class="nc" id="L27">internal class DefaultDataStoreLocalDataSource&lt;T : DataStoreData&gt; @Inject constructor(</span>
 <span class="nc" id="L28">    private val lazyDataStore: Lazy&lt;DataStore&lt;T&gt;&gt;,</span>
-<span class="nc" id="L29">    @IoDispatcher private val ioDispatcher: CoroutineDispatcher</span>
+<span class="nc" id="L29">    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,</span>
 ) : DataStoreLocalDataSource&lt;T&gt; {
 
     private val dataStore
