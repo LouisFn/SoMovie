@@ -4,7 +4,12 @@ import androidx.annotation.AnyThread
 import androidx.annotation.UiThread
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.VectorConverter
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.LayoutCoordinates
@@ -19,106 +24,106 @@ import com.louisfn.somovie.ui.theme.Dimens
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-<span class="nc" id="L22">private val MIN_DRAG_DISTANCE_TO_REDUCE = 96.dp</span>
+<span class="nc" id="L27">private val MinDragDistanceToReduce = 96.dp</span>
 
-<span class="nc" id="L24">@Stable</span>
-<span class="nc" id="L25">internal class PosterStateController(</span>
+<span class="nc" id="L29">@Stable</span>
+<span class="nc" id="L30">internal class PosterStateController(</span>
     reducedCoordinates: LayoutCoordinates,
-<span class="nc" id="L27">    private val scope: CoroutineScope,</span>
-<span class="nc" id="L28">    private val minDragDistanceToReduce: Int,</span>
-<span class="nc" id="L29">    private val screenSize: Size,</span>
-<span class="nc" id="L30">    private var onStateChanged: (MovieDetailsPosterState) -&gt; Unit,</span>
+<span class="nc" id="L32">    private val scope: CoroutineScope,</span>
+<span class="nc" id="L33">    private val minDragDistanceToReduce: Int,</span>
+<span class="nc" id="L34">    private val screenSize: Size,</span>
+<span class="nc" id="L35">    private var onStateChanged: (MovieDetailsPosterState) -&gt; Unit,</span>
 ) {
-<span class="nc" id="L32">    private var currentState: MovieDetailsPosterState = MovieDetailsPosterState.REDUCED</span>
+<span class="nc" id="L37">    private var currentState: MovieDetailsPosterState = MovieDetailsPosterState.REDUCED</span>
 
-<span class="nc" id="L34">    private val reducedSize = reducedCoordinates.size.toSize()</span>
-<span class="nc" id="L35">    private val reducedOffset = reducedCoordinates.positionInParent()</span>
-<span class="nc" id="L36">    private val expandedSize = Size(width = screenSize.width, height = screenSize.width / Dimens.POSTER_RATIO)</span>
-<span class="nc" id="L37">    private val expandedOffset = Offset(x = 0f, y = screenSize.height / 2 - expandedSize.height / 2)</span>
+<span class="nc" id="L39">    private val reducedSize = reducedCoordinates.size.toSize()</span>
+<span class="nc" id="L40">    private val reducedOffset = reducedCoordinates.positionInParent()</span>
+<span class="nc" id="L41">    private val expandedSize = Size(width = screenSize.width, height = screenSize.width / Dimens.PosterRatio)</span>
+<span class="nc" id="L42">    private val expandedOffset = Offset(x = 0f, y = screenSize.height / 2 - expandedSize.height / 2)</span>
 
-<span class="nc" id="L39">    private var dragOffset = Offset.Zero</span>
+<span class="nc" id="L44">    private var dragOffset = Offset.Zero</span>
 
-<span class="nc" id="L41">    private val sizeAnimatable = Animatable(reducedSize, Size.VectorConverter)</span>
-<span class="nc" id="L42">    private val offsetAnimatable = Animatable(reducedOffset, Offset.VectorConverter)</span>
+<span class="nc" id="L46">    private val sizeAnimatable = Animatable(reducedSize, Size.VectorConverter)</span>
+<span class="nc" id="L47">    private val offsetAnimatable = Animatable(reducedOffset, Offset.VectorConverter)</span>
 
-<span class="nc" id="L44">    val size by derivedStateOf { sizeAnimatable.value }</span>
-<span class="nc" id="L45">    val offset by derivedStateOf { offsetAnimatable.value }</span>
+<span class="nc" id="L49">    val size by derivedStateOf { sizeAnimatable.value }</span>
+<span class="nc" id="L50">    val offset by derivedStateOf { offsetAnimatable.value }</span>
 
     @UiThread
     fun animateToState(state: MovieDetailsPosterState) {
-<span class="nc" id="L49">        currentState = state</span>
-<span class="nc bnc" id="L50" title="All 3 branches missed.">        when (state) {</span>
-<span class="nc" id="L51">            MovieDetailsPosterState.EXPANDED -&gt; animateToExpandedState()</span>
-<span class="nc" id="L52">            MovieDetailsPosterState.REDUCED -&gt; animateToReducedState()</span>
+<span class="nc" id="L54">        currentState = state</span>
+<span class="nc bnc" id="L55" title="All 3 branches missed.">        when (state) {</span>
+<span class="nc" id="L56">            MovieDetailsPosterState.EXPANDED -&gt; animateToExpandedState()</span>
+<span class="nc" id="L57">            MovieDetailsPosterState.REDUCED -&gt; animateToReducedState()</span>
         }
-<span class="nc" id="L54">    }</span>
+<span class="nc" id="L59">    }</span>
 
     @UiThread
     fun onDrag(dragAmount: Offset) {
-<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (currentState != MovieDetailsPosterState.EXPANDED) return</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (currentState != MovieDetailsPosterState.EXPANDED) return</span>
 
-<span class="nc" id="L60">        dragOffset = dragOffset.plus(dragAmount)</span>
+<span class="nc" id="L65">        dragOffset = dragOffset.plus(dragAmount)</span>
 
-<span class="nc" id="L62">        val newWidth =</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (dragOffset.getDistance() &lt;= minDragDistanceToReduce) {</span>
-<span class="nc" id="L64">                screenSize.width - dragOffset.getDistance()</span>
+<span class="nc" id="L67">        val newWidth =</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (dragOffset.getDistance() &lt;= minDragDistanceToReduce) {</span>
+<span class="nc" id="L69">                screenSize.width - dragOffset.getDistance()</span>
             } else {
-<span class="nc" id="L66">                sizeAnimatable.value.width</span>
+<span class="nc" id="L71">                sizeAnimatable.value.width</span>
             }
 
-<span class="nc" id="L69">        val x = (screenSize.width - newWidth) / 2</span>
-<span class="nc" id="L70">        val sizeOffset = Offset(x = x, y = x / Dimens.POSTER_RATIO)</span>
+<span class="nc" id="L74">        val x = (screenSize.width - newWidth) / 2</span>
+<span class="nc" id="L75">        val sizeOffset = Offset(x = x, y = x / Dimens.PosterRatio)</span>
 
-<span class="nc" id="L72">        val newOffset = expandedOffset</span>
-<span class="nc" id="L73">            .plus(dragOffset)</span>
-<span class="nc" id="L74">            .plus(sizeOffset)</span>
+<span class="nc" id="L77">        val newOffset = expandedOffset</span>
+<span class="nc" id="L78">            .plus(dragOffset)</span>
+<span class="nc" id="L79">            .plus(sizeOffset)</span>
 
-<span class="nc" id="L76">        scope.launch { offsetAnimatable.snapTo(newOffset) }</span>
-<span class="nc" id="L77">        scope.launch { sizeAnimatable.snapTo(Size(width = newWidth, height = newWidth / Dimens.POSTER_RATIO)) }</span>
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L81">        scope.launch { offsetAnimatable.snapTo(newOffset) }</span>
+<span class="nc" id="L82">        scope.launch { sizeAnimatable.snapTo(Size(width = newWidth, height = newWidth / Dimens.PosterRatio)) }</span>
+<span class="nc" id="L83">    }</span>
 
     @UiThread
     fun onDragEnd() {
-<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (currentState != MovieDetailsPosterState.EXPANDED) return</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (currentState != MovieDetailsPosterState.EXPANDED) return</span>
 
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (dragOffset.getDistance() &gt; minDragDistanceToReduce) {</span>
-<span class="nc" id="L85">            onStateChanged(MovieDetailsPosterState.REDUCED)</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (dragOffset.getDistance() &gt; minDragDistanceToReduce) {</span>
+<span class="nc" id="L90">            onStateChanged(MovieDetailsPosterState.REDUCED)</span>
         } else {
-<span class="nc" id="L87">            animateToExpandedState()</span>
+<span class="nc" id="L92">            animateToExpandedState()</span>
         }
 
-<span class="nc" id="L90">        dragOffset = Offset.Zero</span>
-<span class="nc" id="L91">    }</span>
+<span class="nc" id="L95">        dragOffset = Offset.Zero</span>
+<span class="nc" id="L96">    }</span>
 
     @AnyThread
     private fun animateToExpandedState() {
-<span class="nc" id="L95">        scope.launch { offsetAnimatable.animateTo(expandedOffset) }</span>
-<span class="nc" id="L96">        scope.launch { sizeAnimatable.animateTo(expandedSize) }</span>
-<span class="nc" id="L97">    }</span>
+<span class="nc" id="L100">        scope.launch { offsetAnimatable.animateTo(expandedOffset) }</span>
+<span class="nc" id="L101">        scope.launch { sizeAnimatable.animateTo(expandedSize) }</span>
+<span class="nc" id="L102">    }</span>
 
     @AnyThread
     private fun animateToReducedState() {
-<span class="nc" id="L101">        scope.launch { offsetAnimatable.animateTo(reducedOffset) }</span>
-<span class="nc" id="L102">        scope.launch { sizeAnimatable.animateTo(reducedSize) }</span>
-<span class="nc" id="L103">    }</span>
+<span class="nc" id="L106">        scope.launch { offsetAnimatable.animateTo(reducedOffset) }</span>
+<span class="nc" id="L107">        scope.launch { sizeAnimatable.animateTo(reducedSize) }</span>
+<span class="nc" id="L108">    }</span>
 }
 
 @Composable
 internal fun rememberPosterStateController(
     reducedCoordinates: LayoutCoordinates,
     onStateChanged: (MovieDetailsPosterState) -&gt; Unit,
-<span class="nc" id="L110">): PosterStateController {</span>
-<span class="nc" id="L111">    val scope = rememberCoroutineScope()</span>
-<span class="nc" id="L112">    val minDragDistanceToReduce = MIN_DRAG_DISTANCE_TO_REDUCE.roundToPx()</span>
-<span class="nc" id="L113">    val screenSize = with(LocalConfiguration.current) { Size(width = screenWidth, height = screenHeightWithInset) }</span>
+<span class="nc" id="L115">): PosterStateController {</span>
+<span class="nc" id="L116">    val scope = rememberCoroutineScope()</span>
+<span class="nc" id="L117">    val minDragDistanceToReduce = MinDragDistanceToReduce.roundToPx()</span>
+<span class="nc" id="L118">    val screenSize = with(LocalConfiguration.current) { Size(width = screenWidth, height = screenHeightWithInset) }</span>
 
-<span class="nc bnc" id="L115" title="All 2 branches missed.">    return remember(reducedCoordinates) {</span>
-<span class="nc" id="L116">        PosterStateController(</span>
-<span class="nc" id="L117">            minDragDistanceToReduce = minDragDistanceToReduce,</span>
-<span class="nc" id="L118">            reducedCoordinates = reducedCoordinates,</span>
-<span class="nc" id="L119">            screenSize = screenSize,</span>
-<span class="nc" id="L120">            onStateChanged = onStateChanged,</span>
-<span class="nc" id="L121">            scope = scope,</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">    return remember(reducedCoordinates) {</span>
+<span class="nc" id="L121">        PosterStateController(</span>
+<span class="nc" id="L122">            minDragDistanceToReduce = minDragDistanceToReduce,</span>
+<span class="nc" id="L123">            reducedCoordinates = reducedCoordinates,</span>
+<span class="nc" id="L124">            screenSize = screenSize,</span>
+<span class="nc" id="L125">            onStateChanged = onStateChanged,</span>
+<span class="nc" id="L126">            scope = scope,</span>
         )
     }
 }

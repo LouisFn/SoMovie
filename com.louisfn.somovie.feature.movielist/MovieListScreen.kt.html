@@ -22,11 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.louisfn.somovie.domain.model.Movie
 import com.louisfn.somovie.feature.movielist.MovieListUiState.LoadNextPageState
 import com.louisfn.somovie.ui.common.extension.PagingItemsLoadStateErrorEffect
 import com.louisfn.somovie.ui.common.extension.collectAsStateLifecycleAware
-import com.louisfn.somovie.ui.common.extension.items
 import com.louisfn.somovie.ui.common.extension.plus
 import com.louisfn.somovie.ui.common.util.ExploreCategoryUiHelper.canDisplayVotes
 import com.louisfn.somovie.ui.common.util.ExploreCategoryUiHelper.label
@@ -35,8 +36,8 @@ import com.louisfn.somovie.ui.component.IndeterminateProgressIndicator
 import com.louisfn.somovie.ui.component.TextRetryButton
 import com.louisfn.somovie.ui.component.movie.MovieCard
 import com.louisfn.somovie.ui.component.movie.MovieCardPlaceholder
-import com.louisfn.somovie.ui.theme.Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING
-import com.louisfn.somovie.ui.theme.Dimens.DEFAULT_SCREEN_VERTICAL_PADDING
+import com.louisfn.somovie.ui.theme.Dimens.DefaultScreenHorizontalPadding
+import com.louisfn.somovie.ui.theme.Dimens.DefaultScreenVerticalPadding
 
 private const val MovieGridNbrColumn = 3
 
@@ -44,28 +45,28 @@ private const val MovieGridNbrColumn = 3
 internal fun MovieListScreen(
     showDetail: (Movie) -&gt; Unit,
     navigateUp: () -&gt; Unit,
-<span class="nc" id="L47">    viewModel: MovieListViewModel = hiltViewModel(),</span>
-<span class="nc bnc" id="L48" title="All 26 branches missed.">) {</span>
-<span class="nc" id="L49">    val state by viewModel.uiState.collectAsStateLifecycleAware()</span>
-<span class="nc" id="L50">    val pagingItems = viewModel.pagedMovies.collectAsLazyPagingItems()</span>
+<span class="nc" id="L48">    viewModel: MovieListViewModel = hiltViewModel(),</span>
+<span class="nc bnc" id="L49" title="All 26 branches missed.">) {</span>
+<span class="nc" id="L50">    val state by viewModel.uiState.collectAsStateLifecycleAware()</span>
+<span class="nc" id="L51">    val pagingItems = viewModel.pagedMovies.collectAsLazyPagingItems()</span>
 
-<span class="nc" id="L52">    PagingItemsLoadStateErrorEffect(</span>
-<span class="nc" id="L53">        pagingItems = pagingItems,</span>
-<span class="nc" id="L54">        onRefreshError = viewModel::onPagingError,</span>
-<span class="nc" id="L55">        onAppendError = viewModel::onPagingError,</span>
+<span class="nc" id="L53">    PagingItemsLoadStateErrorEffect(</span>
+<span class="nc" id="L54">        pagingItems = pagingItems,</span>
+<span class="nc" id="L55">        onRefreshError = viewModel::onPagingError,</span>
+<span class="nc" id="L56">        onAppendError = viewModel::onPagingError,</span>
     )
 
-<span class="nc bnc" id="L58" title="All 2 branches missed.">    LaunchedEffect(pagingItems.loadState, pagingItems) {</span>
-<span class="nc" id="L59">        viewModel.onLoadStateChanged(pagingItems.loadState)</span>
-<span class="nc" id="L60">    }</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">    LaunchedEffect(pagingItems.loadState, pagingItems) {</span>
+<span class="nc" id="L60">        viewModel.onLoadStateChanged(pagingItems.loadState)</span>
+<span class="nc" id="L61">    }</span>
 
-<span class="nc bnc" id="L62" title="All 2 branches missed.">    MovieListScreen(</span>
-<span class="nc" id="L63">        uiState = state,</span>
-<span class="nc" id="L64">        pagingItems = pagingItems,</span>
-<span class="nc" id="L65">        showDetail = showDetail,</span>
-<span class="nc" id="L66">        navigateUp = navigateUp,</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">    MovieListScreen(</span>
+<span class="nc" id="L64">        uiState = state,</span>
+<span class="nc" id="L65">        pagingItems = pagingItems,</span>
+<span class="nc" id="L66">        showDetail = showDetail,</span>
+<span class="nc" id="L67">        navigateUp = navigateUp,</span>
     )
-<span class="nc bnc" id="L68" title="All 2 branches missed.">}</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">}</span>
 
 @Composable
 private fun MovieListScreen(
@@ -73,27 +74,27 @@ private fun MovieListScreen(
     pagingItems: LazyPagingItems&lt;Movie&gt;,
     showDetail: (Movie) -&gt; Unit,
     navigateUp: () -&gt; Unit,
-<span class="nc bnc" id="L76" title="All 22 branches missed.">) {</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">    Scaffold(</span>
-<span class="nc" id="L78">        modifier = Modifier.systemBarsPadding(),</span>
-<span class="nc" id="L79">        topBar = {</span>
-<span class="nc bnc" id="L80" title="All 8 branches missed.">            DefaultTopAppBar(</span>
-<span class="nc" id="L81">                text = uiState.category.label,</span>
-<span class="nc" id="L82">                navigateUp = navigateUp,</span>
-<span class="nc" id="L83">            )</span>
-<span class="nc" id="L84">        },</span>
-<span class="nc" id="L85">    ) {</span>
-<span class="nc bnc" id="L86" title="All 6 branches missed.">        Box(modifier = Modifier.fillMaxSize()) {</span>
-<span class="nc" id="L87">            MovieListLazyGrid(</span>
-<span class="nc" id="L88">                pagingItems = pagingItems,</span>
-<span class="nc" id="L89">                loadNextPageState = uiState.loadNextPageState,</span>
-<span class="nc" id="L90">                contentPadding = it,</span>
-<span class="nc" id="L91">                showVotes = uiState.category.canDisplayVotes,</span>
-<span class="nc" id="L92">                showDetail = showDetail,</span>
+<span class="nc bnc" id="L77" title="All 22 branches missed.">) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    Scaffold(</span>
+<span class="nc" id="L79">        modifier = Modifier.systemBarsPadding(),</span>
+<span class="nc" id="L80">        topBar = {</span>
+<span class="nc bnc" id="L81" title="All 8 branches missed.">            DefaultTopAppBar(</span>
+<span class="nc" id="L82">                text = uiState.category.label,</span>
+<span class="nc" id="L83">                navigateUp = navigateUp,</span>
+<span class="nc" id="L84">            )</span>
+<span class="nc" id="L85">        },</span>
+<span class="nc" id="L86">    ) {</span>
+<span class="nc bnc" id="L87" title="All 6 branches missed.">        Box(modifier = Modifier.fillMaxSize()) {</span>
+<span class="nc" id="L88">            MovieListLazyGrid(</span>
+<span class="nc" id="L89">                pagingItems = pagingItems,</span>
+<span class="nc" id="L90">                loadNextPageState = uiState.loadNextPageState,</span>
+<span class="nc" id="L91">                contentPadding = it,</span>
+<span class="nc" id="L92">                showVotes = uiState.category.canDisplayVotes,</span>
+<span class="nc" id="L93">                showDetail = showDetail,</span>
             )
-<span class="nc" id="L94">        }</span>
-<span class="nc" id="L95">    }</span>
-<span class="nc bnc" id="L96" title="All 2 branches missed.">}</span>
+<span class="nc" id="L95">        }</span>
+<span class="nc" id="L96">    }</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">}</span>
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -103,64 +104,66 @@ private fun MovieListLazyGrid(
     contentPadding: PaddingValues,
     showVotes: Boolean,
     showDetail: (Movie) -&gt; Unit,
-<span class="nc bnc" id="L106" title="All 26 branches missed.">) {</span>
+<span class="nc bnc" id="L107" title="All 26 branches missed.">) {</span>
     // https://issuetracker.google.com/issues/177245496#comment23
-<span class="nc bnc" id="L108" title="All 6 branches missed.">    if (pagingItems.itemCount == 0) return</span>
+<span class="nc bnc" id="L109" title="All 6 branches missed.">    if (pagingItems.itemCount == 0) return</span>
 
-<span class="nc bnc" id="L110" title="All 2 branches missed.">    LazyVerticalGrid(</span>
-<span class="nc" id="L111">        columns = GridCells.Fixed(MovieGridNbrColumn),</span>
-<span class="nc" id="L112">        horizontalArrangement = Arrangement.spacedBy(12.dp),</span>
-<span class="nc" id="L113">        verticalArrangement = Arrangement.spacedBy(12.dp),</span>
-<span class="nc" id="L114">        contentPadding = contentPadding + PaddingValues(</span>
-<span class="nc" id="L115">            horizontal = DEFAULT_SCREEN_HORIZONTAL_PADDING,</span>
-<span class="nc" id="L116">            vertical = DEFAULT_SCREEN_VERTICAL_PADDING,</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">    LazyVerticalGrid(</span>
+<span class="nc" id="L112">        columns = GridCells.Fixed(MovieGridNbrColumn),</span>
+<span class="nc" id="L113">        horizontalArrangement = Arrangement.spacedBy(12.dp),</span>
+<span class="nc" id="L114">        verticalArrangement = Arrangement.spacedBy(12.dp),</span>
+<span class="nc" id="L115">        contentPadding = contentPadding + PaddingValues(</span>
+<span class="nc" id="L116">            horizontal = DefaultScreenHorizontalPadding,</span>
+<span class="nc" id="L117">            vertical = DefaultScreenVerticalPadding,</span>
         ),
     ) {
-<span class="nc" id="L119">        items(</span>
-<span class="nc" id="L120">            lazyPagingItems = pagingItems,</span>
-<span class="nc" id="L121">            key = { it.id },</span>
-<span class="nc" id="L122">        ) { movie -&gt;</span>
-<span class="nc bnc" id="L123" title="All 2 branches missed.">            if (movie != null) {</span>
-<span class="nc" id="L124">                MovieCard(</span>
-<span class="nc" id="L125">                    movie = movie,</span>
-<span class="nc" id="L126">                    showVotes = showVotes,</span>
-<span class="nc" id="L127">                    showDetail = showDetail,</span>
+<span class="nc" id="L120">        items(</span>
+<span class="nc" id="L121">            count = pagingItems.itemCount,</span>
+<span class="nc" id="L122">            key = pagingItems.itemKey { it.id },</span>
+<span class="nc" id="L123">            contentType = pagingItems.itemContentType {},</span>
+<span class="nc" id="L124">        ) { index -&gt;</span>
+<span class="nc bnc" id="L125" title="All 6 branches missed.">            val movie = pagingItems[index]</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            if (movie != null) {</span>
+<span class="nc" id="L127">                MovieCard(</span>
+<span class="nc" id="L128">                    movie = movie,</span>
+<span class="nc" id="L129">                    showVotes = showVotes,</span>
+<span class="nc" id="L130">                    showDetail = showDetail,</span>
                 )
-<span class="nc bnc" id="L129" title="All 2 branches missed.">            } else {</span>
-<span class="nc" id="L130">                MovieCardPlaceholder()</span>
-            }
-<span class="nc" id="L132">        }</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            } else {</span>
+<span class="nc" id="L133">                MovieCardPlaceholder()</span>
+<span class="nc" id="L134">            }</span>
+<span class="nc" id="L135">        }</span>
 
-<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (loadNextPageState == LoadNextPageState.LOADING) {</span>
-<span class="nc" id="L135">            item(</span>
-<span class="nc" id="L136">                span = { GridItemSpan(MovieGridNbrColumn) },</span>
-<span class="nc" id="L137">            ) {</span>
-<span class="nc bnc" id="L138" title="All 8 branches missed.">                Loader()</span>
-<span class="nc" id="L139">            }</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (loadNextPageState == LoadNextPageState.LOADING) {</span>
+<span class="nc" id="L138">            item(</span>
+<span class="nc" id="L139">                span = { GridItemSpan(MovieGridNbrColumn) },</span>
+<span class="nc" id="L140">            ) {</span>
+<span class="nc bnc" id="L141" title="All 8 branches missed.">                Loader()</span>
+<span class="nc" id="L142">            }</span>
         }
 
-<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (loadNextPageState == LoadNextPageState.FAILED) {</span>
-<span class="nc" id="L143">            item(</span>
-<span class="nc" id="L144">                span = { GridItemSpan(MovieGridNbrColumn) },</span>
-<span class="nc" id="L145">            ) {</span>
-<span class="nc bnc" id="L146" title="All 8 branches missed.">                TextRetryButton(</span>
-<span class="nc" id="L147">                    modifier = Modifier.wrapContentWidth(),</span>
-<span class="nc" id="L148">                    onClick = pagingItems::retry,</span>
-<span class="nc" id="L149">                )</span>
-<span class="nc" id="L150">            }</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (loadNextPageState == LoadNextPageState.FAILED) {</span>
+<span class="nc" id="L146">            item(</span>
+<span class="nc" id="L147">                span = { GridItemSpan(MovieGridNbrColumn) },</span>
+<span class="nc" id="L148">            ) {</span>
+<span class="nc bnc" id="L149" title="All 8 branches missed.">                TextRetryButton(</span>
+<span class="nc" id="L150">                    modifier = Modifier.wrapContentWidth(),</span>
+<span class="nc" id="L151">                    onClick = pagingItems::retry,</span>
+<span class="nc" id="L152">                )</span>
+<span class="nc" id="L153">            }</span>
         }
-<span class="nc" id="L152">    }</span>
-<span class="nc bnc" id="L153" title="All 2 branches missed.">}</span>
+<span class="nc" id="L155">    }</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L156" title="All 6 branches missed.">private fun Loader() {</span>
-<span class="nc" id="L157">    Row(</span>
-<span class="nc" id="L158">        modifier = Modifier</span>
-<span class="nc" id="L159">            .fillMaxWidth()</span>
-<span class="nc" id="L160">            .padding(bottom = 16.dp),</span>
-<span class="nc" id="L161">        horizontalArrangement = Arrangement.Center,</span>
+<span class="nc bnc" id="L159" title="All 6 branches missed.">private fun Loader() {</span>
+<span class="nc" id="L160">    Row(</span>
+<span class="nc" id="L161">        modifier = Modifier</span>
+<span class="nc" id="L162">            .fillMaxWidth()</span>
+<span class="nc" id="L163">            .padding(bottom = 16.dp),</span>
+<span class="nc" id="L164">        horizontalArrangement = Arrangement.Center,</span>
     ) {
-<span class="nc" id="L163">        IndeterminateProgressIndicator()</span>
-<span class="nc" id="L164">    }</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">}</span>
+<span class="nc" id="L166">        IndeterminateProgressIndicator()</span>
+<span class="nc" id="L167">    }</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

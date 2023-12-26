@@ -40,174 +40,176 @@ import com.louisfn.somovie.ui.theme.AppColor
 import com.louisfn.somovie.ui.theme.Dimens
 
 private const val OverviewCollapsedMaxLines = 4
+<span class="nc" id="L43">private val MoreInfoSectionSpace = 16.dp</span>
+<span class="nc" id="L44">private val MoreInfoSectionBodySpace = 8.dp</span>
 
 @Composable
 internal fun MovieDetailsScreen(
     state: ContentUiState.Content,
-<span class="nc bnc" id="L47" title="All 10 branches missed.">) {</span>
-<span class="nc" id="L48">    Column(</span>
-<span class="nc" id="L49">        modifier = Modifier</span>
-<span class="nc" id="L50">            .background(MaterialTheme.colors.background)</span>
-<span class="nc" id="L51">            .navigationBarsPadding()</span>
-<span class="nc" id="L52">            .fillMaxWidth()</span>
-<span class="nc" id="L53">            .verticalScroll(rememberScrollState())</span>
-<span class="nc" id="L54">            .padding(</span>
-<span class="nc" id="L55">                horizontal = Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING,</span>
-<span class="nc" id="L56">                vertical = Dimens.DEFAULT_SCREEN_VERTICAL_PADDING,</span>
+<span class="nc bnc" id="L49" title="All 10 branches missed.">) {</span>
+<span class="nc" id="L50">    Column(</span>
+<span class="nc" id="L51">        modifier = Modifier</span>
+<span class="nc" id="L52">            .background(MaterialTheme.colors.background)</span>
+<span class="nc" id="L53">            .navigationBarsPadding()</span>
+<span class="nc" id="L54">            .fillMaxWidth()</span>
+<span class="nc" id="L55">            .verticalScroll(rememberScrollState())</span>
+<span class="nc" id="L56">            .padding(</span>
+<span class="nc" id="L57">                horizontal = Dimens.DefaultScreenHorizontalPadding,</span>
+<span class="nc" id="L58">                vertical = Dimens.DefaultScreenVerticalPadding,</span>
             ),
     ) {
-<span class="nc" id="L59">        OverviewSection(overview = state.overview)</span>
-<span class="nc" id="L60">        GenresFlowSection(genres = state.genres)</span>
-<span class="nc" id="L61">        MoreInfoSection(state = state)</span>
-<span class="nc" id="L62">        CastSection(cast = state.cast)</span>
-<span class="nc" id="L63">        VideosSection(videos = state.videos)</span>
-<span class="nc" id="L64">    }</span>
-<span class="nc bnc" id="L65" title="All 2 branches missed.">}</span>
+<span class="nc" id="L61">        OverviewSection(overview = state.overview)</span>
+<span class="nc" id="L62">        GenresFlowSection(genres = state.genres)</span>
+<span class="nc" id="L63">        MoreInfoSection(state = state)</span>
+<span class="nc" id="L64">        CastSection(cast = state.cast)</span>
+<span class="nc" id="L65">        VideosSection(videos = state.videos)</span>
+<span class="nc" id="L66">    }</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L68" title="All 10 branches missed.">private fun SectionText(text: String) {</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">    Text(</span>
-<span class="nc" id="L70">        text = text,</span>
-<span class="nc" id="L71">        style = MaterialTheme.typography.subtitle1,</span>
+<span class="nc bnc" id="L70" title="All 10 branches missed.">private fun SectionText(text: String) {</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    Text(</span>
+<span class="nc" id="L72">        text = text,</span>
+<span class="nc" id="L73">        style = MaterialTheme.typography.subtitle1,</span>
     )
-<span class="nc bnc" id="L73" title="All 2 branches missed.">}</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">}</span>
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-<span class="nc bnc" id="L77" title="All 10 branches missed.">private fun ColumnScope.OverviewSection(overview: String) {</span>
-<span class="nc" id="L78">    var isExpanded by remember { mutableStateOf(false) }</span>
-<span class="nc" id="L79">    var isButtonVisible by remember { mutableStateOf(true) }</span>
+<span class="nc bnc" id="L79" title="All 10 branches missed.">private fun ColumnScope.OverviewSection(overview: String) {</span>
+<span class="nc" id="L80">    var isExpanded by remember { mutableStateOf(false) }</span>
+<span class="nc" id="L81">    var isButtonVisible by remember { mutableStateOf(true) }</span>
 
-<span class="nc" id="L81">    SectionText(text = stringResource(id = R.string.movie_details_about_section))</span>
-<span class="nc" id="L82">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))</span>
+<span class="nc" id="L83">    SectionText(text = stringResource(id = R.string.movie_details_about_section))</span>
+<span class="nc" id="L84">    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))</span>
 
-<span class="nc" id="L84">    Text(</span>
-<span class="nc" id="L85">        text = overview,</span>
-<span class="nc bnc" id="L86" title="All 2 branches missed.">        maxLines = if (isExpanded) Int.MAX_VALUE else OverviewCollapsedMaxLines,</span>
-<span class="nc" id="L87">        style = MaterialTheme.typography.body2,</span>
-<span class="nc" id="L88">        overflow = TextOverflow.Ellipsis,</span>
-<span class="nc bnc" id="L89" title="All 4 branches missed.">        onTextLayout = { isButtonVisible = isExpanded || it.hasVisualOverflow },</span>
+<span class="nc" id="L86">    Text(</span>
+<span class="nc" id="L87">        text = overview,</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        maxLines = if (isExpanded) Int.MAX_VALUE else OverviewCollapsedMaxLines,</span>
+<span class="nc" id="L89">        style = MaterialTheme.typography.body2,</span>
+<span class="nc" id="L90">        overflow = TextOverflow.Ellipsis,</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">        onTextLayout = { isButtonVisible = isExpanded || it.hasVisualOverflow },</span>
     )
 
-<span class="nc bnc" id="L92" title="All 2 branches missed.">    if (isButtonVisible) {</span>
-<span class="nc" id="L93">        CompositionLocalProvider(</span>
-<span class="nc" id="L94">            LocalMinimumInteractiveComponentEnforcement provides false,</span>
-<span class="nc" id="L95">        ) {</span>
-<span class="nc bnc" id="L96" title="All 8 branches missed.">            DefaultTextButton(</span>
-<span class="nc" id="L97">                text = stringResource(</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">                    id = if (isExpanded) {</span>
-<span class="nc" id="L99">                        R.string.movie_details_about_read_less</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">    if (isButtonVisible) {</span>
+<span class="nc" id="L95">        CompositionLocalProvider(</span>
+<span class="nc" id="L96">            LocalMinimumInteractiveComponentEnforcement provides false,</span>
+<span class="nc" id="L97">        ) {</span>
+<span class="nc bnc" id="L98" title="All 8 branches missed.">            DefaultTextButton(</span>
+<span class="nc" id="L99">                text = stringResource(</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                    id = if (isExpanded) {</span>
+<span class="nc" id="L101">                        R.string.movie_details_about_read_less</span>
                     } else {
-<span class="nc" id="L101">                        R.string.movie_details_about_read_more</span>
+<span class="nc" id="L103">                        R.string.movie_details_about_read_more</span>
                     },
                 ),
-<span class="nc" id="L104">                modifier = Modifier</span>
-<span class="nc" id="L105">                    .padding(0.dp)</span>
-<span class="nc" id="L106">                    .offset(x = -ButtonDefaults.TextButtonContentPadding.start),</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">                onClick = { isExpanded = !isExpanded },</span>
-<span class="nc" id="L108">            )</span>
-<span class="nc" id="L109">        }</span>
+<span class="nc" id="L106">                modifier = Modifier</span>
+<span class="nc" id="L107">                    .padding(0.dp)</span>
+<span class="nc" id="L108">                    .offset(x = -ButtonDefaults.TextButtonContentPadding.start),</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                onClick = { isExpanded = !isExpanded },</span>
+<span class="nc" id="L110">            )</span>
+<span class="nc" id="L111">        }</span>
     }
 
-<span class="nc bnc" id="L112" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE - ButtonDefaults.TextButtonContentPadding.bottom))</span>
-<span class="nc bnc" id="L113" title="All 2 branches missed.">}</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MoreInfoSectionSpace - ButtonDefaults.TextButtonContentPadding.bottom))</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L116" title="All 10 branches missed.">private fun ColumnScope.GenresFlowSection(genres: ImmutableList&lt;MovieGenre&gt;?) {</span>
-<span class="nc bnc" id="L117" title="All 6 branches missed.">    genres ?: return</span>
+<span class="nc bnc" id="L118" title="All 10 branches missed.">private fun ColumnScope.GenresFlowSection(genres: ImmutableList&lt;MovieGenre&gt;?) {</span>
+<span class="nc bnc" id="L119" title="All 6 branches missed.">    genres ?: return</span>
 
-<span class="nc" id="L119">    SectionText(text = stringResource(id = R.string.movie_details_genres_section))</span>
-<span class="nc" id="L120">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))</span>
-<span class="nc" id="L121">    FlowRow {</span>
-<span class="nc bnc" id="L122" title="All 6 branches missed.">        genres.forEach { genre -&gt;</span>
-<span class="nc" id="L123">            Text(</span>
-<span class="nc" id="L124">                modifier = Modifier</span>
-<span class="nc" id="L125">                    .padding(4.dp)</span>
-<span class="nc" id="L126">                    .clip(CircleShape)</span>
-<span class="nc" id="L127">                    .background(MaterialTheme.colors.surface)</span>
-<span class="nc" id="L128">                    .padding(horizontal = 12.dp),</span>
-<span class="nc" id="L129">                text = genre.name,</span>
-<span class="nc" id="L130">                style = MaterialTheme.typography.subtitle2,</span>
-<span class="nc" id="L131">                color = MaterialTheme.colors.onSurface,</span>
+<span class="nc" id="L121">    SectionText(text = stringResource(id = R.string.movie_details_genres_section))</span>
+<span class="nc" id="L122">    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))</span>
+<span class="nc" id="L123">    FlowRow {</span>
+<span class="nc bnc" id="L124" title="All 6 branches missed.">        genres.forEach { genre -&gt;</span>
+<span class="nc" id="L125">            Text(</span>
+<span class="nc" id="L126">                modifier = Modifier</span>
+<span class="nc" id="L127">                    .padding(4.dp)</span>
+<span class="nc" id="L128">                    .clip(CircleShape)</span>
+<span class="nc" id="L129">                    .background(MaterialTheme.colors.surface)</span>
+<span class="nc" id="L130">                    .padding(horizontal = 12.dp),</span>
+<span class="nc" id="L131">                text = genre.name,</span>
+<span class="nc" id="L132">                style = MaterialTheme.typography.subtitle2,</span>
+<span class="nc" id="L133">                color = MaterialTheme.colors.onSurface,</span>
             )
-<span class="nc" id="L133">        }</span>
-<span class="nc" id="L134">    }</span>
-<span class="nc bnc" id="L135" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">}</span>
+<span class="nc" id="L135">        }</span>
+<span class="nc" id="L136">    }</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MoreInfoSectionSpace))</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L139" title="All 10 branches missed.">private fun ColumnScope.MoreInfoSection(state: ContentUiState.Content) {</span>
-<span class="nc" id="L140">    SectionText(text = stringResource(id = R.string.movie_details_movie_info_section))</span>
-<span class="nc" id="L141">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))</span>
-<span class="nc" id="L142">    MoreInfoRowItem(</span>
-<span class="nc" id="L143">        title = stringResource(id = R.string.movie_details_movie_info_original_title),</span>
-<span class="nc" id="L144">        value = state.originalTitle,</span>
+<span class="nc bnc" id="L141" title="All 10 branches missed.">private fun ColumnScope.MoreInfoSection(state: ContentUiState.Content) {</span>
+<span class="nc" id="L142">    SectionText(text = stringResource(id = R.string.movie_details_movie_info_section))</span>
+<span class="nc" id="L143">    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))</span>
+<span class="nc" id="L144">    MoreInfoRowItem(</span>
+<span class="nc" id="L145">        title = stringResource(id = R.string.movie_details_movie_info_original_title),</span>
+<span class="nc" id="L146">        value = state.originalTitle,</span>
     )
-<span class="nc" id="L146">    MoreInfoRowItem(</span>
-<span class="nc" id="L147">        title = stringResource(id = R.string.movie_details_movie_info_original_language),</span>
-<span class="nc" id="L148">        value = state.originalLanguage,</span>
+<span class="nc" id="L148">    MoreInfoRowItem(</span>
+<span class="nc" id="L149">        title = stringResource(id = R.string.movie_details_movie_info_original_language),</span>
+<span class="nc" id="L150">        value = state.originalLanguage,</span>
     )
-<span class="nc bnc" id="L150" title="All 2 branches missed.">    state.runtime?.let {</span>
-<span class="nc" id="L151">        MoreInfoRowItem(</span>
-<span class="nc" id="L152">            title = stringResource(id = R.string.movie_details_movie_info_runtime),</span>
-<span class="nc" id="L153">            value = it.toRuntimeString(LocalContext.current),</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">    state.runtime?.let {</span>
+<span class="nc" id="L153">        MoreInfoRowItem(</span>
+<span class="nc" id="L154">            title = stringResource(id = R.string.movie_details_movie_info_runtime),</span>
+<span class="nc" id="L155">            value = it.toRuntimeString(LocalContext.current),</span>
         )
-<span class="nc" id="L155">    }</span>
-<span class="nc" id="L156">    MoreInfoRowItem(</span>
-<span class="nc" id="L157">        title = stringResource(id = R.string.movie_details_movie_info_budget),</span>
-<span class="nc" id="L158">        value = state.budget,</span>
+<span class="nc" id="L157">    }</span>
+<span class="nc" id="L158">    MoreInfoRowItem(</span>
+<span class="nc" id="L159">        title = stringResource(id = R.string.movie_details_movie_info_budget),</span>
+<span class="nc" id="L160">        value = state.budget,</span>
     )
-<span class="nc" id="L160">    MoreInfoRowItem(</span>
-<span class="nc" id="L161">        title = stringResource(id = R.string.movie_details_movie_info_revenue),</span>
-<span class="nc" id="L162">        value = state.revenue,</span>
+<span class="nc" id="L162">    MoreInfoRowItem(</span>
+<span class="nc" id="L163">        title = stringResource(id = R.string.movie_details_movie_info_revenue),</span>
+<span class="nc" id="L164">        value = state.revenue,</span>
     )
-<span class="nc bnc" id="L164" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">}</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MoreInfoSectionSpace))</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">}</span>
 
 @Composable
 private fun MoreInfoRowItem(
     title: String,
     value: String,
-<span class="nc bnc" id="L171" title="All 14 branches missed.">) {</span>
-<span class="nc bnc" id="L172" title="All 2 branches missed.">    MoreInfoRowItem {</span>
-<span class="nc bnc" id="L173" title="All 6 branches missed.">        Text(</span>
-<span class="nc" id="L174">            text = title,</span>
-<span class="nc" id="L175">            style = MaterialTheme.typography.body2,</span>
+<span class="nc bnc" id="L173" title="All 14 branches missed.">) {</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">    MoreInfoRowItem {</span>
+<span class="nc bnc" id="L175" title="All 6 branches missed.">        Text(</span>
+<span class="nc" id="L176">            text = title,</span>
+<span class="nc" id="L177">            style = MaterialTheme.typography.body2,</span>
         )
-<span class="nc bnc" id="L177" title="All 2 branches missed.">        AutosizeText(</span>
-<span class="nc" id="L178">            text = value,</span>
-<span class="nc" id="L179">            textAlign = TextAlign.End,</span>
-<span class="nc" id="L180">            style = MaterialTheme.typography.subtitle2,</span>
-<span class="nc" id="L181">            maxLines = 2,</span>
-<span class="nc" id="L182">        )</span>
-<span class="nc" id="L183">    }</span>
-<span class="nc bnc" id="L184" title="All 2 branches missed.">}</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        AutosizeText(</span>
+<span class="nc" id="L180">            text = value,</span>
+<span class="nc" id="L181">            textAlign = TextAlign.End,</span>
+<span class="nc" id="L182">            style = MaterialTheme.typography.subtitle2,</span>
+<span class="nc" id="L183">            maxLines = 2,</span>
+<span class="nc" id="L184">        )</span>
+<span class="nc" id="L185">    }</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L187" title="All 10 branches missed.">private fun MoreInfoRowItem(content: @Composable RowScope.() -&gt; Unit) {</span>
-<span class="nc" id="L188">    Row(</span>
-<span class="nc" id="L189">        modifier = Modifier.fillMaxWidth(),</span>
-<span class="nc" id="L190">        horizontalArrangement = Arrangement.SpaceBetween,</span>
+<span class="nc bnc" id="L189" title="All 10 branches missed.">private fun MoreInfoRowItem(content: @Composable RowScope.() -&gt; Unit) {</span>
+<span class="nc" id="L190">    Row(</span>
+<span class="nc" id="L191">        modifier = Modifier.fillMaxWidth(),</span>
+<span class="nc" id="L192">        horizontalArrangement = Arrangement.SpaceBetween,</span>
         content = content,
     )
-<span class="nc bnc" id="L193" title="All 2 branches missed.">}</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L196" title="All 10 branches missed.">private fun ColumnScope.CastSection(cast: ImmutableList&lt;Actor&gt;?) {</span>
-<span class="nc bnc" id="L197" title="All 6 branches missed.">    cast ?: return</span>
+<span class="nc bnc" id="L198" title="All 10 branches missed.">private fun ColumnScope.CastSection(cast: ImmutableList&lt;Actor&gt;?) {</span>
+<span class="nc bnc" id="L199" title="All 6 branches missed.">    cast ?: return</span>
 
-<span class="nc" id="L199">    val placeHolder =</span>
-<span class="nc" id="L200">        rememberVectorPainter(image = Icons.Sharp.AccountCircle, tintColor = AppColor.Gray)</span>
+<span class="nc" id="L201">    val placeHolder =</span>
+<span class="nc" id="L202">        rememberVectorPainter(image = Icons.Sharp.AccountCircle, tintColor = AppColor.Gray)</span>
 
-<span class="nc" id="L202">    SectionText(text = stringResource(id = R.string.movie_details_movie_cast_section))</span>
-<span class="nc" id="L203">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))</span>
-<span class="nc" id="L204">    LazyRow(</span>
-<span class="nc" id="L205">        modifier = Modifier</span>
-<span class="nc" id="L206">            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp),</span>
+<span class="nc" id="L204">    SectionText(text = stringResource(id = R.string.movie_details_movie_cast_section))</span>
+<span class="nc" id="L205">    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))</span>
+<span class="nc" id="L206">    LazyRow(</span>
+<span class="nc" id="L207">        modifier = Modifier</span>
+<span class="nc" id="L208">            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp),</span>
     ) {
-<span class="nc" id="L208">        items(</span>
-<span class="nc" id="L209">            items = cast,</span>
-<span class="nc" id="L210">            key = { it.id },</span>
+<span class="nc" id="L210">        items(</span>
+<span class="nc" id="L211">            items = cast,</span>
+<span class="nc" id="L212">            key = { it.id },</span>
         ) { item -&gt;
             Column(
                 modifier = Modifier
@@ -232,52 +234,52 @@ private fun MoreInfoRowItem(
                 )
             }
         }
-<span class="nc" id="L235">    }</span>
-<span class="nc bnc" id="L236" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))</span>
-<span class="nc bnc" id="L237" title="All 2 branches missed.">}</span>
+<span class="nc" id="L237">    }</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MoreInfoSectionSpace))</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L240" title="All 10 branches missed.">private fun ColumnScope.VideosSection(videos: ImmutableList&lt;YoutubeVideo&gt;?) {</span>
-<span class="nc bnc" id="L241" title="All 6 branches missed.">    videos ?: return</span>
+<span class="nc bnc" id="L242" title="All 10 branches missed.">private fun ColumnScope.VideosSection(videos: ImmutableList&lt;YoutubeVideo&gt;?) {</span>
+<span class="nc bnc" id="L243" title="All 6 branches missed.">    videos ?: return</span>
 
-<span class="nc" id="L243">    SectionText(text = stringResource(id = R.string.movie_details_movie_videos_section))</span>
-<span class="nc" id="L244">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_BODY_SPACE))</span>
-<span class="nc" id="L245">    LazyRow(</span>
-<span class="nc" id="L246">        Modifier</span>
-<span class="nc" id="L247">            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp),</span>
-<span class="nc" id="L248">        contentPadding = PaddingValues(horizontal = Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING),</span>
-<span class="nc" id="L249">        horizontalArrangement = Arrangement.spacedBy(16.dp),</span>
-<span class="nc" id="L250">    ) {</span>
-<span class="nc" id="L251">        items(videos) { VideoItem(it) }</span>
-<span class="nc" id="L252">    }</span>
-<span class="nc bnc" id="L253" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MORE_INFO_SECTION_SPACE))</span>
-<span class="nc bnc" id="L254" title="All 2 branches missed.">}</span>
+<span class="nc" id="L245">    SectionText(text = stringResource(id = R.string.movie_details_movie_videos_section))</span>
+<span class="nc" id="L246">    Spacer(modifier = Modifier.height(MoreInfoSectionBodySpace))</span>
+<span class="nc" id="L247">    LazyRow(</span>
+<span class="nc" id="L248">        Modifier</span>
+<span class="nc" id="L249">            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp),</span>
+<span class="nc" id="L250">        contentPadding = PaddingValues(horizontal = Dimens.DefaultScreenHorizontalPadding),</span>
+<span class="nc" id="L251">        horizontalArrangement = Arrangement.spacedBy(16.dp),</span>
+<span class="nc" id="L252">    ) {</span>
+<span class="nc" id="L253">        items(videos) { VideoItem(it) }</span>
+<span class="nc" id="L254">    }</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">    Spacer(modifier = Modifier.height(MoreInfoSectionSpace))</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L257" title="All 2 branches missed.">private fun VideoItem(video: YoutubeVideo) {</span>
-<span class="nc" id="L258">    val router = LocalAppRouter.current</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">private fun VideoItem(video: YoutubeVideo) {</span>
+<span class="nc" id="L260">    val router = LocalAppRouter.current</span>
 
-<span class="nc" id="L260">    Column(</span>
-<span class="nc" id="L261">        modifier = Modifier</span>
-<span class="nc" id="L262">            .width(180.dp)</span>
-<span class="nc" id="L263">            .clickable { router.openYoutubeVideo(video.key) },</span>
-<span class="nc" id="L264">        horizontalAlignment = Alignment.CenterHorizontally,</span>
+<span class="nc" id="L262">    Column(</span>
+<span class="nc" id="L263">        modifier = Modifier</span>
+<span class="nc" id="L264">            .width(180.dp)</span>
+<span class="nc" id="L265">            .clickable { router.openYoutubeVideo(video.key) },</span>
+<span class="nc" id="L266">        horizontalAlignment = Alignment.CenterHorizontally,</span>
     ) {
-<span class="nc" id="L266">        DefaultAsyncImage(</span>
-<span class="nc" id="L267">            modifier = Modifier</span>
-<span class="nc" id="L268">                .fillMaxWidth()</span>
-<span class="nc" id="L269">                .aspectRatio(Dimens.YOUTUBE_THUMBNAIL_RATIO)</span>
-<span class="nc" id="L270">                .clip(MaterialTheme.shapes.medium),</span>
-<span class="nc" id="L271">            model = video.thumbnailUrl,</span>
+<span class="nc" id="L268">        DefaultAsyncImage(</span>
+<span class="nc" id="L269">            modifier = Modifier</span>
+<span class="nc" id="L270">                .fillMaxWidth()</span>
+<span class="nc" id="L271">                .aspectRatio(Dimens.YoutubeThumbnailRatio)</span>
+<span class="nc" id="L272">                .clip(MaterialTheme.shapes.medium),</span>
+<span class="nc" id="L273">            model = video.thumbnailUrl,</span>
         )
-<span class="nc" id="L273">        Spacer(modifier = Modifier.height(4.dp))</span>
-<span class="nc" id="L274">        Text(</span>
-<span class="nc" id="L275">            textAlign = TextAlign.Center,</span>
-<span class="nc" id="L276">            maxLines = 2,</span>
-<span class="nc" id="L277">            text = video.name,</span>
-<span class="nc" id="L278">            overflow = TextOverflow.Ellipsis,</span>
-<span class="nc" id="L279">            style = MaterialTheme.typography.caption,</span>
+<span class="nc" id="L275">        Spacer(modifier = Modifier.height(4.dp))</span>
+<span class="nc" id="L276">        Text(</span>
+<span class="nc" id="L277">            textAlign = TextAlign.Center,</span>
+<span class="nc" id="L278">            maxLines = 2,</span>
+<span class="nc" id="L279">            text = video.name,</span>
+<span class="nc" id="L280">            overflow = TextOverflow.Ellipsis,</span>
+<span class="nc" id="L281">            style = MaterialTheme.typography.caption,</span>
         )
-<span class="nc" id="L281">    }</span>
-<span class="nc" id="L282">}</span>
+<span class="nc" id="L283">    }</span>
+<span class="nc" id="L284">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

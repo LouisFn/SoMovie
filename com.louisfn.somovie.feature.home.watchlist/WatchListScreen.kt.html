@@ -59,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.louisfn.somovie.domain.model.Movie
 import com.louisfn.somovie.feature.home.watchlist.WatchlistAction.ShowUndoSwipeToDismissSnackbar
@@ -83,38 +84,38 @@ import kotlinx.coroutines.flow.Flow
 import org.jetbrains.annotations.VisibleForTesting
 import com.louisfn.somovie.ui.common.R as commonR
 
-<span class="fc" id="L86">private val MovieItemHeight = 96.dp</span>
+<span class="fc" id="L87">private val MovieItemHeight = 96.dp</span>
 
 @Composable
 @Suppress(&quot;ViewModelForwarding&quot;)
 internal fun WatchlistScreen(
-<span class="nc" id="L91">    viewModel: WatchlistViewModel = hiltViewModel(),</span>
-<span class="nc" id="L92">    logInViewModel: LogInViewModel = hiltViewModel(),</span>
+<span class="nc" id="L92">    viewModel: WatchlistViewModel = hiltViewModel(),</span>
+<span class="nc" id="L93">    logInViewModel: LogInViewModel = hiltViewModel(),</span>
     showDetails: (Movie) -&gt; Unit,
-<span class="nc bnc" id="L94" title="All 26 branches missed.">) {</span>
-<span class="nc" id="L95">    val pagingItems = viewModel.pagedMovieItems.collectAsLazyPagingItems()</span>
-<span class="nc" id="L96">    val uiState by viewModel.uiState.collectAsStateLifecycleAware()</span>
-<span class="nc" id="L97">    val scaffoldState = rememberScaffoldState()</span>
+<span class="nc bnc" id="L95" title="All 26 branches missed.">) {</span>
+<span class="nc" id="L96">    val pagingItems = viewModel.pagedMovieItems.collectAsLazyPagingItems()</span>
+<span class="nc" id="L97">    val uiState by viewModel.uiState.collectAsStateLifecycleAware()</span>
+<span class="nc" id="L98">    val scaffoldState = rememberScaffoldState()</span>
 
-<span class="nc" id="L99">    DisposableEffect(Unit) {</span>
-<span class="nc" id="L100">        onDispose { viewModel.onViewHidden() }</span>
+<span class="nc" id="L100">    DisposableEffect(Unit) {</span>
+<span class="nc" id="L101">        onDispose { viewModel.onViewHidden() }</span>
     }
-<span class="nc bnc" id="L102" title="All 2 branches missed.">    LaunchedEffect(pagingItems.loadState, pagingItems.itemCount) {</span>
-<span class="nc" id="L103">        viewModel.onLoadStateChanged(pagingItems.loadState, pagingItems.itemCount)</span>
-<span class="nc" id="L104">    }</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">    LaunchedEffect(pagingItems.loadState, pagingItems.itemCount) {</span>
+<span class="nc" id="L104">        viewModel.onLoadStateChanged(pagingItems.loadState, pagingItems.itemCount)</span>
+<span class="nc" id="L105">    }</span>
 
-<span class="nc bnc" id="L106" title="All 2 branches missed.">    WatchlistScreen(</span>
-<span class="nc" id="L107">        uiState = uiState,</span>
-<span class="nc" id="L108">        action = viewModel.action,</span>
-<span class="nc" id="L109">        pagingItems = pagingItems,</span>
-<span class="nc" id="L110">        scaffoldState = scaffoldState,</span>
-<span class="nc" id="L111">        logInManager = logInViewModel,</span>
-<span class="nc" id="L112">        onMovieClick = showDetails,</span>
-<span class="nc" id="L113">        onMovieSwiped = viewModel::onSwipeToDismiss,</span>
-<span class="nc" id="L114">        onSnackbarActionPerformed = viewModel::onUndoSwipeToDismissSnackbarActionPerformed,</span>
-<span class="nc" id="L115">        onSnackbarDismissed = viewModel::onUndoSwipeToDismissSnackbarDismissed,</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    WatchlistScreen(</span>
+<span class="nc" id="L108">        uiState = uiState,</span>
+<span class="nc" id="L109">        action = viewModel.action,</span>
+<span class="nc" id="L110">        pagingItems = pagingItems,</span>
+<span class="nc" id="L111">        scaffoldState = scaffoldState,</span>
+<span class="nc" id="L112">        logInManager = logInViewModel,</span>
+<span class="nc" id="L113">        onMovieClick = showDetails,</span>
+<span class="nc" id="L114">        onMovieSwiped = viewModel::onSwipeToDismiss,</span>
+<span class="nc" id="L115">        onSnackbarActionPerformed = viewModel::onUndoSwipeToDismissSnackbarActionPerformed,</span>
+<span class="nc" id="L116">        onSnackbarDismissed = viewModel::onUndoSwipeToDismissSnackbarDismissed,</span>
     )
-<span class="nc bnc" id="L117" title="All 2 branches missed.">}</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">}</span>
 
 @Composable
 internal fun WatchlistScreen(
@@ -127,31 +128,31 @@ internal fun WatchlistScreen(
     onMovieSwiped: (Movie) -&gt; Unit,
     onSnackbarActionPerformed: (movieId: Long) -&gt; Unit,
     onSnackbarDismissed: (movieId: Long) -&gt; Unit,
-<span class="pc bpc" id="L130" title="1 of 2 branches missed.">) {</span>
-<span class="fc" id="L131">    val resources = LocalContext.current.resources</span>
-<span class="fc" id="L132">    LaunchedEffect(Unit) {</span>
-<span class="fc" id="L133">        action</span>
-<span class="fc" id="L134">            .collect { action -&gt;</span>
-<span class="fc" id="L135">                when (action) {</span>
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">                    is ShowUndoSwipeToDismissSnackbar -&gt;</span>
-<span class="pc" id="L137">                        scaffoldState.snackbarHostState.showCancelSwipeToDismissSnackbar(</span>
-<span class="fc" id="L138">                            resources = resources,</span>
-<span class="fc" id="L139">                            onSnackbarActionPerformed = { onSnackbarActionPerformed(action.movieId) },</span>
-<span class="fc" id="L140">                            onSnackbarDismissed = { onSnackbarDismissed(action.movieId) },</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">) {</span>
+<span class="fc" id="L132">    val resources = LocalContext.current.resources</span>
+<span class="fc" id="L133">    LaunchedEffect(Unit) {</span>
+<span class="fc" id="L134">        action</span>
+<span class="fc" id="L135">            .collect { action -&gt;</span>
+<span class="fc" id="L136">                when (action) {</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">                    is ShowUndoSwipeToDismissSnackbar -&gt;</span>
+<span class="pc" id="L138">                        scaffoldState.snackbarHostState.showCancelSwipeToDismissSnackbar(</span>
+<span class="fc" id="L139">                            resources = resources,</span>
+<span class="fc" id="L140">                            onSnackbarActionPerformed = { onSnackbarActionPerformed(action.movieId) },</span>
+<span class="fc" id="L141">                            onSnackbarDismissed = { onSnackbarDismissed(action.movieId) },</span>
                         )
                 }
-<span class="nc" id="L143">            }</span>
-<span class="fc" id="L144">    }</span>
+<span class="nc" id="L144">            }</span>
+<span class="fc" id="L145">    }</span>
 
-<span class="pc bpc" id="L146" title="2 of 4 branches missed.">    WatchlistScreen(</span>
-<span class="fc" id="L147">        uiState = uiState,</span>
-<span class="fc" id="L148">        pagingItems = pagingItems,</span>
-<span class="fc" id="L149">        scaffoldState = scaffoldState,</span>
-<span class="fc" id="L150">        logInManager = logInManager,</span>
-<span class="fc" id="L151">        onMovieClick = onMovieClick,</span>
-<span class="fc" id="L152">        onMovieSwiped = onMovieSwiped,</span>
+<span class="pc bpc" id="L147" title="2 of 4 branches missed.">    WatchlistScreen(</span>
+<span class="fc" id="L148">        uiState = uiState,</span>
+<span class="fc" id="L149">        pagingItems = pagingItems,</span>
+<span class="fc" id="L150">        scaffoldState = scaffoldState,</span>
+<span class="fc" id="L151">        logInManager = logInManager,</span>
+<span class="fc" id="L152">        onMovieClick = onMovieClick,</span>
+<span class="fc" id="L153">        onMovieSwiped = onMovieSwiped,</span>
     )
-<span class="fc" id="L154">}</span>
+<span class="fc" id="L155">}</span>
 
 @Composable
 internal fun WatchlistScreen(
@@ -161,55 +162,57 @@ internal fun WatchlistScreen(
     logInManager: LogInManager,
     onMovieClick: (Movie) -&gt; Unit,
     onMovieSwiped: (Movie) -&gt; Unit,
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">) {</span>
-<span class="pc bpc" id="L165" title="2 of 4 branches missed.">    Scaffold(</span>
-<span class="fc" id="L166">        modifier = Modifier.statusBarsPadding(),</span>
-<span class="fc" id="L167">        scaffoldState = scaffoldState,</span>
-<span class="pc bpc" id="L168" title="5 of 8 branches missed.">        topBar = { DefaultTopAppBar(text = stringResource(id = R.string.home_watchlist)) },</span>
-<span class="fc" id="L169">        snackbarHost = {</span>
-<span class="pc bpc" id="L170" title="5 of 8 branches missed.">            SnackbarHost(it) { data -&gt;</span>
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">                DefaultSnackbar(snackbarData = data)</span>
-<span class="pc" id="L172">            }</span>
-<span class="fc" id="L173">        },</span>
-<span class="fc" id="L174">    ) {</span>
-<span class="pc bpc" id="L175" title="2 of 6 branches missed.">        when (uiState) {</span>
-<span class="fc bfc" id="L176" title="All 2 branches covered.">            is WatchlistUiState.AccountLoggedIn -&gt; WatchlistContent(</span>
-<span class="fc" id="L177">                uiState = uiState,</span>
-<span class="fc" id="L178">                pagingItems = pagingItems,</span>
-<span class="fc" id="L179">                contentPadding = it,</span>
-<span class="fc" id="L180">                onMovieClick = onMovieClick,</span>
-<span class="fc" id="L181">                onMovieSwiped = onMovieSwiped,</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">) {</span>
+<span class="pc bpc" id="L166" title="2 of 4 branches missed.">    Scaffold(</span>
+<span class="fc" id="L167">        modifier = Modifier.statusBarsPadding(),</span>
+<span class="fc" id="L168">        scaffoldState = scaffoldState,</span>
+<span class="pc bpc" id="L169" title="5 of 8 branches missed.">        topBar = { DefaultTopAppBar(text = stringResource(id = R.string.home_watchlist)) },</span>
+<span class="fc" id="L170">        snackbarHost = {</span>
+<span class="pc bpc" id="L171" title="5 of 8 branches missed.">            SnackbarHost(it) { data -&gt;</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">                DefaultSnackbar(snackbarData = data)</span>
+<span class="pc" id="L173">            }</span>
+<span class="fc" id="L174">        },</span>
+<span class="fc" id="L175">    ) {</span>
+<span class="pc bpc" id="L176" title="2 of 6 branches missed.">        when (uiState) {</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            is WatchlistUiState.AccountLoggedIn -&gt; WatchlistContent(</span>
+<span class="fc" id="L178">                uiState = uiState,</span>
+<span class="fc" id="L179">                pagingItems = pagingItems,</span>
+<span class="fc" id="L180">                contentPadding = it,</span>
+<span class="fc" id="L181">                onMovieClick = onMovieClick,</span>
+<span class="fc" id="L182">                onMovieSwiped = onMovieSwiped,</span>
             )
-<span class="pc bpc" id="L183" title="1 of 2 branches missed.">            is WatchlistUiState.AccountDisconnected -&gt;</span>
-<span class="fc" id="L184">                LogInContent(</span>
-<span class="fc" id="L185">                    logInManager = logInManager,</span>
-<span class="fc" id="L186">                    modifier = Modifier.fillMaxSize(),</span>
+
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">            is WatchlistUiState.AccountDisconnected -&gt;</span>
+<span class="fc" id="L186">                LogInContent(</span>
+<span class="fc" id="L187">                    logInManager = logInManager,</span>
+<span class="fc" id="L188">                    modifier = Modifier.fillMaxSize(),</span>
                 )
-<span class="nc bnc" id="L188" title="All 2 branches missed.">            is WatchlistUiState.None -&gt; Unit</span>
-<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        }</span>
-<span class="fc" id="L190">    }</span>
-<span class="fc" id="L191">}</span>
+
+<span class="nc bnc" id="L191" title="All 2 branches missed.">            is WatchlistUiState.None -&gt; Unit</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        }</span>
+<span class="fc" id="L193">    }</span>
+<span class="fc" id="L194">}</span>
 
 @Composable
 @Suppress(&quot;LambdaParameterNaming&quot;)
-<span class="pc bpc" id="L195" title="2 of 4 branches missed.">private fun LogInContent(logInManager: LogInManager, modifier: Modifier = Modifier) {</span>
-<span class="pc bpc" id="L196" title="2 of 4 branches missed.">    LogInLayout(</span>
-<span class="fc" id="L197">        logInManager = logInManager,</span>
-<span class="fc" id="L198">        modifier = modifier,</span>
-<span class="fc" id="L199">        content = { Button -&gt;</span>
-<span class="pc bpc" id="L200" title="3 of 6 branches missed.">            Box(modifier = Modifier.fillMaxSize()) {</span>
-<span class="fc" id="L201">                Text(</span>
-<span class="fc" id="L202">                    text = stringResource(id = commonR.string.watchlist_log_in_description),</span>
-<span class="fc" id="L203">                    textAlign = TextAlign.Center,</span>
-<span class="fc" id="L204">                    modifier = Modifier</span>
-<span class="fc" id="L205">                        .align(Alignment.TopCenter)</span>
-<span class="fc" id="L206">                        .padding(16.dp),</span>
+<span class="pc bpc" id="L198" title="2 of 4 branches missed.">private fun LogInContent(logInManager: LogInManager, modifier: Modifier = Modifier) {</span>
+<span class="pc bpc" id="L199" title="2 of 4 branches missed.">    LogInLayout(</span>
+<span class="fc" id="L200">        logInManager = logInManager,</span>
+<span class="fc" id="L201">        modifier = modifier,</span>
+<span class="fc" id="L202">        content = { Button -&gt;</span>
+<span class="pc bpc" id="L203" title="3 of 6 branches missed.">            Box(modifier = Modifier.fillMaxSize()) {</span>
+<span class="fc" id="L204">                Text(</span>
+<span class="fc" id="L205">                    text = stringResource(id = commonR.string.watchlist_log_in_description),</span>
+<span class="fc" id="L206">                    textAlign = TextAlign.Center,</span>
+<span class="fc" id="L207">                    modifier = Modifier</span>
+<span class="fc" id="L208">                        .align(Alignment.TopCenter)</span>
+<span class="fc" id="L209">                        .padding(16.dp),</span>
                 )
-<span class="fc" id="L208">                Button(modifier = Modifier.align(Alignment.Center))</span>
-<span class="pc" id="L209">            }</span>
-<span class="fc" id="L210">        },</span>
+<span class="fc" id="L211">                Button(modifier = Modifier.align(Alignment.Center))</span>
+<span class="pc" id="L212">            }</span>
+<span class="fc" id="L213">        },</span>
     )
-<span class="fc" id="L212">}</span>
+<span class="fc" id="L215">}</span>
 
 @Composable
 private fun WatchlistContent(
@@ -218,31 +221,33 @@ private fun WatchlistContent(
     contentPadding: PaddingValues,
     onMovieClick: (Movie) -&gt; Unit,
     onMovieSwiped: (Movie) -&gt; Unit,
-<span class="pc bpc" id="L221" title="16 of 26 branches missed.">) {</span>
-<span class="fc" id="L222">    Box(</span>
-<span class="fc" id="L223">        modifier = Modifier</span>
-<span class="fc" id="L224">            .fillMaxSize()</span>
-<span class="fc" id="L225">            .semantics { testTag = WatchlistTestTag.WatchlistContent },</span>
+<span class="pc bpc" id="L224" title="16 of 26 branches missed.">) {</span>
+<span class="fc" id="L225">    Box(</span>
+<span class="fc" id="L226">        modifier = Modifier</span>
+<span class="fc" id="L227">            .fillMaxSize()</span>
+<span class="fc" id="L228">            .semantics { testTag = WatchlistTestTag.WatchlistContent },</span>
     ) {
-<span class="fc bfc" id="L227" title="All 3 branches covered.">        when (uiState.contentState) {</span>
-<span class="fc" id="L228">            ContentState.RETRY -&gt; Retry(</span>
-<span class="fc" id="L229">                modifier = Modifier.align(Alignment.Center),</span>
-<span class="fc" id="L230">                onClick = pagingItems::retry,</span>
+<span class="fc bfc" id="L230" title="All 3 branches covered.">        when (uiState.contentState) {</span>
+<span class="fc" id="L231">            ContentState.RETRY -&gt; Retry(</span>
+<span class="fc" id="L232">                modifier = Modifier.align(Alignment.Center),</span>
+<span class="fc" id="L233">                onClick = pagingItems::retry,</span>
             )
+
             ContentState.LOADING -&gt;
-<span class="fc" id="L233">                IndeterminateProgressIndicator(</span>
-<span class="fc" id="L234">                    modifier = Modifier.align(Alignment.Center),</span>
+<span class="fc" id="L237">                IndeterminateProgressIndicator(</span>
+<span class="fc" id="L238">                    modifier = Modifier.align(Alignment.Center),</span>
                 )
-<span class="fc" id="L236">            else -&gt; WatchlistLazyColumn(</span>
-<span class="fc" id="L237">                pagingItems = pagingItems,</span>
-<span class="fc" id="L238">                loadNextPageState = uiState.loadNextPageState,</span>
-<span class="fc" id="L239">                contentPadding = contentPadding,</span>
-<span class="fc" id="L240">                onMovieClick = onMovieClick,</span>
-<span class="fc" id="L241">                onMovieSwiped = onMovieSwiped,</span>
+
+<span class="fc" id="L241">            else -&gt; WatchlistLazyColumn(</span>
+<span class="fc" id="L242">                pagingItems = pagingItems,</span>
+<span class="fc" id="L243">                loadNextPageState = uiState.loadNextPageState,</span>
+<span class="fc" id="L244">                contentPadding = contentPadding,</span>
+<span class="fc" id="L245">                onMovieClick = onMovieClick,</span>
+<span class="fc" id="L246">                onMovieSwiped = onMovieSwiped,</span>
             )
         }
-<span class="fc" id="L244">    }</span>
-<span class="pc bpc" id="L245" title="1 of 2 branches missed.">}</span>
+<span class="fc" id="L249">    }</span>
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">}</span>
 
 @Composable
 private fun WatchlistLazyColumn(
@@ -251,96 +256,97 @@ private fun WatchlistLazyColumn(
     contentPadding: PaddingValues,
     onMovieClick: (Movie) -&gt; Unit,
     onMovieSwiped: (Movie) -&gt; Unit,
-<span class="pc bpc" id="L254" title="18 of 26 branches missed.">) {</span>
+<span class="pc bpc" id="L259" title="18 of 26 branches missed.">) {</span>
     // https://issuetracker.google.com/issues/177245496#comment23
-<span class="pc bpc" id="L256" title="2 of 6 branches missed.">    if (pagingItems.itemCount == 0) return</span>
+<span class="pc bpc" id="L261" title="2 of 6 branches missed.">    if (pagingItems.itemCount == 0) return</span>
 
-<span class="pc bpc" id="L258" title="1 of 2 branches missed.">    LazyColumn(</span>
-<span class="fc" id="L259">        modifier = Modifier</span>
-<span class="fc" id="L260">            .semantics { testTag = WatchlistTestTag.LazyColum },</span>
-<span class="fc" id="L261">        contentPadding = contentPadding,</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">    LazyColumn(</span>
+<span class="fc" id="L264">        modifier = Modifier</span>
+<span class="fc" id="L265">            .semantics { testTag = WatchlistTestTag.LazyColum },</span>
+<span class="fc" id="L266">        contentPadding = contentPadding,</span>
     ) {
-<span class="fc" id="L263">        item {</span>
-<span class="pc bpc" id="L264" title="5 of 8 branches missed.">            Divider(color = MaterialTheme.colors.onBackground)</span>
-<span class="fc" id="L265">        }</span>
-<span class="fc" id="L266">        items(</span>
-<span class="fc" id="L267">            count = pagingItems.itemCount,</span>
-<span class="fc" id="L268">            key = pagingItems.itemKey(key = { it.movie.id }),</span>
-<span class="fc" id="L269">        ) { index -&gt;</span>
-<span class="pc bpc" id="L270" title="4 of 6 branches missed.">            val movieItem = pagingItems[index]</span>
-<span class="fc" id="L271">            Column {</span>
-<span class="pc bpc" id="L272" title="1 of 2 branches missed.">                if (movieItem != null) {</span>
-<span class="fc" id="L273">                    WatchlistMovieItem(</span>
-<span class="fc" id="L274">                        movie = movieItem.movie,</span>
-<span class="fc" id="L275">                        isHidden = movieItem.isHidden,</span>
-<span class="nc" id="L276">                        onClick = { onMovieClick(movieItem.movie) },</span>
-<span class="nc" id="L277">                        onSwiped = { onMovieSwiped(movieItem.movie) },</span>
+<span class="fc" id="L268">        item {</span>
+<span class="pc bpc" id="L269" title="5 of 8 branches missed.">            Divider(color = MaterialTheme.colors.onBackground)</span>
+<span class="fc" id="L270">        }</span>
+<span class="fc" id="L271">        items(</span>
+<span class="fc" id="L272">            count = pagingItems.itemCount,</span>
+<span class="fc" id="L273">            key = pagingItems.itemKey(key = { it.movie.id }),</span>
+<span class="pc" id="L274">            contentType = { pagingItems.itemContentType { } },</span>
+<span class="fc" id="L275">        ) { index -&gt;</span>
+<span class="pc bpc" id="L276" title="4 of 6 branches missed.">            val movieItem = pagingItems[index]</span>
+<span class="fc" id="L277">            Column {</span>
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">                if (movieItem != null) {</span>
+<span class="fc" id="L279">                    WatchlistMovieItem(</span>
+<span class="fc" id="L280">                        movie = movieItem.movie,</span>
+<span class="fc" id="L281">                        isHidden = movieItem.isHidden,</span>
+<span class="nc" id="L282">                        onClick = { onMovieClick(movieItem.movie) },</span>
+<span class="nc" id="L283">                        onSwiped = { onMovieSwiped(movieItem.movie) },</span>
                     )
-<span class="fc bfc" id="L279" title="All 2 branches covered.">                    if (!movieItem.isHidden) {</span>
-<span class="fc" id="L280">                        Divider(color = MaterialTheme.colors.onBackground)</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">                    if (!movieItem.isHidden) {</span>
+<span class="fc" id="L286">                        Divider(color = MaterialTheme.colors.onBackground)</span>
                     }
-<span class="pc" id="L282">                } else {</span>
-<span class="nc" id="L283">                    WatchlistMovieItemPlaceholder()</span>
-<span class="nc" id="L284">                    Divider(color = MaterialTheme.colors.onBackground)</span>
+<span class="pc" id="L288">                } else {</span>
+<span class="nc" id="L289">                    WatchlistMovieItemPlaceholder()</span>
+<span class="nc" id="L290">                    Divider(color = MaterialTheme.colors.onBackground)</span>
                 }
-<span class="pc" id="L286">            }</span>
-<span class="fc" id="L287">        }</span>
+<span class="pc" id="L292">            }</span>
+<span class="fc" id="L293">        }</span>
 
-<span class="fc bfc" id="L289" title="All 2 branches covered.">        if (loadNextPageState == LoadNextPageState.LOADING) {</span>
-<span class="fc" id="L290">            item {</span>
-<span class="pc bpc" id="L291" title="5 of 8 branches missed.">                BottomLoader(modifier = Modifier.fillMaxWidth())</span>
-<span class="fc" id="L292">            }</span>
-        }
-
-<span class="fc bfc" id="L295" title="All 2 branches covered.">        if (loadNextPageState == LoadNextPageState.RETRY) {</span>
+<span class="fc bfc" id="L295" title="All 2 branches covered.">        if (loadNextPageState == LoadNextPageState.LOADING) {</span>
 <span class="fc" id="L296">            item {</span>
-<span class="pc bpc" id="L297" title="4 of 6 branches missed.">                Box(</span>
-<span class="fc" id="L298">                    modifier = Modifier</span>
-<span class="fc" id="L299">                        .fillMaxWidth()</span>
-<span class="fc" id="L300">                        .wrapContentHeight(),</span>
-                ) {
-<span class="fc" id="L302">                    TextRetryButton(</span>
-<span class="fc" id="L303">                        modifier = Modifier.align(Alignment.Center),</span>
-<span class="fc" id="L304">                        onClick = pagingItems::retry,</span>
-                    )
-<span class="pc" id="L306">                }</span>
-<span class="fc" id="L307">            }</span>
+<span class="pc bpc" id="L297" title="5 of 8 branches missed.">                BottomLoader(modifier = Modifier.fillMaxWidth())</span>
+<span class="fc" id="L298">            }</span>
         }
-<span class="fc" id="L309">    }</span>
-<span class="pc bpc" id="L310" title="1 of 2 branches missed.">}</span>
+
+<span class="fc bfc" id="L301" title="All 2 branches covered.">        if (loadNextPageState == LoadNextPageState.RETRY) {</span>
+<span class="fc" id="L302">            item {</span>
+<span class="pc bpc" id="L303" title="4 of 6 branches missed.">                Box(</span>
+<span class="fc" id="L304">                    modifier = Modifier</span>
+<span class="fc" id="L305">                        .fillMaxWidth()</span>
+<span class="fc" id="L306">                        .wrapContentHeight(),</span>
+                ) {
+<span class="fc" id="L308">                    TextRetryButton(</span>
+<span class="fc" id="L309">                        modifier = Modifier.align(Alignment.Center),</span>
+<span class="fc" id="L310">                        onClick = pagingItems::retry,</span>
+                    )
+<span class="pc" id="L312">                }</span>
+<span class="fc" id="L313">            }</span>
+        }
+<span class="fc" id="L315">    }</span>
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">}</span>
 
 @Composable
-<span class="nc bnc" id="L313" title="All 6 branches missed.">private fun WatchlistMovieItemPlaceholder() {</span>
-<span class="nc" id="L314">    Row(</span>
-<span class="nc" id="L315">        modifier = Modifier</span>
-<span class="nc" id="L316">            .height(MovieItemHeight),</span>
+<span class="nc bnc" id="L319" title="All 6 branches missed.">private fun WatchlistMovieItemPlaceholder() {</span>
+<span class="nc" id="L320">    Row(</span>
+<span class="nc" id="L321">        modifier = Modifier</span>
+<span class="nc" id="L322">            .height(MovieItemHeight),</span>
     ) {
-<span class="nc" id="L318">        Box(</span>
-<span class="nc" id="L319">            modifier = Modifier</span>
-<span class="nc" id="L320">                .fillMaxHeight()</span>
-<span class="nc" id="L321">                .aspectRatio(Dimens.POSTER_RATIO)</span>
-<span class="nc" id="L322">                .background(MaterialTheme.colors.primary),</span>
+<span class="nc" id="L324">        Box(</span>
+<span class="nc" id="L325">            modifier = Modifier</span>
+<span class="nc" id="L326">                .fillMaxHeight()</span>
+<span class="nc" id="L327">                .aspectRatio(Dimens.PosterRatio)</span>
+<span class="nc" id="L328">                .background(MaterialTheme.colors.primary),</span>
         )
 
-<span class="nc" id="L325">        Column(</span>
-<span class="nc" id="L326">            modifier = Modifier.padding(8.dp),</span>
+<span class="nc" id="L331">        Column(</span>
+<span class="nc" id="L332">            modifier = Modifier.padding(8.dp),</span>
         ) {
-<span class="nc" id="L328">            Box(</span>
-<span class="nc" id="L329">                modifier = Modifier</span>
-<span class="nc" id="L330">                    .height(with(LocalDensity.current) { Typography.subtitle1.fontSize.toDp() })</span>
-<span class="nc" id="L331">                    .fillMaxWidth()</span>
-<span class="nc" id="L332">                    .padding(end = 72.dp)</span>
-<span class="nc" id="L333">                    .background(MaterialTheme.customColors.placeholder),</span>
-            )
-<span class="nc" id="L335">            Box(</span>
-<span class="nc" id="L336">                modifier = Modifier</span>
-<span class="nc" id="L337">                    .padding(top = 8.dp)</span>
-<span class="nc" id="L338">                    .fillMaxSize()</span>
+<span class="nc" id="L334">            Box(</span>
+<span class="nc" id="L335">                modifier = Modifier</span>
+<span class="nc" id="L336">                    .height(with(LocalDensity.current) { Typography.subtitle1.fontSize.toDp() })</span>
+<span class="nc" id="L337">                    .fillMaxWidth()</span>
+<span class="nc" id="L338">                    .padding(end = 72.dp)</span>
 <span class="nc" id="L339">                    .background(MaterialTheme.customColors.placeholder),</span>
             )
-<span class="nc" id="L341">        }</span>
-<span class="nc" id="L342">    }</span>
-<span class="nc bnc" id="L343" title="All 2 branches missed.">}</span>
+<span class="nc" id="L341">            Box(</span>
+<span class="nc" id="L342">                modifier = Modifier</span>
+<span class="nc" id="L343">                    .padding(top = 8.dp)</span>
+<span class="nc" id="L344">                    .fillMaxSize()</span>
+<span class="nc" id="L345">                    .background(MaterialTheme.customColors.placeholder),</span>
+            )
+<span class="nc" id="L347">        }</span>
+<span class="nc" id="L348">    }</span>
+<span class="nc bnc" id="L349" title="All 2 branches missed.">}</span>
 
 @Composable
 @VisibleForTesting
@@ -350,132 +356,132 @@ fun WatchlistMovieItem(
     isHidden: Boolean,
     onClick: () -&gt; Unit,
     onSwiped: () -&gt; Unit,
-<span class="pc bpc" id="L353" title="1 of 2 branches missed.">) {</span>
-<span class="fc" id="L354">    val dismissState = rememberDismissState(</span>
-<span class="fc" id="L355">        confirmStateChange = {</span>
-<span class="fc bfc" id="L356" title="All 2 branches covered.">            if (it == DismissValue.DismissedToEnd) {</span>
-<span class="fc" id="L357">                onSwiped()</span>
+<span class="pc bpc" id="L359" title="1 of 2 branches missed.">) {</span>
+<span class="fc" id="L360">    val dismissState = rememberDismissState(</span>
+<span class="fc" id="L361">        confirmStateChange = {</span>
+<span class="fc bfc" id="L362" title="All 2 branches covered.">            if (it == DismissValue.DismissedToEnd) {</span>
+<span class="fc" id="L363">                onSwiped()</span>
             }
-<span class="fc" id="L359">            true</span>
+<span class="fc" id="L365">            true</span>
         },
     )
 
-<span class="fc" id="L363">    LaunchedEffect(Unit) {</span>
-<span class="fc bfc" id="L364" title="All 2 branches covered.">        if (!isHidden) {</span>
-<span class="fc" id="L365">            dismissState.snapTo(DismissValue.Default)</span>
+<span class="fc" id="L369">    LaunchedEffect(Unit) {</span>
+<span class="fc bfc" id="L370" title="All 2 branches covered.">        if (!isHidden) {</span>
+<span class="fc" id="L371">            dismissState.snapTo(DismissValue.Default)</span>
         }
-<span class="fc" id="L367">    }</span>
+<span class="fc" id="L373">    }</span>
 
-<span class="fc" id="L369">    LaunchedEffect(isHidden) {</span>
-<span class="pc bpc" id="L370" title="1 of 4 branches missed.">        if (!isHidden &amp;&amp; dismissState.isDismissed(DismissDirection.StartToEnd)) {</span>
-<span class="nc" id="L371">            dismissState.reset()</span>
+<span class="fc" id="L375">    LaunchedEffect(isHidden) {</span>
+<span class="pc bpc" id="L376" title="1 of 4 branches missed.">        if (!isHidden &amp;&amp; dismissState.isDismissed(DismissDirection.StartToEnd)) {</span>
+<span class="nc" id="L377">            dismissState.reset()</span>
         }
-<span class="pc" id="L373">    }</span>
+<span class="pc" id="L379">    }</span>
 
-<span class="pc bpc" id="L375" title="2 of 4 branches missed.">    SwipeToDismiss(</span>
-<span class="fc" id="L376">        state = dismissState,</span>
-<span class="fc" id="L377">        directions = setOf(DismissDirection.StartToEnd),</span>
-<span class="fc" id="L378">        background = {</span>
-<span class="pc bpc" id="L379" title="2 of 8 branches missed.">            if (!isHidden) {</span>
-<span class="pc bpc" id="L380" title="1 of 2 branches missed.">                WatchlistMovieItemDismissedBackground(dismissState)</span>
-<span class="fc" id="L381">            }</span>
-<span class="fc" id="L382">        },</span>
-<span class="fc" id="L383">        dismissContent = {</span>
-<span class="pc bpc" id="L384" title="3 of 8 branches missed.">            AnimatedVisibility(</span>
-<span class="fc bfc" id="L385" title="All 2 branches covered.">                visible = !isHidden,</span>
-<span class="pc" id="L386">                enter = slideInHorizontally { it },</span>
-<span class="fc" id="L387">                exit = shrinkVertically() + fadeOut(),</span>
-<span class="fc" id="L388">            ) {</span>
-<span class="pc bpc" id="L389" title="1 of 2 branches missed.">                WatchlistMovieItemContent(movie = movie, onClick = onClick)</span>
-<span class="fc" id="L390">            }</span>
-<span class="fc" id="L391">        },</span>
+<span class="pc bpc" id="L381" title="2 of 4 branches missed.">    SwipeToDismiss(</span>
+<span class="fc" id="L382">        state = dismissState,</span>
+<span class="fc" id="L383">        directions = setOf(DismissDirection.StartToEnd),</span>
+<span class="fc" id="L384">        background = {</span>
+<span class="pc bpc" id="L385" title="2 of 8 branches missed.">            if (!isHidden) {</span>
+<span class="pc bpc" id="L386" title="1 of 2 branches missed.">                WatchlistMovieItemDismissedBackground(dismissState)</span>
+<span class="fc" id="L387">            }</span>
+<span class="fc" id="L388">        },</span>
+<span class="fc" id="L389">        dismissContent = {</span>
+<span class="pc bpc" id="L390" title="3 of 8 branches missed.">            AnimatedVisibility(</span>
+<span class="fc bfc" id="L391" title="All 2 branches covered.">                visible = !isHidden,</span>
+<span class="pc" id="L392">                enter = slideInHorizontally { it },</span>
+<span class="fc" id="L393">                exit = shrinkVertically() + fadeOut(),</span>
+<span class="fc" id="L394">            ) {</span>
+<span class="pc bpc" id="L395" title="1 of 2 branches missed.">                WatchlistMovieItemContent(movie = movie, onClick = onClick)</span>
+<span class="fc" id="L396">            }</span>
+<span class="fc" id="L397">        },</span>
     )
-<span class="fc" id="L393">}</span>
+<span class="fc" id="L399">}</span>
 
 @Composable
-<span class="pc bpc" id="L396" title="5 of 10 branches missed.">private fun WatchlistMovieItemDismissedBackground(dismissState: DismissState) {</span>
-<span class="fc" id="L397">    Box(</span>
-<span class="fc" id="L398">        modifier = Modifier</span>
-<span class="fc" id="L399">            .semantics { testTag = WatchlistTestTag.MovieItemDismissedBackground }</span>
-<span class="fc" id="L400">            .height(MovieItemHeight)</span>
-<span class="fc" id="L401">            .fillMaxWidth()</span>
-<span class="fc" id="L402">            .background(MaterialTheme.colors.error),</span>
+<span class="pc bpc" id="L402" title="5 of 10 branches missed.">private fun WatchlistMovieItemDismissedBackground(dismissState: DismissState) {</span>
+<span class="fc" id="L403">    Box(</span>
+<span class="fc" id="L404">        modifier = Modifier</span>
+<span class="fc" id="L405">            .semantics { testTag = WatchlistTestTag.MovieItemDismissedBackground }</span>
+<span class="fc" id="L406">            .height(MovieItemHeight)</span>
+<span class="fc" id="L407">            .fillMaxWidth()</span>
+<span class="fc" id="L408">            .background(MaterialTheme.colors.error),</span>
     ) {
-<span class="fc" id="L404">        Icon(</span>
-<span class="fc" id="L405">            modifier = Modifier</span>
-<span class="fc" id="L406">                .padding(horizontal = 16.dp)</span>
-<span class="fc" id="L407">                .size(36.dp)</span>
-<span class="fc" id="L408">                .align(</span>
-<span class="fc bfc" id="L409" title="All 5 branches covered.">                    when (dismissState.dismissDirection) {</span>
-<span class="fc" id="L410">                        DismissDirection.StartToEnd -&gt; Alignment.CenterStart</span>
-<span class="fc" id="L411">                        DismissDirection.EndToStart -&gt; Alignment.CenterEnd</span>
-<span class="fc" id="L412">                        else -&gt; Alignment.Center</span>
+<span class="fc" id="L410">        Icon(</span>
+<span class="fc" id="L411">            modifier = Modifier</span>
+<span class="fc" id="L412">                .padding(horizontal = 16.dp)</span>
+<span class="fc" id="L413">                .size(36.dp)</span>
+<span class="fc" id="L414">                .align(</span>
+<span class="fc bfc" id="L415" title="All 5 branches covered.">                    when (dismissState.dismissDirection) {</span>
+<span class="fc" id="L416">                        DismissDirection.StartToEnd -&gt; Alignment.CenterStart</span>
+<span class="fc" id="L417">                        DismissDirection.EndToStart -&gt; Alignment.CenterEnd</span>
+<span class="fc" id="L418">                        else -&gt; Alignment.Center</span>
                     },
                 ),
-<span class="fc" id="L415">            imageVector = Icons.Default.Delete,</span>
-<span class="fc" id="L416">            tint = MaterialTheme.colors.onPrimary,</span>
-<span class="fc" id="L417">            contentDescription = &quot;&quot;,</span>
+<span class="fc" id="L421">            imageVector = Icons.Default.Delete,</span>
+<span class="fc" id="L422">            tint = MaterialTheme.colors.onPrimary,</span>
+<span class="fc" id="L423">            contentDescription = &quot;&quot;,</span>
         )
-<span class="fc" id="L419">    }</span>
-<span class="pc bpc" id="L420" title="1 of 2 branches missed.">}</span>
+<span class="fc" id="L425">    }</span>
+<span class="pc bpc" id="L426" title="1 of 2 branches missed.">}</span>
 
 @Composable
-<span class="pc bpc" id="L423" title="1 of 2 branches missed.">private fun WatchlistMovieItemContent(movie: Movie, onClick: () -&gt; Unit) {</span>
-<span class="fc" id="L424">    Row(</span>
-<span class="fc" id="L425">        modifier = Modifier</span>
-<span class="fc" id="L426">            .semantics { testTag = WatchlistTestTag.MovieItemContent }</span>
-<span class="fc" id="L427">            .height(MovieItemHeight)</span>
-<span class="fc" id="L428">            .background(MaterialTheme.colors.background)</span>
-<span class="fc" id="L429">            .clickable(onClick = onClick),</span>
+<span class="pc bpc" id="L429" title="1 of 2 branches missed.">private fun WatchlistMovieItemContent(movie: Movie, onClick: () -&gt; Unit) {</span>
+<span class="fc" id="L430">    Row(</span>
+<span class="fc" id="L431">        modifier = Modifier</span>
+<span class="fc" id="L432">            .semantics { testTag = WatchlistTestTag.MovieItemContent }</span>
+<span class="fc" id="L433">            .height(MovieItemHeight)</span>
+<span class="fc" id="L434">            .background(MaterialTheme.colors.background)</span>
+<span class="fc" id="L435">            .clickable(onClick = onClick),</span>
     ) {
-<span class="fc" id="L431">        DefaultAsyncImage(</span>
-<span class="fc" id="L432">            modifier = Modifier</span>
-<span class="fc" id="L433">                .fillMaxHeight()</span>
-<span class="fc" id="L434">                .aspectRatio(Dimens.POSTER_RATIO),</span>
-<span class="pc bpc" id="L435" title="1 of 2 branches missed.">            model = movie.posterPath,</span>
+<span class="fc" id="L437">        DefaultAsyncImage(</span>
+<span class="fc" id="L438">            modifier = Modifier</span>
+<span class="fc" id="L439">                .fillMaxHeight()</span>
+<span class="fc" id="L440">                .aspectRatio(Dimens.PosterRatio),</span>
+<span class="pc bpc" id="L441" title="1 of 2 branches missed.">            model = movie.posterPath,</span>
         )
 
-<span class="fc" id="L438">        Column(</span>
-<span class="fc" id="L439">            modifier = Modifier.padding(8.dp),</span>
+<span class="fc" id="L444">        Column(</span>
+<span class="fc" id="L445">            modifier = Modifier.padding(8.dp),</span>
         ) {
-<span class="fc" id="L441">            AutosizeText(</span>
-<span class="fc" id="L442">                text = movie.title,</span>
-<span class="fc" id="L443">                style = MaterialTheme.typography.subtitle1,</span>
-<span class="fc" id="L444">                maxLines = 2,</span>
+<span class="fc" id="L447">            AutosizeText(</span>
+<span class="fc" id="L448">                text = movie.title,</span>
+<span class="fc" id="L449">                style = MaterialTheme.typography.subtitle1,</span>
+<span class="fc" id="L450">                maxLines = 2,</span>
             )
-<span class="fc" id="L446">            Text(</span>
-<span class="fc" id="L447">                text = movie.overview,</span>
-<span class="fc" id="L448">                style = MaterialTheme.typography.caption,</span>
-<span class="fc" id="L449">                overflow = TextOverflow.Ellipsis,</span>
+<span class="fc" id="L452">            Text(</span>
+<span class="fc" id="L453">                text = movie.overview,</span>
+<span class="fc" id="L454">                style = MaterialTheme.typography.caption,</span>
+<span class="fc" id="L455">                overflow = TextOverflow.Ellipsis,</span>
             )
-<span class="fc" id="L451">        }</span>
-<span class="fc" id="L452">    }</span>
-<span class="fc" id="L453">}</span>
+<span class="fc" id="L457">        }</span>
+<span class="fc" id="L458">    }</span>
+<span class="fc" id="L459">}</span>
 
 @Composable
-<span class="pc bpc" id="L456" title="8 of 14 branches missed.">private fun BottomLoader(modifier: Modifier = Modifier) {</span>
-<span class="fc" id="L457">    Row(</span>
-<span class="fc" id="L458">        modifier = modifier</span>
-<span class="fc" id="L459">            .fillMaxWidth()</span>
-<span class="fc" id="L460">            .padding(bottom = 16.dp),</span>
-<span class="fc" id="L461">        horizontalArrangement = Arrangement.Center,</span>
+<span class="pc bpc" id="L462" title="8 of 14 branches missed.">private fun BottomLoader(modifier: Modifier = Modifier) {</span>
+<span class="fc" id="L463">    Row(</span>
+<span class="fc" id="L464">        modifier = modifier</span>
+<span class="fc" id="L465">            .fillMaxWidth()</span>
+<span class="fc" id="L466">            .padding(bottom = 16.dp),</span>
+<span class="fc" id="L467">        horizontalArrangement = Arrangement.Center,</span>
     ) {
-<span class="fc" id="L463">        IndeterminateProgressIndicator()</span>
-<span class="fc" id="L464">    }</span>
-<span class="pc bpc" id="L465" title="1 of 2 branches missed.">}</span>
+<span class="fc" id="L469">        IndeterminateProgressIndicator()</span>
+<span class="fc" id="L470">    }</span>
+<span class="pc bpc" id="L471" title="1 of 2 branches missed.">}</span>
 
-<span class="fc" id="L467">private suspend fun SnackbarHostState.showCancelSwipeToDismissSnackbar(</span>
+<span class="fc" id="L473">private suspend fun SnackbarHostState.showCancelSwipeToDismissSnackbar(</span>
     resources: Resources,
     onSnackbarActionPerformed: () -&gt; Unit,
     onSnackbarDismissed: () -&gt; Unit,
 ) {
-<span class="fc" id="L472">    val result = showSnackbar(</span>
-<span class="fc" id="L473">        message = resources.getString(R.string.watchlist_remove_from_watchlist_confirm_message),</span>
-<span class="fc" id="L474">        actionLabel = resources.getString(R.string.watchlist_remove_from_watchlist_action),</span>
+<span class="fc" id="L478">    val result = showSnackbar(</span>
+<span class="fc" id="L479">        message = resources.getString(R.string.watchlist_remove_from_watchlist_confirm_message),</span>
+<span class="fc" id="L480">        actionLabel = resources.getString(R.string.watchlist_remove_from_watchlist_action),</span>
     )
-<span class="pc bpc" id="L476" title="1 of 3 branches missed.">    when (result) {</span>
-<span class="fc" id="L477">        SnackbarResult.ActionPerformed -&gt; onSnackbarActionPerformed()</span>
-<span class="fc" id="L478">        SnackbarResult.Dismissed -&gt; onSnackbarDismissed()</span>
+<span class="pc bpc" id="L482" title="1 of 3 branches missed.">    when (result) {</span>
+<span class="fc" id="L483">        SnackbarResult.ActionPerformed -&gt; onSnackbarActionPerformed()</span>
+<span class="fc" id="L484">        SnackbarResult.Dismissed -&gt; onSnackbarDismissed()</span>
     }
-<span class="fc" id="L480">}</span>
+<span class="fc" id="L486">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -21,10 +21,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.louisfn.somovie.domain.model.Movie
 import com.louisfn.somovie.ui.component.DefaultAsyncImage
-import com.louisfn.somovie.ui.theme.Dimens.POSTER_RATIO
+import com.louisfn.somovie.ui.theme.Dimens.PosterRatio
 import com.louisfn.somovie.ui.theme.customColors
 
-<span class="nc" id="L27">private val MOVIE_CARD_WIDTH = 96.dp</span>
+<span class="nc" id="L27">private val MovieCardWidth = 96.dp</span>
 
 @Composable
 fun MovieCard(
@@ -36,7 +36,7 @@ fun MovieCard(
 <span class="nc" id="L36">    Box(</span>
 <span class="nc" id="L37">        modifier = modifier</span>
 <span class="nc" id="L38">            .clip(MaterialTheme.shapes.medium)</span>
-<span class="nc" id="L39">            .width(MOVIE_CARD_WIDTH)</span>
+<span class="nc" id="L39">            .width(MovieCardWidth)</span>
 <span class="nc" id="L40">            .clickable { showDetail(movie) },</span>
     ) {
 <span class="nc" id="L42">        Column(</span>
@@ -47,7 +47,7 @@ fun MovieCard(
 <span class="nc" id="L47">            DefaultAsyncImage(</span>
 <span class="nc" id="L48">                modifier = Modifier</span>
 <span class="nc" id="L49">                    .fillMaxWidth()</span>
-<span class="nc" id="L50">                    .aspectRatio(POSTER_RATIO),</span>
+<span class="nc" id="L50">                    .aspectRatio(PosterRatio),</span>
 <span class="nc bnc" id="L51" title="All 2 branches missed.">                model = movie.posterPath,</span>
             )
 <span class="nc" id="L53">            Text(</span>
@@ -77,14 +77,14 @@ fun MovieCard(
 <span class="nc" id="L77">    Column(</span>
 <span class="nc" id="L78">        modifier = modifier</span>
 <span class="nc" id="L79">            .clip(MaterialTheme.shapes.medium)</span>
-<span class="nc" id="L80">            .width(MOVIE_CARD_WIDTH)</span>
+<span class="nc" id="L80">            .width(MovieCardWidth)</span>
 <span class="nc" id="L81">            .padding(bottom = 8.dp),</span>
 <span class="nc" id="L82">        verticalArrangement = Arrangement.spacedBy(8.dp),</span>
     ) {
 <span class="nc" id="L84">        Box(</span>
 <span class="nc" id="L85">            modifier = Modifier</span>
 <span class="nc" id="L86">                .fillMaxWidth()</span>
-<span class="nc" id="L87">                .aspectRatio(POSTER_RATIO)</span>
+<span class="nc" id="L87">                .aspectRatio(PosterRatio)</span>
 <span class="nc" id="L88">                .background(MaterialTheme.customColors.placeholder),</span>
 <span class="nc" id="L89">        ) {}</span>
 

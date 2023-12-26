@@ -39,7 +39,7 @@ import com.louisfn.somovie.ui.component.DefaultTopAppBar
 import com.louisfn.somovie.ui.component.IndeterminateProgressIndicator
 import com.louisfn.somovie.ui.component.Retry
 import com.louisfn.somovie.ui.component.movie.MovieCard
-import com.louisfn.somovie.ui.theme.Dimens.DEFAULT_SCREEN_HORIZONTAL_PADDING
+import com.louisfn.somovie.ui.theme.Dimens.DefaultScreenHorizontalPadding
 import kotlinx.coroutines.launch
 import com.louisfn.somovie.ui.common.R as commonR
 
@@ -151,7 +151,7 @@ private fun Section(
 <span class="nc" id="L151">    Row(</span>
 <span class="nc" id="L152">        modifier = Modifier</span>
 <span class="nc" id="L153">            .fillMaxWidth()</span>
-<span class="nc" id="L154">            .padding(start = DEFAULT_SCREEN_HORIZONTAL_PADDING, end = 4.dp),</span>
+<span class="nc" id="L154">            .padding(start = DefaultScreenHorizontalPadding, end = 4.dp),</span>
 <span class="nc" id="L155">        verticalAlignment = Alignment.CenterVertically,</span>
 <span class="nc" id="L156">        horizontalArrangement = SpaceBetween,</span>
     ) {
@@ -188,7 +188,7 @@ private fun MoviesLazyRow(
 
 <span class="nc bnc" id="L189" title="All 2 branches missed.">    LazyRow(</span>
 <span class="nc" id="L190">        state = lazyListState,</span>
-<span class="nc" id="L191">        contentPadding = PaddingValues(horizontal = DEFAULT_SCREEN_HORIZONTAL_PADDING),</span>
+<span class="nc" id="L191">        contentPadding = PaddingValues(horizontal = DefaultScreenHorizontalPadding),</span>
 <span class="nc" id="L192">        horizontalArrangement = Arrangement.spacedBy(12.dp),</span>
 <span class="nc" id="L193">    ) {</span>
 <span class="nc" id="L194">        items(</span>
