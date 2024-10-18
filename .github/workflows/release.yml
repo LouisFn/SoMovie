@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 17
@@ -62,7 +62,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 17
@@ -83,7 +83,7 @@ jobs:
           echo $ENCODED_KEYSTORE | base64 -d > "${TMP_KEYSTORE_FILE_PATH}"/keystore.jks
 
       - name: Setup AVD cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: avd-cache
         with:
           path: |
@@ -128,7 +128,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 17
@@ -152,6 +152,6 @@ jobs:
         run: ./gradlew assembleRelease
 
       - name: Publish release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: ./app/build/outputs/apk/release/*.apk
