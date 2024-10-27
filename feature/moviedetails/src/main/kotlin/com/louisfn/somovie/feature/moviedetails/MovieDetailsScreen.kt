@@ -11,7 +11,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlaylistAdd
+import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
 import androidx.compose.material.icons.filled.PlaylistRemove
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -143,7 +143,7 @@ private fun AddToWatchlistSmallFab(
     ) {
         Icon(
             imageVector = when (watchlistFabState.state) {
-                WatchlistState.ADD_TO_WATCHLIST -> Icons.Filled.PlaylistAdd
+                WatchlistState.ADD_TO_WATCHLIST -> Icons.AutoMirrored.Filled.PlaylistAdd
                 WatchlistState.REMOVE_FROM_WATCHLIST -> Icons.Filled.PlaylistRemove
             },
             tint = MaterialTheme.colors.onPrimary,

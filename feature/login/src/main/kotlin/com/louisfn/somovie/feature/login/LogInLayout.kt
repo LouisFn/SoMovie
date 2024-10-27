@@ -18,7 +18,7 @@ fun LogInLayout(
     logInManager: LogInManager,
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.(button: @Composable (modifier: Modifier) -> Unit) -> Unit =
-        { it(modifier = Modifier.align(Alignment.Center)) },
+        { it(Modifier.align(Alignment.Center)) },
 ) {
     val uiState by logInManager.state.collectAsStateLifecycleAware()
 

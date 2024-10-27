@@ -1,9 +1,14 @@
 package com.louisfn.somovie.ui.component
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,7 +20,7 @@ fun DefaultTopAppBar(
     modifier: Modifier = Modifier,
     text: String? = null,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
-    backIcon: ImageVector = Icons.Filled.ArrowBack,
+    backIcon: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
     actions: @Composable RowScope.() -> Unit = {},
     navigateUp: (() -> Unit)? = null,
 ) {

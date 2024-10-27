@@ -2,6 +2,7 @@
 
 package plugin
 
+import Plugins
 import debugImplementation
 import getLibsVersionCatalog
 import implementation
@@ -13,17 +14,17 @@ import plugin.util.getCommonExtension
 class AndroidComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            with(pluginManager) {
+                apply(Plugins.JACOCO)
+                apply(Plugins.COMPOSE_COMPILER)
+            }
+
             val libs = getLibsVersionCatalog()
             val commonExtension = getCommonExtension()
 
             commonExtension.apply {
                 buildFeatures {
                     compose = true
-                }
-
-                composeOptions {
-                    kotlinCompilerExtensionVersion =
-                        libs.findVersion("androidxComposeCompiler").get().toString()
                 }
             }
 

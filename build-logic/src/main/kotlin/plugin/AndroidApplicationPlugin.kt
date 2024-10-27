@@ -11,7 +11,6 @@ import plugin.util.configureAndroid
 import plugin.util.configureKotlinOptions
 import java.util.Properties
 
-@Suppress("UnstableApiUsage")
 class AndroidApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {

@@ -9,14 +9,16 @@ import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
 
-internal fun Project.getCommonExtension(): CommonExtension<*, *, *, *, *> =
+internal fun Project.getCommonExtension(): CommonExtension<*, *, *, *, *, *> =
     (
         extensions.findByType<LibraryExtension>()
             ?: extensions.findByType<ApplicationExtension>()
-        ) as CommonExtension<*, *, *, *, *>
+        ) as CommonExtension<*, *, *, *, *, *>
 
 internal fun Project.getAndroidComponentsExtension(): AndroidComponentsExtension<*, *, *> =
     (
         extensions.findByType<LibraryAndroidComponentsExtension>()
             ?: extensions.findByType<ApplicationAndroidComponentsExtension>()
         ) as AndroidComponentsExtension<*, *, *>
+
+internal fun String.capitalized() = this.replaceFirstChar { it.uppercase() }

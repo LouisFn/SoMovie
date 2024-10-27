@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -126,7 +124,6 @@ private fun BoxScope.DiscoverContent(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun BoxScope.DiscoverSwipeContainer(
     items: ImmutableList<MovieItem>,
@@ -138,7 +135,7 @@ private fun BoxScope.DiscoverSwipeContainer(
     SwipeContainer(
         items = ImmutableList(items.take(MaxMovieItemToPreload)),
         itemKey = MovieItem::id,
-        thresholdConfig = FractionalThreshold(SwipeFractionalThreshold),
+        fractionalThreshold = SwipeFractionalThreshold,
         onDragging = { _, direction, ratio ->
             draggingState = DraggingState(direction, ratio)
         },

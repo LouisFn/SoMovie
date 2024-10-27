@@ -23,7 +23,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
@@ -98,7 +98,7 @@ private fun MovieDetailsTopBar(share: () -> Unit, navigateUp: () -> Unit) {
         navigationIcon = {
             MovieDetailsIconButton(onClick = navigateUp) {
                 Icon(
-                    imageVector = Icons.Filled.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     tint = MaterialTheme.colors.onPrimary,
                     contentDescription = "",
                 )

@@ -1,10 +1,9 @@
 package com.louisfn.somovie.feature.moviedetails
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.google.accompanist.navigation.animation.composable
 import com.louisfn.somovie.ui.common.navigation.NavigationDestination
 
 object MovieDetailsNavigation : NavigationDestination {
@@ -15,7 +14,6 @@ object MovieDetailsNavigation : NavigationDestination {
     fun createRoute(movieId: Long) = "movie/$movieId"
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.movieDetailsGraph(navigateUp: () -> Unit) {
     composable(
         route = MovieDetailsNavigation.route,

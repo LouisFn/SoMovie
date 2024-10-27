@@ -10,6 +10,7 @@ object Plugins {
     const val KSP = "com.google.devtools.ksp"
     const val HILT = "dagger.hilt.android.plugin"
     const val JACOCO = "org.gradle.jacoco"
+    const val COMPOSE_COMPILER = "org.jetbrains.kotlin.plugin.compose"
 
     const val SOMOVIE_ANDROID_APPLICATION = "somovie.android.application"
     const val SOMOVIE_ANDROID_LIBRARY = "somovie.android.library"

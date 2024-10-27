@@ -5,12 +5,12 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import getLibsVersionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import plugin.util.capitalized
 import plugin.util.configureJacoco
 
 class JacocoMergeAllReportsPlugin : Plugin<Project> {

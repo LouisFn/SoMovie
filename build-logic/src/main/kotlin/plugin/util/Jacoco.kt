@@ -1,7 +1,6 @@
 package plugin.util
 
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
 internal fun JacocoReport.configureJacoco(project: Project, variantName: String) {
@@ -14,12 +13,12 @@ internal fun JacocoReport.configureJacoco(project: Project, variantName: String)
 
     val javaClasses = projects
         .map { proj ->
-            project.fileTree("${proj.buildDir}/intermediates/javac/$variantName/classes/com")
+            project.fileTree("${proj.layout.buildDirectory.asFile}/intermediates/javac/$variantName/classes/com")
         }
         .onEach { it.exclude(coverageExclusions) }
     val kotlinClasses = projects
         .map { proj ->
-            project.fileTree("${proj.buildDir}/tmp/kotlin-classes/$variantName")
+            project.fileTree("${proj.layout.buildDirectory.asFile}/tmp/kotlin-classes/$variantName")
         }
         .onEach { it.exclude(coverageExclusions) }
 
@@ -36,7 +35,7 @@ internal fun JacocoReport.configureJacoco(project: Project, variantName: String)
 
     val executions = projects
         .map { proj ->
-            proj.fileTree(proj.buildDir).apply {
+            proj.fileTree(proj.layout.buildDirectory.asFile).apply {
                 include(
                     "/outputs/code_coverage/${variantName}AndroidTest/connected/**/coverage.ec",
                     "/outputs/unit_test_code_coverage/${variantName}UnitTest/test${variantName.capitalized()}UnitTest.exec",

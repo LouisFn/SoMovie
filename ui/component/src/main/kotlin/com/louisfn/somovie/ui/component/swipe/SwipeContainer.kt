@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.louisfn.somovie.ui.component.swipe
 
 import androidx.compose.animation.core.AnimationSpec
@@ -8,9 +6,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.ThresholdConfig
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -40,7 +35,7 @@ fun <T> SwipeContainer(
     itemKey: (T) -> Any,
     modifier: Modifier = Modifier,
     maxRotationInDegrees: Float = DefaultMaxRotationInDegrees,
-    thresholdConfig: ThresholdConfig = FractionalThreshold(DefaultFractionalThreshold),
+    fractionalThreshold: Float = DefaultFractionalThreshold,
     velocityThreshold: Dp = DefaultVelocityThreshold,
     swipeAnimationSpec: AnimationSpec<Offset> = DefaultSwipeAnimationSpec,
     cancelAnimationSpec: AnimationSpec<Offset> = DefaultRewindAnimationSpec,
@@ -58,7 +53,7 @@ fun <T> SwipeContainer(
                     SwipeableItem(
                         item = item,
                         maxRotationInDegrees = maxRotationInDegrees,
-                        thresholdConfig = thresholdConfig,
+                        fractionalThreshold = fractionalThreshold,
                         velocityThreshold = velocityThreshold,
                         swipeAnimationSpec = swipeAnimationSpec,
                         cancelAnimationSpec = cancelAnimationSpec,
@@ -73,12 +68,11 @@ fun <T> SwipeContainer(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun <T> SwipeableItem(
     item: T,
     maxRotationInDegrees: Float,
-    thresholdConfig: ThresholdConfig,
+    fractionalThreshold: Float,
     velocityThreshold: Dp,
     swipeAnimationSpec: AnimationSpec<Offset>,
     cancelAnimationSpec: AnimationSpec<Offset>,
@@ -94,7 +88,7 @@ private fun <T> SwipeableItem(
     val swipeController = rememberSwipeController(
         size = itemSize,
         maxRotationInDegrees = maxRotationInDegrees,
-        thresholdConfig = thresholdConfig,
+        fractionalThreshold = fractionalThreshold,
         velocityThreshold = velocityThreshold,
         swipeAnimationSpec = swipeAnimationSpec,
         cancelAnimationSpec = cancelAnimationSpec,

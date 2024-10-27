@@ -1,12 +1,8 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.louisfn.somovie.ui.component.swipe
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.VectorConverter
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ThresholdConfig
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
@@ -20,8 +16,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.input.pointer.util.addPointerInputChange
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.center
@@ -36,13 +30,12 @@ import kotlin.math.withSign
 
 @Stable
 class SwipeController(
-    thresholdConfig: ThresholdConfig,
+    fractionalThreshold: Float,
     private val velocityThreshold: Float,
     private val size: IntSize,
     private val maxRotationInDegrees: Float,
     private val swipeAnimationSpec: AnimationSpec<Offset>,
     private val cancelAnimationSpec: AnimationSpec<Offset>,
-    private val density: Density,
     private val scope: CoroutineScope,
     private val onDragging: (SwipeDirection, ratio: Float) -> Unit,
     private val onSwiped: (SwipeDirection) -> Unit,
@@ -51,8 +44,7 @@ class SwipeController(
 ) {
 
     private val velocityTracker = VelocityTracker()
-    private val threshold =
-        with(thresholdConfig) { density.computeThreshold(0f, size.width.toFloat()) }
+    private val threshold = size.width.toFloat() * fractionalThreshold
     private val maxItemWidthWhenRotate =
         size.height * sin(maxRotationInDegrees).absoluteValue +
             size.width * cos(maxRotationInDegrees).absoluteValue
@@ -112,7 +104,7 @@ class SwipeController(
 internal fun rememberSwipeController(
     size: IntSize,
     maxRotationInDegrees: Float,
-    thresholdConfig: ThresholdConfig,
+    fractionalThreshold: Float,
     velocityThreshold: Dp,
     swipeAnimationSpec: AnimationSpec<Offset>,
     cancelAnimationSpec: AnimationSpec<Offset>,
@@ -124,25 +116,23 @@ internal fun rememberSwipeController(
     val currentOnDragging by rememberUpdatedState(onDragging)
     val currentOnSwipe by rememberUpdatedState(onSwiped)
 
-    val density = LocalDensity.current
     val scope = rememberCoroutineScope()
     val velocityThresholdInPx = velocityThreshold.toPx()
 
     return remember(
         size,
         maxRotationInDegrees,
-        thresholdConfig,
+        fractionalThreshold,
         swipeAnimationSpec,
         cancelAnimationSpec,
     ) {
         SwipeController(
+            fractionalThreshold = fractionalThreshold,
             size = size,
             maxRotationInDegrees = maxRotationInDegrees,
-            thresholdConfig = thresholdConfig,
             velocityThreshold = velocityThresholdInPx,
             swipeAnimationSpec = swipeAnimationSpec,
             cancelAnimationSpec = cancelAnimationSpec,
-            density = density,
             scope = scope,
             onDragging = currentOnDragging,
             onSwiped = currentOnSwipe,

@@ -3,9 +3,9 @@ package plugin
 import Plugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.register
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import plugin.util.capitalized
 import plugin.util.configureJacoco
 import plugin.util.getAndroidComponentsExtension
 

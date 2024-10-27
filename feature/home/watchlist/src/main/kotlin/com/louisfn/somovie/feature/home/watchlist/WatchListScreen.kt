@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.louisfn.somovie.feature.home.watchlist
 
 import android.content.res.Resources
@@ -28,7 +26,6 @@ import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissState
 import androidx.compose.material.DismissValue
 import androidx.compose.material.Divider
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -208,7 +205,7 @@ private fun LogInContent(logInManager: LogInManager, modifier: Modifier = Modifi
                         .align(Alignment.TopCenter)
                         .padding(16.dp),
                 )
-                Button(modifier = Modifier.align(Alignment.Center))
+                Button(Modifier.align(Alignment.Center))
             }
         },
     )
