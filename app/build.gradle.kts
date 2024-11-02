@@ -32,7 +32,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.retrofit.core)
-    implementation(libs.accompanist.systemuicontroller)
     implementation(libs.timber)
 
     debugImplementation(libs.leakcanary)

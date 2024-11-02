@@ -40,9 +40,9 @@ fun <T> SwipeContainer(
     swipeAnimationSpec: AnimationSpec<Offset> = DefaultSwipeAnimationSpec,
     cancelAnimationSpec: AnimationSpec<Offset> = DefaultRewindAnimationSpec,
     onDragging: (T, SwipeDirection, ratio: Float) -> Unit = { _, _, _ -> },
-    onSwiped: (T, SwipeDirection) -> Unit = { _, _ -> },
-    onDisappeared: (T, SwipeDirection) -> Unit = { _, _ -> },
-    onCanceled: (T) -> Unit = {},
+    onSwipe: (T, SwipeDirection) -> Unit = { _, _ -> },
+    onDisappear: (T, SwipeDirection) -> Unit = { _, _ -> },
+    onCancel: (T) -> Unit = {},
     itemContent: @Composable (T) -> Unit,
 ) {
     Box(modifier = modifier) {
@@ -57,10 +57,10 @@ fun <T> SwipeContainer(
                         velocityThreshold = velocityThreshold,
                         swipeAnimationSpec = swipeAnimationSpec,
                         cancelAnimationSpec = cancelAnimationSpec,
-                        onSwiped = { direction -> onSwiped(item, direction) },
+                        onSwipe = { direction -> onSwipe(item, direction) },
                         onDragging = { direction, ratio -> onDragging(item, direction, ratio) },
-                        onCanceled = { onCanceled(item) },
-                        onDisappeared = { direction -> onDisappeared(item, direction) },
+                        onCancel = { onCancel(item) },
+                        onDisappear = { direction -> onDisappear(item, direction) },
                         itemContent = itemContent,
                     )
                 }
@@ -77,9 +77,9 @@ private fun <T> SwipeableItem(
     swipeAnimationSpec: AnimationSpec<Offset>,
     cancelAnimationSpec: AnimationSpec<Offset>,
     onDragging: (SwipeDirection, ratio: Float) -> Unit,
-    onSwiped: (SwipeDirection) -> Unit,
-    onDisappeared: (SwipeDirection) -> Unit,
-    onCanceled: () -> Unit,
+    onSwipe: (SwipeDirection) -> Unit,
+    onDisappear: (SwipeDirection) -> Unit,
+    onCancel: () -> Unit,
     itemContent: @Composable (T) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -93,9 +93,9 @@ private fun <T> SwipeableItem(
         swipeAnimationSpec = swipeAnimationSpec,
         cancelAnimationSpec = cancelAnimationSpec,
         onDragging = onDragging,
-        onSwiped = onSwiped,
-        onDisappeared = onDisappeared,
-        onCanceled = onCanceled,
+        onSwipe = onSwipe,
+        onDisappear = onDisappear,
+        onCancel = onCancel,
     )
 
     Box(

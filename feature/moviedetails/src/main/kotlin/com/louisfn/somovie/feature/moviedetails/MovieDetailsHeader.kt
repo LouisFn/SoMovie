@@ -39,12 +39,12 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.rememberAsyncImagePainter
-import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.louisfn.somovie.domain.model.BackdropPath
 import com.louisfn.somovie.ui.common.LocalAppRouter
 import com.louisfn.somovie.ui.common.model.ImmutableList
 import com.louisfn.somovie.ui.component.AutosizeText
 import com.louisfn.somovie.ui.component.DefaultTopAppBar
+import com.louisfn.somovie.ui.component.WormPagerIndicator
 import com.louisfn.somovie.ui.component.movie.MovieVoteAverageChart
 import com.louisfn.somovie.ui.theme.Dimens
 
@@ -53,7 +53,7 @@ private const val BackdropRatio = 1.778f
 @Composable
 internal fun MovieDetailsHeader(
     headerUiState: HeaderUiState,
-    onPosterPositioned: (LayoutCoordinates) -> Unit,
+    onPosterPositionChange: (LayoutCoordinates) -> Unit,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -63,7 +63,7 @@ internal fun MovieDetailsHeader(
     ) {
         MovieDetailsHeaderContent(
             headerUiState = headerUiState,
-            onPosterPositioned = onPosterPositioned,
+            onPosterPositionChange = onPosterPositionChange,
         )
         MovieDetailsTopBar(
             shareUrl = headerUiState.tmdbUrl,
@@ -120,8 +120,8 @@ private fun MovieDetailsIconButton(onClick: () -> Unit, content: @Composable () 
 
 @Composable
 private fun MovieDetailsHeaderContent(
+    onPosterPositionChange: (LayoutCoordinates) -> Unit,
     headerUiState: HeaderUiState,
-    onPosterPositioned: (LayoutCoordinates) -> Unit,
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -150,7 +150,7 @@ private fun MovieDetailsHeaderContent(
                     bottom.linkTo(backdropsPager.bottom)
                     start.linkTo(parent.start, 24.dp)
                 }
-                .onGloballyPositioned { onPosterPositioned(it) },
+                .onGloballyPositioned { onPosterPositionChange(it) },
         )
 
         AutosizeText(
@@ -254,9 +254,8 @@ private fun BackdropsPager(
             )
         }
 
-        HorizontalPagerIndicator(
+        WormPagerIndicator(
             pagerState = pagerState,
-            pageCount = backdropPaths.size,
             activeColor = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .align(Alignment.BottomCenter)

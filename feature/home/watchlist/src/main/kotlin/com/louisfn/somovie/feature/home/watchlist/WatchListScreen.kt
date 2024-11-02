@@ -43,6 +43,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -108,9 +109,9 @@ internal fun WatchlistScreen(
         scaffoldState = scaffoldState,
         logInManager = logInViewModel,
         onMovieClick = showDetails,
-        onMovieSwiped = viewModel::onSwipeToDismiss,
-        onSnackbarActionPerformed = viewModel::onUndoSwipeToDismissSnackbarActionPerformed,
-        onSnackbarDismissed = viewModel::onUndoSwipeToDismissSnackbarDismissed,
+        onMovieSwipe = viewModel::onSwipeToDismiss,
+        onSnackbarActionPerform = viewModel::onUndoSwipeToDismissSnackbarActionPerformed,
+        onSnackbarDismiss = viewModel::onUndoSwipeToDismissSnackbarDismissed,
     )
 }
 
@@ -122,11 +123,14 @@ internal fun WatchlistScreen(
     scaffoldState: ScaffoldState,
     logInManager: LogInManager,
     onMovieClick: (Movie) -> Unit,
-    onMovieSwiped: (Movie) -> Unit,
-    onSnackbarActionPerformed: (movieId: Long) -> Unit,
-    onSnackbarDismissed: (movieId: Long) -> Unit,
+    onMovieSwipe: (Movie) -> Unit,
+    onSnackbarActionPerform: (movieId: Long) -> Unit,
+    onSnackbarDismiss: (movieId: Long) -> Unit,
 ) {
     val resources = LocalContext.current.resources
+    val updatedSnackbarActionPerform by rememberUpdatedState(onSnackbarActionPerform)
+    val updatedSnackbarDismiss by rememberUpdatedState(onSnackbarDismiss)
+
     LaunchedEffect(Unit) {
         action
             .collect { action ->
@@ -134,8 +138,8 @@ internal fun WatchlistScreen(
                     is ShowUndoSwipeToDismissSnackbar ->
                         scaffoldState.snackbarHostState.showCancelSwipeToDismissSnackbar(
                             resources = resources,
-                            onSnackbarActionPerformed = { onSnackbarActionPerformed(action.movieId) },
-                            onSnackbarDismissed = { onSnackbarDismissed(action.movieId) },
+                            onSnackbarActionPerform = { updatedSnackbarActionPerform(action.movieId) },
+                            onSnackbarDismiss = { updatedSnackbarDismiss(action.movieId) },
                         )
                 }
             }
@@ -147,7 +151,7 @@ internal fun WatchlistScreen(
         scaffoldState = scaffoldState,
         logInManager = logInManager,
         onMovieClick = onMovieClick,
-        onMovieSwiped = onMovieSwiped,
+        onMovieSwipe = onMovieSwipe,
     )
 }
 
@@ -158,7 +162,7 @@ internal fun WatchlistScreen(
     scaffoldState: ScaffoldState,
     logInManager: LogInManager,
     onMovieClick: (Movie) -> Unit,
-    onMovieSwiped: (Movie) -> Unit,
+    onMovieSwipe: (Movie) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
@@ -176,7 +180,7 @@ internal fun WatchlistScreen(
                 pagingItems = pagingItems,
                 contentPadding = it,
                 onMovieClick = onMovieClick,
-                onMovieSwiped = onMovieSwiped,
+                onMovieSwipe = onMovieSwipe,
             )
 
             is WatchlistUiState.AccountDisconnected ->
@@ -217,7 +221,7 @@ private fun WatchlistContent(
     pagingItems: LazyPagingItems<MovieItem>,
     contentPadding: PaddingValues,
     onMovieClick: (Movie) -> Unit,
-    onMovieSwiped: (Movie) -> Unit,
+    onMovieSwipe: (Movie) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -240,7 +244,7 @@ private fun WatchlistContent(
                 loadNextPageState = uiState.loadNextPageState,
                 contentPadding = contentPadding,
                 onMovieClick = onMovieClick,
-                onMovieSwiped = onMovieSwiped,
+                onMovieSwipe = onMovieSwipe,
             )
         }
     }
@@ -252,7 +256,7 @@ private fun WatchlistLazyColumn(
     loadNextPageState: LoadNextPageState,
     contentPadding: PaddingValues,
     onMovieClick: (Movie) -> Unit,
-    onMovieSwiped: (Movie) -> Unit,
+    onMovieSwipe: (Movie) -> Unit,
 ) {
     // https://issuetracker.google.com/issues/177245496#comment23
     if (pagingItems.itemCount == 0) return
@@ -277,7 +281,7 @@ private fun WatchlistLazyColumn(
                         movie = movieItem.movie,
                         isHidden = movieItem.isHidden,
                         onClick = { onMovieClick(movieItem.movie) },
-                        onSwiped = { onMovieSwiped(movieItem.movie) },
+                        onSwipe = { onMovieSwipe(movieItem.movie) },
                     )
                     if (!movieItem.isHidden) {
                         Divider(color = MaterialTheme.colors.onBackground)
@@ -352,12 +356,12 @@ fun WatchlistMovieItem(
     movie: Movie,
     isHidden: Boolean,
     onClick: () -> Unit,
-    onSwiped: () -> Unit,
+    onSwipe: () -> Unit,
 ) {
     val dismissState = rememberDismissState(
         confirmStateChange = {
             if (it == DismissValue.DismissedToEnd) {
-                onSwiped()
+                onSwipe()
             }
             true
         },
@@ -469,15 +473,15 @@ private fun BottomLoader(modifier: Modifier = Modifier) {
 
 private suspend fun SnackbarHostState.showCancelSwipeToDismissSnackbar(
     resources: Resources,
-    onSnackbarActionPerformed: () -> Unit,
-    onSnackbarDismissed: () -> Unit,
+    onSnackbarActionPerform: () -> Unit,
+    onSnackbarDismiss: () -> Unit,
 ) {
     val result = showSnackbar(
         message = resources.getString(R.string.watchlist_remove_from_watchlist_confirm_message),
         actionLabel = resources.getString(R.string.watchlist_remove_from_watchlist_action),
     )
     when (result) {
-        SnackbarResult.ActionPerformed -> onSnackbarActionPerformed()
-        SnackbarResult.Dismissed -> onSnackbarDismissed()
+        SnackbarResult.ActionPerformed -> onSnackbarActionPerform()
+        SnackbarResult.Dismissed -> onSnackbarDismiss()
     }
 }

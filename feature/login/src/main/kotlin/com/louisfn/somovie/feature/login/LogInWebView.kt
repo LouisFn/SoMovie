@@ -8,8 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import com.google.accompanist.web.WebView
-import com.google.accompanist.web.rememberWebViewState
+import com.louisfn.somovie.ui.component.WebView
+import com.louisfn.somovie.ui.component.rememberWebViewState
 
 @Composable
 fun LogInWebView(
@@ -20,8 +20,8 @@ fun LogInWebView(
     LogInWebView(
         uri = uri,
         modifier = modifier,
-        onApproved = { logInManager.onApproved() },
-        onDenied = { logInManager.onDenied() },
+        onApprove = { logInManager.onApprove() },
+        onDeny = { logInManager.onDeny() },
     )
 }
 
@@ -30,31 +30,31 @@ fun LogInWebView(
 fun LogInWebView(
     uri: Uri,
     modifier: Modifier = Modifier,
-    onApproved: () -> Unit = {},
-    onDenied: () -> Unit = {},
+    onApprove: () -> Unit = {},
+    onDeny: () -> Unit = {},
 ) {
     val state = rememberWebViewState(uri.toString())
 
-    val currentOnApproved by rememberUpdatedState(onApproved)
-    val currentOnDenied by rememberUpdatedState(onDenied)
+    val currentonApprove by rememberUpdatedState(onApprove)
+    val currentonDeny by rememberUpdatedState(onDeny)
 
     val currentUrl = state.lastLoadedUrl
     LaunchedEffect(key1 = currentUrl) {
         currentUrl?.run {
             when {
-                contains(LogInConfig.APPROVE_PATH) -> currentOnApproved()
-                contains(LogInConfig.DENY_PATH) -> currentOnDenied()
+                contains(LogInConfig.APPROVE_PATH) -> currentonApprove()
+                contains(LogInConfig.DENY_PATH) -> currentonDeny()
                 else -> {}
             }
         }
     }
 
-    BackHandler(true) { currentOnDenied() }
+    BackHandler(true) { currentonDeny() }
 
     WebView(
         modifier = modifier,
         state = state,
-        onCreated = {
+        onCreate = {
             it.settings.javaScriptEnabled = true
         },
     )

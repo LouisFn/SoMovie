@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.louisfn.somovie.ui.common.R as commonR
 
 @Composable
-fun Retry(modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun Retry(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .semantics { testTag = ComponentTestTag.Retry },
@@ -41,7 +41,7 @@ fun Retry(modifier: Modifier = Modifier, onClick: () -> Unit) {
 }
 
 @Composable
-fun RetryButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun RetryButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Button(
         modifier = modifier,
         onClick = onClick,
@@ -51,7 +51,7 @@ fun RetryButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 }
 
 @Composable
-fun TextRetryButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun TextRetryButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     DefaultTextButton(
         text = stringResource(id = commonR.string.common_retry_button),
         modifier = modifier

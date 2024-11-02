@@ -101,7 +101,7 @@ internal class DiscoverViewModel @Inject constructor(
     }
 
     @AnyThread
-    fun onMovieSwiped(movieItem: MovieItem, direction: SwipeDirection) {
+    fun onMovieSwipe(movieItem: MovieItem, direction: SwipeDirection) {
         viewModelScope.launch(defaultDispatcher) {
             if (direction.shouldAddMovieToWatchlist()) {
                 if (!isLoggedIn.first()) {

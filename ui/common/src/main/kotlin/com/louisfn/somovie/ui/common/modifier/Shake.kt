@@ -7,15 +7,16 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
 
 private const val DefaultInitialScale = 1f
 private const val DefaultTargetScale = .9f
 private const val DefaultAnimationDuration = 50
 
+@Composable
 fun Modifier.shake(
     enabled: Boolean,
     initialScale: Float = DefaultInitialScale,
@@ -24,22 +25,21 @@ fun Modifier.shake(
         durationMillis = DefaultAnimationDuration,
         easing = LinearEasing,
     ),
-) = composed {
-    if (enabled) {
-        val infiniteTransition = rememberInfiniteTransition()
-        val scale by infiniteTransition.animateFloat(
-            initialValue = initialScale,
-            targetValue = targetScale,
-            animationSpec = infiniteRepeatable(
-                animation = animation,
-                repeatMode = RepeatMode.Reverse,
-            ),
-        )
-        Modifier.graphicsLayer {
-            scaleX = scale
-            scaleY = scale
-        }
-    } else {
-        this
+) = if (enabled) {
+    val infiniteTransition = rememberInfiniteTransition(label = "ShakeInfiniteTransition")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = initialScale,
+        targetValue = targetScale,
+        animationSpec = infiniteRepeatable(
+            animation = animation,
+            repeatMode = RepeatMode.Reverse,
+        ),
+        label = "Shake",
+    )
+    graphicsLayer {
+        scaleX = scale
+        scaleY = scale
     }
+} else {
+    this
 }

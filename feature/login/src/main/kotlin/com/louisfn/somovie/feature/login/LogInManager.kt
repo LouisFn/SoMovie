@@ -22,10 +22,10 @@ interface LogInManager {
     fun start()
 
     @AnyThread
-    fun onApproved()
+    fun onApprove()
 
     @AnyThread
-    fun onDenied()
+    fun onDeny()
 }
 
 class DefaultLogInManager @Inject constructor(
@@ -61,13 +61,13 @@ class DefaultLogInManager @Inject constructor(
         }
     }
 
-    override fun onApproved() {
+    override fun onApprove() {
         scope.launch {
             logIn()
         }
     }
 
-    override fun onDenied() {
+    override fun onDeny() {
         scope.launch {
             _state.value = LogInState.Idle
         }

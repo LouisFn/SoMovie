@@ -23,10 +23,10 @@ sealed class HomeBottomSheetItem(
     @StringRes val titleId: Int,
     val icon: ImageVector,
 ) {
-    object Explore : HomeBottomSheetItem(ExploreNavigation, R.string.home_explore, Icons.Default.Movie)
-    object WatchList : HomeBottomSheetItem(WatchlistDestination, R.string.home_watchlist, Icons.AutoMirrored.Filled.List)
-    object Discover : HomeBottomSheetItem(DiscoverNavigation, R.string.home_discover, Icons.Default.Swipe)
-    object Account : HomeBottomSheetItem(AccountNavigation, R.string.home_account, Icons.Default.Settings)
+    data object Explore : HomeBottomSheetItem(ExploreNavigation, R.string.home_explore, Icons.Default.Movie)
+    data object WatchList : HomeBottomSheetItem(WatchlistDestination, R.string.home_watchlist, Icons.AutoMirrored.Filled.List)
+    data object Discover : HomeBottomSheetItem(DiscoverNavigation, R.string.home_discover, Icons.Default.Swipe)
+    data object Account : HomeBottomSheetItem(AccountNavigation, R.string.home_account, Icons.Default.Settings)
 }
 
 val HomeBottomSheetItems = listOf(Explore, WatchList, Discover, Account)

@@ -7,5 +7,4 @@ android {
 }
 
 dependencies {
-    implementation(libs.accompanist.pager.indicators)
 }

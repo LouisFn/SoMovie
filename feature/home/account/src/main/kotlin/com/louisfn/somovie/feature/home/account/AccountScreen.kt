@@ -65,8 +65,8 @@ private fun AccountScreen(
 private fun AccountContent(
     state: AccountUiState,
     logInManager: LogInManager,
-    modifier: Modifier = Modifier,
     onLogOutButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier

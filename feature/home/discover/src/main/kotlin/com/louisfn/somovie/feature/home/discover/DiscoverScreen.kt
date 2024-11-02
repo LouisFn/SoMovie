@@ -61,20 +61,20 @@ internal fun DiscoverScreen(
 
     DiscoverScreen(
         uiState = uiState,
-        onSwiped = viewModel::onMovieSwiped,
-        onDisappeared = viewModel::onMovieDisappeared,
+        onSwipe = viewModel::onMovieSwipe,
+        onDisappear = viewModel::onMovieDisappeared,
         retry = { viewModel.retry() },
-        onLogInSnackbarActionClicked = { showAccount() },
+        onLogInSnackbarActionClick = { showAccount() },
     )
 }
 
 @Composable
 private fun DiscoverScreen(
     uiState: DiscoverUiState,
-    onSwiped: (MovieItem, SwipeDirection) -> Unit,
-    onDisappeared: (MovieItem) -> Unit,
+    onSwipe: (MovieItem, SwipeDirection) -> Unit,
+    onDisappear: (MovieItem) -> Unit,
     retry: () -> Unit,
-    onLogInSnackbarActionClicked: () -> Unit,
+    onLogInSnackbarActionClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -83,9 +83,9 @@ private fun DiscoverScreen(
             is DiscoverUiState.Discover -> DiscoverContent(
                 items = uiState.items,
                 logInSnackbarState = uiState.logInSnackbarState,
-                onSwiped = onSwiped,
-                onDisappeared = onDisappeared,
-                onLogInSnackbarActionClicked = onLogInSnackbarActionClicked,
+                onSwipe = onSwipe,
+                onDisappear = onDisappear,
+                onLogInSnackbarActionClick = onLogInSnackbarActionClick,
             )
             is DiscoverUiState.Retry -> Retry(
                 modifier = Modifier.align(Alignment.Center),
@@ -103,20 +103,20 @@ private fun DiscoverScreen(
 private fun BoxScope.DiscoverContent(
     items: ImmutableList<MovieItem>,
     logInSnackbarState: LogInSnackbarState,
-    onSwiped: (MovieItem, SwipeDirection) -> Unit,
-    onDisappeared: (MovieItem) -> Unit,
-    onLogInSnackbarActionClicked: () -> Unit,
+    onSwipe: (MovieItem, SwipeDirection) -> Unit,
+    onDisappear: (MovieItem) -> Unit,
+    onLogInSnackbarActionClick: () -> Unit,
 ) {
     DiscoverSwipeContainer(
         items = items,
-        onSwiped = onSwiped,
-        onDisappeared = onDisappeared,
+        onSwipe = onSwipe,
+        onDisappear = onDisappear,
     )
     if (logInSnackbarState != LogInSnackbarState.HIDDEN) {
         DefaultSnackbar(
             message = stringResource(id = commonR.string.discover_log_in_description),
             actionLabel = stringResource(id = commonR.string.discover_log_in_action),
-            onActionClick = onLogInSnackbarActionClicked,
+            onActionClick = onLogInSnackbarActionClick,
             modifier = Modifier
                 .shake(logInSnackbarState == LogInSnackbarState.SHAKING)
                 .align(Alignment.BottomCenter),
@@ -127,8 +127,8 @@ private fun BoxScope.DiscoverContent(
 @Composable
 private fun BoxScope.DiscoverSwipeContainer(
     items: ImmutableList<MovieItem>,
-    onSwiped: (MovieItem, SwipeDirection) -> Unit,
-    onDisappeared: (MovieItem) -> Unit,
+    onSwipe: (MovieItem, SwipeDirection) -> Unit,
+    onDisappear: (MovieItem) -> Unit,
 ) {
     var draggingState by remember { mutableStateOf<DraggingState?>(null) }
 
@@ -139,12 +139,12 @@ private fun BoxScope.DiscoverSwipeContainer(
         onDragging = { _, direction, ratio ->
             draggingState = DraggingState(direction, ratio)
         },
-        onCanceled = { draggingState = null },
-        onSwiped = { item, direction ->
+        onCancel = { draggingState = null },
+        onSwipe = { item, direction ->
             draggingState = null
-            onSwiped(item, direction)
+            onSwipe(item, direction)
         },
-        onDisappeared = { item, _ -> onDisappeared(item) },
+        onDisappear = { item, _ -> onDisappear(item) },
     ) { item ->
         DiscoverMovieItem(item)
     }

@@ -41,8 +41,8 @@ import java.time.Duration
 
 @Composable
 internal fun MovieDetailsScreen(
-    viewModel: MovieDetailsViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateLifecycleAware()
 
@@ -79,7 +79,7 @@ private fun MovieDetailsScreen(
                     end.linkTo(parent.end)
                 },
                 navigateUp = navigateUp,
-                onPosterPositioned = { posterReducedCoordinates = it },
+                onPosterPositionChange = { posterReducedCoordinates = it },
             )
 
             Box(
@@ -123,8 +123,8 @@ private fun MovieDetailsScreen(
 @Composable
 private fun AddToWatchlistSmallFab(
     watchlistFabState: WatchlistFabState,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
@@ -174,7 +174,10 @@ private fun MovieDetailsLoader(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun MovieDetailsRetry(modifier: Modifier = Modifier, onClick: () -> Unit) {
+private fun MovieDetailsRetry(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Retry(
         modifier = modifier,
         onClick = onClick,

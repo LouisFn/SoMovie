@@ -7,5 +7,4 @@ android {
 }
 
 dependencies {
-    implementation(libs.accompanist.webview)
 }

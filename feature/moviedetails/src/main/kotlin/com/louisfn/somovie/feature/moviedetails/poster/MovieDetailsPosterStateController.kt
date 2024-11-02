@@ -32,7 +32,7 @@ internal class PosterStateController(
     private val scope: CoroutineScope,
     private val minDragDistanceToReduce: Int,
     private val screenSize: Size,
-    private var onStateChanged: (MovieDetailsPosterState) -> Unit,
+    private var onStateChange: (MovieDetailsPosterState) -> Unit,
 ) {
     private var currentState: MovieDetailsPosterState = MovieDetailsPosterState.REDUCED
 
@@ -87,7 +87,7 @@ internal class PosterStateController(
         if (currentState != MovieDetailsPosterState.EXPANDED) return
 
         if (dragOffset.getDistance() > minDragDistanceToReduce) {
-            onStateChanged(MovieDetailsPosterState.REDUCED)
+            onStateChange(MovieDetailsPosterState.REDUCED)
         } else {
             animateToExpandedState()
         }
@@ -110,8 +110,8 @@ internal class PosterStateController(
 
 @Composable
 internal fun rememberPosterStateController(
+    onStateChange: (MovieDetailsPosterState) -> Unit,
     reducedCoordinates: LayoutCoordinates,
-    onStateChanged: (MovieDetailsPosterState) -> Unit,
 ): PosterStateController {
     val scope = rememberCoroutineScope()
     val minDragDistanceToReduce = MinDragDistanceToReduce.roundToPx()
@@ -122,7 +122,7 @@ internal fun rememberPosterStateController(
             minDragDistanceToReduce = minDragDistanceToReduce,
             reducedCoordinates = reducedCoordinates,
             screenSize = screenSize,
-            onStateChanged = onStateChanged,
+            onStateChange = onStateChange,
             scope = scope,
         )
     }

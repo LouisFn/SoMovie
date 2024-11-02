@@ -19,9 +19,9 @@ class FakeLogInManager : LogInManager {
     override fun start() {
     }
 
-    override fun onApproved() {
+    override fun onApprove() {
     }
 
-    override fun onDenied() {
+    override fun onDeny() {
     }
 }

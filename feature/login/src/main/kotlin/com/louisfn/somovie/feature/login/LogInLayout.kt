@@ -31,8 +31,8 @@ fun LogInLayout(
         modifier = modifier
             .semantics { testTag = LogInTestTag.LogInLayout },
         onLogInButtonClick = logInManager::start,
-        onLogInApproved = logInManager::onApproved,
-        onLogInDenied = logInManager::onDenied,
+        onLogInApprove = logInManager::onApprove,
+        onLogInDeny = logInManager::onDeny,
         buttonDecorator = content,
     )
 }
@@ -42,8 +42,8 @@ private fun LogInLayout(
     uiState: LogInState,
     modifier: Modifier = Modifier,
     onLogInButtonClick: () -> Unit = {},
-    onLogInApproved: () -> Unit = {},
-    onLogInDenied: () -> Unit = {},
+    onLogInApprove: () -> Unit = {},
+    onLogInDeny: () -> Unit = {},
     buttonDecorator: @Composable BoxScope.(button: @Composable (modifier: Modifier) -> Unit) -> Unit,
 ) {
     Box(modifier = modifier) {
@@ -63,8 +63,8 @@ private fun LogInLayout(
                 LogInWebView(
                     uri = uiState.uri,
                     modifier = Modifier.fillMaxSize(),
-                    onApproved = onLogInApproved,
-                    onDenied = onLogInDenied,
+                    onApprove = onLogInApprove,
+                    onDeny = onLogInDeny,
                 )
             else -> Unit
         }

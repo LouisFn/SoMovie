@@ -38,9 +38,9 @@ class SwipeController(
     private val cancelAnimationSpec: AnimationSpec<Offset>,
     private val scope: CoroutineScope,
     private val onDragging: (SwipeDirection, ratio: Float) -> Unit,
-    private val onSwiped: (SwipeDirection) -> Unit,
-    private val onDisappeared: (SwipeDirection) -> Unit,
-    private val onCanceled: () -> Unit,
+    private val onSwipe: (SwipeDirection) -> Unit,
+    private val onDisappear: (SwipeDirection) -> Unit,
+    private val onCancel: () -> Unit,
 ) {
 
     private val velocityTracker = VelocityTracker()
@@ -79,14 +79,14 @@ class SwipeController(
                 val targetOffsetX = maxItemWidthWhenRotate.withSign(offset.x)
                 val direction = SwipeDirection.fromOffset(targetOffsetX)
 
-                onSwiped(direction)
+                onSwipe(direction)
                 offsetAnimatable.animateTo(
                     targetValue = offset.copy(x = targetOffsetX),
                     animationSpec = swipeAnimationSpec,
                 )
-                onDisappeared(direction)
+                onDisappear(direction)
             } else {
-                onCanceled()
+                onCancel()
                 offsetAnimatable.animateTo(Offset.Zero, cancelAnimationSpec)
             }
         }
@@ -109,12 +109,12 @@ internal fun rememberSwipeController(
     swipeAnimationSpec: AnimationSpec<Offset>,
     cancelAnimationSpec: AnimationSpec<Offset>,
     onDragging: (SwipeDirection, ratio: Float) -> Unit,
-    onSwiped: (SwipeDirection) -> Unit,
-    onDisappeared: (SwipeDirection) -> Unit,
-    onCanceled: () -> Unit,
+    onSwipe: (SwipeDirection) -> Unit,
+    onDisappear: (SwipeDirection) -> Unit,
+    onCancel: () -> Unit,
 ): SwipeController {
     val currentOnDragging by rememberUpdatedState(onDragging)
-    val currentOnSwipe by rememberUpdatedState(onSwiped)
+    val currentOnSwipe by rememberUpdatedState(onSwipe)
 
     val scope = rememberCoroutineScope()
     val velocityThresholdInPx = velocityThreshold.toPx()
@@ -135,9 +135,9 @@ internal fun rememberSwipeController(
             cancelAnimationSpec = cancelAnimationSpec,
             scope = scope,
             onDragging = currentOnDragging,
-            onSwiped = currentOnSwipe,
-            onDisappeared = onDisappeared,
-            onCanceled = onCanceled,
+            onSwipe = currentOnSwipe,
+            onDisappear = onDisappear,
+            onCancel = onCancel,
         )
     }
 }

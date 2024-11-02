@@ -10,5 +10,4 @@ dependencies {
     implementation(project(":feature:home:common"))
     implementation(project(":feature:login"))
     implementation(libs.androidx.lifecycle.process)
-    implementation(libs.accompanist.webview)
 }

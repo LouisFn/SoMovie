@@ -60,7 +60,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -90,7 +90,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -127,7 +127,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -162,7 +162,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -201,7 +201,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -245,7 +245,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -284,7 +284,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -325,7 +325,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -362,7 +362,7 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
+                    onMovieSwipe = {},
                 )
             }
         }
@@ -395,7 +395,7 @@ class WatchListScreenTest {
                     movie = movie,
                     isHidden = false,
                     onClick = {},
-                    onSwiped = { isSwiped = true },
+                    onSwipe = { isSwiped = true },
                 )
             }
         }
@@ -426,7 +426,7 @@ class WatchListScreenTest {
                     movie = movie,
                     isHidden = false,
                     onClick = {},
-                    onSwiped = { isSwiped = true },
+                    onSwipe = { isSwiped = true },
                 )
             }
         }
@@ -445,7 +445,7 @@ class WatchListScreenTest {
     //region Undo dismissed Snackbar
 
     @Test
-    fun shouldInvokedOnSnackbarActionPerformed_whenSnackbarActionClicked() {
+    fun shouldInvokedonSnackbarActionPerform_whenSnackbarActionClicked() {
         // Given
         val movieId = 1L
         val action = flowOf<WatchlistAction>(ShowUndoSwipeToDismissSnackbar(movieId))
@@ -467,9 +467,9 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
-                    onSnackbarActionPerformed = { isSnackbarActionPerformed = true },
-                    onSnackbarDismissed = {},
+                    onMovieSwipe = {},
+                    onSnackbarActionPerform = { isSnackbarActionPerformed = true },
+                    onSnackbarDismiss = {},
                 )
             }
         }
@@ -483,7 +483,7 @@ class WatchListScreenTest {
     }
 
     @Test
-    fun shouldInvokeOnSnackbarDismissed_whenSnackbarActionClicked() {
+    fun shouldInvokeonSnackbarDismiss_whenSnackbarActionClicked() {
         // Given
         val movieId = 1L
         val action = flowOf<WatchlistAction>(ShowUndoSwipeToDismissSnackbar(movieId))
@@ -505,9 +505,9 @@ class WatchListScreenTest {
                     scaffoldState = rememberScaffoldState(),
                     logInManager = FakeLogInManager(),
                     onMovieClick = {},
-                    onMovieSwiped = {},
-                    onSnackbarActionPerformed = {},
-                    onSnackbarDismissed = { isSnackbarDismissed = true },
+                    onMovieSwipe = {},
+                    onSnackbarActionPerform = {},
+                    onSnackbarDismiss = { isSnackbarDismissed = true },
                 )
             }
         }

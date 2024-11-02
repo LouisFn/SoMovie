@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 @Composable
 fun DefaultTextButton(
     text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,
-    onClick: () -> Unit,
 ) {
     androidx.compose.material.TextButton(
         modifier = modifier,

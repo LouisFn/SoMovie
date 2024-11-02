@@ -57,7 +57,7 @@ fun MovieDetailsPosterFullScreen(
             posterPath = posterPath,
             posterState = posterState,
             posterReducedCoordinates = posterReducedCoordinates,
-            onPosterStateChanged = { posterState = it },
+            onPosterStateChange = { posterState = it },
         )
     }
 }
@@ -66,12 +66,12 @@ fun MovieDetailsPosterFullScreen(
 private fun Poster(
     posterPath: PosterPath,
     posterState: MovieDetailsPosterState,
+    onPosterStateChange: (MovieDetailsPosterState) -> Unit,
     posterReducedCoordinates: LayoutCoordinates,
-    onPosterStateChanged: (MovieDetailsPosterState) -> Unit,
 ) {
     val posterStateController = rememberPosterStateController(
         reducedCoordinates = posterReducedCoordinates,
-        onStateChanged = onPosterStateChanged,
+        onStateChange = onPosterStateChange,
     )
     var onLoadImageSuccess by remember { mutableStateOf(false) }
 
@@ -84,7 +84,7 @@ private fun Poster(
             .offset { posterStateController.offset.toIntOffset() }
             .clickable(withRipple = false) {
                 if (onLoadImageSuccess) {
-                    onPosterStateChanged(posterState.toggle())
+                    onPosterStateChange(posterState.toggle())
                 }
             }
             .draggablePoster(posterStateController),
@@ -95,8 +95,8 @@ private fun Poster(
 @Composable
 private fun Poster(
     posterPath: PosterPath,
-    modifier: Modifier = Modifier,
     onLoadImageSuccess: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val configuration = LocalConfiguration.current
     DefaultAsyncImage(
